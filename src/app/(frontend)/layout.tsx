@@ -15,7 +15,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <Header />
-        <main>{children}</main>
+        <main className="text-red-500">{children}</main>
         <Footer />
       </body>
     </html>
