@@ -40,3 +40,8 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 - Sam Sajch
 - Kavya Thangella
+- Tyler Young
+- Sam Newson
+- Cary Limm
+- Ron Arzadon
+- Simon Zhou
