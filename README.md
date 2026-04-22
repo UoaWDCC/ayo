@@ -39,9 +39,11 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 ## Contributors
 
 - Sam Sajch
+- Bryanna Yeo
 - Kavya Thangella
 - Tyler Young
 - Sam Newson
 - Cary Limm
 - Ron Arzadon
+- Maanas Negi
 - Simon Zhou
