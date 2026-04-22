@@ -1,7 +1,14 @@
+@import 'tailwindcss';
+
 :root {
   --font-mono: 'Roboto Mono', monospace;
 }
 
+@theme {
+  /* AYO brand tokens go here */
+}
+
+/* Below is the Payload template default styling (can be deleted) */
 * {
   box-sizing: border-box;
 }
