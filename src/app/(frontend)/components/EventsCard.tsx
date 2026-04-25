@@ -1,8 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
+
+const fontSize = "17px";
+
 const EventsCard = () => {
   return (
-    <div className="text-body w-6/7 border-y border-gray-400 flex items-center justify-evenly">
+    <div className="text-body w-6/7 border-y border-gray-400 grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
       <Image
         className="my-10"
         src="/grey_rectangle.png"
@@ -11,7 +14,7 @@ const EventsCard = () => {
         alt="Grey Rectangle"
       />
 
-      <div className="w-l">
+      <div className="w-l" style ={{fontSize}}>
         <div className="font-bold">
           <p> June 2026 </p>
         </div>
@@ -26,7 +29,7 @@ const EventsCard = () => {
         </ul>
       </div>
 
-      <div className="w-xl">
+      <div className="w-l" style ={{fontSize}}>
         <ul className="space-y-4">
           <li className="font-bold"> Programme </li>
           <li>
