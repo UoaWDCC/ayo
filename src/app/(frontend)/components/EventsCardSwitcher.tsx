@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EventsPagination = () => {
+const EventsCardSwitcher = () => {
     return (
         <div className = "flex justify-between w-[80%] my-4">
             <div className = "flex gap-6 underline">
@@ -14,4 +14,4 @@ const EventsPagination = () => {
     )
 }
 
-export default EventsPagination
+export default EventsCardSwitcher
