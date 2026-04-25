@@ -1,7 +1,15 @@
 import React from 'react'
 import EventsCard from './EventsCard'
 import EventsCardSwitcher from './EventsCardSwitcher'
+const eventsData = [
+    {programme: [
+      "Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve Logan)",
+      "Bizet - Intermezzo from L' Arlésienne Suite no. 2",
+      "Dvorak - Symphony No. 9 “From the New World”"
+    ]}
+  ]
 const Events = () => {
+
   return (
     <div className="text-black w-full">
       <div className="text-body  my-10 ml-35">
@@ -22,7 +30,7 @@ const Events = () => {
       </div>
 
       <div className="flex justify-center">
-        <EventsCard />
+        <EventsCard programme={eventsData[0].programme}/>
       </div>
 
       <div className="flex justify-center">

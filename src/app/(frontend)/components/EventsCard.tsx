@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const fontSize = "17px";
 
-const EventsCard = () => {
+const EventsCard = ({ programme }: {programme:string[]}) => {
   return (
     <div className="text-body w-[90%] border-y border-gray-400 grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
       <Image
@@ -32,13 +32,9 @@ const EventsCard = () => {
       <div className="w-l" style ={{fontSize}}>
         <ul className="space-y-4">
           <li className="font-bold"> Programme </li>
-          <li>
-            {' '}
-            Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve
-            Logan){' '}
-          </li>
-          <li> Bizet - Intermezzo from L' Arlésienne Suite no. 2 </li>
-          <li> Dvorak - Symphony No. 9 “From the New World” </li>
+          {programme.map((piece, idx) => (
+            <li key={idx}>{piece}</li>
+            ))}
         </ul>
       </div>
     </div>
