@@ -1,5 +1,6 @@
 import React from 'react'
 import EventsCard from './EventsCard'
+import EventsPagination from './EventsPagination'
 const Events = () => {
   return (
     <div className="text-black w-full">
@@ -23,8 +24,9 @@ const Events = () => {
       <div className="flex justify-center">
         <EventsCard />
       </div>
-      <div className="">
-        <p></p>
+
+      <div className="flex justify-center">
+        <EventsPagination />
       </div>
     </div>
   )
