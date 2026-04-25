@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const fontSize = "17px";
 
-const EventsCard = ({ programme }: {programme:string[]}) => {
+const EventsCard = ({ programme, concertDates }: {programme:string[], concertDates:string[]}) => {
   return (
     <div className="text-body w-[90%] border-y border-gray-400 grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
       <Image
@@ -23,9 +23,9 @@ const EventsCard = ({ programme }: {programme:string[]}) => {
         </div>
 
         <ul className="space-y-2 mt-5">
-          <li> Sun. 14 June - TBD </li>
-          <li> Sat. 20 June, 7.30pm - Orewa Arts & Events Centre </li>
-          <li> Sun. 21 June, 2.30pm - Auckland Town Hall </li>
+          {concertDates.map((concert, idx) => (
+            <li key={idx}>{concert}</li>
+            ))}
         </ul>
       </div>
 

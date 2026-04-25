@@ -5,7 +5,11 @@ const eventsData = [
     {programme: [
       "Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve Logan)",
       "Bizet - Intermezzo from L' Arlésienne Suite no. 2",
-      "Dvorak - Symphony No. 9 “From the New World”"
+      "Dvorak - Symphony No. 9 “From the New World”"],
+    concertDates: [
+      "Sun. 14 June - TBD",
+      "Sat. 20 June, 7.30pm - Orewa Arts & Events Centre",
+      "Sun. 21 June, 2.30pm - Auckland Town Hall"
     ]}
   ]
 const Events = () => {
@@ -30,7 +34,7 @@ const Events = () => {
       </div>
 
       <div className="flex justify-center">
-        <EventsCard programme={eventsData[0].programme}/>
+        <EventsCard programme={eventsData[0].programme} concertDates={eventsData[0].concertDates}/>
       </div>
 
       <div className="flex justify-center">
