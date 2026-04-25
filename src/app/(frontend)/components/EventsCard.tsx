@@ -1,9 +1,15 @@
 import React from 'react'
 import Image from 'next/image'
 
-const fontSize = "17px";
+const fontSize = '17px'
 
-const EventsCard = ({ programme, concertDates }: {programme:string[], concertDates:string[]}) => {
+const EventsCard = ({
+  programme,
+  concertDates,
+}: {
+  programme: string[]
+  concertDates: string[]
+}) => {
   return (
     <div className="text-body w-[90%] border-y border-gray-400 grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
       <Image
@@ -14,7 +20,7 @@ const EventsCard = ({ programme, concertDates }: {programme:string[], concertDat
         alt="Grey Rectangle"
       />
 
-      <div className="w-l" style ={{fontSize}}>
+      <div className="w-l">
         <div className="font-bold">
           <p> June 2026 </p>
         </div>
@@ -25,16 +31,16 @@ const EventsCard = ({ programme, concertDates }: {programme:string[], concertDat
         <ul className="space-y-2 mt-5">
           {concertDates.map((concert, idx) => (
             <li key={idx}>{concert}</li>
-            ))}
+          ))}
         </ul>
       </div>
 
-      <div className="w-l" style ={{fontSize}}>
+      <div className="w-md">
         <ul className="space-y-4">
           <li className="font-bold"> Programme </li>
           {programme.map((piece, idx) => (
             <li key={idx}>{piece}</li>
-            ))}
+          ))}
         </ul>
       </div>
     </div>
