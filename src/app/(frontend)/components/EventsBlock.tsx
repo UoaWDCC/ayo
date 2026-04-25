@@ -14,6 +14,18 @@ const eventsData = [
       'Sun. 21 June, 2.30pm - Auckland Town Hall',
     ],
   },
+  {
+    programme: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore  ',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+    ],
+    concertDates: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit, sed do',
+      'Eiusmod tempor incididunt ut labore',
+    ],
+  },
 ]
 const Events = () => {
   return (
@@ -35,8 +47,16 @@ const Events = () => {
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="hidden lg:flex justify-center">
         <EventsCard programme={eventsData[0].programme} concertDates={eventsData[0].concertDates} />
+      </div>
+
+      <div className="flex-col lg:hidden content-center">
+        {eventsData.map((concert, index) => (
+          <div className="mb-5" key={index}>
+            <EventsCard programme={concert.programme} concertDates={concert.concertDates} />
+          </div>
+        ))}
       </div>
 
       <div className="flex justify-center">

@@ -35,7 +35,7 @@ const EventsCard = ({
         </ul>
       </div>
 
-      <div className="w-md">
+      <div className="w-l">
         <ul className="space-y-4">
           <li className="font-bold"> Programme </li>
           {programme.map((piece, idx) => (
