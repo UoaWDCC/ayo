@@ -17,22 +17,33 @@ export default async function HomePage() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="home font-sans text-center w-4xl">
-        <h1 className="text-heading">Placeholder Text</h1>
+      <div className="home font-sans w-2xl text-left">
+        <h1 className="text-heading font-semibold">Heading</h1>
+        <div className="text-muted">Muted Text</div>
 
-        <div className="text-body">
+        <div className="mt-5 text-[20] leading-body">
           <p>
             Auckland Youth Orchestra is the premier regional youth orchestra in New Zealand. Founded
             in 1948, and originally named the Auckland Junior Symphony Orchestra (or AJSO), it was
             the first youth orchestra established in the Southern Hemisphere. It is designed to
-            bridge the gap between school orchestras and adult professional groups. The role of AYO
-            is not just to perform concerts but to train future musicians to feed into our national
-            ensembles and orchestras. We also play an important audience development role as many of
-            our young audience members are likely to be the future supporters of the arts. AYO is a
-            vibrant social experience for young people and makes an important contribution to the
-            cultural life of Auckland and New Zealand. No other orchestral organisation or
-            institution in New Zealand provides such a comprehensive programme to musicians up to
-            the age of 26.
+            bridge the gap between school orchestras and adult professional groups.
+          </p>
+        </div>
+
+        <div className="mt-5 text-body leading-body">
+          <p>
+            This is standard body text. The Final of the 2025 AYO Soloist Competition was held on
+            Sunday, 19 October 2025.  It was an exciting event with the wonderful talent of AYO’s
+            players being showcased once more.
+          </p>
+        </div>
+
+        <div className="mt-5 text-body leading-miniheader">
+          <p className="font-semibold">AYO Soloist Competition</p>
+          <p>
+            {' '}
+            This is the line spacing for card components. Apply by 15th of August, 11:59pm
+            NZST.{' '}
           </p>
         </div>
       </div>
