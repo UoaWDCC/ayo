@@ -1,7 +1,11 @@
 Hello! This is a test for Ron.
 
-
+             
              0 (LOCAL)
+             |
+             0
+             |
+             0
             /
 0 (REMOTE) - 
 |
