@@ -5,7 +5,7 @@ import { useState } from 'react'
 export default function Footer() {
   const [email, setEmail] = useState('')
   return (
-    <footer className="bg-black text-white py-4">
+    <footer className="bg-black text-white pt-4 pb-0">
       {/* Illusion of rounded bottom of page */}
       <div className="bg-white h-16 rounded-b-[30px] mb-10"></div>
 
