@@ -3,7 +3,9 @@ import Link from 'next/link'
 export default function Header() {
   return (
     <header className="bg-black text-white">
-      <div className="flex items-center gap-8 lg:gap-48 px-8 lg:px-24 py-8 xl:px-28">
+      {/* <div className="flex items-center gap-8 lg:gap-48 px-8 lg:px-24 py-8 xl:px-28">
+       */}
+      <div className="flex items-center justify-between px-8 lg:px-24 py-8 xl:px-28">
         {/* Logo — hard left */}
         <img src="/ayo-logo-white.png" alt="AYO Logo" className="w-36 lg:w-52 h-auto shrink-0" />
 
