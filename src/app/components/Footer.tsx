@@ -10,45 +10,54 @@ export default function Footer() {
       <div className="bg-white h-16 rounded-b-[30px] mb-10"></div>
 
       {/* Container to separate content */}
-      <div className="max-w-7xl mx-auto flex justify-between items-start">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-10 md:justify-between items-start px-4">
         {/* Left container */}
-        <div className="container mx-auto text-center mb-4 px-4">
-          <div className="text-4xl font-medium">Here Plays</div>
-          <div className="text-7xl font-medium ml-50">the Future</div>
-
+        <div className="w-full h-full md:w-1/2 text-center mb-4 px-4">
+          <div className="mt-5 mb-25">
+            <div className="text-xl sm:text-2xl md:text-4xl mr-70 font-medium">Here Plays</div>
+            <div className="text-2xl sm:text-4xl md:text-7xl ml-10 font-medium">the Future</div>
+          </div>
           {/* AYO logo png as placeholder, replace with new logo svg when available */}
-          <img src="/ayo-logo-white.png" alt="AYO Logo" className="mx-auto mt-auto w-100 h-auto" />
+          <img
+            src="/ayo-logo-white.png"
+            alt="AYO Logo"
+            className="mx-auto mt-6 w-40  md:w-180 h-auto"
+          />
         </div>
 
         {/* Right container */}
-        <div className="container mx-auto text-left font-semibold px-4">
-          <nav className="flex flex-col gap-4 mb-6">
+        <div className="w-full md:w-1/2 text-left font-semibold">
+          <nav className="flex flex-col gap-4 mt-5 mb-6">
             {/* Placeholder links, update with actual paths when available */}
-            <div className="flex gap-20">
-              <Link href="/" className="text-white text-lg hover:opacity-70">
+            <div className="flex gap-6 sm:gap-10 md:gap-20 flex-wrap">
+              <Link href="/" className="text-white text-md hover:opacity-70">
                 HOME
               </Link>
-              <Link href="/about" className="text-white text-lg hover:opacity-70">
+              <Link href="/about" className="text-white text-md hover:opacity-70">
                 ABOUT US
               </Link>
             </div>
             <div>
-              <Link href="/concert" className="text-white text-lg hover:opacity-70">
+              <Link href="/concert" className="text-white text-md hover:opacity-70">
                 CONCERT & EVENTS
               </Link>
             </div>
             <div className="flex gap-20">
-              <Link href="/join" className="text-white text-lg hover:opacity-70">
+              <Link href="/join" className="text-white text-md hover:opacity-70">
                 JOIN AYO
               </Link>
-              <Link href="/support" className="text-white text-lg hover:opacity-70">
+              <Link href="/support" className="text-white text-md hover:opacity-70">
                 SUPPORT US
               </Link>
             </div>
           </nav>
 
           <div className="flex flex-col gap-4 w-full">
-            <span className="text-lg font-semibold">SUBSCRIBE TO OUR NEWSLETTER</span>
+            {/* Placeholder for social media links */}
+            <Link href="/socials" className="text-white text-md hover:opacity-70 mt-3 mb-3">
+              SOCIALS
+            </Link>
+            <span className="text-md font-semibold">SUBSCRIBE TO OUR NEWSLETTER</span>
             <div className="flex w-full">
               {/* Simple email input and button for newsletter subscription */}
               <input
@@ -68,7 +77,7 @@ export default function Footer() {
               </button>
             </div>
 
-            <span className="text-lg font-semibold">
+            <span className="text-md font-semibold mt-6">
               AYO - AUCKLAND YOUTH ORCHESTRA © {new Date().getFullYear()}
             </span>
           </div>
