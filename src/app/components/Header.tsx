@@ -10,7 +10,8 @@ export default function Header() {
         <img src="/ayo-logo-white.png" alt="AYO Logo" className="w-36 lg:w-52 h-auto shrink-0" />
 
         {/* Navbar — expands and pushes to right */}
-        <nav className="flex flex-wrap gap-4 md:gap-6 lg:gap-8 whitespace-nowrap items-center text-sm lg:text-xl xl:text-2xl font-semibold">
+        {/* <nav className="flex flex-1 sm:ml-20 md:ml-40 gap-10 md:gap-10 lg:gap-24 whitespace-nowrap items-center text-sm lg:text-xl xl:text-2xl font-semibold"> */}
+        <nav className="flex flex-1 justify-end gap-4 md:gap-6 lg:gap-10 xl:gap-14 ml-8 md:ml-12 lg:ml-16 whitespace-nowrap items-center text-sm lg:text-xl xl:text-2xl font-semibold">
           <Link href="/" className="hover:opacity-70">
             HOME
           </Link>
