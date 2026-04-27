@@ -7,7 +7,7 @@ export default function Header() {
         <img src="/ayo-logo-white.png" alt="AYO Logo" className="w-36 lg:w-52 h-auto shrink-0" />
 
         {/* <nav className="flex flex-wrap justify-center lg:justify-end gap-4 lg:gap-10 xl:gap-14 lg:ml-16 items-center text-sm lg:text-xl xl:text-2xl font-semibold"> */}
-        <nav className="hidden lg:flex flex-wrap justify-center lg:justify-end gap-4 lg:gap-6 xl:gap-10 lg:ml-8 xl:ml-16 items-center text-base lg:text-lg xl:text-2xl font-semibold">
+        <nav className="flex flex-wrap justify-center lg:justify-end gap-4 lg:gap-6 xl:gap-10 lg:ml-8 xl:ml-16 items-center text-base lg:text-lg xl:text-xl font-semibold">
           <Link href="/" className="hover:opacity-70">
             HOME
           </Link>
