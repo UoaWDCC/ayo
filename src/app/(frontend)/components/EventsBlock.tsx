@@ -34,13 +34,13 @@ const Events = () => {
         <div className="text-body my-10 w-[90%]">
           <h1 className="text-heading font-semibold">Concerts & Events</h1>
           <div className="flex mt-5">
-            <p className="mr-6 text-[#B2B2B2]"> Year </p>
+            <p className="mr-6 text-muted"> Year </p>
             <select className="font-bold appearance-none">
               <option value="2026">2026</option>
               <option value="2027">2027</option>
             </select>
 
-            <p className="ml-15 mr-6 text-[#B2B2B2]"> Month </p>
+            <p className="ml-15 mr-6 text-muted"> Month </p>
             <select className="font-bold appearance-none">
               <option value="June">June</option>
               <option value="July">July</option>

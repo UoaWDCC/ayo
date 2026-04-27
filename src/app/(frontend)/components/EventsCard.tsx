@@ -20,12 +20,12 @@ const EventsCard = ({
         alt="Grey Rectangle"
       />
 
-      <div className="w-l">
-        <div className="font-bold">
-          <p> June 2026 </p>
-        </div>
-        <div className="mt-1.5">
-          <p> Auckland, New Zealand </p>
+      <div className="">
+        <div className="leading-miniheader">
+          <p>
+            <span className="font-semibold">June 2026</span>
+            <br></br>Auckland, New Zealand
+          </p>
         </div>
 
         <ul className="space-y-2 mt-5">
@@ -35,9 +35,9 @@ const EventsCard = ({
         </ul>
       </div>
 
-      <div className="w-l">
+      <div className="">
         <ul className="space-y-4">
-          <li className="font-bold"> Programme </li>
+          <li className="font-semibold"> Programme </li>
           {programme.map((piece, idx) => (
             <li key={idx}>{piece}</li>
           ))}

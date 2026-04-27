@@ -2,11 +2,23 @@
 @import 'tailwindcss';
 
 @theme {
+  /* COLOURS */
+  --color-primary: /* PLACEHOLDER */;
+  --color-secondary: /* PLACEHOLDER */;
+  --color-accent: /* PLACEHOLDER */;
   --color-text: #000000;
   --color-background: #ffffff;
+  --color-muted: #B2B2B2;
 
+  /* FONT TYPE */
   --font-sans: "Inter", sans-serif;
 
-  --text-body: 17px;
+  /* LINE SPACING */
+  --leading-body: 1.3;
+  --leading-miniheader: 1.9;
+  --leading-paragraph: /* PLACEHOLDER */;
+
+  /* FONT SIZES */ 
+  --text-body: 15px;
   --text-heading: 40px;
 }
