@@ -3,15 +3,10 @@ import Link from 'next/link'
 export default function Header() {
   return (
     <header className="bg-black text-white">
-      {/* <div className="flex items-center gap-8 lg:gap-48 px-8 lg:px-24 py-8 xl:px-28">
-       */}
-      <div className="flex items-center justify-between px-8 lg:px-24 py-8 xl:px-28">
-        {/* Logo — hard left */}
+      <div className="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-24 py-8 xl:px-28 gap-4 lg:gap-0">
         <img src="/ayo-logo-white.png" alt="AYO Logo" className="w-36 lg:w-52 h-auto shrink-0" />
 
-        {/* Navbar — expands and pushes to right */}
-        {/* <nav className="flex flex-1 sm:ml-20 md:ml-40 gap-10 md:gap-10 lg:gap-24 whitespace-nowrap items-center text-sm lg:text-xl xl:text-2xl font-semibold"> */}
-        <nav className="flex flex-1 justify-end gap-4 md:gap-6 lg:gap-10 xl:gap-14 ml-8 md:ml-12 lg:ml-16 items-center text-sm lg:text-xl xl:text-2xl font-semibold">
+        <nav className="flex flex-wrap justify-center lg:justify-end gap-4 lg:gap-10 xl:gap-14 lg:ml-16 items-center text-sm lg:text-xl xl:text-2xl font-semibold">
           <Link href="/" className="hover:opacity-70">
             HOME
           </Link>
