@@ -49,6 +49,12 @@ const Events = () => {
     }
   }
 
+  const handlePrev = () => {
+    if (cardNum > 0) {
+      setCardNum((current) => current - 1)
+    }
+  }
+
   return (
     <div className="text-black w-full">
       <div className="flex justify-center">
@@ -86,7 +92,8 @@ const Events = () => {
         <EventsCardSwitcher 
           cardNum = {cardNum + 1} 
           cardTotal = {eventsData.length}
-          onNext = {handleNext}/>
+          onNext = {handleNext}
+          onPrev = {handlePrev}/>
       </div>
     </div>
   )
