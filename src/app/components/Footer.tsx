@@ -13,15 +13,19 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-10 md:justify-between items-start px-4">
         {/* Left container */}
         <div className="w-full h-full md:w-1/2 text-center mb-4 px-4">
-          <div className="mt-5 mb-25">
-            <div className="text-xl sm:text-2xl md:text-4xl mr-70 font-medium">Here Plays</div>
-            <div className="text-2xl sm:text-4xl md:text-7xl ml-10 font-medium">the Future</div>
+          <div className="mt-5 mb-8 flex flex-col items-start">
+            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium self-start">
+              Here Plays
+            </div>
+            <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium self-end">
+              the Future
+            </div>
           </div>
           {/* AYO logo png as placeholder, replace with new logo svg when available */}
           <img
             src="/ayo-logo-white.png"
             alt="AYO Logo"
-            className="mx-auto mt-6 w-40  md:w-180 h-auto"
+            className="mx-auto mt-6 w-32 sm:w-48 md:w-96 h-auto"
           />
         </div>
 
@@ -42,7 +46,7 @@ export default function Footer() {
                 CONCERT & EVENTS
               </Link>
             </div>
-            <div className="flex gap-20">
+            <div className="flex gap-6 sm:gap-10 flex-wrap">
               <Link href="/join" className="text-white text-md hover:opacity-70">
                 JOIN AYO
               </Link>
@@ -61,7 +65,7 @@ export default function Footer() {
             <div className="flex w-full">
               {/* Simple email input and button for newsletter subscription */}
               <input
-                className="bg-white text-black font-semibold focus:outline-none px-4 py-3 flex-1"
+                className="bg-white text-black font-semibold focus:outline-none px-4 py-3 flex-1 min-w-0"
                 type="email"
                 placeholder=""
                 value={email}
