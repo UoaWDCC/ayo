@@ -27,9 +27,27 @@ const eventsData = [
       'Eiusmod tempor incididunt ut labore',
     ],
   },
+  {
+    programme: [
+      'example 3 blah balh  ',
+      'example 3 blah balh lit, sed do eiusmod tempor incididunt ut labore',
+      'example 3 blah balh  sed do eiusmod tempor incididunt ut labore',
+    ],
+    concertDates: [
+      'date 1 :D',
+      'date 2 :P',
+      'date 3 :3',
+    ],
+  },
 ]
 const Events = () => {
   const [cardNum, setCardNum] = useState(0)
+
+  const handleNext = () =>  {
+    if (cardNum < eventsData.length - 1) {
+      setCardNum((current) => current + 1);
+    }
+  }
 
   return (
     <div className="text-black w-full">
@@ -65,7 +83,10 @@ const Events = () => {
       </div>
 
       <div className="flex justify-center">
-        <EventsCardSwitcher cardNum = {cardNum + 1} cardTotal = {eventsData.length}/>
+        <EventsCardSwitcher 
+          cardNum = {cardNum + 1} 
+          cardTotal = {eventsData.length}
+          onNext = {handleNext}/>
       </div>
     </div>
   )
