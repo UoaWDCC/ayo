@@ -16,7 +16,7 @@ export default async function HomePage() {
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div className="w-full h-screen flex justify-center items-center">
       <div className="home font-sans w-2xl text-left">
         <h1 className="text-heading font-semibold">Heading</h1>
         <div className="text-muted">Muted Text</div>
