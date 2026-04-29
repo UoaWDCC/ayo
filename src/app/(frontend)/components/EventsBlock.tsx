@@ -1,4 +1,5 @@
-import React from 'react'
+"use client";
+import { useState } from 'react';
 import EventsCard from './EventsCard'
 import EventsCardSwitcher from './EventsCardSwitcher'
 const eventsData = [
@@ -28,6 +29,8 @@ const eventsData = [
   },
 ]
 const Events = () => {
+  const [cardNum, setCardNum] = useState(0)
+
   return (
     <div className="text-black w-full">
       <div className="flex justify-center">

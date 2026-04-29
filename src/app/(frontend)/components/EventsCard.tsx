@@ -1,8 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
 
-const fontSize = '17px'
-
 const EventsCard = ({
   programme,
   concertDates,
