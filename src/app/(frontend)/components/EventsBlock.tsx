@@ -53,7 +53,7 @@ const Events = () => {
       </div>
 
       <div className="hidden lg:flex justify-center">
-        <EventsCard programme={eventsData[0].programme} concertDates={eventsData[0].concertDates} />
+        <EventsCard programme={eventsData[cardNum].programme} concertDates={eventsData[cardNum].concertDates} />
       </div>
 
       <div className="flex-col lg:hidden content-center">
@@ -65,7 +65,7 @@ const Events = () => {
       </div>
 
       <div className="flex justify-center">
-        <EventsCardSwitcher />
+        <EventsCardSwitcher cardNum = {cardNum + 1} cardTotal = {eventsData.length}/>
       </div>
     </div>
   )
