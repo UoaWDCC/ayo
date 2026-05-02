@@ -8,7 +8,7 @@ export default function BlogsBlock() {
       <h1 className="text-4xl font-semibold mb-6 pl-12">News</h1>
       {/* What's New? // Latest Stories*/}
 
-      {/* <BlogsFilter /> NOT SHOW FOR NOW */}
+      <BlogsFilter />
 
       <div>
         <BlogsCard
