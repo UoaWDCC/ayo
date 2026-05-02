@@ -29,15 +29,23 @@ export default function BlogsFilter() {
   const [selectedYear, setSelectedYear] = useState('2025')
   const [selectedMonth, setSelectedMonth] = useState('All')
   return (
-    <div>
-      <p>Year</p>
-      <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+    <div className="flex gap-6 mb-6 lg:pl-12">
+      <p className="text-[#B2B2B2]">Year</p>
+      <select
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(e.target.value)}
+        className="appearance-none font-semibold"
+      >
         <option value="2025">2025</option>
         <option value="2024">2024</option>
       </select>
 
-      <p>Month</p>
-      <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
+      <p className="text-[#B2B2B2]">Month</p>
+      <select
+        value={selectedMonth}
+        onChange={(e) => setSelectedMonth(e.target.value)}
+        className="appearance-none font-semibold"
+      >
         <option value="">All</option>
         <option value="November">November</option>
         <option value="June">June</option>
