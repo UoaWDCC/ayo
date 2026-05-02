@@ -5,12 +5,12 @@ import BlogsPagination from './BlogsPagination'
 export default function BlogsBlock() {
   return (
     <div className="px-24 py-14">
-      <h1 className="text-4xl font-semibold mb-6">News</h1>
+      <h1 className="text-4xl font-semibold mb-6 pl-12">News</h1>
       {/* What's New? // Latest Stories*/}
 
       {/* <BlogsFilter /> NOT SHOW FOR NOW */}
 
-      <div className="mb-6">
+      <div>
         <BlogsCard
           title="2025 Soloist Competition"
           date="November 1st, 2025"

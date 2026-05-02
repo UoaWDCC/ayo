@@ -11,7 +11,7 @@ export default function BlogsPagination() {
       <button
         onClick={() => setCurrentPage(currentPage - 1)}
         disabled={currentPage === 1}
-        className="underline"
+        className="underline underline-offset-3"
       >
         Previous
       </button>
@@ -21,7 +21,7 @@ export default function BlogsPagination() {
       <button
         onClick={() => setCurrentPage(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="underline"
+        className="underline underline-offset-3"
       >
         Next
       </button>
