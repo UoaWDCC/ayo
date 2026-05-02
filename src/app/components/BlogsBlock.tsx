@@ -6,8 +6,9 @@ export default function BlogsBlock() {
   return (
     <div className="px-24 py-14">
       <h1 className="text-4xl font-semibold mb-6">News</h1>
+      {/* What's New? // Latest Stories*/}
 
-      {/* <BlogsFilter  NOT SHOW FOR NOW/> */}
+      {/* <BlogsFilter /> NOT SHOW FOR NOW */}
 
       <div className="mb-6">
         <BlogsCard
