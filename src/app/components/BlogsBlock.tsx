@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 import BlogsCard from './BlogsCard'
 import BlogsFilter from './BlogsFilter'
@@ -67,8 +68,10 @@ export default function BlogsBlock() {
 
   return (
     <div className="px-24 py-14">
-      {/*<link href={'/'} className="hover:opacity-70"> TO: Resources page whatever that is*/}
-      <h1 className="text-4xl font-semibold mb-6 pl-12">News</h1>
+      <Link href={'/news'} className="hover:opacity-70">
+        {/* TO: Resources page // all News */}
+        <h1 className="text-4xl font-semibold mb-6 pl-12">News</h1>
+      </Link>
       {/* What's New? // Latest Stories*/}
 
       <BlogsFilter />
