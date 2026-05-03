@@ -1,15 +1,22 @@
 'use client'
 import { useState } from 'react'
 
-export default function BlogsPagination() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const totalPages = 3
+type BlogsPaginationProps = {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+}
 
+export default function BlogsPagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: BlogsPaginationProps) {
   return (
     <div className="border-t border-[#EBEBEB] pt-5 flex justify-end gap-6 items-center">
       {/* border colour is from figma */}
       <button
-        onClick={() => setCurrentPage(currentPage - 1)}
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="underline underline-offset-3"
       >
@@ -19,7 +26,7 @@ export default function BlogsPagination() {
         {currentPage} of {totalPages}
       </span>
       <button
-        onClick={() => setCurrentPage(currentPage + 1)}
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="underline underline-offset-3"
       >

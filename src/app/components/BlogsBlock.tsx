@@ -1,8 +1,13 @@
+'use client'
+
+import { useState } from 'react'
+
 import BlogsCard from './BlogsCard'
 import BlogsFilter from './BlogsFilter'
 import BlogsPagination from './BlogsPagination'
 
 export default function BlogsBlock() {
+  // Dummy data for now, to be replaced with real data from backend
   const DummyBlogs = [
     {
       id: 1,
@@ -32,7 +37,34 @@ export default function BlogsBlock() {
       date: 'happy new year',
       excerpt: 'A fake blog post.',
     },
+    {
+      id: 5,
+      title: 'test blog post 5',
+      date: 'happy new year',
+      excerpt: 'A fake blog post.',
+    },
+    {
+      id: 6,
+      title: 'test blog post 6',
+      date: 'happy new year',
+      excerpt: 'A fake blog post.',
+    },
+    {
+      id: 7,
+      title: 'test blog post 7',
+      date: 'happy new year',
+      excerpt: 'A fake blog post.',
+    },
   ]
+
+  //blogs pagination
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const totalCards = Math.ceil(DummyBlogs.length / 3) // calculate total num of cards for pagination total eg. 1 of {total}
+
+  //slicing
+  const currentBlogs = DummyBlogs.slice((currentPage - 1) * 3, (currentPage - 1) * 3 + 3) // 1-3, 4-6, 7
+
   return (
     <div className="px-24 py-14">
       {/*<link href={'/'} className="hover:opacity-70"> TO: Resources page whatever that is*/}
@@ -42,12 +74,16 @@ export default function BlogsBlock() {
       <BlogsFilter />
 
       <div>
-        {DummyBlogs.map((blog) => (
+        {currentBlogs.map((blog) => (
           <BlogsCard key={blog.id} {...blog} />
         ))}
       </div>
 
-      <BlogsPagination />
+      <BlogsPagination
+        currentPage={currentPage}
+        totalPages={totalCards}
+        onPageChange={setCurrentPage}
+      />
     </div>
   )
 }
