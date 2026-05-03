@@ -34,17 +34,16 @@ export default function BlogsFilter() {
       <select
         value={selectedYear}
         onChange={(e) => setSelectedYear(e.target.value)}
-        className="appearance-none font-semibold"
+        className="appearance-none font-semibold hover:text-muted transition-colors"
       >
         <option value="2025">2025</option>
         <option value="2024">2024</option>
       </select>
-
       <p className="text-muted">Month</p>
       <select
         value={selectedMonth}
         onChange={(e) => setSelectedMonth(e.target.value)}
-        className="appearance-none font-semibold"
+        className="appearance-none font-semibold hover:text-muted transition-colors"
       >
         <option value="">All</option>
         <option value="November">November</option>

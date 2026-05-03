@@ -18,7 +18,7 @@ export default function BlogsPagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="underline underline-offset-3"
+        className="underline underline-offset-3 hover:text-muted transition-colors"
       >
         Previous
       </button>
@@ -28,7 +28,7 @@ export default function BlogsPagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="underline underline-offset-3"
+        className="underline underline-offset-3 hover:text-muted transition-colors"
       >
         Next
       </button>

@@ -68,9 +68,11 @@ export default function BlogsBlock() {
 
   return (
     <div className="px-24 py-14">
-      <Link href={'/news'} className="hover:opacity-70">
+      <Link href={'/news'}>
         {/* TO: Resources page // all News */}
-        <h1 className="text-4xl font-semibold mb-6 pl-12">News</h1>
+        <h1 className="text-4xl font-semibold mb-6 pl-12 hover:text-muted transition-colors">
+          News
+        </h1>
       </Link>
       {/* What's New? // Latest Stories*/}
 
