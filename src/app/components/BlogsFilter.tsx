@@ -30,7 +30,7 @@ export default function BlogsFilter() {
   const [selectedMonth, setSelectedMonth] = useState('All')
   return (
     <div className="flex gap-6 mb-6 lg:pl-12">
-      <p className="text-[#B2B2B2]">Year</p>
+      <p className="text-muted">Year</p>
       <select
         value={selectedYear}
         onChange={(e) => setSelectedYear(e.target.value)}
@@ -40,7 +40,7 @@ export default function BlogsFilter() {
         <option value="2024">2024</option>
       </select>
 
-      <p className="text-[#B2B2B2]">Month</p>
+      <p className="text-muted">Month</p>
       <select
         value={selectedMonth}
         onChange={(e) => setSelectedMonth(e.target.value)}
