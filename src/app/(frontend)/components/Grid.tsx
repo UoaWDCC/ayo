@@ -1,0 +1,49 @@
+import React from 'react'
+import Card from './Card'
+
+export type GridItem = {
+  id: string | number
+  name: string
+  subtitle: string
+  imageUrl?: string
+}
+
+type GridProps = {
+  title: string
+  items?: GridItem[]
+  placeholderCount?: number
+  placeholderSubtitle?: string
+}
+
+const Grid = ({ title, items, placeholderCount = 8, placeholderSubtitle = 'Role' }: GridProps) => {
+  const displayItems: GridItem[] =
+    items ??
+    Array.from({ length: placeholderCount }, (_, i) => ({
+      id: i,
+      name: title,
+      subtitle: placeholderSubtitle,
+    }))
+
+  return (
+    <section className="w-full py-12 px-10">
+      <div className="flex items-start justify-between mb-8">
+        <h1 className="text-4xl font-bold leading-none m-0">
+          Our <em>{title}</em>
+        </h1>
+        <div className="flex items-center gap-1 text-sm mt-2">
+          <span className="text-black/40 font-normal">Showing</span>
+          <span className="font-bold">{title}</span>
+          <span className="text-black font-semibold">&#8249;</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-4 gap-8">
+        {displayItems.map((item) => (
+          <Card key={item.id} name={item.name} subtitle={item.subtitle} imageUrl={item.imageUrl} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+export default Grid
