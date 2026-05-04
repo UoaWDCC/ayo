@@ -1,5 +1,5 @@
 import React from 'react'
-import PartnerCard from './PartnerCard'
+import AboutUsCard from './AboutUsCard'
 
 type Partner = {
   id: string | number
@@ -14,12 +14,12 @@ const PLACEHOLDER_PARTNERS: Partner[] = Array.from({ length: 8 }, (_, i) => ({
   company: 'Company',
 }))
 
-type PartnersGridProps = {
+type GridProps = {
   partners?: Partner[]
   filterLabel?: string
 }
 
-const PartnersGrid = ({ partners = PLACEHOLDER_PARTNERS, filterLabel = 'Partners' }: PartnersGridProps) => {
+const Grid = ({ partners = PLACEHOLDER_PARTNERS, filterLabel = 'Partners' }: GridProps) => {
   return (
     <section className="w-full py-12 px-10">
       <div className="flex items-start justify-between mb-8">
@@ -35,7 +35,7 @@ const PartnersGrid = ({ partners = PLACEHOLDER_PARTNERS, filterLabel = 'Partners
 
       <div className="grid grid-cols-4 gap-8">
         {partners.map((partner) => (
-          <PartnerCard
+          <AboutUsCard
             key={partner.id}
             name={partner.name}
             company={partner.company}
@@ -47,4 +47,4 @@ const PartnersGrid = ({ partners = PLACEHOLDER_PARTNERS, filterLabel = 'Partners
   )
 }
 
-export default PartnersGrid
+export default Grid
