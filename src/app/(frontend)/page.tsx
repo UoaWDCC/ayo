@@ -1,27 +1,20 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
-import { getPayload } from 'payload'
 import React from 'react'
-import { fileURLToPath } from 'url'
-
-import config from '@/payload.config'
 import './styles.css'
 import BlogsBlock from '../components/BlogsBlock'
+import Grid from './components/Grid'
+import AnnualReports from './components/AnnualReports'
 
-export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
-
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
-
+export default function HomePage() {
   return (
-    <div className="home">
-      <div className="w-screen h-screen flex justify-center items-center">
-        <div className="home font-sans w-2xl text-left">
-          <h1 className="text-heading font-semibold">Heading</h1>
-          <div className="text-muted">Muted Text</div>
+    <div className="min-h-screen bg-white text-black">
+      <Grid title="People" placeholderSubtitle="Name" />
+      <Grid title="Alunmi" placeholderSubtitle="Role" />
+      <Grid title="Partners" placeholderSubtitle="Company" />
+      <AnnualReports />
+    <div className="w-full h-screen flex justify-center items-center">
+      <div className="home font-sans w-2xl text-left">
+        <h1 className="text-heading font-semibold">Heading</h1>
+        <div className="text-muted">Muted Text</div>
 
           <div className="mt-5 text-[20] leading-body">
             <p>
