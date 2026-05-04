@@ -37,20 +37,20 @@ export default function Footer() {
               <Link href="/" className="text-white text-md hover:opacity-70">
                 HOME
               </Link>
-              <Link href="/about" className="text-white text-md hover:opacity-70">
+
+              <Link href="/about-us" className="text-white text-md hover:opacity-70">
                 ABOUT US
               </Link>
-            </div>
-            <div>
-              <Link href="/concert" className="text-white text-md hover:opacity-70">
+
+              <Link href="/concerts-events" className="text-white text-md hover:opacity-70">
                 CONCERT & EVENTS
               </Link>
-            </div>
-            <div className="flex gap-6 sm:gap-10 flex-wrap">
-              <Link href="/join" className="text-white text-md hover:opacity-70">
+
+              <Link href="/join-ayo" className="text-white text-md hover:opacity-70">
                 JOIN AYO
               </Link>
-              <Link href="/support" className="text-white text-md hover:opacity-70">
+
+              <Link href="/support-us" className="text-white text-md hover:opacity-70">
                 SUPPORT US
               </Link>
             </div>

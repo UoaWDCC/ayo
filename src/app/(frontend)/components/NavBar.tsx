@@ -15,16 +15,16 @@ export default function Header() {
           <Link href="/" className="hover:opacity-70">
             HOME
           </Link>
-          <Link href="/about" className="hover:opacity-70">
+          <Link href="/about-us" className="hover:opacity-70">
             ABOUT US
           </Link>
-          <Link href="/concert" className="hover:opacity-70">
+          <Link href="/concerts-events" className="hover:opacity-70">
             CONCERT & EVENTS
           </Link>
-          <Link href="/join" className="hover:opacity-70">
+          <Link href="/join-ayo" className="hover:opacity-70">
             JOIN AYO
           </Link>
-          <Link href="/support" className="hover:opacity-70">
+          <Link href="/support-us" className="hover:opacity-70">
             SUPPORT US
           </Link>
         </nav>

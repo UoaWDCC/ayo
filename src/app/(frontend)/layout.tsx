@@ -1,11 +1,11 @@
 import React from 'react'
 import './styles.css'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Header from './components/NavBar'
+import Footer from './components/Footer'
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  title: 'Auckland Youth Orchestra',
+  description: 'Auckland Youth Orchestra website',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
