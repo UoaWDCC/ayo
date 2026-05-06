@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 const VolunteersBlock = () => {
   return (
     <div className="text-black w-full">
@@ -58,6 +59,11 @@ const VolunteersBlock = () => {
                   and audiences.
                 </li>
               </ul>
+              <div className="flex justify-end mt-30">
+                <Link href="">
+                  <span className="font-semibold underline">Apply</span>↗
+                </Link>
+              </div>
             </div>
           </div>
         </div>
