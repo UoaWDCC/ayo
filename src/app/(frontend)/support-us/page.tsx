@@ -1,5 +1,15 @@
 import Link from 'next/link'
+import DonationBlock from '../components/DonationBlock'
 export default function SupportUsPage() {
+  const tierArray = [
+    {
+      tierName: 'Subscriber',
+      description:
+        'Subscribers pay an annual subscription of $25.00 as a donation towards our ongoing work and their names are listed in our printed concert programmes. They automatically become Members of the incorporated society and, as such, are entitled to attend General Meetings and vote.',
+      linkText: 'Register',
+      linkUrl: '',
+    },
+  ]
   return (
     <main>
       <div className="text-black w-full">
@@ -12,13 +22,25 @@ export default function SupportUsPage() {
               Auckland Youth Orchestra Incorporated is a registered charity, CC45382, and is an
               IRD-registered Donee Organisation for tax credits on donations.
             </p>
-            <p className="mt-5">
+            <p className="mt-5 mb-10">
               Click here to{' '}
               <Link href="">
                 <span className="underline">donate</span>
               </Link>{' '}
               (one-off), or explore below.
             </p>
+            <div>
+              {tierArray.map((tier, index) => (
+                <div key={index}>
+                  <DonationBlock
+                    tierName={tier.tierName}
+                    description={tier.description}
+                    linkText={tier.linkText}
+                    linkUrl={tier.linkUrl}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
