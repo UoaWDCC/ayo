@@ -24,7 +24,7 @@ export default function Header() {
           <Link href="/join" className="hover:opacity-70">
             JOIN AYO
           </Link>
-          <Link href="/support" className="hover:opacity-70">
+          <Link href="/support-us" className="hover:opacity-70">
             SUPPORT US
           </Link>
         </nav>
