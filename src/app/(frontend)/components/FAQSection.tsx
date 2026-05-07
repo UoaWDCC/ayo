@@ -7,6 +7,36 @@ const faqData = [
     answer:
       'The orchestra is open to young musicians typically aged between 14 and 24 who are based in the Auckland region. Applicants should have a solid level of proficiency on their instrument, usually around Grade 7–8 (or equivalent), and be able to commit to regular rehearsals and performances. Entry is by audition, and both school students and tertiary-level musicians are welcome to apply.',
   },
+  {
+    id: 2,
+    question: 'What is the audition process like, and how can I prepare for it?',
+    answer: '',
+  },
+  {
+    id: 3,
+    question: 'How often does the orchestra rehearse, and where are rehearsals held?',
+    answer: '',
+  },
+  {
+    id: 4,
+    question: 'What level of musical experience is expected from members?',
+    answer: '',
+  },
+  {
+    id: 5,
+    question: 'Are there any membership fees, and what do they cover?',
+    answer: '',
+  },
+  {
+    id: 6,
+    question: 'What performance opportunities are available throughout the year?',
+    answer: '',
+  },
+  {
+    id: 7,
+    question: 'Can students from outside Auckland apply to join?',
+    answer: '',
+  },
   // TODO: add more FAQ items here
   // each one needs: id, question, answer
   // example:
