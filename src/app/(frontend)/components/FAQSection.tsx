@@ -46,10 +46,9 @@ const faqData = [
 const FAQSection = () => {
   return (
     <section className="bg-white w-full">
-      <h2 className="font-semibold text-[40px] leading-[48px] text-black px-[111px] pt-[116px] pb-[34px]">
+      <h2 className="font-semibold text-[48px] leading-[56px] text-black mx-8 md:mx-24 lg:mx-40 xl:mx-64 pt-[116px] pb-[34px]">
         FAQs
       </h2>
-      <hr className="border-t border-[#EBEBEB] mx-[64px]" />
       <div>
         {faqData.map((item) => (
           <FAQItem key={item.id} {...item} />

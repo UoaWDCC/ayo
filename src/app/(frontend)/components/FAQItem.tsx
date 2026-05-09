@@ -1,7 +1,3 @@
-'use client'
-
-import { useState } from 'react'
-
 type FAQItemProps = {
   id: number
   question: string
@@ -9,16 +5,26 @@ type FAQItemProps = {
 }
 
 const FAQItem = ({ question, answer }: FAQItemProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-
   return (
-    <div
-      className="border-t border-[#EBEBEB] mx-[64px] py-[24px] cursor-pointer"
-      onClick={() => setIsOpen(!isOpen)}
-    >
-      <h3 className="font-medium text-[24px] leading-[32px] text-black">{question}</h3>
-      {isOpen && <p className="mt-[16px] text-[16px] leading-[24px] text-gray-600">{answer}</p>}
-    </div>
+    <details className="group border-t border-[#EBEBEB] text-black mx-8 md:mx-24 lg:mx-40 xl:mx-64 py-[24px] cursor-pointer">
+      <summary className="flex items-center justify-between list-none">
+        <h3 className="font-medium text-[24px] leading-[32px] text-black">{question}</h3>
+        <span className="transition-transform duration-300 group-open:rotate-180">
+          <svg
+            fill="none"
+            height="24"
+            width="24"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </span>
+      </summary>
+
+      <p className="mt-[16px] text-[24px] leading-[32px] text-gray-600 ">{answer}</p>
+    </details>
   )
 }
 
