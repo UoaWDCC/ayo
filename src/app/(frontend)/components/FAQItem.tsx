@@ -6,9 +6,9 @@ type FAQItemProps = {
 
 const FAQItem = ({ question, answer }: FAQItemProps) => {
   return (
-    <details className="group border-t border-[#EBEBEB] text-black mx-8 md:mx-24 lg:mx-40 xl:mx-64 py-[24px] cursor-pointer">
+    <details className="group border-t border-[#EBEBEB] text-black mx-8 md:mx-20 lg:mx-25 xl:mx-30 py-[24px] cursor-pointer">
       <summary className="flex items-center justify-between list-none">
-        <h3 className="font-medium text-[24px] leading-[32px] text-black">{question}</h3>
+        <h3 className="font-medium text-[20px] leading-[32px] text-black">{question}</h3>
         <span className="transition-transform duration-300 group-open:rotate-180">
           <svg
             fill="none"
@@ -23,7 +23,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
         </span>
       </summary>
 
-      <p className="mt-[16px] text-[24px] leading-[32px] text-gray-600 ">{answer}</p>
+      <p className="mt-[16px] text-[20px] leading-[32px] text-gray-600 ">{answer}</p>
     </details>
   )
 }
