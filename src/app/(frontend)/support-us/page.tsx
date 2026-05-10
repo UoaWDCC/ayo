@@ -4,8 +4,20 @@ export default function SupportUsPage() {
   const tierArray = [
     {
       tierName: 'Subscriber',
-      description:
-        'Subscribers pay an annual subscription of $25.00 as a donation towards our ongoing work and their names are listed in our printed concert programmes. They automatically become Members of the incorporated society and, as such, are entitled to attend General Meetings and vote.',
+      descriptionContent: (
+        <p>'Subscribers pay an annual subscription of $25.00 as a donation towards our ongoing work and their names 
+          are listed in our printed concert programmes. 
+          They automatically become Members of the incorporated society 
+          and, as such, are entitled to attend General Meetings and vote.'</p>
+      ),
+      linkText: 'Register',
+      linkUrl: '',
+    },
+    {
+      tierName: 'Supporter',
+      descriptionContent: (
+        <p>Supporters donate a minimum of <strong>$75.00</strong> and, to show our appreciation for their support:</p>
+      ),
       linkText: 'Register',
       linkUrl: '',
     },
@@ -34,7 +46,7 @@ export default function SupportUsPage() {
                 <div key={index}>
                   <DonationBlock
                     tierName={tier.tierName}
-                    description={tier.description}
+                    descriptionContent={tier.descriptionContent}
                     linkText={tier.linkText}
                     linkUrl={tier.linkUrl}
                   />

@@ -2,12 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 const DonationBlock = ({
   tierName,
-  description,
+  descriptionContent,
   linkText,
   linkUrl,
 }: {
   tierName: string
-  description: string
+  descriptionContent: React.ReactNode
   linkText: string
   linkUrl: string
 }) => {
@@ -17,7 +17,7 @@ const DonationBlock = ({
         <p>{tierName}</p>
       </div>
       <div className="my-6 col-span-2 col-start-3 content-center">
-        <p>{description}</p>
+        {descriptionContent}
       </div>
       <div className="grid col-span-1 col-start-6 content-center justify-items-end font-semibold underline mr-10">
         <Link href={linkUrl}>{linkText}</Link>
