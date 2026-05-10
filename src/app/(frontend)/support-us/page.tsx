@@ -5,10 +5,10 @@ export default function SupportUsPage() {
     {
       tierName: 'Subscriber',
       descriptionContent: (
-        <p>'Subscribers pay an annual subscription of $25.00 as a donation towards our ongoing work and their names 
+        <p>Subscribers pay an annual subscription of $25.00 as a donation towards our ongoing work and their names 
           are listed in our printed concert programmes. 
           They automatically become Members of the incorporated society 
-          and, as such, are entitled to attend General Meetings and vote.'</p>
+          and, as such, are entitled to attend General Meetings and vote.</p>
       ),
       linkText: 'Register',
       linkUrl: '',
@@ -44,6 +44,14 @@ export default function SupportUsPage() {
       linkText: 'Register',
       linkUrl: '',
     },
+    {
+      tierName: 'KORA Cards',
+      descriptionContent: (
+        <p>Sign up for Kora fuel cards and a few cents per litre will be donated to AYO every time you fill up at either a Mobil or Waitomo station.  Kora offers cardholders a discount of 10c/litre and you can have some (or all!) of that saving donated to AYO automatically!</p>
+      ),
+      linkText: 'Read More',
+      linkUrl: '',
+    }
   ]
   return (
     <main>
@@ -72,6 +80,7 @@ export default function SupportUsPage() {
                     descriptionContent={tier.descriptionContent}
                     linkText={tier.linkText}
                     linkUrl={tier.linkUrl}
+                    index={index}
                   />
                 </div>
               ))}

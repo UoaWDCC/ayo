@@ -5,14 +5,16 @@ const DonationBlock = ({
   descriptionContent,
   linkText,
   linkUrl,
+  index,
 }: {
   tierName: string
   descriptionContent: React.ReactNode
   linkText: string
-  linkUrl: string
+  linkUrl: string,
+  index: number
 }) => {
   return (
-    <div className="grid grid-cols-6 border-y">
+    <div className={`grid grid-cols-6 border-b ${index == 0 ? 'border-t' : ''}`}>
       <div className="col-span-1 ml-10 content-center text-[25px] font-semibold">
         <p>{tierName}</p>
       </div>
