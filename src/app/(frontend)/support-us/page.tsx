@@ -16,7 +16,30 @@ export default function SupportUsPage() {
     {
       tierName: 'Supporter',
       descriptionContent: (
-        <p>Supporters donate a minimum of <strong>$75.00</strong> and, to show our appreciation for their support:</p>
+        <>
+          <p>Supporters donate a minimum of <strong>$75.00</strong> and, to show our appreciation for their support: </p>
+          
+          <ul className='list-disc pl-6 py-4'>
+            <li>Their names are listed in the printed programmes (unless anonymity is requested); and,</li>
+            <li>Some of the best seats are cordoned off exclusively for them at the free Auckland Town Hall concerts. </li>
+          </ul>
+
+          <div className = "max-w">
+            <div className = "flex justify-between">
+              <span className = "font-semibold">General Supporter</span>
+              <span>$75.00+</span>
+            </div>
+            <div className = "flex justify-between">
+              <span className = "font-semibold">Special Supporter</span>
+              <span>$500.00+</span>
+            </div>
+            <div className = "flex justify-between">
+              <span className = "font-semibold">General Supporter</span>
+              <span>$5,000.00+</span>
+            </div>
+          </div>
+
+        </>
       ),
       linkText: 'Register',
       linkUrl: '',
