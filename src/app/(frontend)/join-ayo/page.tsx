@@ -1,3 +1,10 @@
+import FAQSection from '../components/FAQSection'
+
 export default function JoinAyoPage() {
-  return <main>This is the join AYO page</main>
+  return (
+    <main>
+      {/* <p>This is the join AYO page</p> */}
+      <FAQSection />
+    </main>
+  )
 }
