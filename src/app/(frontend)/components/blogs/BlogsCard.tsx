@@ -33,7 +33,7 @@ export default function BlogsCard(Blog: Blog) {
 
         <p className="mt-2 text-sm mb-6">{Blog.date}</p>
       </div>
-      <div className="flex flex-col justify-between gap-y-6 pr-2 px-13 border">
+      <div className="flex flex-col justify-between gap-y-6 pr-2 px-13">
         {/* xl:mr-20 xl:ml-40 */}
         <h3 className="italic text-[#]">{Blog.excerpt}</h3>
         <Link href={'/news/' + Blog.id} className="self-end pr-2">
