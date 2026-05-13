@@ -5,6 +5,7 @@ import OpportunityModal from './OpportunityModal'
 
 type Opportunity = {
   id: number
+  type: string
   title: string
   deadlineLabel: string
   deadlineDate: string
@@ -21,12 +22,10 @@ type OpportunityRowProps = Opportunity & {
   onReadMore: () => void
 }
 
-// Row component
 const OpportunityRow = ({
   title,
   deadlineLabel,
   description,
-  readMoreUrl,
   applyUrl,
   onReadMore,
 }: OpportunityRowProps) => {
@@ -34,25 +33,25 @@ const OpportunityRow = ({
     <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr_1fr] gap-6 md:gap-8 py-8 items-start not-italic transition-colors hover:bg-gray-50">
       <div>
         <h2 className="font-bold text-base">{title}</h2>
+
         <p className="text-sm text-gray-500 mt-1">Apply by {deadlineLabel}</p>
       </div>
 
       <p className="text-sm italic">{description}</p>
 
-      <div className="flex gap-6 justify-end">
+      <div className="flex gap-6 justify-start md:justify-end">
         <button onClick={onReadMore} className="text-sm underline">
           Read More
         </button>
 
         <a href={applyUrl} className="text-sm underline flex items-center gap-1">
-          Apply<span>↗</span>
+          Apply <span>↗</span>
         </a>
       </div>
     </div>
   )
 }
 
-// Table component
 const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null)
 
@@ -70,7 +69,7 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
       {selectedOpp && (
         <OpportunityModal
           title={selectedOpp.title}
-          awarded="AYO Scholarship"
+          awarded={selectedOpp.type}
           value="TBC"
           description={selectedOpp.description}
           closingDate={selectedOpp.deadlineLabel}
