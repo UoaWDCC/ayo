@@ -206,6 +206,15 @@ export default function OpportunitySection() {
         <hr className="border-gray-200 mt-6" />
 
         <OpportunityTable opportunities={sortedOpportunities.slice(0, showCount)} />
+
+        <div className="flex items-center justify-between mt-8 text-sm">
+          <div className="flex gap-6">
+            <button className="underline">Previous</button>
+            <button className="underline">Next</button>
+          </div>
+
+          <span>1 of 1</span>
+        </div>
       </div>
     </section>
   )
