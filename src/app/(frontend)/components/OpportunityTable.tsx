@@ -31,7 +31,7 @@ const OpportunityRow = ({
   onReadMore,
 }: OpportunityRowProps) => {
   return (
-    <div className="grid grid-cols-[2fr_3fr_1fr] gap-8 py-8 items-start not-italic">
+    <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr_1fr] gap-6 md:gap-8 py-8 items-start not-italic transition-colors hover:bg-gray-50">
       <div>
         <h2 className="font-bold text-base">{title}</h2>
         <p className="text-sm text-gray-500 mt-1">Apply by {deadlineLabel}</p>
@@ -44,8 +44,8 @@ const OpportunityRow = ({
           Read More
         </button>
 
-        <a href={applyUrl} className="text-sm underline">
-          Apply
+        <a href={applyUrl} className="text-sm underline flex items-center gap-1">
+          Apply<span>↗</span>
         </a>
       </div>
     </div>
