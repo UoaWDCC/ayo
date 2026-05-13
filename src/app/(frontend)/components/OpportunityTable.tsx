@@ -2,6 +2,7 @@ type Opportunity = {
   id: number
   title: string
   deadlineLabel: string
+  deadlineDate: string
   description: string
   readMoreUrl: string
   applyUrl: string
@@ -15,6 +16,7 @@ type OpportunityTableProps = {
 const OpportunityRow = ({
   title,
   deadlineLabel,
+  deadlineDate,
   description,
   readMoreUrl,
   applyUrl,
