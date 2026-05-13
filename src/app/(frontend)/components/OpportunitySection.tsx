@@ -1,37 +1,50 @@
-import OpportunityTable from './OpportunityTable'
+'use client'
 
-const opportunities = [
-  {
-    id: 1,
-    title: 'Lodge of the Liberal Arts: Howard Wyatt Memorial Scholarship',
-    deadlineLabel: '20th of May, 11:59pm NZST',
-    description:
-      'The Freemasons of Lodge No.500 have established a trust for charitable purposes, to assist young musicians in their education. Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding...',
-    readMoreUrl: '#',
-    applyUrl: '#',
-  },
-  {
-    id: 2,
-    title: 'Chip and Muriel Stevens Award',
-    deadlineLabel: '20th of May, 11:59pm NZST',
-    description:
-      'This $1,500 award is dedicated to the memory of a former Chairman of AYO, N.W. (Chip) Stevens, who spent his lifetime encouraging young people to love music and young musicians to reach their full potential.',
-    readMoreUrl: '#',
-    applyUrl: '#',
-  },
-  {
-    id: 3,
-    title: 'AYO Soloist Competition',
-    deadlineLabel: '15th of August, 11:59pm NZST',
-    description:
-      'The AYO Soloist Competition offers existing orchestra members the chance to compete for monetary prizes and a concerto appearance with the orchestra. The orchestra showcases young soloists and composers; it...',
-    readMoreUrl: '#',
-    applyUrl: '#',
-  },
-  // Need to figure out how the urls for the applyUrl and readMoreUrl work. Also some descriptions in the figma are incomplete so these are just current placeholders
-]
+import OpportunityTable from './OpportunityTable'
+import { useState, useMemo } from 'react'
 
 export default function OpportunitySection() {
+  const [sortOrder, setSortOrder] = useState<'asc'>('asc')
+  const opportunities = [
+    {
+      id: 1,
+      title: 'Lodge of the Liberal Arts: Howard Wyatt Memorial Scholarship',
+      deadlineLabel: '20th of May, 11:59pm NZST',
+      deadlineDate: '2026-05-20T23:59:00+12:00',
+      description:
+        'The Freemasons of Lodge No.500 have established a trust for charitable purposes, to assist young musicians in their education. Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding...',
+      readMoreUrl: '#',
+      applyUrl: '#',
+    },
+    {
+      id: 2,
+      title: 'Chip and Muriel Stevens Award',
+      deadlineLabel: '20th of May, 11:59pm NZST',
+      deadlineDate: '2026-05-20T23:59:00+12:00',
+      description:
+        'This $1,500 award is dedicated to the memory of a former Chairman of AYO, N.W. (Chip) Stevens, who spent his lifetime encouraging young people to love music and young musicians to reach their full potential.',
+      readMoreUrl: '#',
+      applyUrl: '#',
+    },
+    {
+      id: 3,
+      title: 'AYO Soloist Competition',
+      deadlineLabel: '15th of August, 11:59pm NZST',
+      deadlineDate: '2026-08-15T23:59:00+12:00',
+      description:
+        'The AYO Soloist Competition offers existing orchestra members the chance to compete for monetary prizes and a concerto appearance with the orchestra. The orchestra showcases young soloists and composers; it...',
+      readMoreUrl: '#',
+      applyUrl: '#',
+    },
+    // Need to figure out how the urls for the applyUrl and readMoreUrl work. Also some descriptions in the figma are incomplete so these are just current placeholders
+  ]
+
+  const sortedOpportunities = useMemo(() => {
+    return [...opportunities].sort((a, b) => {
+      return new Date(a.deadlineDate).getTime() - new Date(b.deadlineDate).getTime()
+    })
+  }, [opportunities])
+
   return (
     <section className="font-semibold text-[48px] leading-[56px] text-black mx-8 md:mx-24 lg:mx-40 xl:mx-64 pt-[116px] pb-[34px]">
       <h1>Opportunities</h1>
@@ -67,7 +80,7 @@ export default function OpportunitySection() {
 
       <hr className="border-gray-200 mt-6" />
 
-      <OpportunityTable opportunities={opportunities} />
+      <OpportunityTable opportunities={sortedOpportunities} />
     </section>
   )
 }
