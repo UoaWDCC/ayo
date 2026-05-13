@@ -38,6 +38,9 @@ export default function OpportunitySection() {
       <p className="mt-[16px] text-[24px] text-gray-400 italic">
         There are a range of opportunities we offer, exclusively to AYO players.
       </p>
+      <p className="mt-2 text-sm italic text-gray-400">
+        Showing {opportunities.length} opportunities
+      </p>
       <OpportunityTable opportunities={opportunities} />
     </section>
   )
