@@ -1,3 +1,8 @@
+'use client'
+
+import { useState } from 'react'
+import OpportunityModal from './OpportunityModal'
+
 type Opportunity = {
   id: number
   title: string
@@ -12,26 +17,33 @@ type OpportunityTableProps = {
   opportunities: Opportunity[]
 }
 
-// Rendering one row
+type OpportunityRowProps = Opportunity & {
+  onReadMore: () => void
+}
+
+// Row component
 const OpportunityRow = ({
   title,
   deadlineLabel,
-  deadlineDate,
   description,
   readMoreUrl,
   applyUrl,
-}: Opportunity) => {
+  onReadMore,
+}: OpportunityRowProps) => {
   return (
     <div className="grid grid-cols-[2fr_3fr_1fr] gap-8 py-8 items-start not-italic">
       <div>
         <h2 className="font-bold text-base">{title}</h2>
         <p className="text-sm text-gray-500 mt-1">Apply by {deadlineLabel}</p>
       </div>
+
       <p className="text-sm italic">{description}</p>
+
       <div className="flex gap-6 justify-end">
-        <a href={readMoreUrl} className="text-sm underline">
+        <button onClick={onReadMore} className="text-sm underline">
           Read More
-        </a>
+        </button>
+
         <a href={applyUrl} className="text-sm underline">
           Apply
         </a>
@@ -40,18 +52,32 @@ const OpportunityRow = ({
   )
 }
 
-// Need to also add an svg of an arrow that goes next to the Apply url
-
-// Whole table is rendered row by row
+// Table component
 const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
+  const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null)
+
   return (
-    <div className="w-full ">
+    <div className="w-full">
       {opportunities.map((opp, index) => (
         <div key={opp.id}>
           {index > 0 && <hr className="border-gray-200" />}
-          <OpportunityRow {...opp} />
+
+          <OpportunityRow {...opp} onReadMore={() => setSelectedOpp(opp)} />
         </div>
       ))}
+
+      {/* Modal */}
+      {selectedOpp && (
+        <OpportunityModal
+          title={selectedOpp.title}
+          awarded="AYO Scholarship"
+          value="TBC"
+          description={selectedOpp.description}
+          closingDate={selectedOpp.deadlineLabel}
+          applyUrl={selectedOpp.applyUrl}
+          onClose={() => setSelectedOpp(null)}
+        />
+      )}
     </div>
   )
 }
