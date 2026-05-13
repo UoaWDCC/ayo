@@ -140,71 +140,73 @@ export default function OpportunitySection() {
   }, [filteredOpportunities, sortOrder])
 
   return (
-    <section className="font-semibold text-[48px] leading-[56px] text-black mx-8 md:mx-24 lg:mx-40 xl:mx-64 pt-[116px] pb-[34px]">
-      <h1>Opportunities</h1>
+    <section className="bg-white w-full">
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-[116px] pb-[34px]">
+        <h2 className="font-semibold text-[40px] leading-[56px] text-black">Opportunities</h2>
 
-      <p className="mt-[16px] text-[24px] text-gray-400 italic">
-        There are a range of opportunities we offer, exclusively to AYO players.
-      </p>
+        <p className="mt-4 text-[24px] text-gray-400 italic">
+          There are a range of opportunities we offer, exclusively to AYO players.
+        </p>
 
-      {/* Controls */}
-      <div className="flex flex-wrap items-center gap-6 mt-6 text-sm">
-        {/* Type Filter */}
-        <div className="flex items-center gap-2">
-          <label className="text-gray-400">Type</label>
+        {/* Controls */}
+        <div className="flex flex-wrap items-center gap-6 mt-6 text-sm">
+          {/* Type Filter */}
+          <div className="flex items-center gap-2">
+            <label className="text-gray-400">Type</label>
 
-          <select
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-            className="font-semibold text-black bg-transparent outline-none"
-          >
-            {opportunityTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="font-semibold text-black bg-transparent outline-none"
+            >
+              {opportunityTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Sort */}
+          <div className="flex items-center gap-2">
+            <label className="text-gray-400">Sort by</label>
+
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+              className="font-semibold text-black bg-transparent outline-none"
+            >
+              <option value="asc">Closing Date (Soonest)</option>
+              <option value="desc">Closing Date (Latest)</option>
+            </select>
+          </div>
+
+          {/* Show */}
+          <div className="flex items-center gap-2">
+            <label className="text-gray-400">Show</label>
+
+            <select
+              value={showCount}
+              onChange={(e) => setShowCount(Number(e.target.value))}
+              className="font-semibold text-black bg-transparent outline-none"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+            </select>
+          </div>
+
+          {/* Count */}
+          <span className="ml-auto italic text-gray-400">
+            Showing {Math.min(showCount, sortedOpportunities.length)} of{' '}
+            {sortedOpportunities.length} opportunities
+          </span>
         </div>
 
-        {/* Sort */}
-        <div className="flex items-center gap-2">
-          <label className="text-gray-400">Sort by</label>
+        <hr className="border-gray-200 mt-6" />
 
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-            className="font-semibold text-black bg-transparent outline-none"
-          >
-            <option value="asc">Closing Date (Soonest)</option>
-            <option value="desc">Closing Date (Latest)</option>
-          </select>
-        </div>
-
-        {/* Show */}
-        <div className="flex items-center gap-2">
-          <label className="text-gray-400">Show</label>
-
-          <select
-            value={showCount}
-            onChange={(e) => setShowCount(Number(e.target.value))}
-            className="font-semibold text-black bg-transparent outline-none"
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-          </select>
-        </div>
-
-        {/* Count */}
-        <span className="ml-auto italic text-gray-400">
-          Showing {Math.min(showCount, sortedOpportunities.length)} of {sortedOpportunities.length}{' '}
-          opportunities
-        </span>
+        <OpportunityTable opportunities={sortedOpportunities.slice(0, showCount)} />
       </div>
-
-      <hr className="border-gray-200 mt-6" />
-
-      <OpportunityTable opportunities={sortedOpportunities.slice(0, showCount)} />
     </section>
   )
 }
