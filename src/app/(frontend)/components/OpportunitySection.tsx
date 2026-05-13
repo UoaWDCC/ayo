@@ -37,6 +37,83 @@ const opportunities = [
     readMoreUrl: '#',
     applyUrl: '#',
   },
+  {
+    id: 4,
+    type: 'Scholarship',
+    title: 'AYO International Performance Grant',
+    deadlineLabel: '1st of June, 11:59pm NZST',
+    deadlineDate: '2026-06-01T23:59:00+12:00',
+    description:
+      'Supports orchestra members travelling internationally for advanced musical training and performance opportunities.',
+    readMoreUrl: '#',
+    applyUrl: '#',
+  },
+  {
+    id: 5,
+    type: 'Competition',
+    title: 'Emerging Composer Competition',
+    deadlineLabel: '10th of July, 11:59pm NZST',
+    deadlineDate: '2026-07-10T23:59:00+12:00',
+    description:
+      'Young composers are invited to submit original orchestral works for adjudication and potential live performance.',
+    readMoreUrl: '#',
+    applyUrl: '#',
+  },
+  {
+    id: 6,
+    type: 'Workshop',
+    title: 'Conducting Masterclass Programme',
+    deadlineLabel: '5th of June, 11:59pm NZST',
+    deadlineDate: '2026-06-05T23:59:00+12:00',
+    description:
+      'A practical workshop series led by professional conductors focusing on rehearsal technique, score preparation, and ensemble leadership.',
+    readMoreUrl: '#',
+    applyUrl: '#',
+  },
+  {
+    id: 7,
+    type: 'Scholarship',
+    title: 'Regional Music Development Scholarship',
+    deadlineLabel: '25th of May, 11:59pm NZST',
+    deadlineDate: '2026-05-25T23:59:00+12:00',
+    description:
+      'Financial assistance for students from regional communities pursuing advanced orchestral studies.',
+    readMoreUrl: '#',
+    applyUrl: '#',
+  },
+  {
+    id: 8,
+    type: 'Competition',
+    title: 'Chamber Ensemble Showcase',
+    deadlineLabel: '30th of September, 11:59pm NZST',
+    deadlineDate: '2026-09-30T23:59:00+12:00',
+    description:
+      'Small ensembles compete for performance opportunities during the annual AYO concert season.',
+    readMoreUrl: '#',
+    applyUrl: '#',
+  },
+  {
+    id: 9,
+    type: 'Residency',
+    title: 'Composer-in-Residence Programme',
+    deadlineLabel: '18th of August, 11:59pm NZST',
+    deadlineDate: '2026-08-18T23:59:00+12:00',
+    description:
+      'Selected applicants will collaborate directly with the orchestra over a six-month residency period developing new compositions.',
+    readMoreUrl: '#',
+    applyUrl: '#',
+  },
+  {
+    id: 10,
+    type: 'Workshop',
+    title: 'Advanced Audition Preparation Intensive',
+    deadlineLabel: '12th of June, 11:59pm NZST',
+    deadlineDate: '2026-06-12T23:59:00+12:00',
+    description:
+      'An intensive coaching programme helping musicians prepare orchestral excerpts, solo repertoire, and audition strategies.',
+    readMoreUrl: '#',
+    applyUrl: '#',
+  },
 ]
 
 export default function OpportunitySection() {
