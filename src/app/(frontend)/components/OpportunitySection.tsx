@@ -171,7 +171,7 @@ export default function OpportunitySection() {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="font-semibold text-black bg-transparent outline-none"
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
             >
               {opportunityTypes.map((type) => (
                 <option key={type} value={type}>
@@ -188,7 +188,7 @@ export default function OpportunitySection() {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-              className="font-semibold text-black bg-transparent outline-none"
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
             >
               <option value="asc">Closing Date (Soonest)</option>
               <option value="desc">Closing Date (Latest)</option>
@@ -202,7 +202,7 @@ export default function OpportunitySection() {
             <select
               value={showCount}
               onChange={(e) => setShowCount(Number(e.target.value))}
-              className="font-semibold text-black bg-transparent outline-none"
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
             >
               <option value={3}>3</option>
               <option value={5}>5</option>
