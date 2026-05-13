@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import OpportunityTable from './OpportunityTable'
 
 const opportunities = [
@@ -120,6 +120,7 @@ export default function OpportunitySection() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [selectedType, setSelectedType] = useState('All')
   const [showCount, setShowCount] = useState(5)
+  const [currentPage, setCurrentPage] = useState(1)
 
   // Dynamically generate available types
   const opportunityTypes = ['All', ...new Set(opportunities.map((opp) => opp.type))]
@@ -139,20 +140,33 @@ export default function OpportunitySection() {
     })
   }, [filteredOpportunities, sortOrder])
 
+  // Reset page when controls change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [selectedType, sortOrder, showCount])
+
+  // Pagination
+  const totalPages = Math.ceil(sortedOpportunities.length / showCount)
+
+  const paginatedOpportunities = sortedOpportunities.slice(
+    (currentPage - 1) * showCount,
+    currentPage * showCount,
+  )
+
   return (
     <section className="bg-white w-full">
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-[116px] pb-[34px]">
-        <h2 className="font-semibold text-[40px] leading-[56px] text-black">Opportunities</h2>
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-[116px] pb-[64px]">
+        <h2 className="font-semibold text-[40px] leading-[48px] text-black">Opportunities</h2>
 
-        <p className="mt-4 text-[24px] text-gray-400 italic">
+        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
           There are a range of opportunities we offer, exclusively to AYO players.
         </p>
 
         {/* Controls */}
-        <div className="flex flex-wrap items-center gap-6 mt-6 text-sm">
-          {/* Type Filter */}
+        <div className="flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px]">
+          {/* Type */}
           <div className="flex items-center gap-2">
-            <label className="text-gray-400">Type</label>
+            <label className="text-[#B2B2B2]">Type</label>
 
             <select
               value={selectedType}
@@ -169,7 +183,7 @@ export default function OpportunitySection() {
 
           {/* Sort */}
           <div className="flex items-center gap-2">
-            <label className="text-gray-400">Sort by</label>
+            <label className="text-[#B2B2B2]">Sort by</label>
 
             <select
               value={sortOrder}
@@ -183,37 +197,54 @@ export default function OpportunitySection() {
 
           {/* Show */}
           <div className="flex items-center gap-2">
-            <label className="text-gray-400">Show</label>
+            <label className="text-[#B2B2B2]">Show</label>
 
             <select
               value={showCount}
               onChange={(e) => setShowCount(Number(e.target.value))}
               className="font-semibold text-black bg-transparent outline-none"
             >
+              <option value={3}>3</option>
               <option value={5}>5</option>
               <option value={10}>10</option>
-              <option value={20}>20</option>
             </select>
           </div>
 
           {/* Count */}
-          <span className="ml-auto italic text-gray-400">
-            Showing {Math.min(showCount, sortedOpportunities.length)} of{' '}
-            {sortedOpportunities.length} opportunities
+          <span className="ml-auto italic font-normal text-[#B7B7B7]">
+            Showing {paginatedOpportunities.length}{' '}
+            {paginatedOpportunities.length === 1 ? 'opportunity' : 'opportunities'}
           </span>
         </div>
 
-        <hr className="border-gray-200 mt-6" />
+        <hr className="border-[#EBEBEB] mt-6" />
 
-        <OpportunityTable opportunities={sortedOpportunities.slice(0, showCount)} />
+        {/* Table */}
+        <OpportunityTable opportunities={paginatedOpportunities} />
 
-        <div className="flex items-center justify-between mt-8 text-sm">
-          <div className="flex gap-6">
-            <button className="underline">Previous</button>
-            <button className="underline">Next</button>
+        {/* Pagination */}
+        <div className="flex items-center justify-between mt-6 text-[15px] leading-[18px]">
+          <div className="flex gap-12">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="underline disabled:no-underline disabled:opacity-40"
+            >
+              Previous
+            </button>
+
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="underline disabled:no-underline disabled:opacity-40"
+            >
+              Next
+            </button>
           </div>
 
-          <span>1 of 1</span>
+          <span className="font-normal">
+            {currentPage} of {totalPages}
+          </span>
         </div>
       </div>
     </section>
