@@ -38,9 +38,35 @@ export default function OpportunitySection() {
       <p className="mt-[16px] text-[24px] text-gray-400 italic">
         There are a range of opportunities we offer, exclusively to AYO players.
       </p>
-      <p className="mt-2 text-sm italic text-gray-400">
-        Showing {opportunities.length} opportunities
-      </p>
+
+      {/* Header for table */}
+      <div className="flex items-center gap-6 mt-6 text-sm">
+        {/* Type */}
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400">Type</span>
+          <span className="font-semibold text-black">All</span>
+        </div>
+
+        {/* Sort */}
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400">Sort by</span>
+          <span className="font-semibold text-black">Closing Date</span>
+        </div>
+
+        {/* Show */}
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400">Show</span>
+          <span className="font-semibold text-black">5</span>
+        </div>
+
+        {/* Right aligned count */}
+        <span className="ml-auto italic text-gray-400">
+          Showing {opportunities.length} opportunities
+        </span>
+      </div>
+
+      <hr className="border-gray-200 mt-6" />
+
       <OpportunityTable opportunities={opportunities} />
     </section>
   )
