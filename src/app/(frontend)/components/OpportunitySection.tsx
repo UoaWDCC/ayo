@@ -42,6 +42,7 @@ const opportunities = [
 export default function OpportunitySection() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [selectedType, setSelectedType] = useState('All')
+  const [showCount, setShowCount] = useState(5)
 
   // Dynamically generate available types
   const opportunityTypes = ['All', ...new Set(opportunities.map((opp) => opp.type))]
@@ -106,22 +107,27 @@ export default function OpportunitySection() {
         <div className="flex items-center gap-2">
           <label className="text-gray-400">Show</label>
 
-          <select className="font-semibold text-black bg-transparent outline-none">
-            <option>5</option>
-            <option>10</option>
-            <option>20</option>
+          <select
+            value={showCount}
+            onChange={(e) => setShowCount(Number(e.target.value))}
+            className="font-semibold text-black bg-transparent outline-none"
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
           </select>
         </div>
 
         {/* Count */}
         <span className="ml-auto italic text-gray-400">
-          Showing {sortedOpportunities.length} opportunities
+          Showing {Math.min(showCount, sortedOpportunities.length)} of {sortedOpportunities.length}{' '}
+          opportunities
         </span>
       </div>
 
       <hr className="border-gray-200 mt-6" />
 
-      <OpportunityTable opportunities={sortedOpportunities} />
+      <OpportunityTable opportunities={sortedOpportunities.slice(0, showCount)} />
     </section>
   )
 }
