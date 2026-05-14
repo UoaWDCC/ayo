@@ -11,7 +11,6 @@ type Opportunity = {
   deadlineLabel: string
   deadlineDate: string
   description: string
-  readMoreUrl: string
   applyUrl: string
 }
 

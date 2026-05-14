@@ -12,7 +12,6 @@ const opportunities = [
     deadlineDate: '2026-05-20T23:59:00+12:00',
     description:
       'The Freemasons of Lodge No.500 have established a trust for charitable purposes, to assist young musicians in their education. Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding...',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -23,7 +22,6 @@ const opportunities = [
     deadlineDate: '2026-05-20T23:59:00+12:00',
     description:
       'This $1,500 award is dedicated to the memory of a former Chairman of AYO, N.W. (Chip) Stevens, who spent his lifetime encouraging young people to love music and young musicians to reach their full potential.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -34,7 +32,6 @@ const opportunities = [
     deadlineDate: '2026-08-15T23:59:00+12:00',
     description:
       'The AYO Soloist Competition offers existing orchestra members the chance to compete for monetary prizes and a concerto appearance with the orchestra. The orchestra showcases young soloists and composers; it...',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -45,7 +42,6 @@ const opportunities = [
     deadlineDate: '2026-06-01T23:59:00+12:00',
     description:
       'Supports orchestra members travelling internationally for advanced musical training and performance opportunities.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -56,7 +52,6 @@ const opportunities = [
     deadlineDate: '2026-07-10T23:59:00+12:00',
     description:
       'Young composers are invited to submit original orchestral works for adjudication and potential live performance.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -67,7 +62,6 @@ const opportunities = [
     deadlineDate: '2026-06-05T23:59:00+12:00',
     description:
       'A practical workshop series led by professional conductors focusing on rehearsal technique, score preparation, and ensemble leadership.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -78,7 +72,6 @@ const opportunities = [
     deadlineDate: '2026-05-25T23:59:00+12:00',
     description:
       'Financial assistance for students from regional communities pursuing advanced orchestral studies.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -89,7 +82,6 @@ const opportunities = [
     deadlineDate: '2026-09-30T23:59:00+12:00',
     description:
       'Small ensembles compete for performance opportunities during the annual AYO concert season.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -100,7 +92,6 @@ const opportunities = [
     deadlineDate: '2026-08-18T23:59:00+12:00',
     description:
       'Selected applicants will collaborate directly with the orchestra over a six-month residency period developing new compositions.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
   {
@@ -111,7 +102,6 @@ const opportunities = [
     deadlineDate: '2026-06-12T23:59:00+12:00',
     description:
       'An intensive coaching programme helping musicians prepare orchestral excerpts, solo repertoire, and audition strategies.',
-    readMoreUrl: '#',
     applyUrl: '#',
   },
 ]

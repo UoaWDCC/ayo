@@ -6,7 +6,6 @@ export default function JoinAyoPage() {
   return (
     <main>
       <OpportunitySection />
-      {/* <OpportunityModal /> */}
       <FAQSection />
     </main>
   )
