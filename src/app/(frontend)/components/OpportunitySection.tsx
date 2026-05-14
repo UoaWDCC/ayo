@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import OpportunityTable from './OpportunityTable'
 
+// TODO: replace with real data from API
+
 const opportunities = [
   {
     id: 1,
