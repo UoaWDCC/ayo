@@ -54,7 +54,9 @@ const FAQSection = () => {
       </h2>
       <div>
         {faqData.map((item) => (
-          <FAQItem key={item.id} {...item} />
+          <div key={item.id} className="scroll-fade-up">
+            <FAQItem {...item} />
+          </div>
         ))}
       </div>
       <div className="h-[64px]" />
