@@ -40,12 +40,13 @@ const OpportunityRow = ({
       <p className="text-sm italic">{description}</p>
 
       <div className="flex gap-6 justify-start md:justify-end">
-        <button onClick={onReadMore} className="text-sm underline">
+        <button onClick={onReadMore} className="text-sm underline font-bold">
           Read More
         </button>
 
-        <a href={applyUrl} className="text-sm underline flex items-center gap-1">
-          Apply <span>↗</span>
+        <a href={applyUrl}>
+          <span className="text-sm flex font-bold underline items-center gap-1">Apply</span>
+          <span className="text-sm flex items-center gap-1">↗</span>
         </a>
       </div>
     </div>
