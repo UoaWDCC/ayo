@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import OpportunityModal from './OpportunityModal'
+import ArrowUpRight from '/arrow-up-right.svg'
 
 type Opportunity = {
   id: number
@@ -44,9 +45,9 @@ const OpportunityRow = ({
           Read More
         </button>
 
-        <a href={applyUrl}>
-          <span className="text-sm flex font-bold underline items-center gap-1">Apply</span>
-          <span className="text-sm flex items-center gap-1">↗</span>
+        <a href={applyUrl} className="text-sm flex items-center underline font-bold">
+          Apply
+          <img src="/arrow-up-right.svg" alt="" className="w-[15px] h-[15px]" />
         </a>
       </div>
     </div>
