@@ -4,7 +4,8 @@ import ScrollAnimation from '../components/join-ayo/ScrollAnimation'
 
 export default function JoinAyoPage() {
   return (
-    <main>
+    <main className="items-center justify-center flex flex-col">
+      <div className="aspect-square w-10 h-10 bg-amber-400"></div>
       <ScrollAnimation />
       <JoinAyoSection />
       <FAQSection />
