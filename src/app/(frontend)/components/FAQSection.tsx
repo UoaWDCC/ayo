@@ -1,6 +1,5 @@
 import FAQItem from './FAQItem'
 
-// Sample FAQ data to be replaced with actual FAQs
 const faqData = [
   {
     id: 1,
@@ -52,6 +51,7 @@ const FAQSection = () => {
       <h2 className="font-semibold text-[40px] leading-[56px] text-black mx-8 md:mx-20 lg:mx-25 xl:mx-30 pt-[116px] pb-[34px]">
         FAQs
       </h2>
+
       <div>
         {faqData.map((item) => (
           <div key={item.id} className="scroll-fade-up">
@@ -59,6 +59,7 @@ const FAQSection = () => {
           </div>
         ))}
       </div>
+
       <div className="h-[64px]" />
     </section>
   )

@@ -11,6 +11,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
+<<<<<<< HEAD
     // details
     <div
       className="group border-t border-[#EBEBEB] text-black mx-8 md:mx-20 lg:mx-25 xl:mx-30 py-[24px] cursor-pointer"
@@ -27,6 +28,13 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
         <span
           className={`transition-transform duration-300 shrink-0 inline-block ${isOpen ? 'rotate-180' : 'rotate-0'}`}
         >
+=======
+    <details className="group border-t border-[#EBEBEB] text-black mx-8 md:mx-20 lg:mx-25 xl:mx-30 py-[24px] cursor-pointer">
+      <summary className="flex items-center justify-between list-none">
+        <h3 className="font-medium text-[20px] leading-[32px] text-black">{question}</h3>
+
+        <span className="transition-transform duration-300 group-open:rotate-180">
+>>>>>>> e35bf8b (FRONTEND - feat/join-ayo-page-opportunities-section (#68))
           <svg
             fill="none"
             height="24"
@@ -38,6 +46,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
             <path d="M6 9l6 6 6-6" />
           </svg>
         </span>
+<<<<<<< HEAD
       </div>
       <div
         className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
@@ -47,6 +56,12 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
         </div>
       </div>
     </div>
+=======
+      </summary>
+
+      <p className="mt-[16px] text-[20px] leading-[32px] text-gray-600">{answer}</p>
+    </details>
+>>>>>>> e35bf8b (FRONTEND - feat/join-ayo-page-opportunities-section (#68))
   )
 }
 
