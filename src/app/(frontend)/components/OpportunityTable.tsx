@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import OpportunityModal from './OpportunityModal'
 import ArrowUpRight from '/arrow-up-right.svg'
+import { useRef, useEffect } from 'react'
+import { gsap } from 'gsap'
 
 type Opportunity = {
   id: number
@@ -55,11 +57,27 @@ const OpportunityRow = ({
 
 const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const isFirstRender = useRef(true)
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return // skip on mount, let scroll-fade-up handle it
+    }
+    if (!containerRef.current) return
+    const rows = containerRef.current.querySelectorAll('.opportunity-row')
+    gsap.fromTo(
+      rows,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.35, stagger: 0.08, ease: 'power2.out' },
+    )
+  }, [opportunities])
 
   return (
-    <div className="w-full">
+    <div className="w-full" ref={containerRef}>
       {opportunities.map((opp, index) => (
-        <div key={opp.id}>
+        <div key={opp.id} className="scroll-fade-up opportunity-row">
           {index > 0 && <hr className="border-gray-200" />}
 
           <OpportunityRow {...opp} onReadMore={() => setSelectedOpp(opp)} />
