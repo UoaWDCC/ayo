@@ -5,6 +5,8 @@ import OpportunityModal from './OpportunityModal'
 import ArrowUpRight from '/arrow-up-right.svg'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+gsap.registerPlugin(ScrollTrigger)
 
 type Opportunity = {
   id: number
@@ -84,16 +86,33 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
   const prevOpportunitiesRef = useRef(opportunities)
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return // skip on mount, let scroll-fade-up handle it
-    }
-    // Ignore re-renders that aren't actual list changes
-    if (prevOpportunitiesRef.current === opportunities) return
-    prevOpportunitiesRef.current = opportunities
-
     if (!containerRef.current) return
     const rows = containerRef.current.querySelectorAll('.opportunity-row')
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      prevOpportunitiesRef.current = opportunities
+      const firstRow = rows[0]
+      if (!firstRow) return
+      gsap.fromTo(
+        rows,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: firstRow,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        },
+      )
+      return
+    }
+
     gsap.fromTo(
       rows,
       { opacity: 0, y: 20 },
@@ -104,7 +123,7 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
   return (
     <div className="w-full" ref={containerRef}>
       {opportunities.map((opp, index) => (
-        <div key={opp.id} className="scroll-fade-up opportunity-row">
+        <div key={opp.id} className="opportunity-row">
           {index > 0 && <hr className="border-gray-200" />}
 
           <OpportunityRow {...opp} onReadMore={() => setSelectedOpp(opp)} />
