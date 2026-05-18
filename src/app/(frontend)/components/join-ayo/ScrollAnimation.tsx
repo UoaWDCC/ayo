@@ -137,11 +137,23 @@ export default function ScrollAnimation() {
           )
           .to('.join-copy-two', { autoAlpha: 1, y: 0, duration: 1.1, ease: 'power2.out' }, 5.9)
           .to('.join-copy-two', { autoAlpha: 0, y: -30, duration: 1, ease: 'power2.inOut' }, 7.05)
-          .to('.join-photo-card', { autoAlpha: 0, duration: 1.0, ease: 'power2.inOut', stagger: 0.06 }, 7.1)
+          .to(
+            '.join-photo-card',
+            { autoAlpha: 0, duration: 1.0, ease: 'power2.inOut', stagger: 0.06 },
+            7.1,
+          )
           .to('.join-photo-wrap', { autoAlpha: 0, duration: 0.8, ease: 'power2.inOut' }, 7.1)
           .to('.join-score', { autoAlpha: 1, duration: 1.05, ease: 'power2.out' }, 7.35)
-          .to('.join-timeline-label', { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power2.out' }, 7.5)
-          .to('.join-timeline-clef', { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power2.out' }, 7.5)
+          .to(
+            '.join-timeline-label',
+            { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power2.out' },
+            7.5,
+          )
+          .to(
+            '.join-timeline-clef',
+            { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power2.out' },
+            7.5,
+          )
           .to(
             '.join-timeline-item',
             {
@@ -175,7 +187,11 @@ export default function ScrollAnimation() {
             7.5,
           )
           .to('.join-score', { autoAlpha: 0, duration: 1, ease: 'power2.inOut' }, 9.35)
-          .to('.join-timeline-label', { autoAlpha: 0, y: -8, duration: 0.6, ease: 'power2.inOut' }, 9.35)
+          .to(
+            '.join-timeline-label',
+            { autoAlpha: 0, y: -8, duration: 0.6, ease: 'power2.inOut' },
+            9.35,
+          )
           .to('.join-sections', { autoAlpha: 1, y: 0, duration: 1, ease: 'power2.out' }, 9.85)
           .to(
             '.join-section-family',
@@ -228,6 +244,26 @@ export default function ScrollAnimation() {
             16.05,
           )
       }, stage)
+
+      // scroll-fade-up for general page elements
+      const elements = document.querySelectorAll('.scroll-fade-up')
+      elements.forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: el as HTMLElement,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          },
+        )
+      })
 
       ScrollTrigger.refresh()
     }

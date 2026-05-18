@@ -59,12 +59,17 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
+  const prevOpportunitiesRef = useRef(opportunities)
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false
       return // skip on mount, let scroll-fade-up handle it
     }
+    // Ignore re-renders that aren't actual list changes
+    if (prevOpportunitiesRef.current === opportunities) return
+    prevOpportunitiesRef.current = opportunities
+
     if (!containerRef.current) return
     const rows = containerRef.current.querySelectorAll('.opportunity-row')
     gsap.fromTo(
