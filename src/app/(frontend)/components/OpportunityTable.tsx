@@ -31,8 +31,30 @@ const OpportunityRow = ({
   applyUrl,
   onReadMore,
 }: OpportunityRowProps) => {
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+
+    const onEnter = () => gsap.to(el, { scale: 1.005, duration: 0.2, ease: 'power2.out' })
+    const onLeave = () => gsap.to(el, { scale: 1, duration: 0.2, ease: 'power2.in' })
+
+    el.addEventListener('mouseenter', onEnter)
+    el.addEventListener('mouseleave', onLeave)
+
+    return () => {
+      el.removeEventListener('mouseenter', onEnter)
+      el.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr_1fr] gap-6 md:gap-8 py-8 items-start not-italic transition-colors hover:bg-gray-50">
+    <div
+      ref={cardRef}
+      onClick={onReadMore}
+      className="grid grid-cols-1 md:grid-cols-[2fr_3fr_1fr] gap-6 md:gap-8 py-8 items-start not-italic transition-colors hover:bg-gray-50"
+    >
       <div>
         <h2 className="font-bold text-base">{title}</h2>
 
@@ -42,7 +64,7 @@ const OpportunityRow = ({
       <p className="text-sm italic">{description}</p>
 
       <div className="flex gap-6 justify-start md:justify-end">
-        <button onClick={onReadMore} className="text-sm underline font-bold">
+        <button onClick={onReadMore} className="text-sm underline font-bold cursor-pointer">
           Read More
         </button>
 

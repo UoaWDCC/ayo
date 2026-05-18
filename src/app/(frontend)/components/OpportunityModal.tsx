@@ -49,7 +49,10 @@ const OpportunityModal = ({
         <div className="p-8 pb-4">
           <div className="flex justify-between items-start">
             <h2 className="font-semibold text-2xl leading-tight max-w-[90%]">{title}</h2>
-            <button onClick={handleClose} className="text-black/40 hover:opacity-70 text-xl">
+            <button
+              onClick={handleClose}
+              className="text-black/40 hover:opacity-70 text-xl cursor-pointer"
+            >
               X
             </button>
           </div>

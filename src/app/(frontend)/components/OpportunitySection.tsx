@@ -220,7 +220,7 @@ export default function OpportunitySection() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="underline disabled:no-underline disabled:opacity-40"
+              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
             >
               Previous
             </button>
@@ -228,7 +228,7 @@ export default function OpportunitySection() {
             <button
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="underline disabled:no-underline disabled:opacity-40"
+              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
             >
               Next
             </button>
