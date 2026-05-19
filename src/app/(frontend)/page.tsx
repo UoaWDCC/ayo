@@ -7,7 +7,7 @@ import BlogsBlock from './components/blogs/BlogsBlock'
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-white text-black">
-      <Hero title="About Us" backgroundImage="/hero-placeholder.jpg" />
+      <Hero title="Here Plays The Future" backgroundImage="/hero-placeholder.jpg" />
       <AboutIntro />
       <EventsBlock />
       <BlogsBlock />
