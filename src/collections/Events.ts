@@ -36,14 +36,11 @@ export const Events: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      async ({ doc }) => {
-        await fetch(
-          'https://script.google.com/macros/s/AKfycbwHVd9raLE1Ae-M_VDC8QGfNlSXeJB0-ATVlNRQE8qmmf7BYdcDSlY9A1q9Q-Qxsu9FkA/exec',
-          {
-            method: 'POST',
-            body: JSON.stringify({ doc }),
-          },
-        )
+      async ({ doc, operation }) => {
+        await fetch('APPS SCRIPT LINK HERE BUT WE NEED SOME WAY TO HIDE IT IDK HOW', {
+          method: 'POST',
+          body: JSON.stringify({ doc, operation }),
+        })
       },
     ],
   },
