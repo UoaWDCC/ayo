@@ -37,18 +37,15 @@ export const Events: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, operation }) => {
-        await fetch(
-          'LINK GOES HERE BUT I CANT PUT IT HERE BECAUSE WE NEED TO HIDE IT BUT IDK HOW',
-          {
-            method: 'POST',
-            body: JSON.stringify({ doc, operation }),
-          },
-        )
+        await fetch(process.env.APPS_SCRIPT_URL!, {
+          method: 'POST',
+          body: JSON.stringify({ doc, operation }),
+        })
       },
     ],
     afterDelete: [
       async ({ doc }) => {
-        await fetch('LINK GOES HERE BUT I CANT PUT IT HERE BECAUSE WE NEED TO HIDE IT', {
+        await fetch(process.env.APPS_SCRIPT_URL!, {
           method: 'POST',
           body: JSON.stringify({ doc, operation: 'delete' }),
         })
