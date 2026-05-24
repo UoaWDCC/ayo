@@ -1,14 +1,17 @@
 import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
+import Hero from '../components/Hero'
 export default function SupportUsPage() {
   const tierArray = [
     {
       tierName: 'Subscriber',
       descriptionContent: (
-        <p>Subscribers pay an annual subscription of $25.00 as a donation towards our ongoing work and their names 
-          are listed in our printed concert programmes. 
-          They automatically become Members of the incorporated society 
-          and, as such, are entitled to attend General Meetings and vote.</p>
+        <p>
+          Subscribers pay an annual subscription of $25.00 as a donation towards our ongoing work
+          and their names are listed in our printed concert programmes. They automatically become
+          Members of the incorporated society and, as such, are entitled to attend General Meetings
+          and vote.
+        </p>
       ),
       linkText: 'Register',
       linkUrl: '',
@@ -17,28 +20,35 @@ export default function SupportUsPage() {
       tierName: 'Supporter',
       descriptionContent: (
         <>
-          <p>Supporters donate a minimum of <strong>$75.00</strong> and, to show our appreciation for their support: </p>
-          
-          <ul className='list-disc pl-6 py-4'>
-            <li>Their names are listed in the printed programmes (unless anonymity is requested); and,</li>
-            <li>Some of the best seats are cordoned off exclusively for them at the free Auckland Town Hall concerts. </li>
+          <p>
+            Supporters donate a minimum of <strong>$75.00</strong> and, to show our appreciation for
+            their support:{' '}
+          </p>
+
+          <ul className="list-disc pl-6 py-4">
+            <li>
+              Their names are listed in the printed programmes (unless anonymity is requested); and,
+            </li>
+            <li>
+              Some of the best seats are cordoned off exclusively for them at the free Auckland Town
+              Hall concerts. 
+            </li>
           </ul>
 
-          <div className = "max-w">
-            <div className = "flex justify-between">
-              <span className = "font-semibold">General Supporter</span>
+          <div className="max-w">
+            <div className="flex justify-between">
+              <span className="font-semibold">General Supporter</span>
               <span>$75.00+</span>
             </div>
-            <div className = "flex justify-between">
-              <span className = "font-semibold">Special Supporter</span>
+            <div className="flex justify-between">
+              <span className="font-semibold">Special Supporter</span>
               <span>$500.00+</span>
             </div>
-            <div className = "flex justify-between">
-              <span className = "font-semibold">General Supporter</span>
+            <div className="flex justify-between">
+              <span className="font-semibold">General Supporter</span>
               <span>$5,000.00+</span>
             </div>
           </div>
-
         </>
       ),
       linkText: 'Register',
@@ -47,14 +57,22 @@ export default function SupportUsPage() {
     {
       tierName: 'KORA Cards',
       descriptionContent: (
-        <p>Sign up for Kora fuel cards and a few cents per litre will be donated to AYO every time you fill up at either a Mobil or Waitomo station.  Kora offers cardholders a discount of 10c/litre and you can have some (or all!) of that saving donated to AYO automatically!</p>
+        <p>
+          Sign up for Kora fuel cards and a few cents per litre will be donated to AYO every time
+          you fill up at either a Mobil or Waitomo station.  Kora offers cardholders a discount of
+          10c/litre and you can have some (or all!) of that saving donated to AYO automatically!
+        </p>
       ),
       linkText: 'Read More',
       linkUrl: '',
-    }
+    },
   ]
   return (
     <main>
+      <div className="w-full h-[vh] relative">
+        <Hero title="Support Us" backgroundImage="/hero-placeholder.jpg" />
+      </div>
+
       <div className="text-black w-full">
         <div className="flex justify-center">
           <div className="text-body my-10 w-[90%]">
