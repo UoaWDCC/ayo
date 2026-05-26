@@ -11,6 +11,10 @@ export const Events: CollectionConfig = {
     {
       name: 'eventDescription',
       type: 'text',
+    },
+    {
+      name: 'eventVenue',
+      type: 'text',
       required: true,
     },
     {

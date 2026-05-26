@@ -186,7 +186,8 @@ export interface Partner {
 export interface Event {
   id: string;
   eventName: string;
-  eventDescription: string;
+  eventDescription?: string | null;
+  eventVenue: string;
   startDate: string;
   finishDate: string;
   updatedAt: string;
@@ -334,6 +335,7 @@ export interface PartnersSelect<T extends boolean = true> {
 export interface EventsSelect<T extends boolean = true> {
   eventName?: T;
   eventDescription?: T;
+  eventVenue?: T;
   startDate?: T;
   finishDate?: T;
   updatedAt?: T;
