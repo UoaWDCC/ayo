@@ -36,6 +36,19 @@ export const Events: CollectionConfig = {
         },
       },
       required: true,
+      validate: (value, { siblingData }) => {
+        const sibling = siblingData as { startDate: Date | null }
+
+        if (!sibling.startDate) {
+          return 'No start date has been set'
+        }
+
+        if ((value as Date) <= sibling.startDate) {
+          return 'End date must be after start date'
+        }
+
+        return true
+      },
     },
   ],
   hooks: {
