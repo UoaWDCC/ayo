@@ -1,3 +1,5 @@
+import MyAYOLink from '../components/MyAYOLink'
+
 export default function MyAyoPage() {
   return (
     <main>
@@ -8,15 +10,13 @@ export default function MyAyoPage() {
         height="600"
       ></iframe>
       <div className="flex">
-        <button className="p-3 ml-30 border-black border-2 rounded-md">
+        <a href="https://google.com" className="p-3 ml-30 border-black border-2 rounded-md">
           <p>Add to Google Calendar</p>
-        </button>
-        <button className="p-3 ml-30 border-black border-2 rounded-md">
+        </a>
+        <a href="https://google.com" className="p-3 ml-30 border-black border-2 rounded-md">
           <p>Subscribe on iPhone / Apple Calendar</p>
-        </button>
-        <button className="p-3 ml-30 border-black border-2 rounded-md">
-          <p>Copy ICS link</p>
-        </button>
+        </a>
+        <MyAYOLink />
       </div>
     </main>
   )
