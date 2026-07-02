@@ -1,6 +1,41 @@
 import MyAYOLink from '../components/MyAYOLink'
+import { cookies } from 'next/headers'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
-export default function MyAyoPage() {
+async function checkPassword(formData: FormData) {
+  'use server'
+  const payload = await getPayload({ config })
+  const password = formData.get('password')
+  const { docs } = await payload.find({
+    collection: 'passwords',
+  })
+  const correctPasswords = docs.map((doc) => doc.password)
+  if (password && correctPasswords.includes(password as string)) {
+    const cookieStore = await cookies()
+    cookieStore.set('my-ayo-access', 'granted', {
+      httpOnly: true,
+      path: '/my-ayo',
+      maxAge: 60 * 60 * 24 * 7,
+    })
+  }
+}
+
+export default async function MyAyoPage() {
+  const cookieStore = await cookies()
+  const hasAccess = cookieStore.get('my-ayo-access')?.value === 'granted'
+
+  if (!hasAccess) {
+    return (
+      <main>
+        <form action={checkPassword}>
+          <input type="password" name="password" placeholder="Enter password" required />
+          <button type="submit">Submit</button>
+        </form>
+      </main>
+    )
+  }
+
   return (
     <main>
       <iframe
