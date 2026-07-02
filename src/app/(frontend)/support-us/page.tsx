@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
+import AYOSection from '../components/AYOWallSection'
+
 export default function SupportUsPage() {
   const tierArray = [
     {
@@ -106,6 +108,7 @@ export default function SupportUsPage() {
           </div>
         </div>
       </div>
+      <AYOSection></AYOSection>
     </main>
   )
 }

@@ -1,0 +1,141 @@
+import AYOWallItem from './AYOWallItem'
+
+const wallData = [
+  'Emma Richardson',
+  'Liam Patel',
+  'Sophia Nguyen',
+  'Daniel Kim',
+  'Olivia Martinez',
+  'Ethan Chen',
+  'Ava Thompson',
+  'Noah Wilson',
+  'Grace Ibrahim',
+  'Lucas Ferreira',
+  'Mia Johansson',
+  'Arjun Mehta',
+  'Charlotte Davies',
+  'Zain Hassan',
+  'Ella Brown',
+  'Benjamin Rossi',
+  'Hannah Lee',
+  'Mason Clarke',
+  'Isabella Silva',
+  'Leo Anderson',
+  'Sophie Morgan',
+  'Nathan Brooks',
+  'Amelia Cooper',
+  'Ryan Murphy',
+  'Layla Khan',
+  'Jack Foster',
+  'Ruby Evans',
+  'Aiden Scott',
+  'Priya Shah',
+  'Caleb Turner',
+  'Harper Mills',
+  'Isaac Bennett',
+  'Zoe Parker',
+  'Samuel Reed',
+  'Emily Foster',
+  'Jacob Collins',
+  'Anaya Kapoor',
+  'Oliver Price',
+  'Chloe Watson',
+  'Henry Mitchell',
+  'Lily Graham',
+  'Mikhail Petrov',
+  'Nina Costa',
+  'Thomas Hughes',
+  'Sara Rahman',
+  'Felix Meyer',
+  'Julia Bennett',
+  'Owen Harris',
+  'Maya Desai',
+  'Connor Walsh',
+  'Emma Richardson',
+  'Liam Patel',
+  'Sophia Nguyen',
+  'Daniel Kim',
+  'Olivia Martinez',
+  'Ethan Chen',
+  'Ava Thompson',
+  'Noah Wilson',
+  'Grace Ibrahim',
+  'Lucas Ferreira',
+  'Mia Johansson',
+  'Arjun Mehta',
+  'Charlotte Davies',
+  'Zain Hassan',
+  'Ella Brown',
+  'Benjamin Rossi',
+  'Hannah Lee',
+  'Mason Clarke',
+  'Isabella Silva',
+  'Leo Anderson',
+  'Sophie Morgan',
+  'Nathan Brooks',
+  'Amelia Cooper',
+  'Ryan Murphy',
+  'Layla Khan',
+  'Jack Foster',
+  'Ruby Evans',
+  'Aiden Scott',
+  'Priya Shah',
+  'Caleb Turner',
+  'Harper Mills',
+  'Isaac Bennett',
+  'Zoe Parker',
+  'Samuel Reed',
+  'Emily Foster',
+  'Jacob Collins',
+  'Anaya Kapoor',
+  'Oliver Price',
+  'Chloe Watson',
+  'Ella Brown',
+  'Benjamin Rossi',
+  'Hannah Lee',
+  'Mason Clarke',
+  'Isabella Silva',
+  'Leo Anderson',
+  'Sophie Morgan',
+  'Nathan Brooks',
+  'Amelia Cooper',
+  'Ryan Murphy',
+  'Layla Khan',
+  'Jack Foster',
+  'Ruby Evans',
+  'Aiden Scott',
+  'Priya Shah',
+  'Caleb Turner',
+  'Harper Mills',
+  'Isaac Bennett',
+  'Zoe Parker',
+  'Samuel Reed',
+  'Emily Foster',
+  'Jacob Collins',
+  'Anaya Kapoor',
+  'Oliver Price',
+  'Chloe Watson',
+]
+
+const AYOWallSection = () => {
+  return (
+    <section className="bg-white w-full">
+      <h2 className="font-semibold text-[28px] sm:text-[32px] md:text-[40px] leading-[36px] sm:leading-[44px] md:leading-[56px] text-black mx-6 sm:mx-8 md:mx-20 lg:mx-25 xl:mx-30 pt-[64px] sm:pt-[88px] md:pt-[116px] pb-[8px]">
+        Wall of AYO
+      </h2>
+      <p className="text-[14px] sm:text-[16px] italic text-gray-500 mx-6 sm:mx-8 md:mx-20 lg:mx-25 xl:mx-30 pb-[24px] sm:pb-[34px]">
+        Behind every performance is a community that believes in the next generation of music
+      </p>
+
+      <div className="max-w-[1100px] mx-auto text-center px-6 sm:px-8">
+        {wallData.map((name, idx) => (
+          <AYOWallItem key={`${name}-${idx}`} name={name} end={idx === wallData.length - 1} />
+        ))}
+      </div>
+
+      <div className="h-[40px] sm:h-[52px] md:h-[64px]" />
+    </section>
+  )
+}
+
+export default AYOWallSection
