@@ -10,7 +10,7 @@ export const CTA: Block = {
     },
     {
       name: 'description',
-      type: 'textarea',
+      type: 'richText',
     },
     {
       name: 'buttonText',
