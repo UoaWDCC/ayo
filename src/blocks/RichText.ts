@@ -4,7 +4,7 @@ export const RichText: Block = {
   slug: 'rich-text',
   fields: [
     {
-      name: 'heading',
+      name: 'title',
       type: 'text',
     },
     {
