@@ -32,8 +32,23 @@ export const Concerts: CollectionConfig = {
                 {name: 'workTitle', type: 'text', required: true},
                 {name: 'soloist', type: 'text'},
                 {name: 'movements', type: 'text'}
-            ],
-            required: true
+            ]
+        },
+        {
+            name: 'performances',
+            type: 'array',
+            fields: [
+                {name: 'dateTime', type: 'date', required: true},
+                {name: 'venue', type: 'text'},
+                {name: 'venueAddress', type: 'text'},
+                {name: 'bookingUrl', type: 'text'},
+                {name: 'price', type: 'text'}
+            ]
+        },
+        {
+            name: 'links',
+            type: 'array',
+            fields: [{name: 'link', type: 'text'}]
         }
     ]
 }
