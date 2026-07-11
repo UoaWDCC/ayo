@@ -1,11 +1,12 @@
 'use client'
 import React from 'react'
 import { useState } from 'react'
-const MyAYOLink = () => {
+
+const MyAYOCopyLink = ({ copyLink }: { copyLink: string }) => {
   const [text, setText] = useState('Copy ICS link')
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('insert link here')
+    navigator.clipboard.writeText(copyLink)
     setText('Copied!')
     setTimeout(() => {
       setText('Copy ICS link')
@@ -21,4 +22,4 @@ const MyAYOLink = () => {
   )
 }
 
-export default MyAYOLink
+export default MyAYOCopyLink
