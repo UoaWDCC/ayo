@@ -23,6 +23,17 @@ export const Concerts: CollectionConfig = {
             name: 'pdf',
             type: 'upload',
             relationTo: 'media'
+        },
+        {
+            name: 'repertoire',
+            type: 'array',
+            fields: [
+                {name: 'composer', type: 'text', required: true},
+                {name: 'workTitle', type: 'text', required: true},
+                {name: 'soloist', type: 'text'},
+                {name: 'movements', type: 'text'}
+            ],
+            required: true
         }
     ]
 }
