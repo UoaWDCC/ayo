@@ -3,6 +3,8 @@ import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+export const dynamic = 'force-dynamic'
+
 async function checkPassword(formData: FormData) {
   'use server'
   const payload = await getPayload({ config })
