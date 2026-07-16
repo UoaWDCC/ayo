@@ -46,7 +46,12 @@ export const Concerts: CollectionConfig = {
             ]
         },
         {
-            name: 'links',
+            name: 'photo_links',
+            type: 'array',
+            fields: [{name: 'link', type: 'text'}]
+        },
+        {
+            name: 'video_links',
             type: 'array',
             fields: [{name: 'link', type: 'text'}]
         }
