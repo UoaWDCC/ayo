@@ -21,8 +21,7 @@ export const Concerts: CollectionConfig = {
         },
         {
             name: 'pdf',
-            type: 'upload',
-            relationTo: 'media'
+            type: 'text'
         },
         {
             name: 'repertoire',
@@ -32,7 +31,9 @@ export const Concerts: CollectionConfig = {
                 {name: 'workTitle', type: 'text', required: true},
                 {name: 'soloist', type: 'text'},
                 {name: 'movements', type: 'text'}
-            ]
+            ],
+            // minimum of one array item
+            required: true
         },
         {
             name: 'performances',
@@ -43,7 +44,9 @@ export const Concerts: CollectionConfig = {
                 {name: 'venueAddress', type: 'text', required: true},
                 {name: 'bookingUrl', type: 'text', required: true},
                 {name: 'price', type: 'text', required: true}
-            ]
+            ],
+            // minimum of one array item
+            required: true
         },
         {
             name: 'photo_links',
