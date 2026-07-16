@@ -120,14 +120,14 @@ const wallData = [
 const AYOWallSection = () => {
   return (
     <section className="bg-white w-full">
-      <h2 className="font-semibold text-[28px] sm:text-[32px] md:text-[40px] leading-[36px] sm:leading-[44px] md:leading-[56px] text-black mx-6 sm:mx-8 md:mx-20 lg:mx-25 xl:mx-30 pt-[64px] sm:pt-[88px] md:pt-[116px] pb-[8px]">
+      <h2 className="font-semibold text-[28px] sm:text-[32px] leading-[36px] sm:leading-[40px] text-black mx-6 sm:mx-8 md:mx-20 lg:mx-25 xl:mx-30 pt-[64px] sm:pt-[88px] md:pt-[116px] pb-[8px]">
         Wall of AYO
       </h2>
-      <p className="text-[14px] sm:text-[16px] italic text-gray-500 mx-6 sm:mx-8 md:mx-20 lg:mx-25 xl:mx-30 pb-[24px] sm:pb-[34px]">
+      <p className="text-[14px] sm:text-[15px] italic text-gray-500 mx-6 sm:mx-8 md:mx-20 lg:mx-25 xl:mx-30 pb-[32px] sm:pb-[40px]">
         Behind every performance is a community that believes in the next generation of music
       </p>
 
-      <div className="max-w-[1100px] mx-auto text-center px-6 sm:px-8">
+      <div className="text-center mx-6 sm:mx-8 md:mx-20 lg:mx-25 xl:mx-30">
         {wallData.map((name, idx) => (
           <AYOWallItem key={`${name}-${idx}`} name={name} end={idx === wallData.length - 1} />
         ))}
