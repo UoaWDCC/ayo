@@ -40,9 +40,9 @@ export const Concerts: CollectionConfig = {
             fields: [
                 {name: 'dateTime', type: 'date', required: true},
                 {name: 'venue', type: 'text'},
-                {name: 'venueAddress', type: 'text'},
-                {name: 'bookingUrl', type: 'text'},
-                {name: 'price', type: 'text'}
+                {name: 'venueAddress', type: 'text', required: true},
+                {name: 'bookingUrl', type: 'text', required: true},
+                {name: 'price', type: 'text', required: true}
             ]
         },
         {
