@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     partners: Partner;
     pages: Page;
+    passwords: Password;
+    links: Link;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +84,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    passwords: PasswordsSelect<false> | PasswordsSelect<true>;
+    links: LinksSelect<false> | LinksSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -264,6 +268,28 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "passwords".
+ */
+export interface Password {
+  id: string;
+  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "links".
+ */
+export interface Link {
+  id: string;
+  embedLink?: string | null;
+  publicLink?: string | null;
+  icalLink?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -301,6 +327,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'passwords';
+        value: string | Password;
+      } | null)
+    | ({
+        relationTo: 'links';
+        value: string | Link;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -455,6 +489,26 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "passwords_select".
+ */
+export interface PasswordsSelect<T extends boolean = true> {
+  password?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "links_select".
+ */
+export interface LinksSelect<T extends boolean = true> {
+  embedLink?: T;
+  publicLink?: T;
+  icalLink?: T;
   updatedAt?: T;
   createdAt?: T;
 }
