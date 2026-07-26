@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     partners: Partner;
+    concerts: Concert;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    concerts: ConcertsSelect<false> | ConcertsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -179,6 +181,60 @@ export interface Partner {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "concerts".
+ */
+export interface Concert {
+  id: string;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  photo: string | Media;
+  pdf?: string | null;
+  repertoire: {
+    composer: string;
+    workTitle: string;
+    soloist?: string | null;
+    movements?: string | null;
+    id?: string | null;
+  }[];
+  performances: {
+    dateTime: string;
+    venue?: string | null;
+    venueAddress: string;
+    bookingUrl: string;
+    price: string;
+    id?: string | null;
+  }[];
+  photo_links?:
+    | {
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  video_links?:
+    | {
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -212,6 +268,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'partners';
         value: string | Partner;
+      } | null)
+    | ({
+        relationTo: 'concerts';
+        value: string | Concert;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -305,6 +365,49 @@ export interface PartnersSelect<T extends boolean = true> {
   logo?: T;
   websiteUrl?: T;
   isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "concerts_select".
+ */
+export interface ConcertsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  photo?: T;
+  pdf?: T;
+  repertoire?:
+    | T
+    | {
+        composer?: T;
+        workTitle?: T;
+        soloist?: T;
+        movements?: T;
+        id?: T;
+      };
+  performances?:
+    | T
+    | {
+        dateTime?: T;
+        venue?: T;
+        venueAddress?: T;
+        bookingUrl?: T;
+        price?: T;
+        id?: T;
+      };
+  photo_links?:
+    | T
+    | {
+        link?: T;
+        id?: T;
+      };
+  video_links?:
+    | T
+    | {
+        link?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
