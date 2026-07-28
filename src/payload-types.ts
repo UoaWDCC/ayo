@@ -354,6 +354,30 @@ export interface Post {
   id: string;
   title: string;
   slug?: string | null;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  photos?:
+    | {
+        photo?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
+  author?: string | null;
+  publishedDate: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -639,6 +663,16 @@ export interface ConcertsSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  description?: T;
+  photos?:
+    | T
+    | {
+        photo?: T;
+        id?: T;
+      };
+  category?: T;
+  author?: T;
+  publishedDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
