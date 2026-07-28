@@ -10,6 +10,7 @@ import { Media } from './collections/Media'
 import { Partners } from './collections/Partners'
 import { Concerts } from './collections/Concerts'
 import { Pages } from './collections/Pages'
+import { Posts } from './collections/Posts'
 import { Passwords } from './collections/Passwords'
 import { CalendarLink } from './collections/CalendarLink'
 
@@ -23,7 +24,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Partners, Pages, Passwords, CalendarLink, Concerts],
+  collections: [Users, Media, Partners, Pages, Passwords, CalendarLink, Concerts, Posts],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
