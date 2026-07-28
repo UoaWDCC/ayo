@@ -1,5 +1,6 @@
 import React from 'react'
 import Hero from '../components/Hero'
+import SquareLinkGrid from '../components/SquareLinkGrid'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -26,6 +27,32 @@ export default async function ContactUsPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <SquareLinkGrid
+        title="Hey there! What can we help you with?"
+        description="Answers to some of our frequently asked questions."
+        items={[
+          {
+            id: 'get-involved',
+            title: 'Get Involved\nwith AYO',
+            href: '/join-ayo',
+          },
+          {
+            id: 'supporting',
+            title: 'Supporting\nAYO',
+            href: '/support-us',
+          },
+          {
+            id: 'join',
+            title: 'Join\nAYO',
+            href: '/join-ayo',
+          },
+          {
+            id: 'concerts-events',
+            title: 'Concerts\n& Events',
+            href: '/concerts-events',
+          },
+        ]}
+      />
     </main>
   )
 }
