@@ -377,7 +377,7 @@ export interface Post {
     | null;
   category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
   author?: string | null;
-  publishedDate: string;
+  publishedDate?: string | null;
   updatedAt: string;
   createdAt: string;
 }

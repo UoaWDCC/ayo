@@ -78,7 +78,7 @@ export const Posts: CollectionConfig = {
       name: 'publishedDate',
       type: 'date',
       label: 'Published Date',
-      required: true,
+      //required: true,
       admin: {
         date: {
           //theres a +1 day bug when selecting on calendar, caused by timezone offsets appaerntly
