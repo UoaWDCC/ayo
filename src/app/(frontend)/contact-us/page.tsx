@@ -1,4 +1,5 @@
 import React from 'react'
+import ContactFormSection from '../components/ContactFormSection'
 import Hero from '../components/Hero'
 import SquareLinkGrid from '../components/SquareLinkGrid'
 
@@ -53,6 +54,7 @@ export default async function ContactUsPage() {
           },
         ]}
       />
+      <ContactFormSection />
     </main>
   )
 }
