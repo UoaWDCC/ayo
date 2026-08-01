@@ -70,10 +70,11 @@ export interface Config {
     users: User;
     media: Media;
     partners: Partner;
-    concerts: Concert;
     pages: Page;
     passwords: Password;
     links: Link;
+    concerts: Concert;
+    posts: Post;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,10 +85,11 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
-    concerts: ConcertsSelect<false> | ConcertsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     passwords: PasswordsSelect<false> | PasswordsSelect<true>;
     links: LinksSelect<false> | LinksSelect<true>;
+    concerts: ConcertsSelect<false> | ConcertsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -182,60 +184,6 @@ export interface Partner {
   logo: string | Media;
   websiteUrl?: string | null;
   isActive?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "concerts".
- */
-export interface Concert {
-  id: string;
-  title: string;
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  photo: string | Media;
-  pdf?: string | null;
-  repertoire: {
-    composer: string;
-    workTitle: string;
-    soloist?: string | null;
-    movements?: string | null;
-    id?: string | null;
-  }[];
-  performances: {
-    dateTime: string;
-    venue?: string | null;
-    venueAddress: string;
-    bookingUrl: string;
-    price: string;
-    id?: string | null;
-  }[];
-  photo_links?:
-    | {
-        link?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  video_links?:
-    | {
-        link?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -346,6 +294,95 @@ export interface Link {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "concerts".
+ */
+export interface Concert {
+  id: string;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  photo: string | Media;
+  pdf?: string | null;
+  repertoire: {
+    composer: string;
+    workTitle: string;
+    soloist?: string | null;
+    movements?: string | null;
+    id?: string | null;
+  }[];
+  performances: {
+    dateTime: string;
+    venue?: string | null;
+    venueAddress: string;
+    bookingUrl: string;
+    price: string;
+    id?: string | null;
+  }[];
+  photo_links?:
+    | {
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  video_links?:
+    | {
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  slug?: string | null;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  photos?:
+    | {
+        photo?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
+  author?: string | null;
+  publishedDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -368,7 +405,7 @@ export interface PayloadKv {
 export interface PayloadLockedDocument {
   id: string;
   document?:
-      | ({
+    | ({
         relationTo: 'users';
         value: string | User;
       } | null)
@@ -381,10 +418,6 @@ export interface PayloadLockedDocument {
         value: string | Partner;
       } | null)
     | ({
-        relationTo: 'concerts';
-        value: string | Concert;
-      } | null)
-    | ({
         relationTo: 'pages';
         value: string | Page;
       } | null)
@@ -395,6 +428,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'links';
         value: string | Link;
+      } | null)
+    | ({
+        relationTo: 'concerts';
+        value: string | Concert;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: string | Post;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -493,49 +534,6 @@ export interface PartnersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "concerts_select".
- */
-export interface ConcertsSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  photo?: T;
-  pdf?: T;
-  repertoire?:
-    | T
-    | {
-        composer?: T;
-        workTitle?: T;
-        soloist?: T;
-        movements?: T;
-        id?: T;
-      };
-  performances?:
-    | T
-    | {
-        dateTime?: T;
-        venue?: T;
-        venueAddress?: T;
-        bookingUrl?: T;
-        price?: T;
-        id?: T;
-      };
-  photo_links?:
-    | T
-    | {
-        link?: T;
-        id?: T;
-      };
-  video_links?:
-    | T
-    | {
-        link?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
@@ -612,6 +610,69 @@ export interface LinksSelect<T extends boolean = true> {
   embedLink?: T;
   publicLink?: T;
   icalLink?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "concerts_select".
+ */
+export interface ConcertsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  photo?: T;
+  pdf?: T;
+  repertoire?:
+    | T
+    | {
+        composer?: T;
+        workTitle?: T;
+        soloist?: T;
+        movements?: T;
+        id?: T;
+      };
+  performances?:
+    | T
+    | {
+        dateTime?: T;
+        venue?: T;
+        venueAddress?: T;
+        bookingUrl?: T;
+        price?: T;
+        id?: T;
+      };
+  photo_links?:
+    | T
+    | {
+        link?: T;
+        id?: T;
+      };
+  video_links?:
+    | T
+    | {
+        link?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  photos?:
+    | T
+    | {
+        photo?: T;
+        id?: T;
+      };
+  category?: T;
+  author?: T;
+  publishedDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
