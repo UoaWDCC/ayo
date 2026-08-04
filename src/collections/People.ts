@@ -7,6 +7,10 @@ export const People: CollectionConfig = {
             name: 'name',
             type: 'text',
             required: true
+        },
+        {
+            name: 'role',
+            type: 'text'
         }
-        ]
+    ]
 }
