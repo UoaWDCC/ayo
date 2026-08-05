@@ -1,4 +1,5 @@
 import MyAYOCopyLink from '../components/MyAYOCopyLink'
+import NavBar from '../components/NavBar'
 import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -41,6 +42,7 @@ export default async function MyAyoPage() {
   if (!hasAccess) {
     return (
       <main>
+        <NavBar />
         <form action={checkPassword}>
           <input type="password" name="password" placeholder="Enter password" required />
           <button type="submit">Submit</button>
@@ -51,6 +53,7 @@ export default async function MyAyoPage() {
 
   return (
     <main>
+      <NavBar />
       <iframe src={calendarEmbed} className="ml-30 border: 0" width="800" height="600"></iframe>
       <div className="flex">
         <a href={calendarUrl} className="p-3 ml-30 border-black border-2 rounded-md">
