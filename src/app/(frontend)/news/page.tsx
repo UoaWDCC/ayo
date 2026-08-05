@@ -28,7 +28,7 @@ const news = [
   },
   {
     id: 3,
-    type: 'Newsletter',
+    type: 'Story',
     title: 'AYO Newsletter - May, 2026',
     publishLabel: 'Sun. 21 June',
     publishDate: '2026-05-20T23:59:00+12:00',
@@ -36,6 +36,39 @@ const news = [
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
     linkUrl: '#',
     author: 'Mary Lin',
+  },
+  {
+    id: 4,
+    type: 'Newsletter',
+    title: 'AYO Newsletter - May, 2026',
+    publishLabel: 'Sun. 21 June',
+    publishDate: '2026-05-20T23:59:00+12:00',
+    description:
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
+    linkUrl: '#',
+    author: 'Howard Lu',
+  },
+  {
+    id: 5,
+    type: 'Story',
+    title: 'AYO Story - June, 2025',
+    publishLabel: 'Sun. 21 June',
+    publishDate: '2026-05-20T23:59:00+12:00',
+    description:
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
+    linkUrl: '#',
+    author: 'Howard Lu',
+  },
+  {
+    id: 6,
+    type: 'Story',
+    title: 'AYO Story - July, 2025',
+    publishLabel: 'Sun. 21 June',
+    publishDate: '2026-05-20T23:59:00+12:00',
+    description:
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
+    linkUrl: '#',
+    author: 'Howard Lu',
   },
 ]
 
@@ -50,7 +83,7 @@ export default function newsPage() {
 
   // Filter News
   const filteredNews =
-    selectedType === 'All' ? news : news.filter((opp) => opp.type === selectedType)
+    selectedType === 'All' ? news : news.filter((news) => news.type === selectedType)
 
   // Sort News
   const sortedNews = useMemo(() => {
@@ -131,7 +164,19 @@ export default function newsPage() {
 
         {/* Table */}
         <div>
-          <NewsCard />
+          <div className="w-full flex flex-wrap">
+            {filteredNews.map((article, index) => (
+              <div key={article.id}>
+                <NewsCard
+                  title={article.title}
+                  date={article.publishLabel}
+                  description={article.description}
+                  type={article.type}
+                  author={article.author}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Pagination */}

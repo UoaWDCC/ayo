@@ -1,16 +1,31 @@
 import React from 'react'
 import Image from 'next/image'
-const NewsCard = () => {
+
+interface NewsCardProps {
+  title: string
+  date: string
+  description: string
+  type: string
+  author: string
+}
+
+const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => {
   return (
-    <div className="mt-5">
+    <div className="ml-20 mt-15 w-110">
       <Image
         alt="placeholder"
         src="/hero-placeholder.jpg"
         className="flex"
-        width="400"
+        width="450"
         height="400"
       />
-      <h1 className="font-semibold text-2xl mt-5">AYO Newsletter - July, 2026</h1>
+      <h1 className="font-semibold text-3xl mt-5">{title}</h1>
+      <p className="mt-4 text-black/50"> {date} </p>
+      <p className="mt-4 italic">{description}</p>
+      <p className="mt-4 underline"> Read More</p>
+      <p className="mt-4 text-xs uppercase font-semibold">
+        {type} • {author}
+      </p>
     </div>
   )
 }
