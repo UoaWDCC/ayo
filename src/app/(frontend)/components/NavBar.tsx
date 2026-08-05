@@ -27,6 +27,9 @@ export default function Header() {
           <Link href="/support-us" className="hover:opacity-70">
             SUPPORT US
           </Link>
+          <Link href="/contact-us" className="hover:opacity-70">
+            CONTACT US
+          </Link>
         </nav>
       </div>
     </header>
