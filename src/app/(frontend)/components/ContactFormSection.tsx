@@ -10,7 +10,7 @@ export default function ContactFormSection() {
         <div className="flex flex-col justify-between gap-20">
           <div>
             <h2 className="text-[30px] font-semibold leading-tight">
-              Still can't find your answer?
+              Still can&apos;t find your answer?
             </h2>
             <p className="mt-6 max-w-[260px] text-[21px] leading-[1.08]">
               Let us know via our contact form.
