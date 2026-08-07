@@ -50,7 +50,7 @@ const AboutUsQuoteVideo = ({
       rel="noopener noreferrer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="group relative block aspect-video w-full overflow-hidden"
+      className="group relative block aspect-[16/6] w-full overflow-hidden"
       aria-label="Watch the full AYO performance video on YouTube"
     >
       {/* PLACEHOLDER */}
@@ -77,10 +77,10 @@ const AboutUsQuoteVideo = ({
         <div className="absolute inset-0 bg-neutral-800" />
       )}
 
-      <div className="absolute inset-0 bg-black/50 transition-colors duration-300 group-hover:bg-black/35" />
+      <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-black/10" />
 
-      <div className="relative z-10 flex h-full items-center justify-center px-6 md:px-20">
-        <p className="max-w-2xl text-center text-white text-xl md:text-2xl leading-miniheader">
+      <div className="relative z-10 flex h-full items-end justify-end p-6 md:p-10">
+        <p className="w-full md:w-1/3 text-right text-white text-2xl md:text-3xl leading-snug">
           &ldquo;{quote}&rdquo;
         </p>
       </div>
