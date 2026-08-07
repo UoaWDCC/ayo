@@ -4,23 +4,18 @@ import { useRef } from 'react'
 
 type AboutUsQuoteVideoProps = {
   quote: string
-  /** Still frame shown before hover / while the video is unavailable. */
+  /** still frame shows before hover. */
   posterImage?: string
-  /** Short muted clip that plays on hover. Optional — falls back to a static poster if omitted. */
+  /** gif that plays on hover. goes back to a static poster if you go off */
   videoSrc?: string
-  /** Full performance video the block links out to on click. */
+  /** full performance video the block links out to after clicking */
   youtubeUrl: string
 }
 
 /**
  * Hover-to-preview quote block for the About Us page.
- *
- * - Hover: plays `videoSrc` muted/looped behind the quote (if provided).
- * - Click: opens `youtubeUrl` in a new tab.
- *
- * TODO(design): swap `posterImage` / `videoSrc` for the real AYO performance
- * assets once they're available. Until then this renders a dark placeholder
- * block so the layout can be reviewed as-is.
+ * TODO: swap `posterImage` / `videoSrc` later
+ * temporary dark placeholder
  */
 const AboutUsQuoteVideo = ({
   quote,
@@ -31,9 +26,7 @@ const AboutUsQuoteVideo = ({
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const handleMouseEnter = () => {
-    videoRef.current?.play().catch(() => {
-      // Autoplay can be blocked in some browsers — safe to ignore, poster still shows.
-    })
+    videoRef.current?.play().catch(() => {})
   }
 
   const handleMouseLeave = () => {

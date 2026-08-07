@@ -29,8 +29,8 @@ const AboutUsSection = () => {
       <div className="w-full mt-10">
         <AboutUsQuoteVideo
           quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
-          // posterImage="/about-us-quote-poster.jpg" // TODO: add still frame
-          // videoSrc="/about-us-quote-preview.mp4"   // TODO: add hover clip
+          // posterImage="/about-us-quote-poster.jpg" //
+          // videoSrc="/about-us-quote-preview.mp4"   //
           youtubeUrl="https://www.youtube.com/@aucklandyouthorchestra" // TODO: confirm channel/video URL
         />
       </div>
@@ -38,16 +38,16 @@ const AboutUsSection = () => {
       {/* Reach & alumni copy */}
       <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-16 md:py-24">
         <p className="text-body leading-body text-gray-600">
-          AYO performs widely, across Tāmaki Makaurau and beyond. We&rsquo;ve taken our sound to
-          Australia and the Pacific, North America, and Europe, and have built an international
-          reputation as a world-class youth orchestra.
+          AYO performs widely, across Tāmaki Makaurau and beyond. We've taken our sound to Australia
+          and the Pacific, North America, and Europe, and have built an international reputation as
+          a world-class youth orchestra.
         </p>
 
         <p className="text-body leading-body text-gray-600 mt-5">
-          Our players do far more than master performance &mdash; they discover how to lead with
-          courage, organise with precision, and support each other under pressure. Many go on to
-          professional orchestras around the world. Others take that same discipline into business,
-          science, public life, and beyond.
+          Our players do far more than master performance - they discover how to lead with courage,
+          organise with precision, and support each other under pressure. Many go on to professional
+          orchestras around the world. Others take that same discipline into business, science,
+          public life, and beyond.
         </p>
 
         <p className="text-body leading-body text-gray-600 mt-5">
