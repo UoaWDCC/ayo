@@ -71,7 +71,14 @@ export default async function MyAyoPage({
                 required
                 className="w-full border-0 border-b border-black bg-transparent text-base font-normal text-black placeholder-black pb-2 focus:outline-none"
               />
-              <div className="flex w-full items-center justify-end mt-4">
+              <div className="flex w-full items-center justify-between mt-4">
+                {error ? (
+                  <p className="italic font-semibold text-[15px] text-black">
+                    Password is incorrect.
+                  </p>
+                ) : (
+                  <span />
+                )}
                 <button
                   type="submit"
                   className="bg-black text-white font-semibold text-[15px] px-6 py-2"
