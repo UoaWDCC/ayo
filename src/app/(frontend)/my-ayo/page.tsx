@@ -98,8 +98,6 @@ export default async function MyAyoPage({
   return (
     <main>
       <NavBar />
-      <Resources />
-      <Links />
       <iframe src={calendarEmbed} className="ml-30 border: 0" width="800" height="600"></iframe>
       <div className="flex">
         <a href={calendarUrl} className="p-3 ml-30 border-black border-2 rounded-md">
@@ -110,6 +108,8 @@ export default async function MyAyoPage({
         </a>
         <MyAYOCopyLink copyLink={calendarICal} />
       </div>
+      <Resources />
+      <Links />
     </main>
   )
 }
