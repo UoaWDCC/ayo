@@ -52,7 +52,7 @@ export default async function MyAyoPage({
     const { error } = await searchParams
     return (
       <main className="min-h-screen flex flex-col">
-        <NavBar />
+        <NavBar variant="dark" />
         <div className="relative bg-white flex-1 flex flex-col px-6 sm:px-12 lg:px-24">
           <div className="mt-auto flex flex-col md:flex-row md:items-end md:justify-between gap-8 pb-16 md:pb-24">
             <h1 className="font-bold text-black leading-none">
