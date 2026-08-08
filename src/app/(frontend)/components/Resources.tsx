@@ -6,45 +6,79 @@ type Resource = {
   name: string
   date: string
   href: string
+  type: string
 }
 
 const RESOURCES: Resource[] = [
-  { name: 'AYO_Player_Handbook.pdf', date: '27/06/2026', href: '/sample.pdf' },
-  { name: 'AYO_Rehearsal_Schedule.pdf', date: '07/06/2026', href: '/sample.pdf' },
-  { name: 'AYO_Concert_Calendar.pdf', date: '18/04/2026', href: '/sample.pdf' },
-  { name: 'AYO_Rehearsal_Etiquette.pdf', date: '28/03/2026', href: '/sample.pdf' },
-  { name: 'AYO_Attendance_Policy.pdf', date: '17/03/2026', href: '/sample.pdf' },
-  { name: 'AYO_Health_and_Safety_Guide.pdf', date: '05/03/2026', href: '/sample.pdf' },
-  { name: 'AYO_Audition_Information.pdf', date: '05/03/2026', href: '/sample.pdf' },
-  { name: 'AYO_Contact_Directory.pdf', date: '28/02/2026', href: '/sample.pdf' },
+  { name: 'AYO_Player_Handbook.pdf', date: '27/06/2026', href: '/sample.pdf', type: 'Handbook' },
+  { name: 'AYO_Rehearsal_Schedule.pdf', date: '07/06/2026', href: '/sample.pdf', type: 'Schedule' },
+  { name: 'AYO_Concert_Calendar.pdf', date: '18/04/2026', href: '/sample.pdf', type: 'Schedule' },
+  { name: 'AYO_Rehearsal_Etiquette.pdf', date: '28/03/2026', href: '/sample.pdf', type: 'Policy' },
+  { name: 'AYO_Attendance_Policy.pdf', date: '17/03/2026', href: '/sample.pdf', type: 'Policy' },
+  {
+    name: 'AYO_Health_and_Safety_Guide.pdf',
+    date: '05/03/2026',
+    href: '/sample.pdf',
+    type: 'Guide',
+  },
+  { name: 'AYO_Audition_Information.pdf', date: '05/03/2026', href: '/sample.pdf', type: 'Guide' },
+  { name: 'AYO_Contact_Directory.pdf', date: '28/02/2026', href: '/sample.pdf', type: 'Directory' },
 ]
+
+const TYPES = ['All', 'Handbook', 'Schedule', 'Policy', 'Guide', 'Directory']
 
 const PAGE_SIZE = 5
 
 export default function ResourcesSection() {
   const [query, setQuery] = useState('')
+  const [type, setType] = useState('All')
   const [page, setPage] = useState(0)
 
-  const filtered = RESOURCES.filter((r) => r.name.toLowerCase().includes(query.toLowerCase()))
+  const filtered = RESOURCES.filter(
+    (r) =>
+      r.name.toLowerCase().includes(query.toLowerCase()) && (type === 'All' || r.type === type),
+  )
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const pageItems = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
 
   return (
     <section className="px-6 sm:px-12 lg:px-24 py-12">
-      <h2 className="font-semibold text-3xl sm:text-4xl text-black mb-8">Resources</h2>
+      <h2 className="font-semibold text-3xl sm:text-4xl text-black mb-6">Resources</h2>
 
-      <div className="flex flex-col w-full sm:max-w-sm mb-6">
-        <input
-          type="text"
-          placeholder="Search"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value)
-            setPage(0)
-          }}
-          className="w-full border-0 border-b border-black bg-transparent text-sm text-black placeholder-black pb-1 focus:outline-none"
-        />
+      <div className="flex flex-wrap items-center gap-6 sm:gap-10 mb-2">
+        <div className="flex flex-col w-full sm:w-auto sm:flex-1 sm:max-w-sm">
+          <input
+            type="text"
+            placeholder="Search"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setPage(0)
+            }}
+            className="w-full border-0 border-b border-black bg-transparent text-sm text-black placeholder-black pb-1 focus:outline-none"
+          />
+        </div>
+        <div className="flex items-center gap-2 text-sm text-[#B2B2B2]">
+          <span>Type</span>
+          <select
+            value={type}
+            onChange={(e) => {
+              setType(e.target.value)
+              setPage(0)
+            }}
+            className="font-bold text-black bg-transparent focus:outline-none cursor-pointer appearance-none pr-1"
+          >
+            {TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
+        <span className="text-sm text-[#B2B2B2] italic sm:ml-auto">
+          Showing {filtered.length} document{filtered.length === 1 ? '' : 's'}
+        </span>
       </div>
 
       <div className="border-t border-[#EBEBEB]">
@@ -54,7 +88,7 @@ export default function ResourcesSection() {
             href={resource.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between border-b border-[#EBEBEB] py-4 group"
+            className="flex items-center justify-between border-b border-[#EBEBEB] py-3 group"
           >
             <span className="flex items-center gap-2 text-sm text-black underline">
               {resource.name}
@@ -84,23 +118,25 @@ export default function ResourcesSection() {
       )}
 
       <div className="flex items-center justify-between pt-4 text-sm">
-        <button
-          onClick={() => setPage((p) => Math.max(0, p - 1))}
-          disabled={page === 0}
-          className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          Previous
-        </button>
-        <span className="text-black">
+        <div className="flex gap-6">
+          <button
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            disabled={page === 0}
+            className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+            disabled={page >= totalPages - 1}
+            className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
+        <span className="text-[#B2B2B2]">
           {page + 1} of {totalPages}
         </span>
-        <button
-          onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-          disabled={page >= totalPages - 1}
-          className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          Next
-        </button>
       </div>
     </section>
   )
