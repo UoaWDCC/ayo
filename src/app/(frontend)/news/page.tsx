@@ -64,7 +64,7 @@ const news = [
     type: 'Story',
     title: 'AYO Story - July, 2025',
     publishLabel: 'Sun. 21 June',
-    publishDate: '2026-05-20T23:59:00+12:00',
+    publishDate: '2025-06-20T23:59:00+12:00',
     description:
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
     linkUrl: '#',
@@ -72,18 +72,49 @@ const news = [
   },
 ]
 
+const months = [
+  'All',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
+
 export default function newsPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [selectedType, setSelectedType] = useState('All')
+  const [selectedYear, setSelectedYear] = useState('All')
+  const [selectedMonth, setSelectedMonth] = useState('All')
   const [showCount, setShowCount] = useState(5)
   const [currentPage, setCurrentPage] = useState(1)
 
   // Dynamically generate available types
   const newsTypes = ['All', ...new Set(news.map((news) => news.type))]
+  const years = [
+    'All',
+    ...new Set(news.map((news) => new Date(news.publishDate).getFullYear().toString())),
+  ]
 
   // Filter News
-  const filteredNews =
-    selectedType === 'All' ? news : news.filter((news) => news.type === selectedType)
+  const filteredNews = news.filter((article) => {
+    const date = new Date(article.publishDate)
+    const articleYear = date.getFullYear().toString()
+    const articleMonth = months[date.getMonth() + 1]
+
+    const typeMatch = selectedType === 'All' || article.type === selectedType
+    const yearMatch = selectedYear === 'All' || articleYear === selectedYear
+    const monthMatch = selectedMonth === 'All' || articleMonth === selectedMonth
+
+    return typeMatch && yearMatch && monthMatch
+  })
 
   // Sort News
   const sortedNews = useMemo(() => {
@@ -97,7 +128,7 @@ export default function newsPage() {
   // Reset page when controls change
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedType, sortOrder, showCount])
+  }, [selectedType, selectedYear, selectedMonth, sortOrder, showCount])
 
   // Pagination
   const totalPages = Math.ceil(sortedNews.length / showCount)
@@ -116,11 +147,15 @@ export default function newsPage() {
             <label className="text-[#B2B2B2]">Year</label>
 
             <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
               className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
             >
-              <option>2026</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -128,8 +163,16 @@ export default function newsPage() {
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Month</label>
 
-            <select className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4">
-              <option value="asc">June</option>
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
+            >
+              {months.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
             </select>
           </div>
 
