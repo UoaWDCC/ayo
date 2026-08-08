@@ -53,10 +53,30 @@ export default async function MyAyoPage({
     return (
       <main>
         <NavBar />
-        <form action={checkPassword}>
-          <input type="password" name="password" placeholder="Enter password" required />
-          <button type="submit">Submit</button>
-        </form>
+        <div className="relative bg-white flex-1 flex flex-col px-6 sm:px-12 lg:px-24">
+          <div className="mt-auto flex flex-col md:flex-row md:items-end md:justify-between gap-8 pb-16 md:pb-24">
+            <h1 className="font-bold text-black leading-none">
+              <span className="block text-4xl sm:text-5xl lg:text-6xl leading-none">My</span>
+              <span className="block text-7xl sm:text-8xl lg:text-9xl leading-none">AYO</span>
+            </h1>
+
+            <form
+              action={checkPassword}
+              className="flex flex-col items-start w-full md:w-auto md:max-w-md lg:max-w-lg"
+            >
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                className="w-full border-0 border-b border-black bg-transparent text-base font-normal text-black placeholder-black pb-2 focus:outline-none"
+              />
+              <button type="submit" className="mt-4">
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
       </main>
     )
   }
