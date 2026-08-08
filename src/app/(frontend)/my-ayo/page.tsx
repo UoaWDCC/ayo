@@ -51,7 +51,7 @@ export default async function MyAyoPage({
   if (!hasAccess) {
     const { error } = await searchParams
     return (
-      <main>
+      <main className="min-h-screen flex flex-col">
         <NavBar />
         <div className="relative bg-white flex-1 flex flex-col px-6 sm:px-12 lg:px-24">
           <div className="mt-auto flex flex-col md:flex-row md:items-end md:justify-between gap-8 pb-16 md:pb-24">
@@ -62,7 +62,7 @@ export default async function MyAyoPage({
 
             <form
               action={checkPassword}
-              className="flex flex-col items-start w-full md:w-auto md:max-w-md lg:max-w-lg"
+              className="flex flex-col items-start w-full md:w-96 lg:w-[420px]"
             >
               <input
                 type="password"
