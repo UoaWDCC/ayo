@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar'
 import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,6 +15,7 @@ async function checkPassword(formData: FormData) {
     collection: 'passwords',
   })
   const correctPasswords = docs.map((doc) => doc.password)
+
   if (password && correctPasswords.includes(password as string)) {
     const cookieStore = await cookies()
     cookieStore.set('my-ayo-access', 'granted', {
@@ -21,10 +23,17 @@ async function checkPassword(formData: FormData) {
       path: '/my-ayo',
       maxAge: 60 * 60 * 24 * 7,
     })
+    redirect('/my-ayo')
   }
+
+  redirect('/my-ayo?error=1')
 }
 
-export default async function MyAyoPage() {
+export default async function MyAyoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>
+}) {
   const payload = await getPayload({ config })
 
   const linkResult = await payload.find({
@@ -40,6 +49,7 @@ export default async function MyAyoPage() {
   const cookieStore = await cookies()
   const hasAccess = cookieStore.get('my-ayo-access')?.value === 'granted'
   if (!hasAccess) {
+    const { error } = await searchParams
     return (
       <main>
         <NavBar />
