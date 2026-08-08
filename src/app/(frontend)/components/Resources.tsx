@@ -43,7 +43,7 @@ export default function ResourcesSection() {
   const pageItems = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
 
   return (
-    <section className="px-6 sm:px-12 lg:px-16 py-12">
+    <section className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-12 pb-[64px]">
       <h2 className="font-semibold text-[40px] leading-[48px] text-black mb-[22px]">Resources</h2>
 
       <div className="flex flex-wrap items-center gap-6 sm:gap-10 mb-8">

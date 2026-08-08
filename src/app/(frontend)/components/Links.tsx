@@ -10,7 +10,7 @@ const LINKS: LinkItem[] = [
 
 export default function LinksSection() {
   return (
-    <section className="px-6 sm:px-12 lg:px-16 py-12">
+    <section className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-12 pb-[64px]">
       <h2 className="font-semibold text-[40px] leading-[48px] text-black mb-[22px]">Links</h2>
 
       <div className="border-t border-[#EBEBEB]">
