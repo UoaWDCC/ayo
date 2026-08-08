@@ -22,7 +22,9 @@ const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => 
       <h1 className="font-semibold text-3xl mt-5">{title}</h1>
       <p className="mt-4 text-black/50"> {date} </p>
       <p className="mt-4 italic">{description}</p>
-      <p className="mt-4 underline"> Read More</p>
+      <p className="mt-4 flex">
+        <span className="underline">Read More </span> &nbsp;↗
+      </p>
       <p className="mt-4 text-xs uppercase font-semibold">
         {type} • {author}
       </p>

@@ -70,6 +70,50 @@ const news = [
     linkUrl: '#',
     author: 'Howard Lu',
   },
+  {
+    id: 7,
+    type: 'Scholarship Updates',
+    title: 'AYO Story - July, 2025',
+    publishLabel: 'Sun. 21 June',
+    publishDate: '2025-06-20T23:59:00+12:00',
+    description:
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
+    linkUrl: '#',
+    author: 'Howard Lu',
+  },
+  {
+    id: 8,
+    type: 'Photo Essays',
+    title: 'AYO Photo Essay - July, 2025',
+    publishLabel: 'Sun. 21 June',
+    publishDate: '2025-06-20T23:59:00+12:00',
+    description:
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
+    linkUrl: '#',
+    author: 'Howard Lu',
+  },
+  {
+    id: 9,
+    type: 'Alumni News',
+    title: 'AYO Alumni News - July, 2025',
+    publishLabel: 'Sun. 21 June',
+    publishDate: '2025-06-20T23:59:00+12:00',
+    description:
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
+    linkUrl: '#',
+    author: 'Howard Lu',
+  },
+  {
+    id: 10,
+    type: 'Story',
+    title: 'AYO Story - August, 2026',
+    publishLabel: 'Sun. 21 August',
+    publishDate: '2026-08-21T23:59:00+12:00',
+    description:
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Sejourne, bringing together tradition and contemporary sound in one performance.',
+    linkUrl: '#',
+    author: 'Howard Lu',
+  },
 ]
 
 const months = [
@@ -89,11 +133,10 @@ const months = [
 ]
 
 export default function newsPage() {
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [selectedType, setSelectedType] = useState('All')
   const [selectedYear, setSelectedYear] = useState('All')
   const [selectedMonth, setSelectedMonth] = useState('All')
-  const [showCount, setShowCount] = useState(5)
+  const [showCount, setShowCount] = useState(6)
   const [currentPage, setCurrentPage] = useState(1)
 
   // Dynamically generate available types
@@ -118,17 +161,15 @@ export default function newsPage() {
 
   // Sort News
   const sortedNews = useMemo(() => {
-    return [...filteredNews].sort((a, b) => {
-      return sortOrder === 'asc'
-        ? new Date(a.publishDate).getTime() - new Date(b.publishDate).getTime()
-        : new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
-    })
-  }, [filteredNews, sortOrder])
+    return [...filteredNews].sort(
+      (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+    )
+  }, [filteredNews])
 
   // Reset page when controls change
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedType, selectedYear, selectedMonth, sortOrder, showCount])
+  }, [selectedType, selectedYear, selectedMonth, showCount])
 
   // Pagination
   const totalPages = Math.ceil(sortedNews.length / showCount)
@@ -197,8 +238,15 @@ export default function newsPage() {
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Show</label>
 
-            <select className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4">
-              <option>5</option>
+            <select
+              value={showCount}
+              onChange={(e) => setShowCount(Number(e.target.value))}
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
+            >
+              <option>6</option>
+              <option>12</option>
+              <option>18</option>
+              <option>24</option>
             </select>
           </div>
         </div>
@@ -208,7 +256,7 @@ export default function newsPage() {
         {/* Table */}
         <div>
           <div className="w-full flex flex-wrap">
-            {filteredNews.map((article, index) => (
+            {paginatedNews.map((article, index) => (
               <div key={article.id}>
                 <NewsCard
                   title={article.title}
