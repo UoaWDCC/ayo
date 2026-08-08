@@ -1,3 +1,7 @@
+'use client'
+
+import { useState } from 'react'
+
 type Resource = {
   name: string
   date: string
@@ -15,13 +19,20 @@ const RESOURCES: Resource[] = [
   { name: 'AYO_Contact_Directory.pdf', date: '28/02/2026', href: '/sample.pdf' },
 ]
 
+const PAGE_SIZE = 5
+
 export default function ResourcesSection() {
+  const [page, setPage] = useState(0)
+
+  const totalPages = Math.max(1, Math.ceil(RESOURCES.length / PAGE_SIZE))
+  const pageItems = RESOURCES.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
+
   return (
     <section className="px-6 sm:px-12 lg:px-24 py-12">
       <h2 className="font-semibold text-3xl sm:text-4xl text-black mb-8">Resources</h2>
 
       <div className="border-t border-[#EBEBEB]">
-        {RESOURCES.map((resource) => (
+        {pageItems.map((resource) => (
           <a
             key={resource.name}
             href={resource.href}
@@ -50,6 +61,26 @@ export default function ResourcesSection() {
             <span className="text-xs text-[#858585]">{resource.date}</span>
           </a>
         ))}
+      </div>
+
+      <div className="flex items-center justify-between pt-4 text-sm">
+        <button
+          onClick={() => setPage((p) => Math.max(0, p - 1))}
+          disabled={page === 0}
+          className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Previous
+        </button>
+        <span className="text-black">
+          {page + 1} of {totalPages}
+        </span>
+        <button
+          onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+          disabled={page >= totalPages - 1}
+          className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Next
+        </button>
       </div>
     </section>
   )
