@@ -71,9 +71,14 @@ export default async function MyAyoPage({
                 required
                 className="w-full border-0 border-b border-black bg-transparent text-base font-normal text-black placeholder-black pb-2 focus:outline-none"
               />
-              <button type="submit" className="mt-4">
-                Submit
-              </button>
+              <div className="flex w-full items-center justify-end mt-4">
+                <button
+                  type="submit"
+                  className="bg-black text-white font-semibold text-[15px] px-6 py-2"
+                >
+                  Submit
+                </button>
+              </div>
             </form>
           </div>
         </div>
