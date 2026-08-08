@@ -22,14 +22,30 @@ const RESOURCES: Resource[] = [
 const PAGE_SIZE = 5
 
 export default function ResourcesSection() {
+  const [query, setQuery] = useState('')
   const [page, setPage] = useState(0)
 
-  const totalPages = Math.max(1, Math.ceil(RESOURCES.length / PAGE_SIZE))
-  const pageItems = RESOURCES.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
+  const filtered = RESOURCES.filter((r) => r.name.toLowerCase().includes(query.toLowerCase()))
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const pageItems = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
 
   return (
     <section className="px-6 sm:px-12 lg:px-24 py-12">
       <h2 className="font-semibold text-3xl sm:text-4xl text-black mb-8">Resources</h2>
+
+      <div className="flex flex-col w-full sm:max-w-sm mb-6">
+        <input
+          type="text"
+          placeholder="Search"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setPage(0)
+          }}
+          className="w-full border-0 border-b border-black bg-transparent text-sm text-black placeholder-black pb-1 focus:outline-none"
+        />
+      </div>
 
       <div className="border-t border-[#EBEBEB]">
         {pageItems.map((resource) => (
@@ -62,6 +78,10 @@ export default function ResourcesSection() {
           </a>
         ))}
       </div>
+
+      {filtered.length === 0 && (
+        <p className="py-6 text-sm text-[#B2B2B2]">No documents match your search.</p>
+      )}
 
       <div className="flex items-center justify-between pt-4 text-sm">
         <button
