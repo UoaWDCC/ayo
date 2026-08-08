@@ -77,7 +77,7 @@ export default function ResourcesSection() {
           </select>
         </div>
         <span className="text-[15px] leading-[18px] text-[#B7B7B7] italic sm:ml-auto">
-          Showing {filtered.length} document{filtered.length === 1 ? '' : 's'}
+          Showing {pageItems.length} document{pageItems.length === 1 ? '' : 's'}
         </span>
       </div>
 
