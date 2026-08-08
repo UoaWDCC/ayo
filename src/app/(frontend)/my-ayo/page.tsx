@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { redirect } from 'next/navigation'
 import Resources from '../components/Resources'
+import Links from '../components/Links'
 
 export const dynamic = 'force-dynamic'
 
@@ -98,6 +99,7 @@ export default async function MyAyoPage({
     <main>
       <NavBar />
       <Resources />
+      <Links />
       <iframe src={calendarEmbed} className="ml-30 border: 0" width="800" height="600"></iframe>
       <div className="flex">
         <a href={calendarUrl} className="p-3 ml-30 border-black border-2 rounded-md">
