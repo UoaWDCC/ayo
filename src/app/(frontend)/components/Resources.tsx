@@ -43,10 +43,10 @@ export default function ResourcesSection() {
   const pageItems = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
 
   return (
-    <section className="px-6 sm:px-12 lg:px-24 py-12">
-      <h2 className="font-semibold text-3xl sm:text-4xl text-black mb-6">Resources</h2>
+    <section className="px-6 sm:px-12 lg:px-16 py-12">
+      <h2 className="font-semibold text-[40px] leading-[48px] text-black mb-[22px]">Resources</h2>
 
-      <div className="flex flex-wrap items-center gap-6 sm:gap-10 mb-2">
+      <div className="flex flex-wrap items-center gap-6 sm:gap-10 mb-8">
         <div className="flex flex-col w-full sm:w-auto sm:flex-1 sm:max-w-sm">
           <input
             type="text"
@@ -56,18 +56,18 @@ export default function ResourcesSection() {
               setQuery(e.target.value)
               setPage(0)
             }}
-            className="w-full border-0 border-b border-black bg-transparent text-sm text-black placeholder-black pb-1 focus:outline-none"
+            className="w-full border-0 border-b border-black bg-transparent text-[15px] leading-[18px] text-black placeholder-black pb-2 focus:outline-none"
           />
         </div>
-        <div className="flex items-center gap-2 text-sm text-[#B2B2B2]">
-          <span>Type</span>
+        <div className="flex items-center gap-2 text-[15px] leading-[18px]">
+          <label className="font-medium text-[#B2B2B2]">Type</label>
           <select
             value={type}
             onChange={(e) => {
               setType(e.target.value)
               setPage(0)
             }}
-            className="font-bold text-black bg-transparent focus:outline-none cursor-pointer appearance-none pr-1"
+            className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
           >
             {TYPES.map((t) => (
               <option key={t} value={t}>
@@ -76,7 +76,7 @@ export default function ResourcesSection() {
             ))}
           </select>
         </div>
-        <span className="text-sm text-[#B2B2B2] italic sm:ml-auto">
+        <span className="text-[15px] leading-[18px] text-[#B7B7B7] italic sm:ml-auto">
           Showing {filtered.length} document{filtered.length === 1 ? '' : 's'}
         </span>
       </div>
@@ -88,13 +88,13 @@ export default function ResourcesSection() {
             href={resource.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between border-b border-[#EBEBEB] py-3 group"
+            className="flex items-center justify-between border-b border-[#EBEBEB] py-4 group"
           >
-            <span className="flex items-center gap-2 text-sm text-black underline">
+            <span className="flex items-center gap-2 text-[15px] leading-[18px] text-black underline">
               {resource.name}
               <svg
-                width="10"
-                height="10"
+                width="13"
+                height="13"
                 viewBox="0 0 13 13"
                 fill="none"
                 className="rotate-180 transition-transform group-hover:rotate-0"
@@ -108,7 +108,7 @@ export default function ResourcesSection() {
                 />
               </svg>
             </span>
-            <span className="text-xs text-[#858585]">{resource.date}</span>
+            <span className="text-[13px] leading-[16px] text-[#858585]">{resource.date}</span>
           </a>
         ))}
       </div>
@@ -117,8 +117,8 @@ export default function ResourcesSection() {
         <p className="py-6 text-sm text-[#B2B2B2]">No documents match your search.</p>
       )}
 
-      <div className="flex items-center justify-between pt-4 text-sm">
-        <div className="flex gap-6">
+      <div className="flex items-center justify-between pt-8 text-[15px] leading-[18px]">
+        <div className="flex gap-12">
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
@@ -134,7 +134,7 @@ export default function ResourcesSection() {
             Next
           </button>
         </div>
-        <span className="text-[#B2B2B2]">
+        <span className="text-black">
           {page + 1} of {totalPages}
         </span>
       </div>
