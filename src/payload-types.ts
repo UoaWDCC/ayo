@@ -224,46 +224,6 @@ export interface Page {
             blockName?: string | null;
             blockType: 'rich-text';
           }
-        | {
-            title?: string | null;
-            images: {
-              image: string | Media;
-              caption?: string | null;
-              id?: string | null;
-            }[];
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'gallery';
-          }
-        | {
-            height: 'small' | 'medium' | 'large';
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'spacer';
-          }
-        | {
-            title: string;
-            description?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            buttonText: string;
-            buttonLink: string;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'cta';
-          }
       )[]
     | null;
   updatedAt: string;
@@ -553,37 +513,6 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               title?: T;
               content?: T;
-              id?: T;
-              blockName?: T;
-            };
-        gallery?:
-          | T
-          | {
-              title?: T;
-              images?:
-                | T
-                | {
-                    image?: T;
-                    caption?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        spacer?:
-          | T
-          | {
-              height?: T;
-              id?: T;
-              blockName?: T;
-            };
-        cta?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              buttonText?: T;
-              buttonLink?: T;
               id?: T;
               blockName?: T;
             };
