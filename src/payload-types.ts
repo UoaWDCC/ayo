@@ -204,7 +204,6 @@ export interface Page {
             blockType: 'hero';
           }
         | {
-            title?: string | null;
             content: {
               root: {
                 type: string;
@@ -511,7 +510,6 @@ export interface PagesSelect<T extends boolean = true> {
         'rich-text'?:
           | T
           | {
-              title?: T;
               content?: T;
               id?: T;
               blockName?: T;
