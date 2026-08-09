@@ -11,6 +11,25 @@ export const People: CollectionConfig = {
         {
             name: 'role',
             type: 'text'
+        },
+        {
+            name: 'type',
+            type: 'select',
+            required: true,
+            options: [
+                {
+                    label: 'Player',
+                    value: 'player'
+                },
+                {
+                    label: 'Team',
+                    value: 'team'
+                },
+                {
+                    label: 'Alumni',
+                    value: 'alumni'
+                }
+            ]
         }
     ]
 }
