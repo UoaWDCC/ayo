@@ -44,6 +44,11 @@ export const People: CollectionConfig = {
             name: 'photo',
             type: 'upload',
             relationTo: 'media'
+        },
+        {
+            name: 'isActive',
+            type: 'checkbox',
+            required: true
         }
     ]
 }
