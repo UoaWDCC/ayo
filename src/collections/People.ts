@@ -39,6 +39,11 @@ export const People: CollectionConfig = {
             name: 'years',
             type: 'text',
             required: true
+        },
+        {
+            name: 'photo',
+            type: 'upload',
+            relationTo: 'media'
         }
     ]
 }
