@@ -198,7 +198,6 @@ export interface Page {
   layout?:
     | (
         | {
-            title: string;
             backgroundImage: string | Media;
             id?: string | null;
             blockName?: string | null;
@@ -545,7 +544,6 @@ export interface PagesSelect<T extends boolean = true> {
         hero?:
           | T
           | {
-              title?: T;
               backgroundImage?: T;
               id?: T;
               blockName?: T;
