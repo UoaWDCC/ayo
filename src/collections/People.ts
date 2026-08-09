@@ -49,6 +49,11 @@ export const People: CollectionConfig = {
             name: 'isActive',
             type: 'checkbox',
             required: true
+        },
+        {
+            name: 'sortOrder',
+            type: 'number',
+            required: true
         }
     ]
 }
