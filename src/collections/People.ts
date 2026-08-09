@@ -30,6 +30,15 @@ export const People: CollectionConfig = {
                     value: 'alumni'
                 }
             ]
+        },
+        {
+            name: 'description',
+            type: 'text'
+        },
+        {
+            name: 'years',
+            type: 'text',
+            required: true
         }
     ]
 }
