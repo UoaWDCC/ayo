@@ -11,8 +11,6 @@ export default async function AboutUsPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = heroBlock?.title || 'About Us'
-
   const heroImage = heroBlock?.backgroundImage
 
   const heroImageUrl =
@@ -22,7 +20,7 @@ export default async function AboutUsPage() {
 
   return (
     <div>
-      <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero title="About Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       <main className="min-h-screen bg-white text-black">
         <AboutIntro />
         <Grid title="People" placeholderSubtitle="Name" />

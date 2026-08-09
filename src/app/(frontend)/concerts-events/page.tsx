@@ -9,8 +9,6 @@ export default async function ConcertsEventsPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = heroBlock?.title || 'Concerts & Events'
-
   const heroImage = heroBlock?.backgroundImage
 
   const heroImageUrl =
@@ -21,7 +19,7 @@ export default async function ConcertsEventsPage() {
   return (
     <div className="w-full h-[400px] relative">
       <div className="w-full h-[vh] relative">
-        <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+        <Hero title="Concerts & Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       </div>
       <main>This is the concerts & events page</main>
     </div>
