@@ -107,14 +107,14 @@ export default function ResourcesSection() {
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
+            className={`underline ${page === 0 ? 'text-[#B2B2B2] cursor-not-allowed' : 'text-black'}`}
           >
             Previous
           </button>
           <button
             onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
             disabled={page >= totalPages - 1}
-            className="underline text-[#B2B2B2] disabled:opacity-40 disabled:cursor-not-allowed"
+            className={`underline ${page >= totalPages - 1 ? 'text-[#B2B2B2] cursor-not-allowed' : 'text-black'}`}
           >
             Next
           </button>
