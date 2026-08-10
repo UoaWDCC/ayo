@@ -73,7 +73,7 @@ const AboutUsQuoteVideo = ({
       <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-black/10" />
 
       <div className="relative z-10 flex h-full items-end justify-end p-6 md:p-10">
-        <p className="w-full md:w-1/3 text-right text-white text-2xl md:text-3xl leading-snug">
+        <p className="w-full md:w-1/3 text-right text-white text-3xl md:text-3xl leading-snug">
           &ldquo;{quote}&rdquo;
         </p>
       </div>
