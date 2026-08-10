@@ -1,6 +1,6 @@
 import AboutIntro from '../components/AboutIntro'
 import Grid from '../components/Grid'
-
+import NewsletterSignup from '../components/Newsletter'
 export default function AboutUsPage() {
   return (
     <main className="min-h-screen bg-white text-black">
@@ -8,6 +8,7 @@ export default function AboutUsPage() {
       <Grid title="People" placeholderSubtitle="Name" />
       <Grid title="Alumni" placeholderSubtitle="Role" />
       <Grid title="Partners" placeholderSubtitle="Company" />
+      <NewsletterSignup></NewsletterSignup>
     </main>
   )
 }
