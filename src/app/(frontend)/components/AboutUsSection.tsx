@@ -1,5 +1,6 @@
 import React from 'react'
 import AboutUsQuoteVideo from './AboutUsQuoteVid'
+import Image from 'next/image'
 
 const AboutUsSection = () => {
   return (
@@ -29,9 +30,9 @@ const AboutUsSection = () => {
       <div className="w-full mt-10">
         <AboutUsQuoteVideo
           quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
-          // posterImage="/about-us-quote-poster.jpg" //
+          posterImage="/about-us-quote-poster.jpg"
           // videoSrc="/about-us-quote-preview.mp4"   //
-          youtubeUrl="https://www.youtube.com/@aucklandyouthorchestra" // TODO: confirm channel/video URL
+          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
         />
       </div>
 
@@ -57,9 +58,13 @@ const AboutUsSection = () => {
 
       {/* "Here Plays the Future" banner */}
       <div className="relative h-[320px] md:h-[420px] w-full overflow-hidden">
-        <div className="absolute inset-0 bg-neutral-800" />
-        <div className="absolute inset-0 bg-black/20" />
-
+        <Image
+          src="/about-us-quote-poster.jpg"
+          alt="Auckland Youth Orchestra performing"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full flex-col justify-center">
           <span className="ml-[25%] text-4xl sm:text-5xl md:text-6xl font-medium leading-none text-white">
             Here Plays
