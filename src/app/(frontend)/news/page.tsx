@@ -136,10 +136,14 @@ export default function newsPage() {
   const [selectedType, setSelectedType] = useState('All')
   const [selectedYear, setSelectedYear] = useState('All')
   const [selectedMonth, setSelectedMonth] = useState('All')
+
   const [showCount, setShowCount] = useState(6)
+
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Dynamically generate available types
+  const [searchInput, setSearchInput] = useState('')
+
+  // dynamically generate available types and years from articles
   const newsTypes = ['All', ...new Set(news.map((news) => news.type))]
   const years = [
     'All',
@@ -159,7 +163,7 @@ export default function newsPage() {
     return typeMatch && yearMatch && monthMatch
   })
 
-  // Sort News
+  // sort news by publish time
   const sortedNews = useMemo(() => {
     return [...filteredNews].sort(
       (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
@@ -171,17 +175,23 @@ export default function newsPage() {
     setCurrentPage(1)
   }, [selectedType, selectedYear, selectedMonth, showCount])
 
-  // Pagination
-  const totalPages = Math.ceil(sortedNews.length / showCount)
+  // searching filtered articles
+  const searchedNews = sortedNews.filter(
+    (article) =>
+      article.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+      article.description.toLowerCase().includes(searchInput.toLowerCase()),
+  )
 
-  const paginatedNews = sortedNews.slice((currentPage - 1) * showCount, currentPage * showCount)
+  // pagination for what actually shows after filtering and search
+  const totalPages = Math.ceil(sortedNews.length / showCount)
+  const paginatedNews = searchedNews.slice((currentPage - 1) * showCount, currentPage * showCount)
 
   return (
     <section className="bg-white w-full">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-[116px] pb-[64px]">
         <h2 className="font-semibold text-[40px] leading-[48px] text-black">News</h2>
 
-        {/* Controls */}
+        {/* Filter Controls */}
         <div className="flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px]">
           {/* Year */}
           <div className="flex items-center gap-2">
@@ -234,7 +244,7 @@ export default function newsPage() {
             </select>
           </div>
 
-          {/* Showing */}
+          {/* Show */}
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Show</label>
 
@@ -249,11 +259,20 @@ export default function newsPage() {
               <option>24</option>
             </select>
           </div>
+
+          {/* search bar */}
+          <div className="flex items-center gap-2 border">
+            <input
+              type="text"
+              placeholder="search..."
+              onChange={(e) => setSearchInput(e.target.value)}
+            ></input>
+          </div>
         </div>
 
         <hr className="border-[#EBEBEB] mt-6" />
 
-        {/* Table */}
+        {/* News Display */}
         <div>
           <div className="w-full flex flex-wrap">
             {paginatedNews.map((article, index) => (
