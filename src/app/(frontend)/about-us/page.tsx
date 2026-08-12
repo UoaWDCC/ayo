@@ -2,6 +2,7 @@ import React from 'react'
 import AboutIntro from '../components/AboutIntro'
 import Grid from '../components/Grid'
 import Hero from '../components/Hero'
+import NewsletterSignupDemo from '../components/Newsletter'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -26,6 +27,7 @@ export default async function AboutUsPage() {
         <Grid title="People" placeholderSubtitle="Name" />
         <Grid title="Alumni" placeholderSubtitle="Role" />
         <Grid title="Partners" placeholderSubtitle="Company" />
+        <NewsletterSignupDemo></NewsletterSignupDemo>
       </main>
     </div>
   )
