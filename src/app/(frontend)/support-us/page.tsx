@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
+import AYOSection from '../components/AYOWallSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -122,6 +123,7 @@ export default async function SupportUsPage() {
           </div>
         </div>
       </div>
+      <AYOSection></AYOSection>
     </main>
   )
 }
