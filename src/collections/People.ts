@@ -1,7 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { Roles } from './Roles'
-
 export const People: CollectionConfig = {
     slug: 'people',
 
