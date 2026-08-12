@@ -4,6 +4,11 @@ import { Roles } from './Roles'
 
 export const People: CollectionConfig = {
     slug: 'people',
+
+    admin: {
+        useAsTitle: 'name'
+    },
+
     fields: [
         {
             name: 'name',
