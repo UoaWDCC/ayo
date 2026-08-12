@@ -4,19 +4,12 @@ import { useRef } from 'react'
 
 type AboutUsQuoteVideoProps = {
   quote: string
-  /** still frame shows before hover. */
   posterImage?: string
   /** gif that plays on hover. goes back to a static poster if you go off */
   videoSrc?: string
-  /** full performance video the block links out to after clicking */
   youtubeUrl: string
 }
 
-/**
- * Hover-to-preview quote block for the About Us page.
- * TODO: swap `posterImage` / `videoSrc` later
- * temporary dark placeholder
- */
 const AboutUsQuoteVideo = ({
   quote,
   posterImage,
@@ -46,7 +39,6 @@ const AboutUsQuoteVideo = ({
       className="group relative block aspect-[16/6] w-full overflow-hidden"
       aria-label="Watch the full AYO performance video on YouTube"
     >
-      {/* PLACEHOLDER */}
       {videoSrc ? (
         <video
           ref={videoRef}
