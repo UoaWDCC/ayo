@@ -1,9 +1,26 @@
+import React from 'react'
 import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
 
-export default function SupportUsPage() {
+import { getPageBySlug } from '@/lib/getPageBySlug'
+import type { Media } from '@/payload-types'
+
+export default async function SupportUsPage() {
+  const page = await getPageBySlug('support-us')
+
+  const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
+
+  const heroTitle = heroBlock?.title || 'Support Us'
+
+  const heroImage = heroBlock?.backgroundImage
+
+  const heroImageUrl =
+    typeof heroImage === 'object' && heroImage !== null
+      ? (heroImage as Media).url
+      : '/hero-placeholder.jpg'
+
   const tierArray = [
     {
       tierName: 'Subscriber',
@@ -72,7 +89,7 @@ export default function SupportUsPage() {
   return (
     <main>
       <div className="w-full h-[vh] relative">
-        <Hero title="Support Us" backgroundImage="/hero-placeholder.jpg" />
+        <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       </div>
 
       <div className="text-black w-full">
