@@ -74,7 +74,7 @@ function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
           </button>
 
           <h2 style={styles.heading}>Newsletter</h2>
-          <p style={styles.subtext}>We're glad you want to hear about our concerts.</p>
+          <p style={styles.subtext}>We re glad you want to hear about our concerts.</p>
 
           <form onSubmit={handleSubmit} noValidate>
             <div style={styles.field}>
@@ -111,7 +111,7 @@ function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
             </div>
 
             <fieldset style={styles.fieldset}>
-              <legend style={styles.legend}>I'm a current or past player in AYO*</legend>
+              <legend style={styles.legend}>I m a current or past player in AYO*</legend>
               <p style={styles.helperText}>Select one option.</p>
 
               <div style={styles.radioGroup}>
@@ -143,7 +143,7 @@ function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
 
             <div style={styles.submitRow}>
               {status === 'success' && (
-                <p style={styles.successText}>Thank you! You'll receive an email shortly.</p>
+                <p style={styles.successText}>Thank you! You ll receive an email shortly.</p>
               )}
               <button type="submit" style={styles.button} disabled={status === 'submitting'}>
                 {status === 'submitting' ? 'Submitting…' : 'Submit'}

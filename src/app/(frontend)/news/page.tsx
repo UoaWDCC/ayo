@@ -132,7 +132,7 @@ const months = [
   'December',
 ]
 
-export default function newsPage() {
+export default function NewsPage() {
   const [selectedType, setSelectedType] = useState('All')
   const [selectedYear, setSelectedYear] = useState('All')
   const [selectedMonth, setSelectedMonth] = useState('All')
@@ -275,7 +275,7 @@ export default function newsPage() {
         {/* News Display */}
         <div>
           <div className="w-full flex flex-wrap">
-            {paginatedNews.map((article, index) => (
+            {paginatedNews.map((article) => (
               <div key={article.id}>
                 <NewsCard
                   title={article.title}
