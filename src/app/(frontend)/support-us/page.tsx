@@ -11,8 +11,6 @@ export default async function SupportUsPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = heroBlock?.title || 'Support Us'
-
   const heroImage = heroBlock?.backgroundImage
 
   const heroImageUrl =
@@ -88,7 +86,7 @@ export default async function SupportUsPage() {
   return (
     <main>
       <div className="w-full h-[vh] relative">
-        <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+        <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       </div>
 
       <div className="text-black w-full">

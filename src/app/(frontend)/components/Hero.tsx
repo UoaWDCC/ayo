@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { label: 'CONCERT & EVENTS', href: '/concerts-events' },
   { label: 'JOIN AYO', href: '/join-ayo' },
   { label: 'SUPPORT US', href: '/support-us' },
+  { label: 'CONTACT US', href: '/contact-us' },
 ]
 
 type HeroProps = {

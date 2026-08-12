@@ -12,8 +12,6 @@ export default async function LandingPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = heroBlock?.title || 'Here Plays The Future'
-
   const heroImage = heroBlock?.backgroundImage
 
   const heroImageUrl =
@@ -23,7 +21,10 @@ export default async function LandingPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero
+        title="Here Plays The Future"
+        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+      />
       <AboutIntro />
       <EventsBlock />
       <BlogsBlock />

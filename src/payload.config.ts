@@ -1,5 +1,6 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -10,6 +11,7 @@ import { Media } from './collections/Media'
 import { Partners } from './collections/Partners'
 import { Concerts } from './collections/Concerts'
 import { Pages } from './collections/Pages'
+import { Posts } from './collections/Posts'
 import { Passwords } from './collections/Passwords'
 import { CalendarLink } from './collections/CalendarLink'
 
@@ -23,7 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Partners, Pages, Passwords, CalendarLink, Concerts],
+  collections: [Users, Media, Partners, Pages, Passwords, CalendarLink, Concerts, Posts],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -33,5 +35,21 @@ export default buildConfig({
     url: process.env.DATABASE_URL || '',
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    s3Storage({
+      collections: {
+        [Media.slug]: true,
+      },
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        endpoint: process.env.S3_ENDPOINT,
+        region: process.env.S3_REGION,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+        },
+        forcePathStyle: true,
+      },
+    }),
+  ],
 })
