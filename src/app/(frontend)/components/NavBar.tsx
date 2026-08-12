@@ -1,11 +1,17 @@
 import Link from 'next/link'
 
-export default function Header() {
+type HeaderProps = {
+  variant?: 'light' | 'dark'
+}
+
+export default function Header({ variant = 'light' }: HeaderProps) {
+  const isDark = variant === 'dark'
+
   return (
-    <header className="bg-white text-black">
+    <header className={isDark ? 'bg-black text-white' : 'bg-white text-black'}>
       <div className="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-24 py-8 xl:px-28 gap-4 lg:gap-0">
         <img
-          src="/ayo-logo-black-bgwhite.png"
+          src={isDark ? '/ayo-logo-white.png' : '/ayo-logo-black-bgwhite.png'}
           alt="AYO Logo"
           className="w-36 lg:w-52 h-auto shrink-0"
         />
