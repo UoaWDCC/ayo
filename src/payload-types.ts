@@ -409,6 +409,7 @@ export interface Role {
   id: string;
   roleName: string;
   sortOrder: number;
+  displayName?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -737,6 +738,7 @@ export interface PeopleSelect<T extends boolean = true> {
 export interface RolesSelect<T extends boolean = true> {
   roleName?: T;
   sortOrder?: T;
+  displayName?: T;
   updatedAt?: T;
   createdAt?: T;
 }
