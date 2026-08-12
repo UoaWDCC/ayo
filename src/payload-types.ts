@@ -76,6 +76,7 @@ export interface Config {
     concerts: Concert;
     posts: Post;
     people: Person;
+    roles: Role;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     concerts: ConcertsSelect<false> | ConcertsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -390,12 +392,22 @@ export interface Post {
 export interface Person {
   id: string;
   name: string;
-  role?: string | null;
+  role?: (string | null) | Role;
   type: 'player' | 'team' | 'alumni';
   description?: string | null;
   years: string;
   photo?: (string | null) | Media;
   isActive: boolean;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  roleName: string;
   sortOrder: number;
   updatedAt: string;
   createdAt: string;
@@ -459,6 +471,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'people';
         value: string | Person;
+      } | null)
+    | ({
+        relationTo: 'roles';
+        value: string | Role;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -711,6 +727,15 @@ export interface PeopleSelect<T extends boolean = true> {
   years?: T;
   photo?: T;
   isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  roleName?: T;
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;

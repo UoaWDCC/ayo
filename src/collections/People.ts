@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { Roles } from './Roles'
+
 export const People: CollectionConfig = {
     slug: 'people',
     fields: [
@@ -10,7 +12,9 @@ export const People: CollectionConfig = {
         },
         {
             name: 'role',
-            type: 'text'
+            type: 'relationship',
+            relationTo: 'roles',
+            hasMany: false,
         },
         {
             name: 'type',
@@ -48,11 +52,6 @@ export const People: CollectionConfig = {
         {
             name: 'isActive',
             type: 'checkbox',
-            required: true
-        },
-        {
-            name: 'sortOrder',
-            type: 'number',
             required: true
         }
     ]
