@@ -25,7 +25,6 @@ function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
-  // Close on Escape
   useEffect(() => {
     if (!isOpen) return
     const handleKey = (e: KeyboardEvent) => {
@@ -35,7 +34,6 @@ function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [isOpen, onClose])
 
-  // Reset form state each time the modal is opened fresh
   useEffect(() => {
     if (isOpen) {
       setForm(initialForm)
@@ -61,7 +59,7 @@ function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
     setStatus('submitting')
     setErrorMsg('')
 
-    // TODO: wire this up to Mailchimp (or whatever backend) later.
+    // need to actually connect this with mailchimp later...
     setTimeout(() => {
       setStatus('success')
     }, 500)
