@@ -4,7 +4,7 @@ export const Roles: CollectionConfig = {
     slug: 'roles',
     fields: [
         {
-            name: 'role',
+            name: 'roleName',
             type: 'text',
             required: true,
         },
