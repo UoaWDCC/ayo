@@ -15,6 +15,9 @@ export const People: CollectionConfig = {
             type: 'relationship',
             relationTo: 'roles',
             hasMany: false,
+            admin: {
+                sortOptions: 'sortOrder',
+            }
         },
         {
             name: 'type',
