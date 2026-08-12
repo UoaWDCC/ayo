@@ -1,5 +1,5 @@
 import React from 'react'
-import AboutIntro from '../components/AboutIntro'
+import AboutUsSection from '../components/AboutUsSection'
 import Grid from '../components/Grid'
 import Hero from '../components/Hero'
 import NewsletterSignupDemo from '../components/Newsletter'
@@ -23,7 +23,7 @@ export default async function AboutUsPage() {
     <div>
       <Hero title="About Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       <main className="min-h-screen bg-white text-black">
-        <AboutIntro />
+        <AboutUsSection />
         <Grid title="People" placeholderSubtitle="Name" />
         <Grid title="Alumni" placeholderSubtitle="Role" />
         <Grid title="Partners" placeholderSubtitle="Company" />
