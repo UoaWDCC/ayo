@@ -13,7 +13,7 @@ export const FAQBlock: Block = {
   slug: 'faq',
   fields: [
     {
-      name: 'rows',
+      name: 'items',
       type: 'array',
       required: true,
       fields: [
