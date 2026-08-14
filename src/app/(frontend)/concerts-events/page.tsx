@@ -36,7 +36,11 @@ export default async function ConcertsEventsPage() {
           <span className="underline">Sign up to our newsletter</span>&ensp;↗
         </Link>
       </div>
-      <PhotoSpotlight />
+      <PhotoSpotlight
+        textSmall="Europe Tour - Friday, 23rd of October, 2025 to Friday 23rd of October, 2026"
+        headingSmall="On Now:"
+        headingLarge="Europe Tour"
+      />
     </main>
   )
 }
