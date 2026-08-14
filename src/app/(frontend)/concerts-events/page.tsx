@@ -40,6 +40,8 @@ export default async function ConcertsEventsPage() {
         textSmall="Europe Tour - Friday, 23rd of October, 2025 to Friday 23rd of October, 2026"
         headingSmall="On Now:"
         headingLarge="Europe Tour"
+        hoverImgSrc="/hero-placeholder.jpg"
+        staticImgSrc="/about-us-quote-poster.jpg"
       />
     </main>
   )

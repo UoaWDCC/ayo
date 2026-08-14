@@ -8,17 +8,25 @@ type SpotlightProps = {
   textSmall: string
   headingSmall: string
   headingLarge: string
+  hoverImgSrc: string
+  staticImgSrc: string
 }
 
-const PhotoSpotlight = ({ textSmall, headingSmall, headingLarge }: SpotlightProps) => {
-  const [imgSrc, setImgSrc] = useState('/about-us-quote-poster.jpg')
+const PhotoSpotlight = ({
+  textSmall,
+  headingSmall,
+  headingLarge,
+  hoverImgSrc,
+  staticImgSrc,
+}: SpotlightProps) => {
+  const [imgSrc, setImgSrc] = useState(staticImgSrc)
 
   return (
     <Link href="/concerts-events">
       <section
         className="relative w-full h-screen min-h-[600px] flex flex-col overflow-hidden"
-        onMouseEnter={() => setImgSrc('/hero-placeholder.jpg')}
-        onMouseLeave={() => setImgSrc('/about-us-quote-poster.jpg')}
+        onMouseEnter={() => setImgSrc(hoverImgSrc)}
+        onMouseLeave={() => setImgSrc(staticImgSrc)}
       >
         <Image src={imgSrc} alt="alt text" fill className="object-cover object-center" priority />
 
