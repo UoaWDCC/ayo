@@ -91,6 +91,8 @@ export default function Footer() {
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white hover:opacity-70"
                 >
                   <social.Icon size={22} aria-hidden="true" />
