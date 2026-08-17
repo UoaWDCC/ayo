@@ -14,7 +14,7 @@ import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Passwords } from './collections/Passwords'
 import { CalendarLink } from './collections/CalendarLink'
-
+import { Spotlights } from './collections/Spotlights'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -25,7 +25,17 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Partners, Pages, Passwords, CalendarLink, Concerts, Posts],
+  collections: [
+    Users,
+    Media,
+    Partners,
+    Pages,
+    Passwords,
+    CalendarLink,
+    Concerts,
+    Posts,
+    Spotlights,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
