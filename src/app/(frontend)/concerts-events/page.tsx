@@ -1,6 +1,8 @@
 import React from 'react'
 import Hero from '../components/Hero'
-
+import UpcomingEvents from '../components/UpcomingEvents'
+import FAQSection from '../components/FAQSection'
+import OpportunityModal from '../components/OpportunityModal'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
 
@@ -17,11 +19,10 @@ export default async function ConcertsEventsPage() {
       : '/hero-placeholder.jpg'
 
   return (
-    <div className="w-full h-[400px] relative">
-      <div className="w-full h-[vh] relative">
-        <Hero title="Concerts & Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
-      </div>
-      <main>This is the concerts & events page</main>
-    </div>
+    <main>
+      <Hero title="Concerts & Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <UpcomingEvents />
+      <FAQSection />
+    </main>
   )
 }
