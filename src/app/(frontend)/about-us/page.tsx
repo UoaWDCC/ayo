@@ -2,6 +2,7 @@ import React from 'react'
 import AboutUsSection from '../components/AboutUsSection'
 import Grid from '../components/Grid'
 import Hero from '../components/Hero'
+import OurTeam from '../components/OurTeam'
 import NewsletterSignupDemo from '../components/Newsletter'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -27,6 +28,7 @@ export default async function AboutUsPage() {
         <Grid title="People" placeholderSubtitle="Name" />
         <Grid title="Alumni" placeholderSubtitle="Role" />
         <Grid title="Partners" placeholderSubtitle="Company" />
+        <OurTeam></OurTeam>
         <NewsletterSignupDemo></NewsletterSignupDemo>
       </main>
     </div>
