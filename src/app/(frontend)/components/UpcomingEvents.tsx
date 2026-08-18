@@ -12,6 +12,9 @@ const opportunities = [
     title: 'Lodge of the Liberal Arts: Howard Wyatt Memorial Scholarship',
     deadlineLabel: '20th of May, 11:59pm NZST',
     deadlineDate: '2026-05-20T23:59:00+12:00',
+    year: 2026,
+    month: 'May',
+    location: 'Auckland, New Zealand',
     description:
       'The Freemasons of Lodge No.500 have established a trust for charitable purposes, to assist young musicians in their education. Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding...',
     applyUrl: '#',
@@ -22,6 +25,9 @@ const opportunities = [
     title: 'Chip and Muriel Stevens Award',
     deadlineLabel: '20th of May, 11:59pm NZST',
     deadlineDate: '2026-05-20T23:59:00+12:00',
+    year: 2026,
+    month: 'May',
+    location: 'Auckland, New Zealand',
     description:
       'This $1,500 award is dedicated to the memory of a former Chairman of AYO, N.W. (Chip) Stevens, who spent his lifetime encouraging young people to love music and young musicians to reach their full potential.',
     applyUrl: '#',
@@ -32,6 +38,9 @@ const opportunities = [
     title: 'AYO Soloist Competition',
     deadlineLabel: '15th of August, 11:59pm NZST',
     deadlineDate: '2026-08-15T23:59:00+12:00',
+    year: 2026,
+    month: 'August',
+    location: 'Auckland, New Zealand',
     description:
       'The AYO Soloist Competition offers existing orchestra members the chance to compete for monetary prizes and a concerto appearance with the orchestra. The orchestra showcases young soloists and composers; it...',
     applyUrl: '#',
@@ -42,6 +51,9 @@ const opportunities = [
     title: 'AYO International Performance Grant',
     deadlineLabel: '1st of June, 11:59pm NZST',
     deadlineDate: '2026-06-01T23:59:00+12:00',
+    year: 2026,
+    month: 'June',
+    location: 'Auckland, New Zealand',
     description:
       'Supports orchestra members travelling internationally for advanced musical training and performance opportunities.',
     applyUrl: '#',
@@ -52,6 +64,9 @@ const opportunities = [
     title: 'Emerging Composer Competition',
     deadlineLabel: '10th of July, 11:59pm NZST',
     deadlineDate: '2026-07-10T23:59:00+12:00',
+    year: 2026,
+    month: 'July',
+    location: 'Auckland, New Zealand',
     description:
       'Young composers are invited to submit original orchestral works for adjudication and potential live performance.',
     applyUrl: '#',
@@ -62,6 +77,9 @@ const opportunities = [
     title: 'Conducting Masterclass Programme',
     deadlineLabel: '5th of June, 11:59pm NZST',
     deadlineDate: '2026-06-05T23:59:00+12:00',
+    year: 2026,
+    month: 'June',
+    location: 'Auckland, New Zealand',
     description:
       'A practical workshop series led by professional conductors focusing on rehearsal technique, score preparation, and ensemble leadership.',
     applyUrl: '#',
@@ -72,6 +90,9 @@ const opportunities = [
     title: 'Regional Music Development Scholarship',
     deadlineLabel: '25th of May, 11:59pm NZST',
     deadlineDate: '2026-05-25T23:59:00+12:00',
+    year: 2026,
+    month: 'May',
+    location: 'Auckland, New Zealand',
     description:
       'Financial assistance for students from regional communities pursuing advanced orchestral studies.',
     applyUrl: '#',
@@ -82,6 +103,9 @@ const opportunities = [
     title: 'Chamber Ensemble Showcase',
     deadlineLabel: '30th of September, 11:59pm NZST',
     deadlineDate: '2026-09-30T23:59:00+12:00',
+    year: 2026,
+    month: 'September',
+    location: 'Auckland, New Zealand',
     description:
       'Small ensembles compete for performance opportunities during the annual AYO concert season.',
     applyUrl: '#',
@@ -92,6 +116,9 @@ const opportunities = [
     title: 'Composer-in-Residence Programme',
     deadlineLabel: '18th of August, 11:59pm NZST',
     deadlineDate: '2026-08-18T23:59:00+12:00',
+    year: 2026,
+    month: 'August',
+    location: 'Auckland, New Zealand',
     description:
       'Selected applicants will collaborate directly with the orchestra over a six-month residency period developing new compositions.',
     applyUrl: '#',
@@ -102,6 +129,9 @@ const opportunities = [
     title: 'Advanced Audition Preparation Intensive',
     deadlineLabel: '12th of June, 11:59pm NZST',
     deadlineDate: '2026-06-12T23:59:00+12:00',
+    year: 2026,
+    month: 'June',
+    location: 'Auckland, New Zealand',
     description:
       'An intensive coaching programme helping musicians prepare orchestral excerpts, solo repertoire, and audition strategies.',
     applyUrl: '#',
@@ -109,33 +139,40 @@ const opportunities = [
 ]
 
 export default function UpcomingEvents() {
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+  const [selectedYear, setSelectedYear] = useState<number | 'All'>(2026)
+  const [selectedMonth, setSelectedMonth] = useState('All')
   const [selectedType, setSelectedType] = useState('All')
-  const [showCount, setShowCount] = useState(5)
+  const [selectedLocation, setSelectedLocation] = useState('All')
   const [currentPage, setCurrentPage] = useState(1)
+  const showCount = 5
 
-  // Dynamically generate available types
-  const opportunityTypes = ['All', ...new Set(opportunities.map((opp) => opp.type))]
+  // Dynamically generate available filters
+  const years = ['All', ...new Set(opportunities.map((opp) => opp.year))]
+  const months = ['All', ...new Set(opportunities.map((opp) => opp.month))]
+  const types = ['All', ...new Set(opportunities.map((opp) => opp.type))]
+  const locations = ['All', ...new Set(opportunities.map((opp) => opp.location))]
 
   // Filter opportunities
-  const filteredOpportunities =
-    selectedType === 'All'
-      ? opportunities
-      : opportunities.filter((opp) => opp.type === selectedType)
+  const filteredOpportunities = opportunities.filter((opp) => {
+    const yearMatch = selectedYear === 'All' || opp.year === selectedYear
+    const monthMatch = selectedMonth === 'All' || opp.month === selectedMonth
+    const typeMatch = selectedType === 'All' || opp.type === selectedType
+    const locationMatch = selectedLocation === 'All' || opp.location === selectedLocation
 
-  // Sort opportunities
+    return yearMatch && monthMatch && typeMatch && locationMatch
+  })
+
+  // Sort opportunities by deadline
   const sortedOpportunities = useMemo(() => {
     return [...filteredOpportunities].sort((a, b) => {
-      return sortOrder === 'asc'
-        ? new Date(a.deadlineDate).getTime() - new Date(b.deadlineDate).getTime()
-        : new Date(b.deadlineDate).getTime() - new Date(a.deadlineDate).getTime()
+      return new Date(a.deadlineDate).getTime() - new Date(b.deadlineDate).getTime()
     })
-  }, [filteredOpportunities, sortOrder])
+  }, [filteredOpportunities])
 
-  // Reset page when controls change
+  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedType, sortOrder, showCount])
+  }, [selectedYear, selectedMonth, selectedType, selectedLocation])
 
   // Pagination
   const totalPages = Math.ceil(sortedOpportunities.length / showCount)
@@ -188,16 +225,50 @@ export default function UpcomingEvents() {
 
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px]">
-          {/* Type */}
+          {/* Year */}
           <div className="flex items-center gap-2">
-            <label className="text-[#B2B2B2]">Type</label>
+            <label className="text-[#B2B2B2]">Year</label>
+
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value === 'All' ? 'All' : Number(e.target.value))}
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
+            >
+              {(years as (string | number)[]).map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Month */}
+          <div className="flex items-center gap-2">
+            <label className="text-[#B2B2B2]">Month</label>
+
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
+            >
+              {months.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Event Type */}
+          <div className="flex items-center gap-2">
+            <label className="text-[#B2B2B2]">Event Type</label>
 
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
               className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
             >
-              {opportunityTypes.map((type) => (
+              {types.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
@@ -205,32 +276,20 @@ export default function UpcomingEvents() {
             </select>
           </div>
 
-          {/* Sort */}
+          {/* Location */}
           <div className="flex items-center gap-2">
-            <label className="text-[#B2B2B2]">Sort by</label>
+            <label className="text-[#B2B2B2]">Location</label>
 
             <select
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+              value={selectedLocation}
+              onChange={(e) => setSelectedLocation(e.target.value)}
               className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
             >
-              <option value="asc">Closing Date (Soonest)</option>
-              <option value="desc">Closing Date (Latest)</option>
-            </select>
-          </div>
-
-          {/* Show */}
-          <div className="flex items-center gap-2">
-            <label className="text-[#B2B2B2]">Show</label>
-
-            <select
-              value={showCount}
-              onChange={(e) => setShowCount(Number(e.target.value))}
-              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
-            >
-              <option value={3}>3</option>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
+              {locations.map((location) => (
+                <option key={location} value={location}>
+                  {location}
+                </option>
+              ))}
             </select>
           </div>
 
