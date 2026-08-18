@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
+import AYOSection from '../components/AYOWallSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -10,8 +11,6 @@ export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
-
-  const heroTitle = heroBlock?.title || 'Support Us'
 
   const heroImage = heroBlock?.backgroundImage
 
@@ -88,7 +87,7 @@ export default async function SupportUsPage() {
   return (
     <main>
       <div className="w-full h-[vh] relative">
-        <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+        <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       </div>
 
       <div className="text-black w-full">
@@ -124,6 +123,7 @@ export default async function SupportUsPage() {
           </div>
         </div>
       </div>
+      <AYOSection></AYOSection>
     </main>
   )
 }
