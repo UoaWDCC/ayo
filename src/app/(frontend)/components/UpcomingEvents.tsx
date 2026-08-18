@@ -1,114 +1,121 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import OpportunityTable from './OpportunityTable'
+import EventCard from './EventCard'
 
 // TODO: replace with real data from API
-
 const opportunities = [
   {
     id: 1,
-    type: 'Scholarship',
-    title: 'Lodge of the Liberal Arts: Howard Wyatt Memorial Scholarship',
+    type: 'Concert',
+    title: 'Séjourné, Bizet & Dvorak',
     deadlineLabel: '20th of May, 11:59pm NZST',
     deadlineDate: '2026-05-20T23:59:00+12:00',
     year: 2026,
     month: 'May',
     location: 'Auckland, New Zealand',
+    date: 'Sun, 21 June',
     description:
-      'The Freemasons of Lodge No.500 have established a trust for charitable purposes, to assist young musicians in their education. Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding...',
-    applyUrl: '#',
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 2,
-    type: 'Scholarship',
-    title: 'Chip and Muriel Stevens Award',
+    type: 'Concert',
+    title: 'Séjourné, Bizet & Dvorak',
     deadlineLabel: '20th of May, 11:59pm NZST',
     deadlineDate: '2026-05-20T23:59:00+12:00',
     year: 2026,
     month: 'May',
     location: 'Auckland, New Zealand',
+    date: 'Sun, 21 June',
     description:
-      'This $1,500 award is dedicated to the memory of a former Chairman of AYO, N.W. (Chip) Stevens, who spent his lifetime encouraging young people to love music and young musicians to reach their full potential.',
-    applyUrl: '#',
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 3,
-    type: 'Competition',
-    title: 'AYO Soloist Competition',
+    type: 'Concert',
+    title: 'Séjourné, Bizet & Dvorak',
     deadlineLabel: '15th of August, 11:59pm NZST',
     deadlineDate: '2026-08-15T23:59:00+12:00',
     year: 2026,
     month: 'August',
     location: 'Auckland, New Zealand',
+    date: 'Sun, 21 June',
     description:
-      'The AYO Soloist Competition offers existing orchestra members the chance to compete for monetary prizes and a concerto appearance with the orchestra. The orchestra showcases young soloists and composers; it...',
-    applyUrl: '#',
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 4,
-    type: 'Scholarship',
-    title: 'AYO International Performance Grant',
+    type: 'Workshop',
+    title: 'Conducting Masterclass',
     deadlineLabel: '1st of June, 11:59pm NZST',
     deadlineDate: '2026-06-01T23:59:00+12:00',
     year: 2026,
     month: 'June',
     location: 'Auckland, New Zealand',
+    date: 'Sat, 15 June',
     description:
-      'Supports orchestra members travelling internationally for advanced musical training and performance opportunities.',
-    applyUrl: '#',
+      'A practical workshop series led by professional conductors focusing on rehearsal technique, score preparation, and ensemble leadership.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 5,
     type: 'Competition',
-    title: 'Emerging Composer Competition',
+    title: 'AYO Soloist Competition',
     deadlineLabel: '10th of July, 11:59pm NZST',
     deadlineDate: '2026-07-10T23:59:00+12:00',
     year: 2026,
     month: 'July',
     location: 'Auckland, New Zealand',
+    date: 'Fri, 14 August',
     description:
-      'Young composers are invited to submit original orchestral works for adjudication and potential live performance.',
-    applyUrl: '#',
+      'Young musicians compete for performance opportunities and monetary prizes. The orchestra showcases exceptional talent open to the public.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 6,
-    type: 'Workshop',
-    title: 'Conducting Masterclass Programme',
+    type: 'Scholarship',
+    title: 'Howard Wyatt Memorial Scholarship',
     deadlineLabel: '5th of June, 11:59pm NZST',
     deadlineDate: '2026-06-05T23:59:00+12:00',
     year: 2026,
     month: 'June',
     location: 'Auckland, New Zealand',
+    date: 'Applications Open',
     description:
-      'A practical workshop series led by professional conductors focusing on rehearsal technique, score preparation, and ensemble leadership.',
-    applyUrl: '#',
+      'Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding musical achievement.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 7,
-    type: 'Scholarship',
-    title: 'Regional Music Development Scholarship',
+    type: 'Concert',
+    title: 'Summer Showcase Series',
     deadlineLabel: '25th of May, 11:59pm NZST',
     deadlineDate: '2026-05-25T23:59:00+12:00',
     year: 2026,
     month: 'May',
     location: 'Auckland, New Zealand',
+    date: 'Sun, 28 June',
     description:
-      'Financial assistance for students from regional communities pursuing advanced orchestral studies.',
-    applyUrl: '#',
+      'Financial assistance for students from regional communities pursuing advanced orchestral studies and musical excellence.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 8,
-    type: 'Competition',
-    title: 'Chamber Ensemble Showcase',
+    type: 'Workshop',
+    title: 'Audition Preparation Intensive',
     deadlineLabel: '30th of September, 11:59pm NZST',
     deadlineDate: '2026-09-30T23:59:00+12:00',
     year: 2026,
     month: 'September',
     location: 'Auckland, New Zealand',
+    date: 'Sat, 19 September',
     description:
-      'Small ensembles compete for performance opportunities during the annual AYO concert season.',
-    applyUrl: '#',
+      'An intensive coaching programme helping musicians prepare orchestral excerpts, solo repertoire, and audition strategies.',
+    image: '/about-us-quote-poster.jpg',
   },
   {
     id: 9,
@@ -119,22 +126,10 @@ const opportunities = [
     year: 2026,
     month: 'August',
     location: 'Auckland, New Zealand',
+    date: 'Applications Open',
     description:
       'Selected applicants will collaborate directly with the orchestra over a six-month residency period developing new compositions.',
-    applyUrl: '#',
-  },
-  {
-    id: 10,
-    type: 'Workshop',
-    title: 'Advanced Audition Preparation Intensive',
-    deadlineLabel: '12th of June, 11:59pm NZST',
-    deadlineDate: '2026-06-12T23:59:00+12:00',
-    year: 2026,
-    month: 'June',
-    location: 'Auckland, New Zealand',
-    description:
-      'An intensive coaching programme helping musicians prepare orchestral excerpts, solo repertoire, and audition strategies.',
-    applyUrl: '#',
+    image: '/about-us-quote-poster.jpg',
   },
 ]
 
@@ -144,7 +139,7 @@ export default function UpcomingEvents() {
   const [selectedType, setSelectedType] = useState('All')
   const [selectedLocation, setSelectedLocation] = useState('All')
   const [currentPage, setCurrentPage] = useState(1)
-  const showCount = 5
+  const showCount = 3
 
   // Dynamically generate available filters
   const years = ['All', ...new Set(opportunities.map((opp) => opp.year))]
@@ -176,7 +171,6 @@ export default function UpcomingEvents() {
 
   // Pagination
   const totalPages = Math.ceil(sortedOpportunities.length / showCount)
-
   const paginatedOpportunities = sortedOpportunities.slice(
     (currentPage - 1) * showCount,
     currentPage * showCount,
@@ -190,14 +184,14 @@ export default function UpcomingEvents() {
           A season of performances showcasing bold works and the energy of young musicians growing
           through music.
         </p>
-        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] ">
+        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2]">
           Alongside our concert seasons we run a growing programme of tours, workshops,
           masterclasses, and educational events, built to develop young musicians, open doors for
           new members, and give our supporters even more ways to get involved. Whether you're a
           player looking to grow, a family exploring what we offer, or a sponsor following our
           impact, this is where you'll find the full picture of what we do beyond the stage.
         </p>
-        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] bold">What's on:</p>
+        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] font-semibold">What's on:</p>
 
         <ul className="mt-4 ml-6 text-[18px] leading-[22px] text-[#B2B2B2] list-disc">
           <li>
@@ -224,14 +218,16 @@ export default function UpcomingEvents() {
         </p>
 
         {/* Controls */}
-        <div className="flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px]">
+        <div className="flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px] px-4">
           {/* Year */}
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Year</label>
 
             <select
               value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value === 'All' ? 'All' : Number(e.target.value))}
+              onChange={(e) =>
+                setSelectedYear(e.target.value === 'All' ? 'All' : Number(e.target.value))
+              }
               className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
             >
               {(years as (string | number)[]).map((year) => (
@@ -292,21 +288,27 @@ export default function UpcomingEvents() {
               ))}
             </select>
           </div>
-
-          {/* Count */}
-          <span className="ml-auto italic font-normal text-[#B7B7B7]">
-            Showing {paginatedOpportunities.length}{' '}
-            {paginatedOpportunities.length === 1 ? 'opportunity' : 'opportunities'}
-          </span>
         </div>
 
         <hr className="border-[#EBEBEB] mt-6" />
 
-        {/* Table */}
-        <OpportunityTable opportunities={paginatedOpportunities} />
+        {/* Event Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+          {paginatedOpportunities.map((event) => (
+            <EventCard
+              key={event.id}
+              image={event.image}
+              title={event.title}
+              date={event.date}
+              location={event.location}
+              description={event.description}
+              eventType={event.type.toUpperCase() + ' · ' + event.location.toUpperCase()}
+            />
+          ))}
+        </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between mt-6 text-[15px] leading-[18px]">
+        <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
           <div className="flex gap-12">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

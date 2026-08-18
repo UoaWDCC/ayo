@@ -22,7 +22,6 @@ export default async function ConcertsEventsPage() {
     <main>
       <Hero title="Concerts & Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       <UpcomingEvents />
-      <FAQSection />
     </main>
   )
 }
