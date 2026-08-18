@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import EventCard from './EventCard'
 
 // TODO: replace with real data from API
-const opportunities = [
+const events = [
   {
     id: 1,
     type: 'Concert',
@@ -49,86 +49,16 @@ const opportunities = [
   },
   {
     id: 4,
-    type: 'Workshop',
-    title: 'Conducting Masterclass',
-    deadlineLabel: '1st of June, 11:59pm NZST',
-    deadlineDate: '2026-06-01T23:59:00+12:00',
-    year: 2026,
-    month: 'June',
-    location: 'Auckland, New Zealand',
-    date: 'Sat, 15 June',
-    description:
-      'A practical workshop series led by professional conductors focusing on rehearsal technique, score preparation, and ensemble leadership.',
-    image: '/about-us-quote-poster.jpg',
-  },
-  {
-    id: 5,
-    type: 'Competition',
-    title: 'AYO Soloist Competition',
-    deadlineLabel: '10th of July, 11:59pm NZST',
-    deadlineDate: '2026-07-10T23:59:00+12:00',
-    year: 2026,
-    month: 'July',
-    location: 'Auckland, New Zealand',
-    date: 'Fri, 14 August',
-    description:
-      'Young musicians compete for performance opportunities and monetary prizes. The orchestra showcases exceptional talent open to the public.',
-    image: '/about-us-quote-poster.jpg',
-  },
-  {
-    id: 6,
-    type: 'Scholarship',
-    title: 'Howard Wyatt Memorial Scholarship',
-    deadlineLabel: '5th of June, 11:59pm NZST',
-    deadlineDate: '2026-06-05T23:59:00+12:00',
-    year: 2026,
-    month: 'June',
-    location: 'Auckland, New Zealand',
-    date: 'Applications Open',
-    description:
-      'Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding musical achievement.',
-    image: '/about-us-quote-poster.jpg',
-  },
-  {
-    id: 7,
     type: 'Concert',
-    title: 'Summer Showcase Series',
-    deadlineLabel: '25th of May, 11:59pm NZST',
-    deadlineDate: '2026-05-25T23:59:00+12:00',
-    year: 2026,
-    month: 'May',
-    location: 'Auckland, New Zealand',
-    date: 'Sun, 28 June',
-    description:
-      'Financial assistance for students from regional communities pursuing advanced orchestral studies and musical excellence.',
-    image: '/about-us-quote-poster.jpg',
-  },
-  {
-    id: 8,
-    type: 'Workshop',
-    title: 'Audition Preparation Intensive',
-    deadlineLabel: '30th of September, 11:59pm NZST',
-    deadlineDate: '2026-09-30T23:59:00+12:00',
-    year: 2026,
-    month: 'September',
-    location: 'Auckland, New Zealand',
-    date: 'Sat, 19 September',
-    description:
-      'An intensive coaching programme helping musicians prepare orchestral excerpts, solo repertoire, and audition strategies.',
-    image: '/about-us-quote-poster.jpg',
-  },
-  {
-    id: 9,
-    type: 'Residency',
-    title: 'Composer-in-Residence Programme',
-    deadlineLabel: '18th of August, 11:59pm NZST',
-    deadlineDate: '2026-08-18T23:59:00+12:00',
+    title: 'Séjourné, Bizet & Dvorak',
+    deadlineLabel: '15th of August, 11:59pm NZST',
+    deadlineDate: '2026-08-15T23:59:00+12:00',
     year: 2026,
     month: 'August',
     location: 'Auckland, New Zealand',
-    date: 'Applications Open',
+    date: 'Sun, 21 June',
     description:
-      'Selected applicants will collaborate directly with the orchestra over a six-month residency period developing new compositions.',
+      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
   },
 ]
@@ -142,13 +72,13 @@ export default function UpcomingEvents() {
   const showCount = 3
 
   // Dynamically generate available filters
-  const years = ['All', ...new Set(opportunities.map((opp) => opp.year))]
-  const months = ['All', ...new Set(opportunities.map((opp) => opp.month))]
-  const types = ['All', ...new Set(opportunities.map((opp) => opp.type))]
-  const locations = ['All', ...new Set(opportunities.map((opp) => opp.location))]
+  const years = ['All', ...new Set(events.map((opp) => opp.year))]
+  const months = ['All', ...new Set(events.map((opp) => opp.month))]
+  const types = ['All', ...new Set(events.map((opp) => opp.type))]
+  const locations = ['All', ...new Set(events.map((opp) => opp.location))]
 
-  // Filter opportunities
-  const filteredOpportunities = opportunities.filter((opp) => {
+  // Filter events
+  const filteredevents = events.filter((opp) => {
     const yearMatch = selectedYear === 'All' || opp.year === selectedYear
     const monthMatch = selectedMonth === 'All' || opp.month === selectedMonth
     const typeMatch = selectedType === 'All' || opp.type === selectedType
@@ -157,12 +87,12 @@ export default function UpcomingEvents() {
     return yearMatch && monthMatch && typeMatch && locationMatch
   })
 
-  // Sort opportunities by deadline
-  const sortedOpportunities = useMemo(() => {
-    return [...filteredOpportunities].sort((a, b) => {
+  // Sort events by deadline
+  const sortedevents = useMemo(() => {
+    return [...filteredevents].sort((a, b) => {
       return new Date(a.deadlineDate).getTime() - new Date(b.deadlineDate).getTime()
     })
-  }, [filteredOpportunities])
+  }, [filteredevents])
 
   // Reset page when filters change
   useEffect(() => {
@@ -170,11 +100,8 @@ export default function UpcomingEvents() {
   }, [selectedYear, selectedMonth, selectedType, selectedLocation])
 
   // Pagination
-  const totalPages = Math.ceil(sortedOpportunities.length / showCount)
-  const paginatedOpportunities = sortedOpportunities.slice(
-    (currentPage - 1) * showCount,
-    currentPage * showCount,
-  )
+  const totalPages = Math.ceil(sortedevents.length / showCount)
+  const paginatedevents = sortedevents.slice((currentPage - 1) * showCount, currentPage * showCount)
 
   return (
     <section className="bg-white w-full">
@@ -213,8 +140,8 @@ export default function UpcomingEvents() {
         </ul>
 
         <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2]">
-          New opportunities are added throughout the season — check back often, or get in touch to
-          find out what's next.
+          New events are added throughout the season — check back often, or get in touch to find out
+          what's next.
         </p>
 
         {/* Controls */}
@@ -294,7 +221,7 @@ export default function UpcomingEvents() {
 
         {/* Event Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-          {paginatedOpportunities.map((event) => (
+          {paginatedevents.map((event) => (
             <EventCard
               key={event.id}
               image={event.image}
