@@ -1,6 +1,11 @@
 import type { CollectionConfig } from 'payload'
 import { Hero } from '@/blocks/Hero'
 import { RichText } from '@/blocks/RichText'
+import { VideoBlock } from '@/blocks/VideoBlock'
+import { QuoteBlock } from '@/blocks/QuoteBlock'
+import { ImageBlock } from '@/blocks/ImageBlock'
+import { TableBlock } from '@/blocks/TableBlock'
+import { FAQBlock } from '@/blocks/FAQBlock'
 
 /**
  * Pages collection:
@@ -35,7 +40,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [Hero, RichText],
+      blocks: [Hero, RichText, VideoBlock, QuoteBlock, ImageBlock, TableBlock, FAQBlock],
     },
   ],
 }
