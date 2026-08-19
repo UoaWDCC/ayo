@@ -1,7 +1,8 @@
-"use client";
-import { useState } from 'react';
+'use client'
+import { useState } from 'react'
 import EventsCard from './EventsCard'
 import EventsCardSwitcher from './EventsCardSwitcher'
+
 const eventsData = [
   {
     programme: [
@@ -33,27 +34,30 @@ const eventsData = [
       'example 3 blah balh lit, sed do eiusmod tempor incididunt ut labore',
       'example 3 blah balh  sed do eiusmod tempor incididunt ut labore',
     ],
-    concertDates: [
-      'date 1 :D',
-      'date 2 :P',
-      'date 3 :3',
-    ],
+    concertDates: ['date 1 :D', 'date 2 :P', 'date 3 :3'],
   },
 ]
-const Events = () => {
-  const [cardNum, setCardNum] = useState(0)
 
-  const handleNext = () =>  {
-    if (cardNum < eventsData.length - 1) {
-      setCardNum((current) => current + 1);
+const CARDS_PER_PAGE = 2
+
+const Events = () => {
+  const [pageNum, setPageNum] = useState(0)
+  const pageTotal = Math.ceil(eventsData.length / CARDS_PER_PAGE)
+
+  const handleNext = () => {
+    if (pageNum < pageTotal - 1) {
+      setPageNum((current) => current + 1)
     }
   }
 
   const handlePrev = () => {
-    if (cardNum > 0) {
-      setCardNum((current) => current - 1)
+    if (pageNum > 0) {
+      setPageNum((current) => current - 1)
     }
   }
+
+  const start = pageNum * CARDS_PER_PAGE
+  const currentPageEvents = eventsData.slice(start, start + CARDS_PER_PAGE)
 
   return (
     <div className="text-black w-full">
@@ -61,14 +65,14 @@ const Events = () => {
         <div className="text-body my-10 w-[90%]">
           <h1 className="text-heading font-semibold">Concerts & Events</h1>
           <div className="flex mt-5">
-            <p className="mr-6 text-muted"> Year </p>
-            <select className="font-bold appearance-none">
+            <p className="mr-6 text-muted font-medium"> Year </p>
+            <select className="font-semibold underline appearance-none">
               <option value="2026">2026</option>
               <option value="2027">2027</option>
             </select>
 
-            <p className="ml-15 mr-6 text-muted"> Month </p>
-            <select className="font-bold appearance-none">
+            <p className="ml-15 mr-6 text-muted font-medium"> Month </p>
+            <select className="font-semibold underline appearance-none">
               <option value="June">June</option>
               <option value="July">July</option>
             </select>
@@ -76,8 +80,12 @@ const Events = () => {
         </div>
       </div>
 
-      <div className="hidden lg:flex justify-center">
-        <EventsCard programme={eventsData[cardNum].programme} concertDates={eventsData[cardNum].concertDates} />
+      <div className="hidden lg:flex flex-col items-center">
+        {currentPageEvents.map((concert, index) => (
+          <div className="flex justify-center w-full" key={start + index}>
+            <EventsCard programme={concert.programme} concertDates={concert.concertDates} />
+          </div>
+        ))}
       </div>
 
       <div className="flex-col lg:hidden content-center">
@@ -89,11 +97,12 @@ const Events = () => {
       </div>
 
       <div className="flex justify-center">
-        <EventsCardSwitcher 
-          cardNum = {cardNum + 1} 
-          cardTotal = {eventsData.length}
-          onNext = {handleNext}
-          onPrev = {handlePrev}/>
+        <EventsCardSwitcher
+          cardNum={pageNum + 1}
+          cardTotal={pageTotal}
+          onNext={handleNext}
+          onPrev={handlePrev}
+        />
       </div>
     </div>
   )
