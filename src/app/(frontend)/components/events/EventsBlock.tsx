@@ -18,23 +18,61 @@ const eventsData = [
   },
   {
     programme: [
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore  ',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+      'Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve Logan)',
+      "Bizet - Intermezzo from L' Arlésienne Suite no. 2",
+      'Dvorak - Symphony No. 9 “From the New World”',
     ],
     concertDates: [
-      'Lorem ipsum dolor sit amet',
-      'Consectetur adipiscing elit, sed do',
-      'Eiusmod tempor incididunt ut labore',
+      'Sun. 14 June - TBD',
+      'Sat. 20 June, 7.30pm - Orewa Arts & Events Centre',
+      'Sun. 21 June, 2.30pm - Auckland Town Hall',
     ],
   },
   {
     programme: [
-      'example 3 blah balh  ',
-      'example 3 blah balh lit, sed do eiusmod tempor incididunt ut labore',
-      'example 3 blah balh  sed do eiusmod tempor incididunt ut labore',
+      'Elgar - Enigma Variations',
+      'Grieg - Piano Concerto in A minor (soloist: Maya Chen)',
+      'Sibelius - Finlandia',
     ],
-    concertDates: ['date 1 :D', 'date 2 :P', 'date 3 :3'],
+    concertDates: [
+      'Fri. 11 July, 7.00pm - Auckland Town Hall',
+      'Sat. 12 July, 7.30pm - Bruce Mason Centre',
+      'Sun. 13 July, 2.30pm - Howick All Saints Church',
+    ],
+  },
+  {
+    programme: [
+      'Holst - The Planets, Op. 32',
+      'Rachmaninoff - Rhapsody on a Theme of Paganini (soloist: James O’Connell)',
+      'Copland - Fanfare for the Common Man',
+    ],
+    concertDates: [
+      'Sat. 8 August, 7.30pm - Auckland Town Hall',
+      'Sun. 9 August, 2.30pm - Orewa Arts & Events Centre',
+    ],
+  },
+  {
+    programme: [
+      'Tchaikovsky - Violin Concerto in D major (soloist: Aria Patel)',
+      'Shostakovich - Symphony No. 5',
+      'Mussorgsky (orch. Ravel) - Pictures at an Exhibition',
+    ],
+    concertDates: [
+      'Fri. 4 September, 7.00pm - Bruce Mason Centre',
+      'Sat. 5 September, 7.30pm - Auckland Town Hall',
+      'Sun. 6 September, 2.30pm - Howick All Saints Church',
+    ],
+  },
+  {
+    programme: [
+      'Beethoven - Symphony No. 7',
+      'Mendelssohn - Violin Concerto in E minor (soloist: Lucas Wright)',
+      'Wagner - Prelude to Die Meistersinger',
+    ],
+    concertDates: [
+      'Sat. 3 October, 7.30pm - Auckland Town Hall',
+      'Sun. 4 October, 2.30pm - Orewa Arts & Events Centre',
+    ],
   },
 ]
 

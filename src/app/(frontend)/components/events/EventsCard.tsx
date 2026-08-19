@@ -2,21 +2,17 @@ import React from 'react'
 import Image from 'next/image'
 
 const EventsCard = ({
+  image,
   programme,
   concertDates,
 }: {
+  image: string
   programme: string[]
   concertDates: string[]
 }) => {
   return (
     <div className="text-body w-[90%] border-t border-[#EBEBEB] grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
-      <Image
-        className="my-10"
-        src="/grey_rectangle.png"
-        width={250}
-        height={250}
-        alt="Grey Rectangle"
-      />
+      <Image className="my-10" src={image} width={244} height={181} alt="Concert event photo" />
 
       <div className="">
         <div className="leading-miniheader">
