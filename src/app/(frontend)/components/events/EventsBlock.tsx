@@ -104,41 +104,38 @@ const Events = () => {
   const currentPageEvents = eventsData.slice(start, start + CARDS_PER_PAGE)
 
   return (
-    <div className="text-black w-full">
-      <div className="flex justify-center">
-        <div className="text-body my-10 w-[90%]">
-          <h1 className="text-heading font-semibold">Concerts & Events</h1>
-          <div className="flex mt-5">
-            <p className="mr-6 text-muted font-medium"> Year </p>
-            <select className="font-semibold underline appearance-none">
-              <option value="2026">2026</option>
-              <option value="2027">2027</option>
-            </select>
+    <div className="text-black w-full px-24 py-14">
+      <div className="text-body my-10">
+        <h1 className="text-heading font-semibold">Concerts & Events</h1>
+        <div className="flex mt-5">
+          <p className="mr-6 text-muted font-medium"> Year </p>
+          <select className="font-semibold underline appearance-none">
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+          </select>
 
-            <p className="ml-15 mr-6 text-muted font-medium"> Month </p>
-            <select className="font-semibold underline appearance-none">
-              <option value="June">June</option>
-              <option value="July">July</option>
-            </select>
-          </div>
+          <p className="ml-15 mr-6 text-muted font-medium"> Month </p>
+          <select className="font-semibold underline appearance-none">
+            <option value="June">June</option>
+            <option value="July">July</option>
+          </select>
         </div>
       </div>
 
-      <div className="hidden lg:flex flex-col items-center">
+      <div className="hidden lg:flex flex-col">
         {currentPageEvents.map((concert, index) => (
-          <div className="flex justify-center w-full" key={start + index}>
-            <EventsCard
-              image={concert.image}
-              programme={concert.programme}
-              concertDates={concert.concertDates}
-            />
-          </div>
+          <EventsCard
+            key={start + index}
+            image={concert.image}
+            programme={concert.programme}
+            concertDates={concert.concertDates}
+          />
         ))}
       </div>
 
-      <div className="flex-col lg:hidden content-center">
+      <div className="flex-col lg:hidden">
         {eventsData.map((concert, index) => (
-          <div className="mb-5 flex justify-center" key={index}>
+          <div className="mb-5" key={index}>
             <EventsCard
               image={concert.image}
               programme={concert.programme}
@@ -148,14 +145,12 @@ const Events = () => {
         ))}
       </div>
 
-      <div className="flex justify-center">
-        <EventsCardSwitcher
-          cardNum={pageNum + 1}
-          cardTotal={pageTotal}
-          onNext={handleNext}
-          onPrev={handlePrev}
-        />
-      </div>
+      <EventsCardSwitcher
+        cardNum={pageNum + 1}
+        cardTotal={pageTotal}
+        onNext={handleNext}
+        onPrev={handlePrev}
+      />
     </div>
   )
 }
