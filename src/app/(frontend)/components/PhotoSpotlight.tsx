@@ -5,7 +5,6 @@ import React from 'react'
 import { useState } from 'react'
 
 type SpotlightProps = {
-  textAbove: string
   textSmall: string
   headingSmall: string
   headingLarge: string
@@ -14,7 +13,6 @@ type SpotlightProps = {
 }
 
 const PhotoSpotlight = ({
-  textAbove,
   textSmall,
   headingSmall,
   headingLarge,
@@ -25,13 +23,6 @@ const PhotoSpotlight = ({
 
   return (
     <section>
-      <div className="mx-auto w-[80%] mt-15 mb-15">
-        <p className="text-[40px]">{textAbove}</p>
-
-        <Link href="/concerts-events" className="font-bold text-[40px]">
-          <span className="underline">Sign up to our newsletter</span>&ensp;↗
-        </Link>
-      </div>
       <Link href="/concerts-events">
         <section
           className="relative w-full h-screen min-h-[600px] flex flex-col overflow-hidden"

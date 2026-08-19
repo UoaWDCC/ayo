@@ -75,7 +75,6 @@ export interface Config {
     links: Link;
     concerts: Concert;
     posts: Post;
-    spotlights: Spotlight;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -91,7 +90,6 @@ export interface Config {
     links: LinksSelect<false> | LinksSelect<true>;
     concerts: ConcertsSelect<false> | ConcertsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
-    spotlights: SpotlightsSelect<false> | SpotlightsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -343,16 +341,6 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "spotlights".
- */
-export interface Spotlight {
-  id: string;
-  text: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -406,10 +394,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'posts';
         value: string | Post;
-      } | null)
-    | ({
-        relationTo: 'spotlights';
-        value: string | Spotlight;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -614,15 +598,6 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   author?: T;
   publishedDate?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "spotlights_select".
- */
-export interface SpotlightsSelect<T extends boolean = true> {
-  text?: T;
   updatedAt?: T;
   createdAt?: T;
 }
