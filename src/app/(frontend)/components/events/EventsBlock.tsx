@@ -5,6 +5,7 @@ import EventsCardSwitcher from './EventsCardSwitcher'
 
 const eventsData = [
   {
+    image: '/about-us-our-team.jpg',
     programme: [
       'Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve Logan)',
       "Bizet - Intermezzo from L' Arlésienne Suite no. 2",
@@ -17,6 +18,7 @@ const eventsData = [
     ],
   },
   {
+    image: '/hero-placeholder.jpg',
     programme: [
       'Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve Logan)',
       "Bizet - Intermezzo from L' Arlésienne Suite no. 2",
@@ -29,6 +31,7 @@ const eventsData = [
     ],
   },
   {
+    image: '/hero-placeholder.jpg',
     programme: [
       'Elgar - Enigma Variations',
       'Grieg - Piano Concerto in A minor (soloist: Maya Chen)',
@@ -41,6 +44,7 @@ const eventsData = [
     ],
   },
   {
+    image: '/about-us-our-team.jpg',
     programme: [
       'Holst - The Planets, Op. 32',
       'Rachmaninoff - Rhapsody on a Theme of Paganini (soloist: James O’Connell)',
@@ -52,6 +56,7 @@ const eventsData = [
     ],
   },
   {
+    image: '/hero-placeholder.jpg',
     programme: [
       'Tchaikovsky - Violin Concerto in D major (soloist: Aria Patel)',
       'Shostakovich - Symphony No. 5',
@@ -64,6 +69,7 @@ const eventsData = [
     ],
   },
   {
+    image: '/about-us-our-team.jpg',
     programme: [
       'Beethoven - Symphony No. 7',
       'Mendelssohn - Violin Concerto in E minor (soloist: Lucas Wright)',
@@ -121,7 +127,11 @@ const Events = () => {
       <div className="hidden lg:flex flex-col items-center">
         {currentPageEvents.map((concert, index) => (
           <div className="flex justify-center w-full" key={start + index}>
-            <EventsCard programme={concert.programme} concertDates={concert.concertDates} />
+            <EventsCard
+              image={concert.image}
+              programme={concert.programme}
+              concertDates={concert.concertDates}
+            />
           </div>
         ))}
       </div>
@@ -129,7 +139,11 @@ const Events = () => {
       <div className="flex-col lg:hidden content-center">
         {eventsData.map((concert, index) => (
           <div className="mb-5 flex justify-center" key={index}>
-            <EventsCard programme={concert.programme} concertDates={concert.concertDates} />
+            <EventsCard
+              image={concert.image}
+              programme={concert.programme}
+              concertDates={concert.concertDates}
+            />
           </div>
         ))}
       </div>
