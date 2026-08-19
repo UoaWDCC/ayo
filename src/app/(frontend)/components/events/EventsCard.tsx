@@ -9,7 +9,7 @@ const EventsCard = ({
   concertDates: string[]
 }) => {
   return (
-    <div className="text-body w-[90%] border-y border-gray-400 grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
+    <div className="text-body w-[90%] border-t border-[#EBEBEB] grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
       <Image
         className="my-10"
         src="/grey_rectangle.png"
