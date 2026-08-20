@@ -70,10 +70,10 @@ export default function BlogsBlock() {
   //blogs pagination
   const [currentPage, setCurrentPage] = useState(1)
 
-  const totalCards = Math.ceil(DummyBlogs.length / 3) // calculate total num of cards for pagination total eg. 1 of {total}
+  const totalCards = Math.ceil(DummyBlogs.length / 2) // calculate total num of cards for pagination total eg. 1 of {total}
 
   //slicing
-  const currentBlogs = DummyBlogs.slice((currentPage - 1) * 3, (currentPage - 1) * 3 + 3) // 1-3, 4-6, 7
+  const currentBlogs = DummyBlogs.slice((currentPage - 1) * 2, (currentPage - 1) * 2 + 2) // 1-2, 3-4, 5-6, 7
 
   return (
     <div className="px-24 py-14">
