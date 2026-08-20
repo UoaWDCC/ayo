@@ -22,7 +22,7 @@ export default function BlogsFilter() {
   const [selectedYear, setSelectedYear] = useState('2025')
   const [selectedMonth, setSelectedMonth] = useState('All')
   return (
-    <div className="flex gap-6 mb-6">
+    <div className="flex mb-6">
       <p className="mr-6 text-muted font-medium">Year</p>
       <select
         value={selectedYear}

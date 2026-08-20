@@ -105,7 +105,7 @@ const Events = () => {
 
   return (
     <div className="text-black w-full px-24 py-14">
-      <div className="text-body my-10">
+      <div className="my-10">
         <h1 className="text-heading font-semibold">Concerts & Events</h1>
         <div className="flex mt-5">
           <p className="mr-6 text-muted font-medium"> Year </p>
