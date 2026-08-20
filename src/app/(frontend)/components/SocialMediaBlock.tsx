@@ -15,12 +15,12 @@ const posts = [
 
 export default function SocialMediaBlock() {
   return (
-    <div className="px-24 py-14">
+    <div className="px-4 sm:px-8 md:px-24 py-14">
       <h1 className="text-heading font-semibold mb-2">Follow us!</h1>
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-x-4">
-          <div className="w-[52px] h-[52px] rounded-full bg-[#D9D9D9] overflow-hidden">
+          <div className="w-[52px] h-[52px] shrink-0 rounded-full bg-[#D9D9D9] overflow-hidden">
             <Image
               className="w-full h-full object-cover"
               src="/hero-placeholder.jpg"
@@ -42,7 +42,7 @@ export default function SocialMediaBlock() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
         {posts.map((post, idx) => (
           <Image
             key={idx}
