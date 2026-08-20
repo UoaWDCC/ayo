@@ -11,7 +11,7 @@ const EventsCard = ({
   concertDates: string[]
 }) => {
   return (
-    <div className="text-body border-t border-[#EBEBEB] grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 py-12">
+    <div className="text-body border-t border-[#EBEBEB] grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 py-12 px-4">
       <Image className="my-10" src={image} width={244} height={181} alt="Concert event photo" />
 
       <div className="">
