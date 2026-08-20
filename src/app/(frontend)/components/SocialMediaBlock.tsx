@@ -36,7 +36,7 @@ export default function SocialMediaBlock() {
           href="https://www.instagram.com/aucklandyouthorchestra/"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-black text-white text-xs font-medium px-6 py-2 hover:bg-neutral-800 transition-colors"
+          className="bg-black text-white text-sm font-medium px-6 py-2 hover:bg-neutral-800 transition-colors"
         >
           Follow us
         </Link>
