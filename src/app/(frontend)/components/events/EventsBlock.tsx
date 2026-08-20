@@ -122,7 +122,7 @@ const Events = () => {
         </div>
       </div>
 
-      <div className="hidden lg:flex flex-col">
+      <div className="flex flex-col">
         {currentPageEvents.map((concert, index) => (
           <EventsCard
             key={start + index}
@@ -130,18 +130,6 @@ const Events = () => {
             programme={concert.programme}
             concertDates={concert.concertDates}
           />
-        ))}
-      </div>
-
-      <div className="flex-col lg:hidden">
-        {eventsData.map((concert, index) => (
-          <div className="mb-5" key={index}>
-            <EventsCard
-              image={concert.image}
-              programme={concert.programme}
-              concertDates={concert.concertDates}
-            />
-          </div>
         ))}
       </div>
 
