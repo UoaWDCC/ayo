@@ -1,6 +1,14 @@
 'use client'
 import Link from 'next/link'
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import { useState } from 'react'
+
+const socialLinks = [
+  { name: 'Instagram', href: '#', Icon: FaInstagram },
+  { name: 'YouTube', href: '#', Icon: FaYoutube },
+  { name: 'Facebook', href: '#', Icon: FaFacebook },
+  { name: 'LinkedIn', href: '#', Icon: FaLinkedin },
+]
 
 export default function Footer() {
   const [email, setEmail] = useState('')
@@ -10,36 +18,42 @@ export default function Footer() {
       <div className="bg-white h-16 rounded-b-[30px] mb-10 w-full"></div>
 
       {/* Container to separate content */}
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-10 md:justify-between items-start px-4">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 md:gap-10 md:justify-between items-start px-4">
         {/* Left container */}
-        <div className="w-full h-full md:w-1/2 text-center mb-4 px-4">
-          <div className="mt-5 mb-8 flex flex-col items-start">
-            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium self-start">
-              Here Plays
-            </div>
-            <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium self-end">
-              the Future
+        <div className="w-full h-full md:w-1/2">
+          <div className="flex flex-row items-center justify-between gap-4 mt-5 md:flex-col md:items-start md:justify-start">
+            {/* AYO logo png as placeholder, replace with new logo svg when available */}
+            <img
+              src="/ayo-logo-white.png"
+              alt="AYO Logo"
+              className="order-1 w-50 sm:w-40 md:order-2 md:mx-auto md:mt-6 md:w-96 h-auto shrink-0"
+            />
+            <div className="order-2 flex flex-col items-end md:order-1 md:items-start">
+              <div className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium">
+                Here Plays
+              </div>
+              <div className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-medium">
+                the Future
+              </div>
             </div>
           </div>
-          {/* AYO logo png as placeholder, replace with new logo svg when available */}
-          <img
-            src="/ayo-logo-white.png"
-            alt="AYO Logo"
-            className="mx-auto mt-6 w-32 sm:w-48 md:w-96 h-auto"
-          />
         </div>
 
         {/* Right container */}
         <div className="w-full md:w-1/2 text-left font-semibold">
           <nav className="flex flex-col gap-4 mt-5 mb-6">
             {/* Placeholder links, update with actual paths when available */}
-            <div className="flex gap-6 sm:gap-10 md:gap-20 flex-wrap">
+            <div className="flex gap-x-6 gap-y-1 sm:gap-x-10 md:gap-x-20 flex-wrap">
               <Link href="/" className="text-white text-md hover:opacity-70">
                 HOME
               </Link>
 
               <Link href="/about-us" className="text-white text-md hover:opacity-70">
                 ABOUT US
+              </Link>
+
+              <Link href="/news" className="text-white text-md hover:opacity-70">
+                NEWS
               </Link>
 
               <Link href="/concerts-events" className="text-white text-md hover:opacity-70">
@@ -53,14 +67,38 @@ export default function Footer() {
               <Link href="/support-us" className="text-white text-md hover:opacity-70">
                 SUPPORT US
               </Link>
+
+              <Link href="/contact-us" className="text-white text-md hover:opacity-70">
+                CONTACT US
+              </Link>
+
+              <Link href="/my-ayo" className="text-white text-md hover:opacity-70">
+                MY AYO
+              </Link>
+
+              <Link href="/policies" className="text-white text-md hover:opacity-70">
+                POLICIES
+              </Link>
             </div>
           </nav>
 
           <div className="flex flex-col gap-4 w-full">
-            {/* Placeholder for social media links */}
-            <Link href="/socials" className="text-white text-md hover:opacity-70 mt-3 mb-3">
-              SOCIALS
-            </Link>
+            {/* Social media links, hrefs to be filled in with the real profile URLs */}
+            <span className="text-md font-semibold mt-3">CONNECT</span>
+            <div className="flex gap-5 mb-3">
+              {socialLinks.map((social) => (
+                <Link
+                  key={social.name}
+                  href={social.href}
+                  aria-label={social.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:opacity-70"
+                >
+                  <social.Icon size={22} aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
             <span className="text-md font-semibold">SUBSCRIBE TO OUR NEWSLETTER</span>
             <div className="flex w-full">
               {/* Simple email input and button for newsletter subscription */}

@@ -1,7 +1,7 @@
 import React from 'react'
 import FAQSection from '../components/FAQSection'
+import JoinIntroSection from '../components/JoinIntroSection'
 import OpportunitySection from '../components/OpportunitySection'
-import OpportunityModal from '../components/OpportunityModal'
 import Hero from '../components/Hero'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'

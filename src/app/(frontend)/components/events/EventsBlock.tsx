@@ -1,9 +1,11 @@
-"use client";
-import { useState } from 'react';
+'use client'
+import { useState } from 'react'
 import EventsCard from './EventsCard'
 import EventsCardSwitcher from './EventsCardSwitcher'
+
 const eventsData = [
   {
+    image: '/about-us-our-team.jpg',
     programme: [
       'Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve Logan)',
       "Bizet - Intermezzo from L' Arlésienne Suite no. 2",
@@ -16,85 +18,127 @@ const eventsData = [
     ],
   },
   {
+    image: '/hero-placeholder.jpg',
     programme: [
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore  ',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+      'Séjourné - Double Concerto for Marimba & Vibraphone (soloists: Eric Renick and Steve Logan)',
+      "Bizet - Intermezzo from L' Arlésienne Suite no. 2",
+      'Dvorak - Symphony No. 9 “From the New World”',
     ],
     concertDates: [
-      'Lorem ipsum dolor sit amet',
-      'Consectetur adipiscing elit, sed do',
-      'Eiusmod tempor incididunt ut labore',
+      'Sun. 14 June - TBD',
+      'Sat. 20 June, 7.30pm - Orewa Arts & Events Centre',
+      'Sun. 21 June, 2.30pm - Auckland Town Hall',
     ],
   },
   {
+    image: '/hero-placeholder.jpg',
     programme: [
-      'example 3 blah balh  ',
-      'example 3 blah balh lit, sed do eiusmod tempor incididunt ut labore',
-      'example 3 blah balh  sed do eiusmod tempor incididunt ut labore',
+      'Elgar - Enigma Variations',
+      'Grieg - Piano Concerto in A minor (soloist: Maya Chen)',
+      'Sibelius - Finlandia',
     ],
     concertDates: [
-      'date 1 :D',
-      'date 2 :P',
-      'date 3 :3',
+      'Fri. 11 July, 7.00pm - Auckland Town Hall',
+      'Sat. 12 July, 7.30pm - Bruce Mason Centre',
+      'Sun. 13 July, 2.30pm - Howick All Saints Church',
+    ],
+  },
+  {
+    image: '/about-us-our-team.jpg',
+    programme: [
+      'Holst - The Planets, Op. 32',
+      'Rachmaninoff - Rhapsody on a Theme of Paganini (soloist: James O’Connell)',
+      'Copland - Fanfare for the Common Man',
+    ],
+    concertDates: [
+      'Sat. 8 August, 7.30pm - Auckland Town Hall',
+      'Sun. 9 August, 2.30pm - Orewa Arts & Events Centre',
+    ],
+  },
+  {
+    image: '/hero-placeholder.jpg',
+    programme: [
+      'Tchaikovsky - Violin Concerto in D major (soloist: Aria Patel)',
+      'Shostakovich - Symphony No. 5',
+      'Mussorgsky (orch. Ravel) - Pictures at an Exhibition',
+    ],
+    concertDates: [
+      'Fri. 4 September, 7.00pm - Bruce Mason Centre',
+      'Sat. 5 September, 7.30pm - Auckland Town Hall',
+      'Sun. 6 September, 2.30pm - Howick All Saints Church',
+    ],
+  },
+  {
+    image: '/about-us-our-team.jpg',
+    programme: [
+      'Beethoven - Symphony No. 7',
+      'Mendelssohn - Violin Concerto in E minor (soloist: Lucas Wright)',
+      'Wagner - Prelude to Die Meistersinger',
+    ],
+    concertDates: [
+      'Sat. 3 October, 7.30pm - Auckland Town Hall',
+      'Sun. 4 October, 2.30pm - Orewa Arts & Events Centre',
     ],
   },
 ]
-const Events = () => {
-  const [cardNum, setCardNum] = useState(0)
 
-  const handleNext = () =>  {
-    if (cardNum < eventsData.length - 1) {
-      setCardNum((current) => current + 1);
+const CARDS_PER_PAGE = 2
+
+const Events = () => {
+  const [pageNum, setPageNum] = useState(0)
+  const pageTotal = Math.ceil(eventsData.length / CARDS_PER_PAGE)
+
+  const handleNext = () => {
+    if (pageNum < pageTotal - 1) {
+      setPageNum((current) => current + 1)
     }
   }
 
   const handlePrev = () => {
-    if (cardNum > 0) {
-      setCardNum((current) => current - 1)
+    if (pageNum > 0) {
+      setPageNum((current) => current - 1)
     }
   }
 
-  return (
-    <div className="text-black w-full">
-      <div className="flex justify-center">
-        <div className="text-body my-10 w-[90%]">
-          <h1 className="text-heading font-semibold">Concerts & Events</h1>
-          <div className="flex mt-5">
-            <p className="mr-6 text-muted"> Year </p>
-            <select className="font-bold appearance-none">
-              <option value="2026">2026</option>
-              <option value="2027">2027</option>
-            </select>
+  const start = pageNum * CARDS_PER_PAGE
+  const currentPageEvents = eventsData.slice(start, start + CARDS_PER_PAGE)
 
-            <p className="ml-15 mr-6 text-muted"> Month </p>
-            <select className="font-bold appearance-none">
-              <option value="June">June</option>
-              <option value="July">July</option>
-            </select>
-          </div>
+  return (
+    <div className="text-black w-full px-24 py-14">
+      <div className="my-10">
+        <h1 className="text-heading font-semibold">Concerts & Events</h1>
+        <div className="flex mt-5">
+          <p className="mr-6 text-muted font-medium"> Year </p>
+          <select className="font-semibold underline appearance-none">
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+          </select>
+
+          <p className="ml-15 mr-6 text-muted font-medium"> Month </p>
+          <select className="font-semibold underline appearance-none">
+            <option value="June">June</option>
+            <option value="July">July</option>
+          </select>
         </div>
       </div>
 
-      <div className="hidden lg:flex justify-center">
-        <EventsCard programme={eventsData[cardNum].programme} concertDates={eventsData[cardNum].concertDates} />
-      </div>
-
-      <div className="flex-col lg:hidden content-center">
-        {eventsData.map((concert, index) => (
-          <div className="mb-5 flex justify-center" key={index}>
-            <EventsCard programme={concert.programme} concertDates={concert.concertDates} />
-          </div>
+      <div className="flex flex-col">
+        {currentPageEvents.map((concert, index) => (
+          <EventsCard
+            key={start + index}
+            image={concert.image}
+            programme={concert.programme}
+            concertDates={concert.concertDates}
+          />
         ))}
       </div>
 
-      <div className="flex justify-center">
-        <EventsCardSwitcher 
-          cardNum = {cardNum + 1} 
-          cardTotal = {eventsData.length}
-          onNext = {handleNext}
-          onPrev = {handlePrev}/>
-      </div>
+      <EventsCardSwitcher
+        cardNum={pageNum + 1}
+        cardTotal={pageTotal}
+        onNext={handleNext}
+        onPrev={handlePrev}
+      />
     </div>
   )
 }

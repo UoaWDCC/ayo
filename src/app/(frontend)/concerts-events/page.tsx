@@ -2,6 +2,9 @@ import React from 'react'
 import Hero from '../components/Hero'
 import Link from 'next/link'
 import PhotoSpotlight from '../components/PhotoSpotlight'
+import UpcomingEvents from '../components/UpcomingEvents'
+import FAQSection from '../components/FAQSection'
+import OpportunityModal from '../components/OpportunityModal'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
 import { getPayload } from 'payload'
@@ -45,6 +48,8 @@ export default async function ConcertsEventsPage() {
         hoverImgSrc="/hero-placeholder.jpg"
         staticImgSrc="/about-us-quote-poster.jpg"
       />
+      
+      <UpcomingEvents />
     </main>
   )
 }
