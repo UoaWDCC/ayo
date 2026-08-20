@@ -74,13 +74,13 @@ export default async function AboutUsPage() {
       <Hero title="About Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       <main className="min-h-screen bg-white text-black">
         <AboutUsSection />
-        <div className="w-full py-12 px-10">
-          <p className="text-3xl leading-body text-gray-600">
+        <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
+          <p className="">
             Like any good symphony, AYO is made up of multiple moving parts. Some sit in the
             background; others take centre stage. Every one of them helps in making the magic
             happen.
           </p>
-          <ul className="text-3xl ml-10 leading-body text-gray-600 list-disc">
+          <ul className="text-2xl ml-10 list-disc">
             <li>
               <span className="font-bold">Our Players: </span>some of Aotearoa&apos;s most driven
               young musicians.

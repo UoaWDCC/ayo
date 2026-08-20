@@ -25,7 +25,7 @@ const Grid = ({ title, items, placeholderCount = 8, placeholderSubtitle = 'Role'
     }))
 
   return (
-    <section className="w-full py-12 px-10">
+    <section className="mx-auto w-full max-w-7xl px-4 md:px-8 md:py-12">
       <div className="flex items-start justify-between mb-8">
         <h1 className="text-6xl font-bold leading-none m-0">
           Our <em>{title}</em>
