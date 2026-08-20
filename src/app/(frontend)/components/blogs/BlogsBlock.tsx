@@ -6,6 +6,7 @@ import Link from 'next/link'
 import BlogsCard from './BlogsCard'
 import BlogsFilter from './BlogsFilter'
 import BlogsPagination from './BlogsPagination'
+import image from 'next/image'
 
 export default function BlogsBlock() {
   // Dummy data for now, to be replaced with real data from backend
@@ -16,6 +17,7 @@ export default function BlogsBlock() {
       date: 'November 1st, 2025',
       excerpt:
         'The Final of the 2025 AYO Soloist Competition was held on Sunday, 19 October 2025.  It was an exciting event with the wonderful talent of AYO’s players being showcased once more.',
+      image: '/about-us-quote-poster.jpg',
     },
     {
       id: 2,
@@ -24,6 +26,7 @@ export default function BlogsBlock() {
       date: 'June 6th, 2025',
       excerpt:
         'AYO’s soloist for the June concert series Tony Yan Tong Chen was interviewed by Bryan Crump on RNZ Concert on 4 June 2025 – hear the interview and some of his recordings here!',
+      image: '/about-us-our-team.jpg',
     },
     {
       id: 3,
@@ -31,30 +34,36 @@ export default function BlogsBlock() {
       date: 'June 6th, 2025',
       excerpt:
         'With less than two weeks to go until the first concert of this series we regret inform you that our popular Howick venue, the All Saints Church, has suffered significant flooding and is...',
+      image: '/about-us-our-team.jpg',
     },
+
     {
       id: 4,
       title: 'test blog post 4',
       date: 'happy new year',
       excerpt: 'A fake blog post.',
+      image: '/about-us-our-team.jpg',
     },
     {
       id: 5,
       title: 'test blog post 5',
       date: 'happy new year',
       excerpt: 'A fake blog post.',
+      image: '/about-us-our-team.jpg',
     },
     {
       id: 6,
       title: 'test blog post 6',
       date: 'happy new year',
       excerpt: 'A fake blog post.',
+      image: '/about-us-our-team.jpg',
     },
     {
       id: 7,
       title: 'test blog post 7',
       date: 'happy new year',
       excerpt: 'A fake blog post.',
+      image: '/about-us-our-team.jpg',
     },
   ]
 
