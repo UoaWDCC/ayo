@@ -16,7 +16,7 @@ const posts = [
 export default function SocialMediaBlock() {
   return (
     <div className="px-24 py-14">
-      <h1 className="text-heading font-semibold mb-14">Follow us!</h1>
+      <h1 className="text-heading font-semibold mb-2">Follow us!</h1>
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-x-4">
