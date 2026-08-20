@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 // Placeholder grid images until real Instagram posts/API are wired up
 const posts = [
-  '/grey_rectangle.png',
-  '/grey_rectangle.png',
-  '/grey_rectangle.png',
-  '/grey_rectangle.png',
-  '/grey_rectangle.png',
-  '/grey_rectangle.png',
-  '/grey_rectangle.png',
-  '/grey_rectangle.png',
+  '/hero-placeholder.jpg',
+  '/about-us-quote-poster.jpg',
+  '/about-us-our-team.jpg',
+  '/hero-placeholder.jpg',
+  '/about-us-quote-poster.jpg',
+  '/about-us-our-team.jpg',
+  '/hero-placeholder.jpg',
+  '/about-us-quote-poster.jpg',
 ]
 
 export default function SocialMediaBlock() {
