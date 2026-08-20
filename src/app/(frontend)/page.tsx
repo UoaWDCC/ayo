@@ -4,6 +4,7 @@ import AboutIntro from './components/AboutIntro'
 import EventsBlock from './components/events/EventsBlock'
 import BlogsBlock from './components/blogs/BlogsBlock'
 import AboutUsQuoteVid from './components/AboutUsQuoteVid'
+import SocialMediaBlock from './components/SocialMediaBlock'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -52,6 +53,7 @@ export default async function LandingPage() {
 
       <EventsBlock />
       <BlogsBlock />
+      <SocialMediaBlock />
     </main>
   )
 }
