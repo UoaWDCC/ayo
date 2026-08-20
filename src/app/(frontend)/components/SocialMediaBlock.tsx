@@ -20,13 +20,15 @@ export default function SocialMediaBlock() {
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-x-4">
-          <Image
-            className="rounded-full"
-            src="/ayo-logo-black-bgwhite.png"
-            width={52}
-            height={52}
-            alt="Auckland Youth Orchestra"
-          />
+          <div className="w-[52px] h-[52px] rounded-full bg-[#D9D9D9] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover"
+              src="/hero-placeholder.jpg"
+              width={52}
+              height={52}
+              alt="Auckland Youth Orchestra"
+            />
+          </div>
           <span className="font-semibold text-body">aucklandyouthorchestra</span>
         </div>
 
