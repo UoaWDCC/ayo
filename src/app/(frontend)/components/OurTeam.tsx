@@ -150,8 +150,8 @@ export default function OurTeam() {
   const { title, intro, leadership, sections } = MOCK_DATA
 
   return (
-    <section className="w-full py-12 px-10">
-      <div className="max-w-6xl mx-auto">
+    <section className="w-full py-12">
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 md:py-24">
         <div className="flex items-start justify-between mb-8">
           <h1 className="text-5xl sm:text-6xl font-bold leading-none m-0">
             Our <em>{title}</em>
