@@ -4,20 +4,22 @@ const EventsCardSwitcher = ({
   cardNum,
   cardTotal,
   onNext,
-  onPrev
+  onPrev,
 }: {
-  cardNum: number,
-  cardTotal: number,
-  onNext: () => void,
+  cardNum: number
+  cardTotal: number
+  onNext: () => void
   onPrev: () => void
 }) => {
   return (
-    <div className="flex justify-between w-[90%] my-6">
+    <div className="border-t border-[#EBEBEB] pt-5 mb-6 flex justify-between">
       <div className="flex gap-6 underline">
-        <button onClick = {onPrev}>Previous</button>
-        <button onClick = {onNext}>Next</button>
+        <button onClick={onPrev}>Previous</button>
+        <button onClick={onNext}>Next</button>
       </div>
-      <div>{cardNum} of {cardTotal}</div>
+      <div>
+        {cardNum} of {cardTotal}
+      </div>
     </div>
   )
 }

@@ -12,25 +12,18 @@ export default function BlogsPagination({
   onPageChange,
 }: BlogsPaginationProps) {
   return (
-    <div className="border-t border-[#EBEBEB] pt-5 flex justify-end gap-6 items-center">
-      {/* border colour is from figma */}
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="underline underline-offset-3 hover:text-muted transition-colors"
-      >
-        Previous
-      </button>
+    <div className="border-t border-[#EBEBEB] pt-5 flex justify-between items-center">
+      <div className="flex gap-6 underline">
+        <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
       <span className="px-6">
         {currentPage} of {totalPages}
       </span>
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="underline underline-offset-3 hover:text-muted transition-colors"
-      >
-        Next
-      </button>
     </div>
   )
 }
