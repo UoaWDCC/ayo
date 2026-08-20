@@ -18,32 +18,25 @@ const Months = [
   'December',
 ]
 
-{
-  /*type FilterOption = {
-  onYearChange: (year: string) => void
-  onMonthChange: (month: string) => void
-}*/
-}
-
 export default function BlogsFilter() {
   const [selectedYear, setSelectedYear] = useState('2025')
   const [selectedMonth, setSelectedMonth] = useState('All')
   return (
     <div className="flex gap-6 mb-6">
-      <p className="text-muted">Year</p>
+      <p className="mr-6 text-muted font-medium">Year</p>
       <select
         value={selectedYear}
         onChange={(e) => setSelectedYear(e.target.value)}
-        className="appearance-none font-semibold hover:text-muted transition-colors"
+        className="font-semibold underline appearance-none"
       >
         <option value="2025">2025</option>
         <option value="2024">2024</option>
       </select>
-      <p className="text-muted">Month</p>
+      <p className="ml-15 mr-6 text-muted font-medium">Month</p>
       <select
         value={selectedMonth}
         onChange={(e) => setSelectedMonth(e.target.value)}
-        className="appearance-none font-semibold hover:text-muted transition-colors"
+        className="font-semibold underline appearance-none"
       >
         <option value="">All</option>
         <option value="November">November</option>
