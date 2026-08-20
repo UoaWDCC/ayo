@@ -12,7 +12,7 @@ type Blog = {
 
 export default function BlogsCard(Blog: Blog) {
   return (
-    <Link href={'/news/' + Blog.id}>
+    <Link href={'/news' /* TODO: revert to '/news/' + Blog.id once blog detail pages exist */}>
       <div className="border-t border-[#EBEBEB] lg:grid lg:grid-cols-2 py-12 px-4 xl:gap-x-70 md:gap-x-20 sm:gap-x-10 hover:bg-gray-50 transition-colors">
         <div className="lg:flex lg:items-center lg:gap-x-8">
           <Image

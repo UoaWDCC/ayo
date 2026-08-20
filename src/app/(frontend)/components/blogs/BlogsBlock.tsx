@@ -39,30 +39,34 @@ export default function BlogsBlock() {
 
     {
       id: 4,
-      title: 'test blog post 4',
-      date: 'happy new year',
-      excerpt: 'A fake blog post.',
+      title: 'AYO Announces 2026 Winter Concert Series',
+      date: 'May 12th, 2025',
+      excerpt:
+        'We are thrilled to announce the lineup for our 2026 Winter Concert Series, featuring works by Sibelius, Dvořák, and a new commission from a rising New Zealand composer.',
       image: '/about-us-our-team.jpg',
     },
     {
       id: 5,
-      title: 'test blog post 5',
-      date: 'happy new year',
-      excerpt: 'A fake blog post.',
+      title: 'Auditions Open for the 2026 Season',
+      date: 'April 3rd, 2025',
+      excerpt:
+        'Applications are now open for musicians wishing to join AYO for the 2026 season. Auditions will be held in Auckland, Wellington, and Christchurch throughout May.',
       image: '/about-us-our-team.jpg',
     },
     {
       id: 6,
-      title: 'test blog post 6',
-      date: 'happy new year',
-      excerpt: 'A fake blog post.',
+      title: 'AYO Alumni Spotlight: Where Are They Now?',
+      date: 'March 15th, 2025',
+      excerpt:
+        'We catch up with former AYO members now performing with orchestras around the world, from the Berlin Philharmonic to the Sydney Symphony Orchestra.',
       image: '/about-us-our-team.jpg',
     },
     {
       id: 7,
-      title: 'test blog post 7',
-      date: 'happy new year',
-      excerpt: 'A fake blog post.',
+      title: 'Behind the Scenes: Preparing for Opening Night',
+      date: 'February 20th, 2025',
+      excerpt:
+        'Take a look behind the curtain as our musicians and production crew put the final touches on this season’s opening performance at the Auckland Town Hall.',
       image: '/about-us-our-team.jpg',
     },
   ]
