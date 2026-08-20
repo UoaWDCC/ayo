@@ -12,7 +12,7 @@ const EventsCardSwitcher = ({
   onPrev: () => void
 }) => {
   return (
-    <div className="border-t border-[#EBEBEB] pt-5 mb-6 flex justify-between w-[90%]">
+    <div className="border-t border-[#EBEBEB] pt-5 mb-6 flex justify-between">
       <div className="flex gap-6 underline">
         <button onClick={onPrev}>Previous</button>
         <button onClick={onNext}>Next</button>
