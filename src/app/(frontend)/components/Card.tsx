@@ -13,8 +13,8 @@ const Card = ({ name, subtitle, imageUrl }: CardProps) => {
         {imageUrl && <img src={imageUrl} alt={name} className="w-full h-full object-cover" />}
       </div>
       <div>
-        <p className="text-base font-semibold leading-tight m-0">{name}</p>
-        <p className="text-base italic leading-tight m-0 text-black/80">{subtitle}</p>
+        <p className="text-base font-semibold leading-tight mt-1">{name}</p>
+        <p className="text-base italic leading-tight mt-2 text-black/80">{subtitle}</p>
       </div>
     </div>
   )
