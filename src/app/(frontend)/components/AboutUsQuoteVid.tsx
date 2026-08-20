@@ -71,9 +71,11 @@ const AboutUsQuoteVideo = ({
       )}
 
       <div className="absolute inset-0 bg-black/50 transition-colors duration-300 group-hover:bg-black/10" />
-
-      <div className="relative z-10 flex h-full items-end justify-end p-6 md:p-10">
-        <p className="w-full md:w-1/2 text-right text-white text-3xl md:text-5xl leading-snug">
+      <p className="absolute z-10 text-xl mt-5 ml-5 items-start text-left justify-start text-white">
+        75th Anniversary Concert - Friday, 23rd of October, 2023
+      </p>
+      <div className="relative z-10 flex h-full items-end justify-end p-6 md:p-8">
+        <p className="w-full md:w-1/2 text-right text-white text-xl lg:text-3xl xl:text-5xl leading-snug">
           &ldquo;{quote}&rdquo;
         </p>
       </div>
