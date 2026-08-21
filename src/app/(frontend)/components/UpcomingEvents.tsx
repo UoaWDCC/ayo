@@ -111,14 +111,18 @@ export default function UpcomingEvents() {
           A season of performances showcasing bold works and the energy of young musicians growing
           through music.
         </p>
+
         <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2]">
           Alongside our concert seasons we run a growing programme of tours, workshops,
           masterclasses, and educational events, built to develop young musicians, open doors for
-          new members, and give our supporters even more ways to get involved. Whether you're a
+          new members, and give our supporters even more ways to get involved. Whether you&apos;re a
           player looking to grow, a family exploring what we offer, or a sponsor following our
-          impact, this is where you'll find the full picture of what we do beyond the stage.
+          impact, this is where you&apos;ll find the full picture of what we do beyond the stage.
         </p>
-        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] font-semibold">What's on:</p>
+
+        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] font-semibold">
+          What&apos;s on:
+        </p>
 
         <ul className="mt-4 ml-6 text-[18px] leading-[22px] text-[#B2B2B2] list-disc">
           <li>
@@ -141,7 +145,7 @@ export default function UpcomingEvents() {
 
         <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2]">
           New events are added throughout the season — check back often, or get in touch to find out
-          what's next.
+          what&apos;s next.
         </p>
 
         {/* Controls */}

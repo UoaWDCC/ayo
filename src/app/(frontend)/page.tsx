@@ -35,7 +35,7 @@ export default async function LandingPage() {
           AN INTRODUCTION
         </p>
         <p className="mt-6 md:mt-[37px] font-sans font-light text-2xl sm:text-3xl md:text-[50px] leading-[1.22] text-text">
-          Aotearoa's first and original youth orchestra, founded 1948.
+          Aotearoa&apos;s first and original youth orchestra, founded 1948.
         </p>
         <p className="mt-6 md:mt-[37px] font-sans font-light text-2xl sm:text-3xl md:text-[50px] leading-[1.22] text-text">
           Real repertoire. Real stages. Real standards.
@@ -44,7 +44,7 @@ export default async function LandingPage() {
 
       <div className="w-full mt-10">
         <AboutUsQuoteVid
-          quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
+          quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
           posterImage="/about-us-quote-poster.jpg"
           // videoSrc="/about-us-quote-preview.mp4"   //
           youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
