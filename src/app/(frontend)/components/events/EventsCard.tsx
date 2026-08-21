@@ -2,23 +2,25 @@ import React from 'react'
 import Image from 'next/image'
 
 const EventsCard = ({
+  image,
   programme,
   concertDates,
 }: {
+  image: string
   programme: string[]
   concertDates: string[]
 }) => {
   return (
-    <div className="text-body w-[90%] border-y border-gray-400 grid grid-cols-[1fr_2fr_2fr] items-center gap-x-8 p-4">
+    <div className="text-body text-base border-t border-[#EBEBEB] lg:grid lg:grid-cols-[1fr_2fr_2fr] lg:items-center gap-x-8 py-12 px-4">
       <Image
-        className="my-10"
-        src="/grey_rectangle.png"
-        width={250}
-        height={250}
-        alt="Grey Rectangle"
+        className="mb-4 lg:mb-0"
+        src={image}
+        width={244}
+        height={181}
+        alt="Concert event photo"
       />
 
-      <div className="">
+      <div className="mb-6 lg:mb-0">
         <div className="leading-miniheader">
           <p>
             <span className="font-semibold">June 2026</span>
