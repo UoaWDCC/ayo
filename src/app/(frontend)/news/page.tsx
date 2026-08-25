@@ -294,6 +294,7 @@ export default function NewsPage() {
                   description={article.description}
                   type={article.type}
                   author={article.author}
+                  slug={article.slug}
                 />
               </Link>
             ))}
