@@ -1,7 +1,7 @@
 import React from 'react'
 import FAQSection from '../components/FAQSection'
+import JoinIntroSection from '../components/JoinIntroSection'
 import OpportunitySection from '../components/OpportunitySection'
-import OpportunityModal from '../components/OpportunityModal'
 import Hero from '../components/Hero'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -12,8 +12,6 @@ export default async function JoinAyoPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = heroBlock?.title || 'Join AYO'
-
   const heroImage = heroBlock?.backgroundImage
 
   const heroImageUrl =
@@ -23,7 +21,7 @@ export default async function JoinAyoPage() {
 
   return (
     <main>
-      <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero title="Join AYO" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       <OpportunitySection />
       <FAQSection />
     </main>

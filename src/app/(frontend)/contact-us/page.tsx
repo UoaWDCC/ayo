@@ -16,7 +16,7 @@ export default async function ContactUsPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = heroBlock?.title || 'Contact Us'
+  const heroTitle = 'Contact Us'
 
   const heroImage = heroBlock?.backgroundImage
 

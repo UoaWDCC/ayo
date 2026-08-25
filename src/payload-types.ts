@@ -75,6 +75,8 @@ export interface Config {
     links: Link;
     concerts: Concert;
     posts: Post;
+    people: Person;
+    roles: Role;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +92,8 @@ export interface Config {
     links: LinksSelect<false> | LinksSelect<true>;
     concerts: ConcertsSelect<false> | ConcertsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    people: PeopleSelect<false> | PeopleSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -198,14 +202,12 @@ export interface Page {
   layout?:
     | (
         | {
-            title: string;
             backgroundImage: string | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
           }
         | {
-            title?: string | null;
             content: {
               root: {
                 type: string;
@@ -226,44 +228,74 @@ export interface Page {
             blockType: 'rich-text';
           }
         | {
-            title?: string | null;
-            images: {
-              image: string | Media;
-              caption?: string | null;
+            text?: string | null;
+            videoUrl: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'video';
+          }
+        | {
+            image: string | Media;
+            text: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'quote';
+          }
+        | {
+            image: string | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'image';
+          }
+        | {
+            rows: {
+              label: string;
+              content: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              };
+              linkLabel?: string | null;
+              linkUrl?: string | null;
               id?: string | null;
             }[];
             id?: string | null;
             blockName?: string | null;
-            blockType: 'gallery';
+            blockType: 'table';
           }
         | {
-            height: 'small' | 'medium' | 'large';
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'spacer';
-          }
-        | {
-            title: string;
-            description?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
+            items: {
+              question: string;
+              answer: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
                   version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
+                };
+                [k: string]: unknown;
               };
-              [k: string]: unknown;
-            } | null;
-            buttonText: string;
-            buttonLink: string;
+              id?: string | null;
+            }[];
             id?: string | null;
             blockName?: string | null;
-            blockType: 'cta';
+            blockType: 'faq';
           }
       )[]
     | null;
@@ -383,6 +415,34 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people".
+ */
+export interface Person {
+  id: string;
+  name: string;
+  role?: (string | null) | Role;
+  type: 'player' | 'team' | 'alumni';
+  description?: string | null;
+  years: string;
+  photo?: (string | null) | Media;
+  isActive: boolean;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  roleName: string;
+  sortOrder: number;
+  displayName?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -436,6 +496,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'posts';
         value: string | Post;
+      } | null)
+    | ({
+        relationTo: 'people';
+        value: string | Person;
+      } | null)
+    | ({
+        relationTo: 'roles';
+        value: string | Role;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -545,7 +613,6 @@ export interface PagesSelect<T extends boolean = true> {
         hero?:
           | T
           | {
-              title?: T;
               backgroundImage?: T;
               id?: T;
               blockName?: T;
@@ -553,39 +620,58 @@ export interface PagesSelect<T extends boolean = true> {
         'rich-text'?:
           | T
           | {
-              title?: T;
               content?: T;
               id?: T;
               blockName?: T;
             };
-        gallery?:
+        video?:
           | T
           | {
-              title?: T;
-              images?:
+              text?: T;
+              videoUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        quote?:
+          | T
+          | {
+              image?: T;
+              text?: T;
+              id?: T;
+              blockName?: T;
+            };
+        image?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        table?:
+          | T
+          | {
+              rows?:
                 | T
                 | {
-                    image?: T;
-                    caption?: T;
+                    label?: T;
+                    content?: T;
+                    linkLabel?: T;
+                    linkUrl?: T;
                     id?: T;
                   };
               id?: T;
               blockName?: T;
             };
-        spacer?:
+        faq?:
           | T
           | {
-              height?: T;
-              id?: T;
-              blockName?: T;
-            };
-        cta?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              buttonText?: T;
-              buttonLink?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -673,6 +759,32 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   author?: T;
   publishedDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people_select".
+ */
+export interface PeopleSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  type?: T;
+  description?: T;
+  years?: T;
+  photo?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  roleName?: T;
+  sortOrder?: T;
+  displayName?: T;
   updatedAt?: T;
   createdAt?: T;
 }

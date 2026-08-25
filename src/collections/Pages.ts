@@ -1,9 +1,11 @@
 import type { CollectionConfig } from 'payload'
 import { Hero } from '@/blocks/Hero'
 import { RichText } from '@/blocks/RichText'
-import { Spacer } from '@/blocks/Spacer'
-import { CTA } from '@/blocks/CTA'
-import { Gallery } from '@/blocks/Gallery'
+import { VideoBlock } from '@/blocks/VideoBlock'
+import { QuoteBlock } from '@/blocks/QuoteBlock'
+import { ImageBlock } from '@/blocks/ImageBlock'
+import { TableBlock } from '@/blocks/TableBlock'
+import { FAQBlock } from '@/blocks/FAQBlock'
 
 /**
  * Pages collection:
@@ -14,9 +16,9 @@ import { Gallery } from '@/blocks/Gallery'
  * - title: internal admin-facing page name
  * - slug: URL identifier used by the frontend to resolve which page
  *   to render (e.g. "home", "about", "support-us")
- * - layout: ordered array of content blocks (Hero, RichText, Gallery,
- *   Spacer, CTA) that the admin composes per page without needing a
- *   developer to hardcode frontend content
+ * - layout: ordered array of content blocks (Hero, RichText) that the
+ *   admin composes per page without needing a developer to hardcode
+ *   frontend content
  */
 
 export const Pages: CollectionConfig = {
@@ -38,7 +40,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [Hero, RichText, Gallery, Spacer, CTA],
+      blocks: [Hero, RichText, VideoBlock, QuoteBlock, ImageBlock, TableBlock, FAQBlock],
     },
   ],
 }
