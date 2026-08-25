@@ -24,9 +24,8 @@ const NewsCard = ({ title, date, description, type, author, slug }: NewsCardProp
       <p className="mt-4 text-black/50"> {date} </p>
       <p className="mt-4 italic">{description}</p>
       <p className="mt-4 flex">
-        <Link href={`/news/${slug}`} className="block group">
-          <span className="underline">Read More </span> &nbsp;↗{' '}
-        </Link>
+        <span className="underline group-hover:text-neutral-600 transition-colors">Read More</span>
+        &nbsp;↗
       </p>
       <p className="mt-4 text-xs uppercase font-semibold">
         {type} • {author}
