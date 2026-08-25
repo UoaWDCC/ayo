@@ -1,65 +1,83 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import EventCard from './EventCard'
+import EventCard, { type EventCardData } from './EventCard'
 
-// TODO: replace with real data from API
-const events = [
+// TODO: replace with real data from API (Concerts collection)
+const events: (EventCardData & {
+  type: string
+  deadlineDate: string
+  year: number
+  month: string
+  location: string
+})[] = [
   {
     id: 1,
     type: 'Concert',
-    title: 'Séjourné, Bizet & Dvorak',
-    deadlineLabel: '20th of May, 11:59pm NZST',
     deadlineDate: '2026-05-20T23:59:00+12:00',
     year: 2026,
     month: 'May',
     location: 'Auckland, New Zealand',
-    date: 'Sun, 21 June',
+    title: 'Séjourné, Bizet & Dvorak',
+    subtitle: 'Sun, 21 June · Auckland Town Hall',
     description:
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
+    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
+    links: [],
+    ctaLabel: 'See Now',
+    ctaHref: '#',
   },
   {
     id: 2,
     type: 'Concert',
-    title: 'Séjourné, Bizet & Dvorak',
-    deadlineLabel: '20th of May, 11:59pm NZST',
     deadlineDate: '2026-05-20T23:59:00+12:00',
     year: 2026,
     month: 'May',
     location: 'Auckland, New Zealand',
-    date: 'Sun, 21 June',
+    title: 'Séjourné, Bizet & Dvorak',
+    subtitle: 'Sun, 21 June · Auckland Town Hall',
     description:
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
+    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
+    links: [],
+    ctaLabel: 'See Now',
+    ctaHref: '#',
   },
   {
     id: 3,
     type: 'Concert',
-    title: 'Séjourné, Bizet & Dvorak',
-    deadlineLabel: '15th of August, 11:59pm NZST',
     deadlineDate: '2026-08-15T23:59:00+12:00',
     year: 2026,
     month: 'August',
     location: 'Auckland, New Zealand',
-    date: 'Sun, 21 June',
+    title: 'Séjourné, Bizet & Dvorak',
+    subtitle: 'Sun, 21 June · Auckland Town Hall',
     description:
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
+    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
+    links: [],
+    ctaLabel: 'See Now',
+    ctaHref: '#',
   },
   {
     id: 4,
     type: 'Concert',
-    title: 'Séjourné, Bizet & Dvorak',
-    deadlineLabel: '15th of August, 11:59pm NZST',
     deadlineDate: '2026-08-15T23:59:00+12:00',
     year: 2026,
     month: 'August',
     location: 'Auckland, New Zealand',
-    date: 'Sun, 21 June',
+    title: 'Séjourné, Bizet & Dvorak',
+    subtitle: 'Sun, 21 June · Auckland Town Hall',
     description:
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
+    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
+    links: [],
+    ctaLabel: 'See Now',
+    ctaHref: '#',
   },
 ]
 
@@ -228,12 +246,10 @@ export default function UpcomingEvents() {
           {paginatedevents.map((event) => (
             <EventCard
               key={event.id}
-              image={event.image}
-              title={event.title}
-              date={event.date}
-              location={event.location}
-              description={event.description}
-              eventType={event.type.toUpperCase() + ' · ' + event.location.toUpperCase()}
+              event={{
+                ...event,
+                footerLabel: `${event.type.toUpperCase()} · ${event.location.toUpperCase()}`,
+              }}
             />
           ))}
         </div>

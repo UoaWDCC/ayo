@@ -1,49 +1,90 @@
-import Image from 'next/image'
+'use client'
 
-interface EventCardProps {
-  image: string
-  title: string
+import { useRef, useState } from 'react'
+import Image from 'next/image'
+import EventDetailsPanel from './EventDetailsPanel'
+
+export type EventPerformance = {
+  time: string
   date: string
-  location: string
-  description: string
-  eventType: string
+  venue: string
 }
 
-export default function EventCard({
-  image,
-  title,
-  date,
-  location,
-  description,
-  eventType,
-}: EventCardProps) {
+export type EventLink = {
+  label: string
+  href: string
+}
+
+export type EventCardData = {
+  id: string | number
+  title: string
+  subtitle: string
+  image: string
+  description: string
+  performances: EventPerformance[]
+  links: EventLink[]
+  photosAvailable?: boolean
+  ctaLabel?: string
+  ctaHref?: string
+  footerLabel?: string
+}
+
+const EventCard = ({ event }: { event: EventCardData }) => {
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      {/* Image */}
-      <div className="relative w-full h-[200px] bg-gray-200">
-        <Image src={image} alt={title} fill className="object-cover" />
-      </div>
-
-      {/* Content */}
-      <div className="p-6">
-        {/* Title */}
-        <h3 className="font-semibold text-[16px] leading-[20px] text-black mb-3">{title}</h3>
-
-        {/* Date and Location */}
-        <p className="text-[14px] leading-[17px] text-[#B2B2B2] mb-3">
-          {date} · {location}
-        </p>
-
-        {/* Description */}
-        <p className="text-[14px] leading-[17px] text-[#666666] mb-6">{description}</p>
-
-        {/* Event Type Tag */}
-        <div className="pt-4 border-t border-[#EBEBEB]">
-          <p className="text-[12px] leading-[15px] font-semibold text-black tracking-wide">
-            {eventType}
-          </p>
+    <div className="text-black">
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setIsPanelOpen(true)}
+        aria-haspopup="dialog"
+        className="block w-full text-left cursor-pointer"
+      >
+        <div className="w-full aspect-[4/3] overflow-hidden bg-[#EBEBEB]">
+          <Image
+            src={event.image}
+            alt={event.title}
+            width={400}
+            height={300}
+            className="w-full h-full object-cover"
+          />
         </div>
-      </div>
+
+        <h3 className="font-semibold text-lg mt-4">{event.title}</h3>
+
+        <p className="text-sm text-muted mt-1">{event.subtitle}</p>
+
+        <p className="text-sm mt-3 text-black/70 line-clamp-3">{event.description}</p>
+      </button>
+
+      {(event.links.length > 0 || event.footerLabel) && (
+        <div className="flex items-center justify-between mt-4 text-sm">
+          <div className="flex gap-4">
+            {event.links.map((link) => (
+              <a key={link.label} href={link.href} className="underline hover:opacity-70">
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+
+          {event.footerLabel && (
+            <span className="text-xs uppercase font-semibold text-muted">{event.footerLabel}</span>
+          )}
+        </div>
+      )}
+
+      <EventDetailsPanel
+        event={event}
+        isOpen={isPanelOpen}
+        onClose={() => {
+          setIsPanelOpen(false)
+          triggerRef.current?.focus()
+        }}
+      />
     </div>
   )
 }
+
+export default EventCard
