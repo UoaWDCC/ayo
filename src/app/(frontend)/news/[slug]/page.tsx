@@ -1,4 +1,5 @@
-// app/news/[future-slug]/page.tsx
+// single blog page
+// app/news/[slug]/page.tsx
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -57,8 +58,11 @@ const relatedPosts = [
     image: '/grey_rectangle.png',
   },
 ]
+interface PageProps {
+  params: Promise<{ slug: string }>
+}
 
-export default function SinglePostPage() {
+export default async function SinglePostPage({ params }: PageProps) {
   return (
     <article>
       {/* Hero */}
@@ -85,7 +89,7 @@ export default function SinglePostPage() {
           href="/news"
           className="inline-block mb-10 underline underline-offset-4 hover:text-muted transition-colors"
         >
-          ← Back to Resources
+          ← Back to Listing Page
         </Link>
 
         {/* Body */}

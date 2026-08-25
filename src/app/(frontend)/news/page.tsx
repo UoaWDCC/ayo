@@ -2,10 +2,12 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import NewsCard from '../components/NewsCard'
+import Link from 'next/dist/client/link'
 
 const news = [
   {
     id: 1,
+    slug: 'ayo-newsletter-july-2026',
     type: 'Newsletter',
     title: 'AYO Newsletter - July, 2026',
     publishLabel: 'Sun. 21 June',
@@ -17,6 +19,7 @@ const news = [
   },
   {
     id: 2,
+    slug: 'ayo-newsletter-june-2026',
     type: 'Newsletter',
     title: 'AYO Newsletter - June, 2026',
     publishLabel: 'Sun. 21 June',
@@ -28,6 +31,7 @@ const news = [
   },
   {
     id: 3,
+    slug: 'ayo-story-may-2026',
     type: 'Story',
     title: 'AYO Newsletter - May, 2026',
     publishLabel: 'Sun. 21 June',
@@ -39,6 +43,7 @@ const news = [
   },
   {
     id: 4,
+    slug: 'ayo-newsletter-may-2026',
     type: 'Newsletter',
     title: 'AYO Newsletter - May, 2026',
     publishLabel: 'Sun. 21 June',
@@ -50,6 +55,7 @@ const news = [
   },
   {
     id: 5,
+    slug: 'ayo-story-june-2025',
     type: 'Story',
     title: 'AYO Story - June, 2025',
     publishLabel: 'Sun. 21 June',
@@ -61,6 +67,7 @@ const news = [
   },
   {
     id: 6,
+    slug: 'ayo-story-july-2025',
     type: 'Story',
     title: 'AYO Story - July, 2025',
     publishLabel: 'Sun. 21 June',
@@ -72,6 +79,7 @@ const news = [
   },
   {
     id: 7,
+    slug: 'ayo-story-july-2025-scholarship-updates',
     type: 'Scholarship Updates',
     title: 'AYO Story - July, 2025',
     publishLabel: 'Sun. 21 June',
@@ -83,6 +91,7 @@ const news = [
   },
   {
     id: 8,
+    slug: 'ayo-photo-essay-july-2025',
     type: 'Photo Essays',
     title: 'AYO Photo Essay - July, 2025',
     publishLabel: 'Sun. 21 June',
@@ -94,6 +103,7 @@ const news = [
   },
   {
     id: 9,
+    slug: 'ayo-alumni-news-july-2025',
     type: 'Alumni News',
     title: 'AYO Alumni News - July, 2025',
     publishLabel: 'Sun. 21 June',
@@ -105,6 +115,7 @@ const news = [
   },
   {
     id: 10,
+    slug: 'ayo-story-august-2026',
     type: 'Story',
     title: 'AYO Story - August, 2026',
     publishLabel: 'Sun. 21 August',
@@ -276,7 +287,7 @@ export default function NewsPage() {
         <div>
           <div className="w-full flex flex-wrap">
             {paginatedNews.map((article) => (
-              <div key={article.id}>
+              <Link key={article.id} href={`/news/${article.slug}`} className="block group">
                 <NewsCard
                   title={article.title}
                   date={article.publishLabel}
@@ -284,7 +295,7 @@ export default function NewsPage() {
                   type={article.type}
                   author={article.author}
                 />
-              </div>
+              </Link>
             ))}
           </div>
         </div>
