@@ -161,9 +161,10 @@ export default function Spacer({
                 href={setListUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-1 font-bold text-white underline underline-offset-2"
+                className="mt-6 inline-flex items-center gap-1 font-bold text-white"
               >
-                Set List <span aria-hidden>↗</span>
+                <span className="underline underline-offset-2">Set List</span>
+                <span aria-hidden>↗</span>
               </a>
             )}
           </div>
@@ -178,9 +179,10 @@ export default function Spacer({
                 href={bookNowUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm font-bold text-black underline underline-offset-2 md:text-base"
+                className="inline-flex items-center gap-1 text-sm font-bold text-black md:text-base"
               >
-                Book Now <span aria-hidden>↗</span>
+                <span className="underline underline-offset-2">Book Now</span>
+                <span aria-hidden>↗</span>
               </a>
             )}
           </div>
