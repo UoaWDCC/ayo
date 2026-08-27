@@ -7,9 +7,10 @@ interface NewsCardProps {
   description: string
   type: string
   author: string
+  slug: string
 }
 
-const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => {
+const NewsCard = ({ title, date, description, type, author, slug }: NewsCardProps) => {
   return (
     <div className="ml-20 mt-15 w-110">
       <Image
@@ -23,9 +24,8 @@ const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => 
       <p className="mt-4 text-black/50"> {date} </p>
       <p className="mt-4 italic">{description}</p>
       <p className="mt-4 flex">
-        <Link href="/">
-          <span className="underline">Read More </span> &nbsp;↗{' '}
-        </Link>
+        <span className="underline group-hover:text-neutral-600 transition-colors">Read More</span>
+        &nbsp;↗
       </p>
       <p className="mt-4 text-xs uppercase font-semibold">
         {type} • {author}
