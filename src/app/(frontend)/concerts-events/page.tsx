@@ -47,8 +47,21 @@ export default async function ConcertsEventsPage() {
         headingLarge="Europe Tour"
         hoverImgSrc="/hero-placeholder.jpg"
         staticImgSrc="/about-us-quote-poster.jpg"
+        modalSubtitle="Sep. 17th to Sep 30th · Norway, Sweden, UK"
+        description="The orchestra is open to young musicians typically aged between 14 and 24..."
+        galleryImages={[
+          '/about-us-quote-poster.jpg',
+          '/about-us-quote-poster.jpg',
+          '/about-us-quote-poster.jpg',
+        ]}
+        times={[
+          { time: '16:00 - 18:00', date: 'Sunday, 21st of June', location: 'Howick, Auckland' },
+          { time: '18:00 - 20:00', date: 'Monday, 22nd of June', location: 'Howick, Auckland' },
+        ]}
+        setListUrl="#"
+        bookNowUrl="#"
       />
-      
+
       <UpcomingEvents />
     </main>
   )
