@@ -48,17 +48,15 @@ const faqData = [
 const FAQSection = () => {
   return (
     <section className="bg-white w-full">
-      <h2 className="font-semibold text-[40px] leading-[56px] text-black mx-8 md:mx-20 lg:mx-25 xl:mx-30 pt-[116px] pb-[34px]">
-        FAQs
-      </h2>
+      <div className="px-4 sm:px-8 md:px-24 py-14">
+        <h2 className="font-semibold text-[40px] leading-[56px] text-black mb-8">FAQs</h2>
 
-      <div>
-        {faqData.map((item) => (
-          <FAQItem key={item.id} {...item} />
-        ))}
+        <div>
+          {faqData.map((item) => (
+            <FAQItem key={item.id} {...item} />
+          ))}
+        </div>
       </div>
-
-      <div className="h-[64px]" />
     </section>
   )
 }
