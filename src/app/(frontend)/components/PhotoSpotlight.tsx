@@ -57,10 +57,18 @@ const PhotoSpotlight = ({
             </h3>
 
             <h3
-              className="text-white leading-none ml-auto"
+              className="flex items-center gap-2 text-white leading-none ml-auto"
               style={{ fontSize: 'clamp(0.5rem, 9vw, 1.5rem)' }}
             >
               See More
+              <Image
+                src="/arrow-up-right.svg"
+                alt=""
+                width={30}
+                height={30}
+                aria-hidden="true"
+                className="brightness-0 invert"
+              />
             </h3>
           </div>
 
