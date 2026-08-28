@@ -81,10 +81,10 @@ const PhotoSpotlight = ({
               {headingSmall}
             </h3>
           </div>
-          <div className="mt-0 px-20 pb-10">
+          <div className="mt-0 px-10 sm:px-16 md:px-20 pb-10">
             <h1
               className="text-white font-semibold leading-none m-0"
-              style={{ fontSize: 'clamp(5.5rem, 9vw, 12rem)' }}
+              style={{ fontSize: 'clamp(2.5rem, 9vw, 12rem)' }}
             >
               {headingLarge}
             </h1>
