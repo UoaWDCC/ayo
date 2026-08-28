@@ -15,6 +15,11 @@ type AboutUsQuoteVideoProps = {
   caption?: string
   /** tailwind aspect-ratio class for the block. defaults to aspect-[16/6] */
   aspectClassName?: string
+  /** show a "See More" label top-right next to the caption. links to youtubeUrl like the rest of the block. */
+  showSeeMore?: boolean
+  /** two-line title pinned bottom-left (regular weight over bold), e.g. "Our Past" / "Highlights". omit to render no title. */
+  titleSmall?: string
+  titleLarge?: string
 }
 
 /**
@@ -29,6 +34,9 @@ const AboutUsQuoteVideo = ({
   youtubeUrl,
   caption = '75th Anniversary Concert - Friday, 23rd of October, 2023',
   aspectClassName = 'aspect-[16/6]',
+  showSeeMore = false,
+  titleSmall,
+  titleLarge,
 }: AboutUsQuoteVideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -78,15 +86,33 @@ const AboutUsQuoteVideo = ({
       )}
 
       <div className="absolute inset-0 bg-black/50 transition-colors duration-300 group-hover:bg-black/10" />
-      <p className="absolute z-10 text-xl mt-5 ml-5 items-start text-left justify-start text-white">
-        {caption}
-      </p>
+
+      <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between">
+        <p className="text-xl text-white">{caption}</p>
+        {showSeeMore && (
+          <p className="flex items-center gap-2 text-sm md:text-base font-medium text-white whitespace-nowrap">
+            See More <span aria-hidden="true">↗</span>
+          </p>
+        )}
+      </div>
+
       {quote && (
         <div className="relative z-10 flex h-full items-end justify-end p-6 md:p-8">
           <p className="w-full md:w-1/2 text-right text-white text-xl lg:text-3xl xl:text-5xl leading-snug">
             &ldquo;{quote}&rdquo;
           </p>
         </div>
+      )}
+
+      {titleSmall && (
+        <h3 className="absolute z-10 left-[4%] top-1/2 text-white font-medium leading-none m-0 text-3xl sm:text-4xl md:text-6xl lg:text-7xl">
+          {titleSmall}
+        </h3>
+      )}
+      {titleLarge && (
+        <h2 className="absolute z-10 left-[11%] top-[64%] text-white font-medium leading-none m-0 text-5xl sm:text-6xl md:text-8xl lg:text-9xl">
+          {titleLarge}
+        </h2>
       )}
     </a>
   )

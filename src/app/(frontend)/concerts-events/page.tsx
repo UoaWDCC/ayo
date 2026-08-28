@@ -3,6 +3,7 @@ import Hero from '../components/Hero'
 import Link from 'next/link'
 import PhotoSpotlight from '../components/PhotoSpotlight'
 import UpcomingEvents from '../components/UpcomingEvents'
+import AboutUsQuoteVid from '../components/AboutUsQuoteVid'
 import FAQSection from '../components/FAQSection'
 import OpportunityModal from '../components/OpportunityModal'
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -63,6 +64,17 @@ export default async function ConcertsEventsPage() {
       />
 
       <UpcomingEvents />
+
+      <div className="w-full mt-10">
+        <AboutUsQuoteVid
+          posterImage="/about-us-quote-poster.jpg"
+          // videoSrc="/about-us-quote-preview.mp4"   //
+          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
+          showSeeMore
+          titleSmall="Our Past"
+          titleLarge="Highlights"
+        />
+      </div>
     </main>
   )
 }
