@@ -25,7 +25,8 @@ const events: (EventCardData & {
     image: '/about-us-quote-poster.jpg',
     performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
     links: [],
-    ctaLabel: 'See Now',
+    footerNote: 'Tickets available.',
+    ctaLabel: 'Book Now',
     ctaHref: '#',
   },
   {
@@ -42,7 +43,8 @@ const events: (EventCardData & {
     image: '/about-us-quote-poster.jpg',
     performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
     links: [],
-    ctaLabel: 'See Now',
+    footerNote: 'Tickets available.',
+    ctaLabel: 'Book Now',
     ctaHref: '#',
   },
   {
@@ -59,7 +61,8 @@ const events: (EventCardData & {
     image: '/about-us-quote-poster.jpg',
     performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
     links: [],
-    ctaLabel: 'See Now',
+    footerNote: 'Tickets available.',
+    ctaLabel: 'Book Now',
     ctaHref: '#',
   },
   {
@@ -76,7 +79,8 @@ const events: (EventCardData & {
     image: '/about-us-quote-poster.jpg',
     performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
     links: [],
-    ctaLabel: 'See Now',
+    footerNote: 'Tickets available.',
+    ctaLabel: 'Book Now',
     ctaHref: '#',
   },
 ]

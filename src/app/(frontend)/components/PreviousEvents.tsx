@@ -28,6 +28,9 @@ const events: (EventCardData & {
       { label: 'Recordings', href: '#' },
       { label: 'Photos', href: '#' },
     ],
+    footerNote: 'Photos available.',
+    ctaLabel: 'See Now',
+    ctaHref: '#',
   },
   {
     id: 2,
@@ -46,6 +49,9 @@ const events: (EventCardData & {
       { label: 'Recordings', href: '#' },
       { label: 'Photos', href: '#' },
     ],
+    footerNote: 'Photos available.',
+    ctaLabel: 'See Now',
+    ctaHref: '#',
   },
   {
     id: 3,
@@ -64,6 +70,9 @@ const events: (EventCardData & {
       { label: 'Recordings', href: '#' },
       { label: 'Photos', href: '#' },
     ],
+    footerNote: 'Photos available.',
+    ctaLabel: 'See Now',
+    ctaHref: '#',
   },
 ]
 

@@ -150,9 +150,9 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
           </div>
         </div>
 
-        {(event.photosAvailable || event.ctaLabel) && (
+        {(event.footerNote || event.ctaLabel) && (
           <div className="bg-black text-white flex items-center justify-between px-6 py-4">
-            <span className="text-sm">{event.photosAvailable ? 'Photos available' : ''}</span>
+            <span className="text-sm">{event.footerNote}</span>
             {event.ctaLabel && (
               <a
                 href={event.ctaHref ?? '#'}

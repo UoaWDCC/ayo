@@ -24,7 +24,8 @@ export type EventCardData = {
   description: string
   performances: EventPerformance[]
   links: EventLink[]
-  photosAvailable?: boolean
+  /** left-side label in the modal's bottom bar, e.g. "Tickets available." or "Photos available." */
+  footerNote?: string
   ctaLabel?: string
   ctaHref?: string
   footerLabel?: string
