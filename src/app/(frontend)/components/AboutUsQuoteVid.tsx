@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 
 type AboutUsQuoteVideoProps = {
   /** quote overlay text. omit to render the block without a quote. */
@@ -90,8 +91,16 @@ const AboutUsQuoteVideo = ({
       <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between">
         <p className="text-xl text-white">{caption}</p>
         {showSeeMore && (
-          <p className="flex items-center gap-2 text-sm md:text-base font-medium text-white whitespace-nowrap">
-            See More <span aria-hidden="true">↗</span>
+          <p className="flex items-center gap-1 text-sm md:text-base font-medium text-white whitespace-nowrap">
+            See More
+            <Image
+              src="/arrow-up-right.svg"
+              alt=""
+              width={20}
+              height={20}
+              aria-hidden="true"
+              className="brightness-0 invert"
+            />
           </p>
         )}
       </div>
