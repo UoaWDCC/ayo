@@ -128,10 +128,21 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
             )}
 
             {event.links.length > 0 && (
-              <div className="flex gap-4 mt-6 text-sm">
+              <div className="flex gap-8 mt-6 text-sm">
                 {event.links.map((link) => (
-                  <a key={link.label} href={link.href} className="underline hover:opacity-70">
-                    {link.label} ↗
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="flex items-center gap-1 underline hover:opacity-70"
+                  >
+                    {link.label}
+                    <Image
+                      src="/arrow-up-right.svg"
+                      alt=""
+                      width={20}
+                      height={20}
+                      aria-hidden="true"
+                    />
                   </a>
                 ))}
               </div>
@@ -145,9 +156,17 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
             {event.ctaLabel && (
               <a
                 href={event.ctaHref ?? '#'}
-                className="text-sm font-semibold hover:opacity-70"
+                className="flex items-center gap-1 text-sm font-semibold hover:opacity-70"
               >
-                {event.ctaLabel} ↗
+                {event.ctaLabel}
+                <Image
+                  src="/arrow-up-right.svg"
+                  alt=""
+                  width={20}
+                  height={20}
+                  aria-hidden="true"
+                  className="brightness-0 invert"
+                />
               </a>
             )}
           </div>
