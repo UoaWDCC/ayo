@@ -130,7 +130,7 @@ export default function UpcomingEvents() {
           through music.
         </p>
 
-        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2]">
+        <p className="mt-4 text-[18px] leading-[22px] text-black">
           Alongside our concert seasons we run a growing programme of tours, workshops,
           masterclasses, and educational events, built to develop young musicians, open doors for
           new members, and give our supporters even more ways to get involved. Whether you&apos;re a
@@ -138,11 +138,9 @@ export default function UpcomingEvents() {
           impact, this is where you&apos;ll find the full picture of what we do beyond the stage.
         </p>
 
-        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] font-semibold">
-          What&apos;s on:
-        </p>
+        <p className="mt-4 text-[18px] leading-[22px] text-black font-semibold">What&apos;s on:</p>
 
-        <ul className="mt-4 ml-6 text-[18px] leading-[22px] text-[#B2B2B2] list-disc">
+        <ul className="mt-4 ml-6 text-[18px] leading-[22px] text-black list-disc">
           <li>
             <span className="font-semibold">International Tours</span> — performing and learning
             across borders [occasional event]
@@ -161,7 +159,7 @@ export default function UpcomingEvents() {
           </li>
         </ul>
 
-        <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2]">
+        <p className="mt-4 text-[18px] leading-[22px] text-black">
           New events are added throughout the season — check back often, or get in touch to find out
           what&apos;s next.
         </p>
