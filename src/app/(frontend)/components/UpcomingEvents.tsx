@@ -123,7 +123,7 @@ export default function UpcomingEvents() {
 
   return (
     <section className="bg-white w-full">
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-[116px] pb-[64px]">
+      <div className="px-4 sm:px-8 md:px-24 py-14">
         <h2 className="font-semibold text-[40px] leading-[48px] text-black">Upcoming Events</h2>
         <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
           A season of performances showcasing bold works and the energy of young musicians growing
