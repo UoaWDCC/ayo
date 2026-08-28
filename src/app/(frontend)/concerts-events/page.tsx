@@ -27,7 +27,7 @@ export default async function ConcertsEventsPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero title="Concerts & Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
-      <div className="mx-auto w-[90%] mt-15 mb-15">
+      <div className="px-4 sm:px-8 md:px-24 mt-15 mb-15">
         <p className="text-[30px]">
           Every single AYO concert is the ultimate payoff of months of rehearsal and practice by our
           players who passionately tackle serious repertoire head-on. Expect full symphonic
