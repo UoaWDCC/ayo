@@ -113,15 +113,19 @@ const AboutUsQuoteVideo = ({
         </div>
       )}
 
-      {titleSmall && (
-        <h3 className="absolute z-10 left-[4%] top-1/2 text-white font-medium leading-none m-0 text-3xl sm:text-4xl md:text-6xl lg:text-7xl">
-          {titleSmall}
-        </h3>
-      )}
-      {titleLarge && (
-        <h2 className="absolute z-10 left-[11%] top-[64%] text-white font-medium leading-none m-0 text-5xl sm:text-6xl md:text-8xl lg:text-9xl">
-          {titleLarge}
-        </h2>
+      {(titleSmall || titleLarge) && (
+        <div className="relative z-10 flex h-full flex-col justify-end pb-6 md:pb-8">
+          {titleSmall && (
+            <h3 className="pl-[4%] text-white font-medium leading-none m-0 text-3xl sm:text-4xl md:text-6xl lg:text-7xl">
+              {titleSmall}
+            </h3>
+          )}
+          {titleLarge && (
+            <h2 className="pl-[11%] text-white font-medium leading-none m-0 text-5xl sm:text-6xl md:text-8xl lg:text-9xl">
+              {titleLarge}
+            </h2>
+          )}
+        </div>
       )}
     </a>
   )
