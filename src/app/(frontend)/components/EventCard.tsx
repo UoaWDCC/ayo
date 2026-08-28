@@ -60,7 +60,11 @@ const EventCard = ({ event }: { event: EventCardData }) => {
       </button>
 
       {(event.links.length > 0 || event.footerLabel) && (
-        <div className="flex items-center justify-between mt-4 text-sm">
+        <div className="flex items-center gap-4 mt-4 text-sm">
+          {event.footerLabel && (
+            <span className="text-xs uppercase font-semibold text-black">{event.footerLabel}</span>
+          )}
+
           <div className="flex gap-4">
             {event.links.map((link) => (
               <a key={link.label} href={link.href} className="underline hover:opacity-70">
@@ -68,10 +72,6 @@ const EventCard = ({ event }: { event: EventCardData }) => {
               </a>
             ))}
           </div>
-
-          {event.footerLabel && (
-            <span className="text-xs uppercase font-semibold text-muted">{event.footerLabel}</span>
-          )}
         </div>
       )}
 
