@@ -3,6 +3,8 @@ import Hero from '../components/Hero'
 import Link from 'next/link'
 import PhotoSpotlight from '../components/PhotoSpotlight'
 import UpcomingEvents from '../components/UpcomingEvents'
+import AboutUsQuoteVid from '../components/AboutUsQuoteVid'
+import PreviousEvents from '../components/PreviousEvents'
 import FAQSection from '../components/FAQSection'
 import OpportunityModal from '../components/OpportunityModal'
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -24,9 +26,9 @@ export default async function ConcertsEventsPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <Hero title="Concerts and Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
-      <div className="mx-auto w-[80%] mt-15 mb-15">
-        <p className="text-[40px]">
+      <Hero title="Concerts & Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <div className="px-4 sm:px-8 md:px-24 mt-15 mb-15">
+        <p className="text-xl sm:text-2xl md:text-[30px]">
           Every single AYO concert is the ultimate payoff of months of rehearsal and practice by our
           players who passionately tackle serious repertoire head-on. Expect full symphonic
           programmes, mesmerizing soloists from within our own ranks and beyond, and that pure,
@@ -37,7 +39,7 @@ export default async function ConcertsEventsPage() {
           <br /> <br />
         </p>
 
-        <Link href="/concerts-events" className="font-bold text-[40px]">
+        <Link href="/concerts-events" className="font-bold text-xl sm:text-2xl md:text-[30px]">
           <span className="underline">Sign up to our newsletter</span>&ensp;↗
         </Link>
       </div>
@@ -63,6 +65,20 @@ export default async function ConcertsEventsPage() {
       />
 
       <UpcomingEvents />
+
+      <div className="w-full mt-10">
+        <AboutUsQuoteVid
+          posterImage="/about-us-quote-poster.jpg"
+          // videoSrc="/about-us-quote-preview.mp4"   //
+          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
+          showSeeMore
+          titleSmall="Our Past"
+          titleLarge="Highlights"
+        />
+      </div>
+
+      <PreviousEvents />
+      <FAQSection />
     </main>
   )
 }

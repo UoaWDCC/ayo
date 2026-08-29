@@ -14,7 +14,7 @@ const event: EventCardData = {
   description: 'A programme shaped by the vivid colour of Georges Bizet.',
   performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
   links: [{ label: 'Recordings', href: '/recordings' }],
-  photosAvailable: true,
+  footerNote: 'Photos available.',
   ctaLabel: 'See Now',
   ctaHref: '/see-now',
 }

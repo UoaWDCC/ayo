@@ -6,7 +6,7 @@ type FAQItemProps = {
 
 const FAQItem = ({ question, answer }: FAQItemProps) => {
   return (
-    <details className="group border-t border-[#EBEBEB] text-black mx-8 md:mx-20 lg:mx-25 xl:mx-30 py-[24px] cursor-pointer">
+    <details className="group border-t border-[#EBEBEB] text-black py-[24px] cursor-pointer">
       <summary className="flex items-center justify-between list-none">
         <h3 className="font-medium text-[20px] leading-[32px] text-black">{question}</h3>
 

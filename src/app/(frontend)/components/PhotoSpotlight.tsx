@@ -57,10 +57,18 @@ const PhotoSpotlight = ({
             </h3>
 
             <h3
-              className="text-white leading-none ml-auto"
+              className="flex items-center gap-2 text-white leading-none ml-auto"
               style={{ fontSize: 'clamp(0.5rem, 9vw, 1.5rem)' }}
             >
               See More
+              <Image
+                src="/arrow-up-right.svg"
+                alt=""
+                width={30}
+                height={30}
+                aria-hidden="true"
+                className="brightness-0 invert"
+              />
             </h3>
           </div>
 
@@ -73,10 +81,10 @@ const PhotoSpotlight = ({
               {headingSmall}
             </h3>
           </div>
-          <div className="mt-0 px-20 pb-10">
+          <div className="mt-0 px-10 sm:px-16 md:px-20 pb-10">
             <h1
               className="text-white font-semibold leading-none m-0"
-              style={{ fontSize: 'clamp(5.5rem, 9vw, 12rem)' }}
+              style={{ fontSize: 'clamp(2.5rem, 9vw, 12rem)' }}
             >
               {headingLarge}
             </h1>

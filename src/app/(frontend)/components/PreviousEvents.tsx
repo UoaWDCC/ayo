@@ -16,7 +16,7 @@ const events: (EventCardData & {
     type: 'Concert',
     deadlineDate: '2026-05-20T23:59:00+12:00',
     year: 2026,
-    month: 'May',
+    month: 'June',
     location: 'Auckland, New Zealand',
     title: 'Séjourné, Bizet & Dvorak',
     subtitle: 'Sun, 21 June · Auckland Town Hall',
@@ -24,9 +24,12 @@ const events: (EventCardData & {
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
     performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
+    links: [
+      { label: 'Recordings', href: '#' },
+      { label: 'Photos', href: '#' },
+    ],
+    footerNote: 'Photos available.',
+    ctaLabel: 'See Now',
     ctaHref: '#',
   },
   {
@@ -34,7 +37,7 @@ const events: (EventCardData & {
     type: 'Concert',
     deadlineDate: '2026-05-20T23:59:00+12:00',
     year: 2026,
-    month: 'May',
+    month: 'June',
     location: 'Auckland, New Zealand',
     title: 'Séjourné, Bizet & Dvorak',
     subtitle: 'Sun, 21 June · Auckland Town Hall',
@@ -42,17 +45,20 @@ const events: (EventCardData & {
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
     performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
+    links: [
+      { label: 'Recordings', href: '#' },
+      { label: 'Photos', href: '#' },
+    ],
+    footerNote: 'Photos available.',
+    ctaLabel: 'See Now',
     ctaHref: '#',
   },
   {
     id: 3,
     type: 'Concert',
-    deadlineDate: '2026-08-15T23:59:00+12:00',
+    deadlineDate: '2026-05-20T23:59:00+12:00',
     year: 2026,
-    month: 'August',
+    month: 'June',
     location: 'Auckland, New Zealand',
     title: 'Séjourné, Bizet & Dvorak',
     subtitle: 'Sun, 21 June · Auckland Town Hall',
@@ -60,32 +66,17 @@ const events: (EventCardData & {
       'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
     image: '/about-us-quote-poster.jpg',
     performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
-    ctaHref: '#',
-  },
-  {
-    id: 4,
-    type: 'Concert',
-    deadlineDate: '2026-08-15T23:59:00+12:00',
-    year: 2026,
-    month: 'August',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
+    links: [
+      { label: 'Recordings', href: '#' },
+      { label: 'Photos', href: '#' },
+    ],
+    footerNote: 'Photos available.',
+    ctaLabel: 'See Now',
     ctaHref: '#',
   },
 ]
 
-export default function UpcomingEvents() {
+export default function PreviousEvents() {
   const [selectedYear, setSelectedYear] = useState<number | 'All'>(2026)
   const [selectedMonth, setSelectedMonth] = useState('All')
   const [selectedType, setSelectedType] = useState('All')
@@ -93,13 +84,11 @@ export default function UpcomingEvents() {
   const [currentPage, setCurrentPage] = useState(1)
   const showCount = 3
 
-  // Dynamically generate available filters
   const years = ['All', ...new Set(events.map((opp) => opp.year))]
   const months = ['All', ...new Set(events.map((opp) => opp.month))]
   const types = ['All', ...new Set(events.map((opp) => opp.type))]
   const locations = ['All', ...new Set(events.map((opp) => opp.location))]
 
-  // Filter events
   const filteredevents = events.filter((opp) => {
     const yearMatch = selectedYear === 'All' || opp.year === selectedYear
     const monthMatch = selectedMonth === 'All' || opp.month === selectedMonth
@@ -109,68 +98,30 @@ export default function UpcomingEvents() {
     return yearMatch && monthMatch && typeMatch && locationMatch
   })
 
-  // Sort events by deadline
   const sortedevents = useMemo(() => {
     return [...filteredevents].sort((a, b) => {
-      return new Date(a.deadlineDate).getTime() - new Date(b.deadlineDate).getTime()
+      return new Date(b.deadlineDate).getTime() - new Date(a.deadlineDate).getTime()
     })
   }, [filteredevents])
 
-  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1)
   }, [selectedYear, selectedMonth, selectedType, selectedLocation])
 
-  // Pagination
   const totalPages = Math.ceil(sortedevents.length / showCount)
   const paginatedevents = sortedevents.slice((currentPage - 1) * showCount, currentPage * showCount)
 
   return (
     <section className="bg-white w-full">
       <div className="px-4 sm:px-8 md:px-24 py-14">
-        <h2 className="font-semibold text-[40px] leading-[48px] text-black">Upcoming Events</h2>
+        <h2 className="font-semibold text-[40px] leading-[48px] text-black">Previous Events</h2>
         <p className="mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
-          A season of performances showcasing bold works and the energy of young musicians growing
-          through music.
-        </p>
-
-        <p className="mt-4 text-[18px] leading-[22px] text-black">
-          Alongside our concert seasons we run a growing programme of tours, workshops,
-          masterclasses, and educational events, built to develop young musicians, open doors for
-          new members, and give our supporters even more ways to get involved. Whether you&apos;re a
-          player looking to grow, a family exploring what we offer, or a sponsor following our
-          impact, this is where you&apos;ll find the full picture of what we do beyond the stage.
-        </p>
-
-        <p className="mt-4 text-[18px] leading-[22px] text-black font-semibold">What&apos;s on:</p>
-
-        <ul className="mt-4 ml-6 text-[18px] leading-[22px] text-black list-disc">
-          <li>
-            <span className="font-semibold">International Tours</span> — performing and learning
-            across borders [occasional event]
-          </li>
-          <li>
-            <span className="font-semibold">Education & Outreach</span> — masterclasses, workshops,
-            and pathways for new and aspiring members [wishlist project]
-          </li>
-          <li>
-            <span className="font-semibold">Soloist Competition Finals</span> — showcasing our most
-            exceptional young talent, open to the public [annual event]
-          </li>
-          <li>
-            <span className="font-semibold">Community & Sponsor Events</span> — celebrating the
-            people behind the music [wishlist project]
-          </li>
-        </ul>
-
-        <p className="mt-4 text-[18px] leading-[22px] text-black">
-          New events are added throughout the season — check back often, or get in touch to find out
-          what&apos;s next.
+          A collection of past performances that reflect the growth, dedication, and achievements
+          of our musicians on stage.
         </p>
 
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px] px-4">
-          {/* Year */}
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Year</label>
 
@@ -189,7 +140,6 @@ export default function UpcomingEvents() {
             </select>
           </div>
 
-          {/* Month */}
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Month</label>
 
@@ -206,7 +156,6 @@ export default function UpcomingEvents() {
             </select>
           </div>
 
-          {/* Event Type */}
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Event Type</label>
 
@@ -223,7 +172,6 @@ export default function UpcomingEvents() {
             </select>
           </div>
 
-          {/* Location */}
           <div className="flex items-center gap-2">
             <label className="text-[#B2B2B2]">Location</label>
 

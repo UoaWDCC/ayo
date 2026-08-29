@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import Image from 'next/image'
+
 import EventDetailsPanel from './EventDetailsPanel'
 
 export type EventPerformance = {
@@ -23,7 +24,8 @@ export type EventCardData = {
   description: string
   performances: EventPerformance[]
   links: EventLink[]
-  photosAvailable?: boolean
+  /** left-side label in the modal's bottom bar, e.g. "Tickets available." or "Photos available." */
+  footerNote?: string
   ctaLabel?: string
   ctaHref?: string
   footerLabel?: string
@@ -60,17 +62,32 @@ const EventCard = ({ event }: { event: EventCardData }) => {
       </button>
 
       {(event.links.length > 0 || event.footerLabel) && (
-        <div className="flex items-center justify-between mt-4 text-sm">
-          <div className="flex gap-4">
-            {event.links.map((link) => (
-              <a key={link.label} href={link.href} className="underline hover:opacity-70">
-                {link.label} ↗
-              </a>
-            ))}
-          </div>
+        <div className="mt-4 text-sm">
+          {event.links.length > 0 && (
+            <div className="flex gap-8">
+              {event.links.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="flex items-center gap-1 underline hover:opacity-70"
+                >
+                  {link.label}
+                  <Image
+                    src="/arrow-up-right.svg"
+                    alt=""
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  />
+                </a>
+              ))}
+            </div>
+          )}
 
           {event.footerLabel && (
-            <span className="text-xs uppercase font-semibold text-muted">{event.footerLabel}</span>
+            <span className="block mt-4 text-xs uppercase font-semibold text-black">
+              {event.footerLabel}
+            </span>
           )}
         </div>
       )}
