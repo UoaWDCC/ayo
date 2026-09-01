@@ -1,46 +1,27 @@
 'use client'
 
-import { useState } from 'react'
-
-type Resource = {
-  name: string
-  date: string
-  href: string
-  type: string
-}
-
-const RESOURCES: Resource[] = [
-  { name: 'AYO_Player_Handbook.pdf', date: '27/06/2026', href: '/sample.pdf', type: 'Handbook' },
-  { name: 'AYO_Rehearsal_Schedule.pdf', date: '07/06/2026', href: '/sample.pdf', type: 'Schedule' },
-  { name: 'AYO_Concert_Calendar.pdf', date: '18/04/2026', href: '/sample.pdf', type: 'Schedule' },
-  { name: 'AYO_Rehearsal_Etiquette.pdf', date: '28/03/2026', href: '/sample.pdf', type: 'Policy' },
-  { name: 'AYO_Attendance_Policy.pdf', date: '17/03/2026', href: '/sample.pdf', type: 'Policy' },
-  {
-    name: 'AYO_Health_and_Safety_Guide.pdf',
-    date: '05/03/2026',
-    href: '/sample.pdf',
-    type: 'Guide',
-  },
-  { name: 'AYO_Audition_Information.pdf', date: '05/03/2026', href: '/sample.pdf', type: 'Guide' },
-  { name: 'AYO_Contact_Directory.pdf', date: '28/02/2026', href: '/sample.pdf', type: 'Directory' },
-]
-
-const TYPES = ['All', 'Handbook', 'Schedule', 'Policy', 'Guide', 'Directory']
+import { useState, useEffect } from 'react'
+import type { Link } from '@/payload-types'
+import { getResources } from '@/app/actions/resources'
 
 const PAGE_SIZE = 5
 
 export default function ResourcesSection() {
   const [query, setQuery] = useState('')
-  const [type, setType] = useState('All')
   const [page, setPage] = useState(0)
 
-  const filtered = RESOURCES.filter(
-    (r) =>
-      r.name.toLowerCase().includes(query.toLowerCase()) && (type === 'All' || r.type === type),
-  )
+  const [RESOURCES, setResources] = useState<Link[]>([])
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
-  const pageItems = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
+  // fetch resources using local api
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getResources()
+      setResources(response.docs)
+    }
+    fetchData()
+  })
+  const totalPages = Math.max(1, Math.ceil(RESOURCES.length / PAGE_SIZE))
+  const pageItems = RESOURCES.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
 
   return (
     <section className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-12 pb-[64px]">
@@ -59,25 +40,8 @@ export default function ResourcesSection() {
             className="w-full border-0 border-b border-black bg-transparent text-[15px] leading-[18px] text-black placeholder-black pb-2 focus:outline-none"
           />
         </div>
-        <div className="flex items-center gap-2 text-[15px] leading-[18px]">
-          <label className="font-medium text-[#B2B2B2]">Type</label>
-          <select
-            value={type}
-            onChange={(e) => {
-              setType(e.target.value)
-              setPage(0)
-            }}
-            className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
-          >
-            {TYPES.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-        </div>
         <span className="text-[15px] leading-[18px] text-[#B7B7B7] italic sm:ml-auto">
-          Showing {filtered.length} document{filtered.length === 1 ? '' : 's'}
+          Showing {RESOURCES.length} document{RESOURCES.length === 1 ? '' : 's'}
         </span>
       </div>
 
@@ -98,7 +62,7 @@ export default function ResourcesSection() {
         ))}
       </div>
 
-      {filtered.length === 0 && (
+      {RESOURCES.length === 0 && (
         <p className="py-6 text-sm text-[#B2B2B2]">No documents match your search.</p>
       )}
 
