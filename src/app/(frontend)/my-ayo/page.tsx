@@ -39,7 +39,7 @@ export default async function MyAyoPage({
   const payload = await getPayload({ config })
 
   const linkResult = await payload.find({
-    collection: 'links',
+    collection: 'calendar-links',
     limit: 1,
   })
 

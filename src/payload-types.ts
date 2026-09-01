@@ -72,11 +72,12 @@ export interface Config {
     partners: Partner;
     pages: Page;
     passwords: Password;
-    links: Link;
+    'calendar-links': CalendarLink;
     concerts: Concert;
     posts: Post;
     people: Person;
     roles: Role;
+    link: Link;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -89,11 +90,12 @@ export interface Config {
     partners: PartnersSelect<false> | PartnersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     passwords: PasswordsSelect<false> | PasswordsSelect<true>;
-    links: LinksSelect<false> | LinksSelect<true>;
+    'calendar-links': CalendarLinksSelect<false> | CalendarLinksSelect<true>;
     concerts: ConcertsSelect<false> | ConcertsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
+    link: LinkSelect<false> | LinkSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -314,9 +316,9 @@ export interface Password {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "links".
+ * via the `definition` "calendar-links".
  */
-export interface Link {
+export interface CalendarLink {
   id: string;
   embedLink?: string | null;
   publicLink?: string | null;
@@ -443,6 +445,18 @@ export interface Role {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "link".
+ */
+export interface Link {
+  id: string;
+  name: string;
+  url: string;
+  category: 'resources' | 'links';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -486,8 +500,8 @@ export interface PayloadLockedDocument {
         value: string | Password;
       } | null)
     | ({
-        relationTo: 'links';
-        value: string | Link;
+        relationTo: 'calendar-links';
+        value: string | CalendarLink;
       } | null)
     | ({
         relationTo: 'concerts';
@@ -504,6 +518,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'roles';
         value: string | Role;
+      } | null)
+    | ({
+        relationTo: 'link';
+        value: string | Link;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -690,9 +708,9 @@ export interface PasswordsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "links_select".
+ * via the `definition` "calendar-links_select".
  */
-export interface LinksSelect<T extends boolean = true> {
+export interface CalendarLinksSelect<T extends boolean = true> {
   embedLink?: T;
   publicLink?: T;
   icalLink?: T;
@@ -785,6 +803,17 @@ export interface RolesSelect<T extends boolean = true> {
   roleName?: T;
   sortOrder?: T;
   displayName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "link_select".
+ */
+export interface LinkSelect<T extends boolean = true> {
+  name?: T;
+  url?: T;
+  category?: T;
   updatedAt?: T;
   createdAt?: T;
 }

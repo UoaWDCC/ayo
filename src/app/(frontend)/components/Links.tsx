@@ -1,23 +1,27 @@
-type LinkItem = {
-  name: string
-  href: string
-}
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
-const LINKS: LinkItem[] = [
-  { name: 'Europe Tour Photos - Google Drive', href: 'https://google.com' },
-  { name: 'AYO 2026 - Google Calendar', href: 'https://google.com' },
-]
+export default async function LinksSection() {
+  const payload = await getPayload({ config })
 
-export default function LinksSection() {
+  const links = await payload.find({
+    collection: 'link',
+    where: {
+      category: {
+        equals: 'links',
+      },
+    },
+  })
+
   return (
     <section className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-12 pb-[64px]">
       <h2 className="font-semibold text-[40px] leading-[48px] text-black mb-[22px]">Links</h2>
 
       <div className="border-t border-[#EBEBEB]">
-        {LINKS.map((link) => (
+        {links.docs.map((link) => (
           <a
             key={link.name}
-            href={link.href}
+            href={link.url}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between border-b border-[#EBEBEB] py-4 group"
