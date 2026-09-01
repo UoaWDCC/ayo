@@ -23,7 +23,7 @@ export default async function JoinAyoPage() {
     <main>
       <Hero title="Join AYO" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       <OpportunitySection />
-      <FAQSection />
+      <FAQSection category="join-ayo" />
     </main>
   )
 }

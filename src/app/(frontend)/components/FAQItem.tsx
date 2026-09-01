@@ -1,5 +1,4 @@
 type FAQItemProps = {
-  id: number
   question: string
   answer: string
 }

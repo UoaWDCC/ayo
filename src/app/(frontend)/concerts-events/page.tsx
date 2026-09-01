@@ -78,7 +78,7 @@ export default async function ConcertsEventsPage() {
       </div>
 
       <PreviousEvents />
-      <FAQSection />
+      <FAQSection category="concerts-events" />
     </main>
   )
 }

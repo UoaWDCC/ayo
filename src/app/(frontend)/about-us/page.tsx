@@ -4,6 +4,7 @@ import Grid from '../components/Grid'
 import Hero from '../components/Hero'
 import OurTeam from '../components/OurTeam'
 import NewsletterSignupDemo from '../components/Newsletter'
+import FAQSection from '../components/FAQSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -99,6 +100,7 @@ export default async function AboutUsPage() {
         <OurTeam></OurTeam>
         <Grid title="Alumni" placeholderSubtitle="Role" items={playerItems} />
         <Grid title="Partners" placeholderSubtitle="Company" items={playerItems} />
+        <FAQSection category="about-us" />
       </main>
     </div>
   )

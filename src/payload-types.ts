@@ -77,6 +77,7 @@ export interface Config {
     posts: Post;
     people: Person;
     roles: Role;
+    faqs: Faq;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -443,6 +445,25 @@ export interface Role {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: string;
+  question: string;
+  answer: string;
+  /**
+   * Which page this FAQ appears on.
+   */
+  category: 'about-us' | 'concerts-events' | 'join-ayo' | 'support-us';
+  /**
+   * Lower numbers appear first within the page.
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -504,6 +525,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'roles';
         value: string | Role;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: string | Faq;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -785,6 +810,18 @@ export interface RolesSelect<T extends boolean = true> {
   roleName?: T;
   sortOrder?: T;
   displayName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
