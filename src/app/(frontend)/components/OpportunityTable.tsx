@@ -142,6 +142,8 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
         </div>
       ))}
 
+      <hr className="border-gray-200" />
+
       {/* Side panel */}
       <OpportunityModal
         opportunity={
