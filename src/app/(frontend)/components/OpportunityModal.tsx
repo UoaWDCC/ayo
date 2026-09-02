@@ -134,8 +134,16 @@ const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProp
             <span className="font-semibold">Closing Date: </span>
             {closingDate}
           </span>
-          <a href={applyUrl ?? '#'} className="text-sm font-semibold hover:opacity-70">
-            Apply ↗
+          <a
+            href={applyUrl ?? '#'}
+            className="text-sm font-semibold flex items-center gap-1 transition-opacity hover:opacity-70"
+          >
+            Apply
+            <img
+              src="/arrow-up-right.svg"
+              alt=""
+              className="w-[15px] h-[15px] brightness-0 invert"
+            />
           </a>
         </div>
       </div>

@@ -54,8 +54,7 @@ const OpportunityRow = ({
   return (
     <div
       ref={cardRef}
-      onClick={onReadMore}
-      className="grid grid-cols-1 md:grid-cols-[2fr_3fr_1fr] gap-6 md:gap-8 py-8 items-start not-italic transition-colors hover:bg-gray-50"
+      className="grid grid-cols-1 md:grid-cols-[2fr_3fr_1fr] gap-6 md:gap-8 px-4 md:px-6 py-8 items-start not-italic transition-colors hover:bg-gray-50"
     >
       <div>
         <h2 className="font-bold text-base">{title}</h2>
@@ -66,11 +65,17 @@ const OpportunityRow = ({
       <p className="text-sm italic">{description}</p>
 
       <div className="flex gap-6 justify-start md:justify-end">
-        <button onClick={onReadMore} className="text-sm underline font-bold cursor-pointer">
+        <button
+          onClick={onReadMore}
+          className="text-sm underline font-bold cursor-pointer transition-opacity hover:opacity-70"
+        >
           Read More
         </button>
 
-        <a href={applyUrl} className="text-sm flex items-center underline font-bold">
+        <a
+          href={applyUrl}
+          className="text-sm flex items-center underline font-bold transition-opacity hover:opacity-70"
+        >
           Apply
           <img src="/arrow-up-right.svg" alt="" className="w-[15px] h-[15px]" />
         </a>
