@@ -1,4 +1,11 @@
+'use client'
+
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef } from 'react'
 import FAQItem from './FAQItem'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const faqData = [
   {
@@ -46,14 +53,46 @@ const faqData = [
 ]
 
 const FAQSection = () => {
+  const listRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!listRef.current) return
+    const items = listRef.current.querySelectorAll('.faq-item')
+    const firstItem = items[0]
+    if (!firstItem) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: firstItem,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        },
+      )
+    })
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section className="bg-white w-full">
       <div className="px-4 sm:px-8 md:px-24 py-14">
         <h2 className="font-semibold text-[40px] leading-[56px] text-black mb-8">FAQs</h2>
 
-        <div>
+        <div ref={listRef}>
           {faqData.map((item) => (
-            <FAQItem key={item.id} {...item} />
+            <div key={item.id} className="faq-item">
+              <FAQItem {...item} />
+            </div>
           ))}
         </div>
       </div>

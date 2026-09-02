@@ -64,31 +64,56 @@ const infoRows: InfoRow[] = [
 ]
 
 const JoinIntroSection = () => {
+  const introRef = useRef<HTMLDivElement>(null)
   const rowsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!rowsRef.current) return
-    const rows = rowsRef.current.querySelectorAll('.info-row')
-    const firstRow = rows[0]
-    if (!firstRow) return
-
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        rows,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: firstRow,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        },
-      )
+      if (introRef.current) {
+        const introEls = introRef.current.querySelectorAll('.intro-fade')
+        const firstIntroEl = introEls[0]
+        if (firstIntroEl) {
+          gsap.fromTo(
+            introEls,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              stagger: 0.15,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: firstIntroEl,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
+            },
+          )
+        }
+      }
+
+      if (rowsRef.current) {
+        const rows = rowsRef.current.querySelectorAll('.info-row')
+        const firstRow = rows[0]
+        if (firstRow) {
+          gsap.fromTo(
+            rows,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              stagger: 0.15,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: firstRow,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
+            },
+          )
+        }
+      }
     })
 
     return () => ctx.revert()
@@ -97,12 +122,12 @@ const JoinIntroSection = () => {
   return (
     <section className="bg-white text-black w-full">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-4">
-        <div className="max-w-[1380px]">
-          <h2 className="font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+        <div ref={introRef} className="max-w-[1380px]">
+          <h2 className="intro-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
             So, you&apos;re looking for that something extra?
           </h2>
 
-          <div className="mt-8 space-y-8 text-[22px] leading-[29px] md:text-[26px] md:leading-[34px] text-[#2E2E2E]">
+          <div className="intro-fade mt-8 space-y-8 text-[22px] leading-[29px] md:text-[26px] md:leading-[34px] text-[#2E2E2E]">
             <p>
               The next big challenge, or a chance to really hone your skills while performing
               incredible repertoire with like-minded peers?
