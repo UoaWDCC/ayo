@@ -19,7 +19,7 @@ const infoRows: InfoRow[] = [
   {
     title: 'What it takes',
     content: (
-      <ul className="list-disc pl-5">
+      <ul className="list-disc pl-8">
         <li>
           An audition: set orchestral excerpts (we&apos;ll send these ahead) plus a short piece of
           your choice.
@@ -35,7 +35,7 @@ const infoRows: InfoRow[] = [
   {
     title: 'What you get',
     content: (
-      <ul className="list-disc pl-5">
+      <ul className="list-disc pl-8">
         <li>High-level orchestral training &amp; performance opportunities</li>
         <li>Professional coaching</li>
         <li>Multiple performances a year, on real stages, for real audiences</li>
