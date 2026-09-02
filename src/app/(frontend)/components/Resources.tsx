@@ -8,6 +8,10 @@ interface ResourcesSectionProps {
   RESOURCES: Link[]
 }
 
+function formatDDMMYYYY(dateString: string): string {
+  return new Intl.DateTimeFormat('en-NZ').format(new Date(dateString))
+}
+
 export default function ResourcesSection({ RESOURCES }: ResourcesSectionProps) {
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(0)
@@ -49,7 +53,11 @@ export default function ResourcesSection({ RESOURCES }: ResourcesSectionProps) {
             <span className="flex items-center gap-2 text-[15px] leading-[18px] text-black underline">
               {resource.name}
             </span>
-            <span className="text-[13px] leading-[16px] text-[#858585]">{resource.updatedAt}</span>
+
+            {/* Date of resource */}
+            <span className="text-[13px] leading-[16px] text-[#858585]">
+              {formatDDMMYYYY(resource.updatedAt)}
+            </span>
           </a>
         ))}
       </div>
