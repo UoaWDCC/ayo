@@ -6,6 +6,7 @@ import config from '@payload-config'
 import { redirect } from 'next/navigation'
 import Resources from '../components/Resources'
 import Links from '../components/Links'
+import ResourcesSection from '../components/Resources'
 
 export const dynamic = 'force-dynamic'
 
@@ -41,6 +42,15 @@ export default async function MyAyoPage({
   const linkResult = await payload.find({
     collection: 'calendar-links',
     limit: 1,
+  })
+
+  const resourcesResult = await payload.find({
+    collection: 'link',
+    where: {
+      category: {
+        equals: 'resources',
+      },
+    },
   })
 
   const doc = linkResult.docs[0]
@@ -108,7 +118,7 @@ export default async function MyAyoPage({
         </a>
         <MyAYOCopyLink copyLink={calendarICal} />
       </div>
-      <Resources />
+      <ResourcesSection RESOURCES={resourcesResult.docs} />
       <Links />
     </main>
   )

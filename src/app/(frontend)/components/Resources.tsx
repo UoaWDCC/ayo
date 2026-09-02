@@ -1,28 +1,20 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { Link } from '@/payload-types'
-import { getResources } from '@/app/actions/resources'
-
 const PAGE_SIZE = 5
 
-export default function ResourcesSection() {
+interface ResourcesSectionProps {
+  RESOURCES: Link[]
+}
+
+export default function ResourcesSection({ RESOURCES }: ResourcesSectionProps) {
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(0)
 
-  const [RESOURCES, setResources] = useState<Link[]>([])
-
-  // fetch resources using local api
-  useEffect(() => {
-    async function fetchData() {
-      const response = await getResources()
-      setResources(response.docs)
-    }
-    fetchData()
-  })
   const totalPages = Math.max(1, Math.ceil(RESOURCES.length / PAGE_SIZE))
-  const pageItems = RESOURCES.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
-
+  const filtered = RESOURCES.filter((r) => r.name.toLowerCase().includes(query.toLowerCase()))
+  const pageItems = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
   return (
     <section className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-12 pb-[64px]">
       <h2 className="font-semibold text-[40px] leading-[48px] text-black mb-[22px]">Resources</h2>
@@ -41,7 +33,7 @@ export default function ResourcesSection() {
           />
         </div>
         <span className="text-[15px] leading-[18px] text-[#B7B7B7] italic sm:ml-auto">
-          Showing {RESOURCES.length} document{RESOURCES.length === 1 ? '' : 's'}
+          Showing {pageItems.length} document{pageItems.length === 1 ? '' : 's'}
         </span>
       </div>
 
@@ -49,7 +41,7 @@ export default function ResourcesSection() {
         {pageItems.map((resource) => (
           <a
             key={resource.name}
-            href={resource.href}
+            href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between border-b border-[#EBEBEB] py-4 group"
@@ -57,12 +49,12 @@ export default function ResourcesSection() {
             <span className="flex items-center gap-2 text-[15px] leading-[18px] text-black underline">
               {resource.name}
             </span>
-            <span className="text-[13px] leading-[16px] text-[#858585]">{resource.date}</span>
+            <span className="text-[13px] leading-[16px] text-[#858585]">{resource.updatedAt}</span>
           </a>
         ))}
       </div>
 
-      {RESOURCES.length === 0 && (
+      {pageItems.length === 0 && (
         <p className="py-6 text-sm text-[#B2B2B2]">No documents match your search.</p>
       )}
 
