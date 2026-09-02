@@ -63,6 +63,51 @@ const infoRows: InfoRow[] = [
   },
 ]
 
+const InfoRowCard = ({ row }: { row: InfoRow }) => {
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+
+    const onEnter = () => gsap.to(el, { scale: 1.005, duration: 0.2, ease: 'power2.out' })
+    const onLeave = () => gsap.to(el, { scale: 1, duration: 0.2, ease: 'power2.in' })
+
+    el.addEventListener('mouseenter', onEnter)
+    el.addEventListener('mouseleave', onLeave)
+
+    return () => {
+      el.removeEventListener('mouseenter', onEnter)
+      el.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
+
+  return (
+    <div
+      ref={cardRef}
+      className="info-row grid grid-cols-1 gap-5 border-b border-[#EBEBEB] px-4 py-7 md:grid-cols-[1.4fr_2fr_0.8fr] md:gap-10 md:px-6 md:py-8 transition-colors hover:bg-gray-50"
+    >
+      <h3 className="font-semibold text-[24px] leading-7.75 md:text-[26px] md:leading-8.5">
+        {row.title}
+      </h3>
+
+      <div className="text-[18px] leading-6.25 md:text-[20px] md:leading-7 text-[#2E2E2E]">
+        {row.content}
+      </div>
+
+      <div className="md:justify-self-end">
+        <Link
+          href={row.linkUrl}
+          className="inline-flex items-center gap-1 text-[18px] leading-5.5 font-semibold underline transition-opacity hover:opacity-70"
+        >
+          {row.linkText}
+          <img src="/arrow-up-right.svg" alt="" className="h-[1em] w-[1em]" />
+        </Link>
+      </div>
+    </div>
+  )
+}
+
 const JoinIntroSection = () => {
   const introRef = useRef<HTMLDivElement>(null)
   const rowsRef = useRef<HTMLDivElement>(null)
@@ -153,28 +198,7 @@ const JoinIntroSection = () => {
 
           <div ref={rowsRef} className="mt-14 border-t border-[#EBEBEB]">
             {infoRows.map((row) => (
-              <div
-                key={row.title}
-                className="info-row grid grid-cols-1 gap-5 border-b border-[#EBEBEB] py-7 md:grid-cols-[1.4fr_2fr_0.8fr] md:gap-10 md:py-8"
-              >
-                <h3 className="font-semibold text-[24px] leading-[31px] md:text-[26px] md:leading-[34px]">
-                  {row.title}
-                </h3>
-
-                <div className="text-[18px] leading-[25px] md:text-[20px] md:leading-[28px] text-[#2E2E2E]">
-                  {row.content}
-                </div>
-
-                <div className="md:justify-self-end">
-                  <Link
-                    href={row.linkUrl}
-                    className="inline-flex items-center gap-1 text-[18px] leading-[22px] font-semibold underline transition-opacity hover:opacity-70"
-                  >
-                    {row.linkText}
-                    <img src="/arrow-up-right.svg" alt="" className="h-[15px] w-[15px]" />
-                  </Link>
-                </div>
-              </div>
+              <InfoRowCard key={row.title} row={row} />
             ))}
           </div>
         </div>
