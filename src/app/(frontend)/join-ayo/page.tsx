@@ -22,6 +22,7 @@ export default async function JoinAyoPage() {
   return (
     <main>
       <Hero title="Join AYO" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <JoinIntroSection />
       <OpportunitySection />
       <FAQSection />
     </main>
