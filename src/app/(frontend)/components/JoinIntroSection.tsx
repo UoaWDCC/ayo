@@ -121,13 +121,13 @@ const JoinIntroSection = () => {
 
   return (
     <section className="bg-white text-black w-full">
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-4">
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
         <div ref={introRef} className="max-w-[1380px]">
           <h2 className="intro-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
             So, you&apos;re looking for that something extra?
           </h2>
 
-          <div className="intro-fade mt-8 space-y-8 text-[22px] leading-[29px] md:text-[26px] md:leading-[34px] text-[#2E2E2E]">
+          <div className="intro-fade mt-8 space-y-8 text-[18px] leading-6.5 md:text-[20px] md:leading-7 text-[#2E2E2E]">
             <p>
               The next big challenge, or a chance to really hone your skills while performing
               incredible repertoire with like-minded peers?
