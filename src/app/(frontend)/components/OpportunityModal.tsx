@@ -1,7 +1,11 @@
 'use client'
-import { useEffect, useState } from 'react'
 
-type OpportunityModalProps = {
+import { useEffect, useId, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+
+const TRANSITION_MS = 300
+
+export type OpportunityDetails = {
   title: string
   awarded: string
   value: string
@@ -9,75 +13,123 @@ type OpportunityModalProps = {
   closingDate: string
   applyUrl?: string
   imageUrl?: string
+}
+
+type OpportunityModalProps = {
+  opportunity: OpportunityDetails | null
+  isOpen: boolean
   onClose: () => void
 }
-const OpportunityModal = ({
-  title,
-  awarded,
-  value,
-  description,
-  closingDate,
-  applyUrl,
-  imageUrl,
-  onClose,
-}: OpportunityModalProps) => {
+
+const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProps) => {
+  const titleId = useId()
+  const [shouldRender, setShouldRender] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
-  // Trigger transition on mount
   useEffect(() => {
-    requestAnimationFrame(() => setIsVisible(true))
-  }, [])
+    if (isOpen) {
+      setShouldRender(true)
 
-  // Fade out before closing
-  const handleClose = () => {
+      // Two rAFs: the first lets the browser paint the just-mounted "closed"
+      // position; only then does flipping to "visible" register as a change
+      // to transition from, instead of getting batched into the same paint.
+      let innerRaf = 0
+      const outerRaf = requestAnimationFrame(() => {
+        innerRaf = requestAnimationFrame(() => {
+          setIsVisible(true)
+          closeButtonRef.current?.focus()
+        })
+      })
+      return () => {
+        cancelAnimationFrame(outerRaf)
+        cancelAnimationFrame(innerRaf)
+      }
+    }
+
     setIsVisible(false)
-    setTimeout(onClose, 300) // match duration
-  }
+    const timeout = setTimeout(() => setShouldRender(false), TRANSITION_MS)
+    return () => clearTimeout(timeout)
+  }, [isOpen])
 
-  return (
-    <div
-      className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-300
-        ${isVisible ? 'bg-black/50 backdrop-blur-sm' : 'bg-black/0 backdrop-blur-none'}`}
-      onClick={handleClose}
-    >
+  useEffect(() => {
+    if (!shouldRender) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [shouldRender, onClose])
+
+  if (!shouldRender || !opportunity || typeof document === 'undefined') return null
+
+  const { title, awarded, value, description, closingDate, applyUrl, imageUrl } = opportunity
+
+  return createPortal(
+    <div className="fixed inset-0 z-50">
       <div
-        className={`bg-white w-full max-w-2xl mx-4 flex flex-col max-h-[85vh] transition-all duration-300
-          ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
-        onClick={(e) => e.stopPropagation()}
+        className={`absolute inset-0 bg-black/50 transition-[opacity,backdrop-filter] duration-300 ${
+          isVisible ? 'opacity-100 backdrop-blur-sm' : 'opacity-0 backdrop-blur-none'
+        }`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className={`absolute top-0 right-0 h-full w-full max-w-md bg-white flex flex-col shadow-xl transition-transform duration-300 ease-out ${
+          isVisible ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
-        {/*top bar stays fixed*/}
-        <div className="p-8 pb-4">
-          <div className="flex justify-between items-start">
-            <h2 className="font-semibold text-2xl leading-tight max-w-[90%]">{title}</h2>
+        <div className="flex-1 overflow-y-auto">
+          <div className="flex justify-end p-4">
             <button
-              onClick={handleClose}
-              className="text-black/40 hover:opacity-70 text-xl cursor-pointer"
+              ref={closeButtonRef}
+              type="button"
+              onClick={onClose}
+              aria-label="Close"
+              className="text-black/60 hover:opacity-70 text-xl leading-none cursor-pointer"
             >
-              X
+              ✕
             </button>
           </div>
-          {/* awarded and value row*/}
-          <div className="flex gap-6 mt-2 text-sm">
-            <span>
-              <span className="text-black/50">Awarded: </span>
-              {awarded}
-            </span>
-            <span>
-              <span className="text-black/50">Value: </span>
-              {value}
-            </span>
+
+          <div className="px-6">
+            {imageUrl && (
+              <div className="w-full aspect-4/3 overflow-hidden bg-[#EBEBEB]">
+                <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+              </div>
+            )}
+
+            <h2 id={titleId} className="font-semibold text-2xl leading-tight mt-6">
+              {title}
+            </h2>
+
+            <div className="flex gap-6 mt-2 text-sm text-black/70">
+              <span>
+                <span className="text-black/50">Awarded: </span>
+                {awarded}
+              </span>
+              <span>
+                <span className="text-black/50">Value: </span>
+                {value}
+              </span>
+            </div>
+
+            <p className="text-sm mt-4 text-black/70 leading-relaxed">{description}</p>
           </div>
         </div>
 
-        <div className="flex gap-6 px-8 overflow-y-auto flex-1">
-          {/*space for image if needed*/}
-          {imageUrl && (
-            <img src={imageUrl} alt={title} className="w-40 h-48 object-cover shrink-0" />
-          )}
-          <p className="text-sm leading-relaxed">{description}</p>
-        </div>
-        {/*bottom bar*/}
-        <div className="bg-black text-white flex items-center justify-between px-8 py-4 mt-4">
+        <div className="bg-black text-white flex items-center justify-between px-6 py-4">
           <span className="text-sm">
             <span className="font-semibold">Closing Date: </span>
             {closingDate}
@@ -87,7 +139,8 @@ const OpportunityModal = ({
           </a>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 

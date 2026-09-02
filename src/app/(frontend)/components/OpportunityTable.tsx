@@ -81,6 +81,7 @@ const OpportunityRow = ({
 
 const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null)
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
   const prevOpportunitiesRef = useRef(opportunities)
@@ -126,22 +127,31 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
         <div key={opp.id} className="opportunity-row">
           {index > 0 && <hr className="border-gray-200" />}
 
-          <OpportunityRow {...opp} onReadMore={() => setSelectedOpp(opp)} />
+          <OpportunityRow
+            {...opp}
+            onReadMore={() => {
+              setSelectedOpp(opp)
+              setIsPanelOpen(true)
+            }}
+          />
         </div>
       ))}
 
-      {/* Modal */}
-      {selectedOpp && (
-        <OpportunityModal
-          title={selectedOpp.title}
-          awarded={selectedOpp.type}
-          value="TBC"
-          description={selectedOpp.description}
-          closingDate={selectedOpp.deadlineLabel}
-          applyUrl={selectedOpp.applyUrl}
-          onClose={() => setSelectedOpp(null)}
-        />
-      )}
+      {/* Side panel */}
+      <OpportunityModal
+        opportunity={
+          selectedOpp && {
+            title: selectedOpp.title,
+            awarded: selectedOpp.type,
+            value: 'TBC',
+            description: selectedOpp.description,
+            closingDate: selectedOpp.deadlineLabel,
+            applyUrl: selectedOpp.applyUrl,
+          }
+        }
+        isOpen={isPanelOpen}
+        onClose={() => setIsPanelOpen(false)}
+      />
     </div>
   )
 }
