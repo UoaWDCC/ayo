@@ -168,7 +168,7 @@ const JoinIntroSection = () => {
                 <div className="md:justify-self-end">
                   <Link
                     href={row.linkUrl}
-                    className="inline-flex items-center gap-1 text-[18px] leading-[22px] font-semibold underline"
+                    className="inline-flex items-center gap-1 text-[18px] leading-[22px] font-semibold underline transition-opacity hover:opacity-70"
                   >
                     {row.linkText}
                     <img src="/arrow-up-right.svg" alt="" className="h-[15px] w-[15px]" />
