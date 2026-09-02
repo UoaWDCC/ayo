@@ -1,9 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import OpportunityModal from './OpportunityModal'
-import ArrowUpRight from '/arrow-up-right.svg'
-import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
@@ -89,7 +87,6 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
-  const prevOpportunitiesRef = useRef(opportunities)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -97,7 +94,6 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
 
     if (isFirstRender.current) {
       isFirstRender.current = false
-      prevOpportunitiesRef.current = opportunities
       const firstRow = rows[0]
       if (!firstRow) return
       gsap.fromTo(

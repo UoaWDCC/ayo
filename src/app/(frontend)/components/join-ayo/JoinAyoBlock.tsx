@@ -42,7 +42,6 @@ const photoMoments = [
 ]
 
 const orchestraSections = ['Strings', 'Woodwind', 'Brass', 'Percussion']
-const scoreNotes = ['p', 'dolce', 'espressivo', 'cresc.', 'tutti']
 
 const sectionPhotos = [
   { src: '/grey_rectangle.png', alt: 'String section musicians playing violins' },
