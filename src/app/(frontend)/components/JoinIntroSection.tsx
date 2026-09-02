@@ -1,5 +1,12 @@
+'use client'
+
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Link from 'next/link'
+import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
+
+gsap.registerPlugin(ScrollTrigger)
 
 type InfoRow = {
   title: string
@@ -57,6 +64,36 @@ const infoRows: InfoRow[] = [
 ]
 
 const JoinIntroSection = () => {
+  const rowsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!rowsRef.current) return
+    const rows = rowsRef.current.querySelectorAll('.info-row')
+    const firstRow = rows[0]
+    if (!firstRow) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        rows,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: firstRow,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        },
+      )
+    })
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section className="bg-white text-black w-full">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-4">
@@ -89,11 +126,11 @@ const JoinIntroSection = () => {
             </p>
           </div>
 
-          <div className="mt-14 border-t border-[#EBEBEB]">
+          <div ref={rowsRef} className="mt-14 border-t border-[#EBEBEB]">
             {infoRows.map((row) => (
               <div
                 key={row.title}
-                className="grid grid-cols-1 gap-5 border-b border-[#EBEBEB] py-7 md:grid-cols-[1.4fr_2fr_0.8fr] md:gap-10 md:py-8"
+                className="info-row grid grid-cols-1 gap-5 border-b border-[#EBEBEB] py-7 md:grid-cols-[1.4fr_2fr_0.8fr] md:gap-10 md:py-8"
               >
                 <h3 className="font-semibold text-[24px] leading-[31px] md:text-[26px] md:leading-[34px]">
                   {row.title}
