@@ -1,4 +1,5 @@
 import React from 'react'
+import payload from 'payload'
 import AboutUsSection from '../components/AboutUsSection'
 import Grid from '../components/Grid'
 import Hero from '../components/Hero'
@@ -19,6 +20,26 @@ export default async function AboutUsPage() {
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as Media).url
       : '/about-us-hero.jpg'
+
+  // retrieve ALL the data for the players, alumni, and partners from the payload CMS
+  // filter on the front end
+  // do I need the Role DB as well? (probably...)
+  const { docs: people } = await payload.find({
+    collection: 'people',
+  })
+
+  const players = people.filter(
+    (person) => person.type === 'player'
+  )
+
+  const alumni = people.filter(
+    (person) => person.type === 'alumni'
+  )
+
+  const team = people.filter(
+    (person) => person.type === 'team'
+  )
+
   const playerItems = [
     {
       id: 1,
@@ -95,6 +116,12 @@ export default async function AboutUsPage() {
             </li>
           </ul>
         </div>
+
+      // need to move filter component here!
+      // will figure out if it can be aligned with the FIRST components title
+      // add filtering if statements
+
+
         <Grid title="Players" placeholderSubtitle="Name" items={playerItems} />
         <OurTeam></OurTeam>
         <Grid title="Alumni" placeholderSubtitle="Role" items={playerItems} />
