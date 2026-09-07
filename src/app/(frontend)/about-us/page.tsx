@@ -1,15 +1,17 @@
-import React from 'react'
-import payload from 'payload'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import AboutUsSection from '../components/AboutUsSection'
 import Grid from '../components/Grid'
 import Hero from '../components/Hero'
 import OurTeam from '../components/OurTeam'
 import NewsletterSignupDemo from '../components/Newsletter'
+import AboutUsFilter from '../components/AboutUsFilter'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
 
 export default async function AboutUsPage() {
+  const payload = await getPayload({ config })
   const page = await getPageBySlug('about-us')
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
@@ -117,10 +119,7 @@ export default async function AboutUsPage() {
           </ul>
         </div>
 
-      // need to move filter component here!
-      // will figure out if it can be aligned with the FIRST components title
-      // add filtering if statements
-
+        <AboutUsFilter/>
 
         <Grid title="Players" placeholderSubtitle="Name" items={playerItems} />
         <OurTeam></OurTeam>
