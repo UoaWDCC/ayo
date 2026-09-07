@@ -23,24 +23,9 @@ export default async function AboutUsPage() {
       ? (heroImage as Media).url
       : '/about-us-hero.jpg'
 
-  // retrieve ALL the data for the players, alumni, and partners from the payload CMS
-  // filter on the front end
-  // do I need the Role DB as well? (probably...)
   const { docs: people } = await payload.find({
     collection: 'people',
   })
-
-  const players = people.filter(
-    (person) => person.type === 'player'
-  )
-
-  const alumni = people.filter(
-    (person) => person.type === 'alumni'
-  )
-
-  const team = people.filter(
-    (person) => person.type === 'team'
-  )
 
   const playerItems = [
     {
@@ -119,7 +104,7 @@ export default async function AboutUsPage() {
           </ul>
         </div>
 
-        <AboutUsFilter/>
+        <AboutUsFilter people={people}/>
 
         <Grid title="Players" placeholderSubtitle="Name" items={playerItems} />
         <OurTeam></OurTeam>
