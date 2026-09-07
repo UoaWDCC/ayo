@@ -27,56 +27,6 @@ export default async function AboutUsPage() {
     collection: 'people',
   })
 
-  const playerItems = [
-    {
-      id: 1,
-      name: 'Frances Liu',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Frances Liu.jpg',
-    },
-    {
-      id: 2,
-      name: 'Damon Herlihy-O’Brien',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Damon Herlihy-O_Brien.jpg',
-    },
-    {
-      id: 3,
-      name: 'Ashley Ling',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Ashley Ling.jpg',
-    },
-    {
-      id: 4,
-      name: 'Joy Shi',
-      subtitle: 'Bassoonist',
-      imageUrl: 'players/Bassoon_Joy Shi.jpg',
-    },
-    {
-      id: 5,
-      name: 'Harper Zhang',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Harper Zhang.jpg',
-    },
-    {
-      id: 6,
-      name: 'Harry Kim',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Harry Kim.jpg',
-    },
-    {
-      id: 7,
-      name: 'Howard Lu',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Howard Lu.jpg',
-    },
-    {
-      id: 8,
-      name: 'Elvies Hu',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Elvies Hu.jpg',
-    },
-  ]
   return (
     <div>
       <Hero title="About Us" backgroundImage="/about-us-hero.jpg" />
@@ -105,11 +55,6 @@ export default async function AboutUsPage() {
         </div>
 
         <AboutUsFilter people={people}/>
-
-        <Grid title="Players" placeholderSubtitle="Name" items={playerItems} />
-        <OurTeam></OurTeam>
-        <Grid title="Alumni" placeholderSubtitle="Role" items={playerItems} />
-        <Grid title="Partners" placeholderSubtitle="Company" items={playerItems} />
       </main>
     </div>
   )

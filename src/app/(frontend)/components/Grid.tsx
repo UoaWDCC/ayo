@@ -30,11 +30,6 @@ const Grid = ({ title, items, placeholderCount = 8, placeholderSubtitle = 'Role'
         <h1 className="text-6xl font-bold leading-none m-0">
           Our <em>{title}</em>
         </h1>
-        <div className="flex items-center gap-1 text-sm mt-2">
-          <span className="text-black/40 font-normal">Showing</span>
-          <span className="font-bold">{title}</span>
-          <span className="text-black font-semibold">&#8249;</span>
-        </div>
       </div>
       <div className="items-start justify-between mb-8">
         <h2 className="text-2xl font-bold mb-8">The People Who Keep AYO Running</h2>
