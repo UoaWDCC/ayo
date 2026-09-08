@@ -12,7 +12,7 @@ type GridProps = {
 }
 
 
-const Grid = ({ title, people, placeholderCount = 8, placeholderSubtitle = 'Role' }: GridProps) => {
+const Grid = ({title, people}: GridProps) => {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 md:px-8 md:py-12">
