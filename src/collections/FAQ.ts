@@ -1,14 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-/**
- * FAQ collection:
- *
- * - question: the FAQ question text
- * - answer: the FAQ answer text
- * - category: which page this FAQ appears on (About Us, Concerts & Events, Join AYO, Support Us)
- * - sortOrder: controls display order within a category, ascending, lower first
- */
-
 export const FAQ: CollectionConfig = {
   slug: 'faqs',
 
