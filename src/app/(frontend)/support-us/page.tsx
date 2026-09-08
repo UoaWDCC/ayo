@@ -4,12 +4,15 @@ import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
 import FAQSection from '../components/FAQSection'
+import SponsorsSection from '../components/SponsorsSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
+import { Partners } from '@/collections/Partners'
 
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
+  const sponsorList = ['Benjamin N.', 'E. Musk', 'J.E.E', 'William Gates', 'D.J Trump', 'Tyla Yung']
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
@@ -124,7 +127,7 @@ export default async function SupportUsPage() {
           partnership could look like.
         </p>
       ),
-      linkText: 'Read More',
+      linkText: 'Contact Us',
       linkUrl: '',
     },
     {
@@ -148,7 +151,6 @@ export default async function SupportUsPage() {
       <div className="w-full h-[vh] relative">
         <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       </div>
-
       <div className="text-black w-full">
         <div className="flex justify-center">
           <div className="text-body my-10 w-[90%]">
@@ -181,6 +183,19 @@ export default async function SupportUsPage() {
             </div>
           </div>
         </div>
+        <p className="text-center font-bold text-sm mt-10">Get in Touch </p>
+        <p className="text-center text-body text-sm mt-10">
+          Email our treasurer at treasurer@ayo.org.nz, or write to us at Auckland Youth Orchestra
+          Incorporated, PO Box 99830, Newmarket, Auckland 1149.
+        </p>
+      </div>
+      <SponsorsSection sponsors={sponsorList}></SponsorsSection>
+
+      <div className="grid col-span-1 col-start-6 content-center justify-items-center font-semibold mr-10 text-3xl py-3">
+        <p>{'Want to support us?'}</p>
+      </div>
+      <div className="grid col-span-1 col-start-6 content-center justify-items-center font-semibold underline mr-10">
+        <Link href={''}>{'Click here for more details'}</Link>
       </div>
       <FAQSection></FAQSection>
     </main>
