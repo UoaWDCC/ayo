@@ -12,7 +12,7 @@ interface NewsCardProps {
 
 const NewsCard = ({ title, date, description, type, author, slug }: NewsCardProps) => {
   return (
-    <div className="ml-20 mt-15 w-110">
+    <Link href={`/news/${slug}`} className="group block ml-20 mt-15 w-110">
       <Image
         alt="placeholder"
         src="/hero-placeholder.jpg"
@@ -30,7 +30,7 @@ const NewsCard = ({ title, date, description, type, author, slug }: NewsCardProp
       <p className="mt-4 text-xs uppercase font-semibold">
         {type} • {author}
       </p>
-    </div>
+    </Link>
   )
 }
 
