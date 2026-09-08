@@ -15,8 +15,17 @@ export default function AboutUsFilter({people}:AboutUsFilterProps) {
   const [filter, setFilter] = useState<FilterOption>('All')
   
   const players = people.filter(
-    (person) => person.type === 'player'
-  )
+    (person) => person.type === 'player',
+  ).sort((a, b) => {
+    const roleA = typeof a.role === 'object' && a.role !== null ? a.role.sortOrder : null
+    const roleB = typeof b.role === 'object' && b.role !== null ? b.role.sortOrder : null
+
+    if (roleA === null && roleB === null) return a.name.localeCompare(b.name)
+    if (roleA === null) return 1
+    if (roleB === null) return -1
+
+    return roleA - roleB || a.name.localeCompare(b.name)
+  })
 
   const alumni = people.filter(
     (person) => person.type === 'alumni'
@@ -86,8 +95,8 @@ export default function AboutUsFilter({people}:AboutUsFilterProps) {
 
     
       {(filter === 'All' || filter === 'Team') && (<OurTeam/>)}
-      {(filter === 'All' || filter === 'Players') && (<Grid title="Players" placeholderSubtitle="Name" items={playerItems} />)}
-      {(filter === 'All' || filter === 'Alumni') && (<Grid title="Alumni" placeholderSubtitle="Name" items={playerItems} />)}
+      {(filter === 'All' || filter === 'Players') && (<Grid title="Players" placeholderSubtitle="Name" people={players} />)}
+      {(filter === 'All' || filter === 'Alumni') && (<Grid title="Alumni" placeholderSubtitle="Name" people={alumni} />)}
    
     </>
 )
