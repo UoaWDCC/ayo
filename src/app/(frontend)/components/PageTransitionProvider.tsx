@@ -21,6 +21,7 @@ export default function PageTransitionProvider({ children }: { children: React.R
   const pathname = usePathname()
   const router = useRouter()
   const [phase, setPhase] = useState<Phase>('idle')
+  const [isFullyHidden, setIsFullyHidden] = useState(false)
   const pendingHref = useRef<string | null>(null)
   const previousPathname = useRef(pathname)
 
@@ -62,6 +63,7 @@ export default function PageTransitionProvider({ children }: { children: React.R
   useEffect(() => {
     if (phase !== 'covering') return
     const timeout = setTimeout(() => {
+      setIsFullyHidden(true)
       if (pendingHref.current) router.push(pendingHref.current)
     }, FADE_DURATION)
     return () => clearTimeout(timeout)
@@ -77,9 +79,25 @@ export default function PageTransitionProvider({ children }: { children: React.R
 
   useEffect(() => {
     if (phase !== 'revealing') return
-    const timeout = setTimeout(() => setPhase('idle'), FADE_DURATION)
+    const timeout = setTimeout(() => {
+      setIsFullyHidden(false)
+      setPhase('idle')
+    }, FADE_DURATION)
     return () => clearTimeout(timeout)
   }, [phase])
+
+  // Block scrolling only once the cover is fully opaque — from the moment the outgoing page
+  // is completely hidden until the new page has fully faded back in — so the incoming page
+  // can't be scrolled while it's still invisible underneath the cover, but the cover's own
+  // fade animations aren't interrupted by a scrollbar width change mid-transition.
+  useEffect(() => {
+    if (!isFullyHidden) return
+    const { overflow } = document.body.style
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = overflow
+    }
+  }, [isFullyHidden])
 
   return <PageTransitionContext.Provider value={phase}>{children}</PageTransitionContext.Provider>
 }
