@@ -1,16 +1,12 @@
-import React from 'react'
 import Hero from '../components/Hero'
-import Link from 'next/link'
 import PhotoSpotlight from '../components/PhotoSpotlight'
 import UpcomingEvents from '../components/UpcomingEvents'
 import AboutUsQuoteVid from '../components/AboutUsQuoteVid'
 import PreviousEvents from '../components/PreviousEvents'
 import FAQSection from '../components/FAQSection'
-import OpportunityModal from '../components/OpportunityModal'
+import ConcertsIntro from '../components/ConcertsIntro'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 
 export default async function ConcertsEventsPage() {
   const page = await getPageBySlug('concerts-events')
@@ -31,22 +27,7 @@ export default async function ConcertsEventsPage() {
         subtitle="Full symphonic programmes performed by our own ranks."
         backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
       />
-      <div className="px-4 sm:px-8 md:px-24 mt-15 mb-15">
-        <p className="text-xl sm:text-2xl md:text-[30px]">
-          Every single AYO concert is the ultimate payoff of months of rehearsal and practice by our
-          players who passionately tackle serious repertoire head-on. Expect full symphonic
-          programmes, mesmerizing soloists from within our own ranks and beyond, and that pure,
-          absolute magic that sparks when incredible talent is given the space to excel.
-          <br /> <br />
-          Truly, there is nothing else like it. <br /> <br />
-          Sign up to our newsletter for early notice of concert dates and priority booking.
-          <br /> <br />
-        </p>
-
-        <Link href="/concerts-events" className="font-bold text-xl sm:text-2xl md:text-[30px]">
-          <span className="underline">Sign up to our newsletter</span>&ensp;↗
-        </Link>
-      </div>
+      <ConcertsIntro />
       <PhotoSpotlight
         textSmall="Europe Tour - Friday, 23rd of October, 2025 to Friday 23rd of October, 2026"
         headingSmall="On Now:"
@@ -54,7 +35,7 @@ export default async function ConcertsEventsPage() {
         hoverImgSrc="/hero-placeholder.jpg"
         staticImgSrc="/about-us-quote-poster.jpg"
         modalSubtitle="Sep. 17th to Sep 30th · Norway, Sweden, UK"
-        description="The orchestra is open to young musicians typically aged between 14 and 24..."
+        description="The orchestra is open to young musicians typically aged between 14 and 24."
         galleryImages={[
           '/about-us-quote-poster.jpg',
           '/about-us-quote-poster.jpg',
