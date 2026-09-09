@@ -9,6 +9,7 @@ import SponsorsSection from '../components/SponsorsSection'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
 import { Partners } from '@/collections/Partners'
+import AboutUsQuoteVideo from '../components/AboutUsQuoteVid'
 
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
@@ -151,23 +152,90 @@ export default async function SupportUsPage() {
       <div className="w-full h-[vh] relative">
         <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
       </div>
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
+        <div className="mb-6">
+          Behind every AYO player who walks on stage lies years of dedication. The concerts we're so
+          proud of require months of collaborative preparation most audiences never see. That work
+          doesn't fund itself. Venue hire, professional coaching, sheet music, instrument upkeep: it
+          all adds up, long before the lights go up on a single performance.{' '}
+        </div>
+
+        <div className="mb-6">
+          {' '}
+          As a charitable organisation, we're non-profit, volunteer-run, and we keep costs as lean
+          as we can. But to keep offering Aotearoa New Zealand's best young musicians a genuine
+          professional-standard training ground — the kind of opportunity that shapes careers, not
+          just resumes — we rely on people who believe in what we're building just as much as we
+          do.{' '}
+        </div>
+
+        <div className="mb-6">
+          Your support fuels our youth, getting a full orchestra onto a stage in front of an
+          audience that might otherwise never hear what young New Zealanders are capable of. It
+          keeps an institution with impressive longevity doing what it's always done: turning
+          talented young people into serious musicians, and serious musicians into lifelong artists,
+          colleagues and friends.{' '}
+        </div>
+        <div className="mb-6">
+          Sponsors and supporters sit close to that story all year. As a mark of thanks, we're glad
+          to acknowledge their generosity — in our concert programmes, with seating set aside at our
+          Auckland Town Hall concerts, and in the knowledge that their name is attached to something
+          with a track record stretching back to 1948.{' '}
+        </div>
+      </div>
+      <div>
+        <AboutUsQuoteVideo
+          quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
+          posterImage="/about-us-quote-poster.jpg"
+          // videoSrc="/about-us-quote-preview.mp4"   //
+          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
+        />
+      </div>
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
+        <p className="mb-6">
+          AYO is a registered charity (CC45382) and an IRD-registered donee organisation — see Ways
+          to Give for details on tax credits.{' '}
+        </p>
+
+        <p className="mb-6">
+          Whether you're a business looking for a meaningful community partnership, a trust
+          considering a grant, or an individual who simply loves what live music can do for young
+          people — there's a place for you in AYO's next chapter. Come and talk to us to find out
+          more.
+        </p>
+      </div>
       <div className="text-black w-full">
         <div className="flex justify-center">
           <div className="text-body my-10 w-[90%]">
-            <h1 className="text-heading font-semibold">Donations</h1>
+            <h1 className="text-heading font-semibold">Ways to Give</h1>
             <p className="mt-2 leading-9">
               We are grateful for the donations and grants from our major supporters and for the
-              generosity of others. Every donation is appreciated and helpful. <br />
-              Auckland Youth Orchestra Incorporated is a registered charity, CC45382, and is an
-              IRD-registered Donee Organisation for tax credits on donations.
+              generosity of others. Every donation is appreciated and helpful. Auckland Youth
+              Orchestra Incorporated is a registered charity, CC45382, and is an IRD-registered
+              Donee Organisation for tax credits on donations.
             </p>
+            <p className="mt-5 mb-10"> For one off donations:</p>
+            <ul className="list-disc pl-6 py-4">
+              <li>
+                <span className="font-bold">Direct to our bank account:</span>
+                Auckland Youth Orchestra Incorporated, 12-3030-0505986-00. This is our preferred
+                method for larger donations, as it comes to us in full.
+              </li>
+              <li>
+                <span className="font-bold">
+                  <Link href="givealittlelink">
+                    <span className="underline">Givealittle: </span>
+                  </Link>
+                </span>
+                instant tax receipt, credit card or internet banking. Note: Givealittle takes a 5%
+                platform fee before funds reach us.
+              </li>
+            </ul>
             <p className="mt-5 mb-10">
-              Click here to{' '}
-              <Link href="">
-                <span className="underline">donate</span>
-              </Link>{' '}
-              (one-off), or explore below.
+              All donations over $5.00 NZD are eligible for a New Zealand charitable giving tax
+              credit, and a receipt will be issued on request.
             </p>
+
             <div>
               {tierArray.map((tier, index) => (
                 <div key={index}>
