@@ -106,17 +106,19 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
   return (
     <>
       {/* Page-transition cover: fades everything below the nav to white, then back in, as
-          routes swap underneath. Rendered as a sibling of `header` (not a child) so its z-20
-          always stacks beneath the header's z-30, regardless of how deep this NavBar sits in a
-          given page's own stacking contexts. */}
+          routes swap underneath. Rendered as a sibling of `header` (not a child) so its z-[100]
+          always stacks beneath the header's z-[110], regardless of how deep this NavBar sits in a
+          given page's own stacking contexts. Sits above every other fixed/overlay element (modals,
+          in-page curtains, etc. topping out at z-50) so nothing leaks through while scrolling
+          mid-transition. */}
       <div
         aria-hidden="true"
         style={{ transitionDuration: `${FADE_DURATION}ms` }}
-        className={`fixed inset-0 z-20 bg-white pointer-events-none transition-opacity ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`fixed inset-0 z-[100] bg-white pointer-events-none transition-opacity ease-[cubic-bezier(0.22,1,0.36,1)] ${
           isTransitioning ? 'opacity-100' : 'opacity-0'
         }`}
       />
-      <header className="fixed top-0 left-0 right-0 z-30">
+      <header className="fixed top-0 left-0 right-0 z-[110]">
         <div
           className={`absolute inset-0 -z-10 ${bgColor} duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             suppressSlide ? 'transition-opacity' : 'transition-[opacity,translate]'
