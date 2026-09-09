@@ -23,7 +23,11 @@ export default async function JoinAyoPage() {
 
   return (
     <main>
-      <Hero title="Join AYO" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero
+        title="Join AYO"
+        subtitle="Play alongside Aotearoa's most talented young musicians."
+        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+      />
       <JoinIntroSection />
       <JoinAyoBlock />
       <ScrollAnimation />

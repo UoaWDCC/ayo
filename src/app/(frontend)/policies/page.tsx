@@ -23,7 +23,11 @@ export default async function PoliciesPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <Hero title="Policies" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero
+        title="Policies"
+        subtitle="Guidelines and procedures that keep AYO running smoothly."
+        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+      />
       <div className="max-w-4xl mx-auto px-6 sm:px-8 py-16 sm:py-24">
         <p className="text-lg text-gray-700">Policy content coming soon.</p>
       </div>

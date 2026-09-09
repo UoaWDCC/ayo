@@ -18,7 +18,52 @@
   --leading-miniheader: 1.9;
   --leading-paragraph: /* PLACEHOLDER */;
 
-  /* FONT SIZES */ 
+  /* FONT SIZES */
   --text-body: 15px;
   --text-heading: 40px;
+}
+
+@keyframes scroll-diagonal {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+.animate-scroll-diagonal {
+  transform-origin: bottom left;
+  animation: scroll-diagonal 1.5s ease-in-out infinite;
+}
+
+@keyframes hero-zoom {
+  0% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-zoom {
+  animation: hero-zoom 6s ease-out forwards;
+}
+
+.animate-hero-fade-up {
+  opacity: 0;
+  animation: hero-fade-up 0.9s ease-out forwards;
+  animation-delay: var(--hero-delay, 0s);
 }

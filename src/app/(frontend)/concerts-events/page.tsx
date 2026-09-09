@@ -26,7 +26,11 @@ export default async function ConcertsEventsPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <Hero title="Concerts & Events" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero
+        title="Concerts & Events"
+        subtitle="Full symphonic programmes performed by our own ranks."
+        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+      />
       <div className="px-4 sm:px-8 md:px-24 mt-15 mb-15">
         <p className="text-xl sm:text-2xl md:text-[30px]">
           Every single AYO concert is the ultimate payoff of months of rehearsal and practice by our
