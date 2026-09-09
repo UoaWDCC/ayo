@@ -1,8 +1,17 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import FakeScrollbar from './FakeScrollbar'
+import { announceModalOpen } from './modalEvents'
+
+const TRANSITION_MS = 300
+const PARALLAX_FACTOR = 0.4
+// Matches SmoothScroll's easing so the modal's internal scroll glides the
+// same way the rest of the page does — the browser's native overflow-y-auto
+// scroll otherwise jumps per wheel tick with no easing at all.
+const SCROLL_EASE = 0.12
+const SCROLL_SETTLE_THRESHOLD = 0.5
 
 export type SpacerTime = {
   time: string
@@ -43,26 +52,115 @@ export default function Spacer({
 }: SpacerProps) {
   const backdropRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [shouldRender, setShouldRender] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [scrollTop, setScrollTop] = useState(0)
 
-  // Escape to close + lock background scroll while the popup is open
+  // Mount/unmount with a fade + scale transition instead of popping in instantly
   useEffect(() => {
-    if (!isOpen) return
+    if (isOpen) {
+      setShouldRender(true)
+      announceModalOpen()
+
+      // Two rAFs: the first lets the browser paint the just-mounted "closed"
+      // position; only then does flipping to "visible" register as a change
+      // to transition from, instead of getting batched into the same paint.
+      let innerRaf = 0
+      const outerRaf = requestAnimationFrame(() => {
+        innerRaf = requestAnimationFrame(() => setIsVisible(true))
+      })
+      return () => {
+        cancelAnimationFrame(outerRaf)
+        cancelAnimationFrame(innerRaf)
+      }
+    }
+
+    setIsVisible(false)
+    const timeout = setTimeout(() => setShouldRender(false), TRANSITION_MS)
+    return () => clearTimeout(timeout)
+  }, [isOpen])
+
+  // Escape to close + lock background scroll for the whole time the popup is
+  // mounted (including the closing animation), matching EventDetailsPanel.
+  useEffect(() => {
+    if (!shouldRender) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
 
     document.addEventListener('keydown', handleKeyDown)
-    const originalOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = originalOverflow
+      document.body.style.overflow = ''
     }
-  }, [isOpen, onClose])
+  }, [shouldRender, onClose])
 
-  if (!isOpen) return null
+  // Ease wheel scrolling within the popup body instead of letting the browser
+  // apply its native per-tick jump, so it glides like the rest of the site.
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!shouldRender || !el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const target = { current: el.scrollTop }
+    const current = { current: el.scrollTop }
+    let rafId = 0
+    let running = false
+
+    const maxScroll = () => Math.max(el.scrollHeight - el.clientHeight, 0)
+
+    const step = () => {
+      current.current += (target.current - current.current) * SCROLL_EASE
+      if (Math.abs(target.current - current.current) < SCROLL_SETTLE_THRESHOLD) {
+        current.current = target.current
+        el.scrollTop = current.current
+        setScrollTop(current.current)
+        running = false
+        return
+      }
+      el.scrollTop = current.current
+      setScrollTop(current.current)
+      rafId = requestAnimationFrame(step)
+    }
+
+    const start = () => {
+      if (!running) {
+        running = true
+        rafId = requestAnimationFrame(step)
+      }
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      const scale = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? el.clientHeight : 1
+      e.preventDefault()
+      target.current = Math.min(Math.max(target.current + e.deltaY * scale, 0), maxScroll())
+      start()
+    }
+
+    // Any scroll that didn't come from our own rAF loop (thumb drag, touch,
+    // keyboard) — resync the target so the next wheel tick continues from
+    // the right place.
+    const onScroll = () => {
+      if (!running) {
+        target.current = el.scrollTop
+        current.current = el.scrollTop
+      }
+    }
+
+    el.addEventListener('wheel', onWheel, { passive: false })
+    el.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
+    }
+  }, [shouldRender])
+
+  if (!shouldRender) return null
 
   return (
     <div
@@ -71,12 +169,18 @@ export default function Spacer({
         // Only close if the click landed on the backdrop itself, not a child
         if (e.target === backdropRef.current) onClose()
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 md:p-8"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 md:p-8 transition-opacity duration-300 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="spacer-title"
     >
-      <div className="relative flex w-full max-w-5xl max-h-[90vh] flex-col bg-black shadow-2xl">
+      <div
+        className={`relative flex w-full max-w-5xl max-h-[90vh] flex-col bg-black shadow-2xl transition-[opacity,transform] duration-300 ease-out ${
+          isVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-95 opacity-0'
+        }`}
+      >
         {/* Close button — floats above the scrolling content, always reachable */}
         <button
           type="button"
@@ -102,10 +206,19 @@ export default function Spacer({
 
         {/* Scrollable body */}
         <FakeScrollbar target={scrollRef} variant="light" />
-        <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain no-scrollbar">
+        <div
+          ref={scrollRef}
+          onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
+          className="flex-1 overflow-y-auto overscroll-contain no-scrollbar"
+        >
           {/* Hero image with title/subtitle overlaid */}
-          <div className="relative h-[42vh] min-h-[260px] w-full md:h-[52vh]">
-            <Image src={image} alt={title} fill priority className="object-cover object-center" />
+          <div className="relative h-[42vh] min-h-[260px] w-full overflow-hidden md:h-[52vh]">
+            <div
+              className="absolute inset-x-0 -top-[40%] -bottom-[40%]"
+              style={{ transform: `translateY(${scrollTop * PARALLAX_FACTOR}px)` }}
+            >
+              <Image src={image} alt={title} fill priority className="object-cover object-center" />
+            </div>
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent px-6 pb-6 pt-20 md:px-10 md:pb-8">
               <h2
                 id="spacer-title"
@@ -175,7 +288,7 @@ export default function Spacer({
 
         {/* Footer stays pinned to the bottom of the popup */}
         {(bookNowUrl || ticketsLabel) && (
-          <div className="flex flex-col gap-2 border-t border-[#EBEBEB] bg-white px-6 py-4 sm:flex-row sm:items-center sm:justify-between md:px-10">
+          <div className="flex flex-col gap-2 border-t border-[#EBEBEB] bg-white px-6 py-2 sm:flex-row sm:items-center sm:justify-between md:px-10">
             <p className="text-sm font-bold text-black md:text-base">{ticketsLabel}</p>
             {bookNowUrl && (
               <a
