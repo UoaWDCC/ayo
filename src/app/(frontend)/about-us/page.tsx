@@ -71,7 +71,11 @@ export default async function AboutUsPage() {
   ]
   return (
     <div>
-      <Hero title="About Us" backgroundImage="/about-us-hero.jpg" />
+      <Hero
+        title="About Us"
+        subtitle="Aotearoa's first and original youth orchestra, founded 1948."
+        backgroundImage="/about-us-hero.jpg"
+      />
       <main className="min-h-screen bg-white text-black">
         <AboutUsSection />
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">

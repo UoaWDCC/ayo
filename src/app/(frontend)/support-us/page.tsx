@@ -87,7 +87,11 @@ export default async function SupportUsPage() {
   return (
     <main>
       <div className="w-full h-[vh] relative">
-        <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+        <Hero
+          title="Support Us"
+          subtitle="Help us keep music thriving for the next generation."
+          backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        />
       </div>
 
       <div className="text-black w-full">
