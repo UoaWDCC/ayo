@@ -29,7 +29,17 @@ export default function SmoothScroll() {
     const maxScroll = () =>
       Math.max(document.documentElement.scrollHeight - window.innerHeight, 0)
 
+    // A modal/panel (EventDetailsPanel, the PhotoSpotlight popup, etc.) locks
+    // `document.body.style.overflow = 'hidden'` while it's open — respect that
+    // lock here too, since this loop drives the scroll position with its own
+    // `window.scrollTo` calls that would otherwise bypass it.
+    const isScrollLocked = () => document.body.style.overflow === 'hidden'
+
     const step = () => {
+      if (isScrollLocked()) {
+        running.current = false
+        return
+      }
       current.current += (target.current - current.current) * EASE
       if (Math.abs(target.current - current.current) < SETTLE_THRESHOLD) {
         current.current = target.current
@@ -49,6 +59,7 @@ export default function SmoothScroll() {
     }
 
     const onWheel = (e: WheelEvent) => {
+      if (isScrollLocked()) return
       if ((e.target as HTMLElement)?.closest('.overflow-y-auto, .overflow-auto')) return
 
       // Normalise line/page deltas (Firefox et al.) to roughly pixel units.

@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import type { EventCardData } from './EventCard'
 import FakeScrollbar from './FakeScrollbar'
+import { announceModalOpen } from './modalEvents'
 
 const TRANSITION_MS = 300
 
@@ -24,6 +25,7 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
   useEffect(() => {
     if (isOpen) {
       setShouldRender(true)
+      announceModalOpen()
 
       // Two rAFs: the first lets the browser paint the just-mounted "closed"
       // position; only then does flipping to "visible" register as a change
