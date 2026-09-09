@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { onModalOpen } from './modalEvents'
 import { usePageTransitionPhase, FADE_DURATION } from './PageTransitionProvider'
 
 type HeaderProps = {
@@ -29,6 +30,10 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
   const transitionPhase = usePageTransitionPhase()
   const isTransitioning = transitionPhase !== 'idle'
   const [suppressSlide, setSuppressSlide] = useState(false)
+
+  // A modal/panel elsewhere on the page (e.g. an event or spotlight popup) just opened —
+  // the mobile nav sits above them (z-[110]), so close it to avoid overlapping the modal.
+  useEffect(() => onModalOpen(() => setIsMenuOpen(false)), [])
 
   // Suppress the background's slide transition for the duration of a page transition *and*
   // for one more frame after it ends, so the forced-solid bg (and its snap back to hidden,

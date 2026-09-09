@@ -86,12 +86,12 @@ const AboutUsQuoteVideo = ({
         <div className="absolute inset-0 bg-neutral-800" />
       )}
 
-      <div className="absolute inset-0 bg-black/50 transition-colors duration-300 group-hover:bg-black/10" />
+      <div className="absolute inset-0 bg-black/50 transition-colors duration-300" />
 
       <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between">
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white">{caption}</p>
+        <p className="text-xs sm:text-xs md:text-sm lg:text-base text-white">{caption}</p>
         {showSeeMore && (
-          <p className="flex items-center gap-1 text-xs sm:text-sm md:text-base lg:text-lg font-medium text-white whitespace-nowrap">
+          <p className="flex items-center gap-1 text-xs sm:text-xs md:text-sm lg:text-base font-medium text-white whitespace-nowrap">
             See More
             <Image
               src="/arrow-up-right.svg"
