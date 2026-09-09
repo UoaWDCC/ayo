@@ -84,7 +84,7 @@ const FAQSection = () => {
   }, [])
 
   return (
-    <section className="bg-white w-full">
+    <section id="faq" className="bg-white w-full scroll-mt-24">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-14">
         <h2 className="font-semibold text-[40px] leading-[56px] text-black mb-8">FAQs</h2>
 
