@@ -67,3 +67,66 @@
   animation: hero-fade-up 0.9s ease-out forwards;
   animation-delay: var(--hero-delay, 0s);
 }
+
+/* Native scrollbars are replaced site-wide by <FakeScrollbar> — hide them everywhere. */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.fake-scrollbar-track {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+  bottom: 4px;
+  width: 8px;
+  background: transparent;
+  z-index: 60;
+}
+
+.fake-scrollbar-track.fake-scrollbar-fixed {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 70;
+}
+
+.fake-scrollbar-thumb {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.fake-scrollbar-thumb.variant-dark {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.fake-scrollbar-thumb.variant-dark:hover,
+.fake-scrollbar-thumb.variant-dark.dragging {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.fake-scrollbar-thumb.variant-light {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+.fake-scrollbar-thumb.variant-light:hover,
+.fake-scrollbar-thumb.variant-light.dragging {
+  background-color: rgba(255, 255, 255, 0.75);
+}

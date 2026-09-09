@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import FakeScrollbar from './FakeScrollbar'
 
 export type SpacerTime = {
   time: string
@@ -41,6 +42,7 @@ export default function Spacer({
   ticketsLabel = 'Tickets available.',
 }: SpacerProps) {
   const backdropRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   // Escape to close + lock background scroll while the popup is open
   useEffect(() => {
@@ -99,7 +101,8 @@ export default function Spacer({
         </button>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+        <FakeScrollbar target={scrollRef} variant="light" />
+        <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain no-scrollbar">
           {/* Hero image with title/subtitle overlaid */}
           <div className="relative h-[42vh] min-h-[260px] w-full md:h-[52vh]">
             <Image src={image} alt={title} fill priority className="object-cover object-center" />
