@@ -25,32 +25,38 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
   }, [])
 
   return (
-    <section className="relative w-full h-screen min-h-[600px] flex flex-col overflow-hidden">
-      {/* Background */}
-      {backgroundImage ? (
-        <div
-          className="absolute inset-x-0 top-[-40%] bottom-[-40%]"
-          style={{ transform: `translateY(${scrollY * PARALLAX_FACTOR}px)` }}
-        >
-          <Image
-            src={backgroundImage}
-            alt={title}
-            fill
-            className="object-cover object-center animate-hero-zoom"
-            priority
-          />
-        </div>
-      ) : (
-        <div className="absolute inset-0 bg-neutral-700" />
-      )}
+    <section className="relative w-full h-screen min-h-[600px] flex flex-col">
+      {/* NavBar is `position: fixed`, so it must live outside any `overflow-hidden` ancestor —
+          overflow clipping still applies to fixed-position descendants, and since this section
+          scrolls with the page, the clip box would move off-screen and cut the navbar off once
+          the user scrolls past the hero. */}
+      <NavBar overlay />
 
-      {/* Dark scrim */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Background */}
+        {backgroundImage ? (
+          <div
+            className="absolute inset-x-0 top-[-40%] bottom-[-40%]"
+            style={{ transform: `translateY(${scrollY * PARALLAX_FACTOR}px)` }}
+          >
+            <Image
+              src={backgroundImage}
+              alt={title}
+              fill
+              className="object-cover object-center animate-hero-zoom"
+              priority
+            />
+          </div>
+        ) : (
+          <div className="absolute inset-0 bg-neutral-700" />
+        )}
+
+        {/* Dark scrim */}
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
 
       {/* Layered content */}
       <div className="relative z-10 flex flex-col h-full">
-        <NavBar overlay />
-
         {/* Title pinned to bottom-left */}
         <div className="mt-auto px-10 pb-5">
           <h1

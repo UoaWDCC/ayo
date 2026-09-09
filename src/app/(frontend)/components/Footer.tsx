@@ -109,7 +109,12 @@ export default function Footer({ revealProgress = 1 }: FooterProps) {
                 </Link>
               ))}
             </div>
-            <span className="text-md font-semibold">SUBSCRIBE TO OUR NEWSLETTER</span>
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.28em] text-white/60">
+                Stay in the loop
+              </span>
+              <p className="text-md font-semibold mt-1">Sign up to our newsletter</p>
+            </div>
             <div className="flex w-full">
               {/* Simple email input and button for newsletter subscription */}
               <input
