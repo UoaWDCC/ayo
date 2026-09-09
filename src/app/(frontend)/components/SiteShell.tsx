@@ -3,6 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import Footer from './Footer'
 
+// Ease-out: the reveal races ahead early then settles in, instead of tracking
+// scroll position 1:1.
+const easeOutCubic = (t: number) => 1 - (1 - t) ** 3
+
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerHeight, setFooterHeight] = useState(0)
@@ -34,7 +38,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       const docHeight = document.documentElement.scrollHeight
       const revealStart = docHeight - window.innerHeight - footerHeight
       const progress = revealStart > 0 ? (window.scrollY - revealStart) / footerHeight : 1
-      setRevealProgress(Math.min(1, Math.max(0, progress)))
+      setRevealProgress(easeOutCubic(Math.min(1, Math.max(0, progress))))
     }
     const onScroll = () => {
       if (!rafId) rafId = requestAnimationFrame(update)
