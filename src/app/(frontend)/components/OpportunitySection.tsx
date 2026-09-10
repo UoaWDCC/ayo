@@ -163,7 +163,7 @@ export default function OpportunitySection() {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4 transition-opacity hover:opacity-70"
             >
               {opportunityTypes.map((type) => (
                 <option key={type} value={type}>
@@ -180,7 +180,7 @@ export default function OpportunitySection() {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4 transition-opacity hover:opacity-70"
             >
               <option value="asc">Closing Date (Soonest)</option>
               <option value="desc">Closing Date (Latest)</option>
@@ -194,7 +194,7 @@ export default function OpportunitySection() {
             <select
               value={showCount}
               onChange={(e) => setShowCount(Number(e.target.value))}
-              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4"
+              className="font-semibold text-black bg-transparent outline-none appearance-none cursor-pointer pr-4 transition-opacity hover:opacity-70"
             >
               <option value={3}>3</option>
               <option value={5}>5</option>
@@ -220,7 +220,7 @@ export default function OpportunitySection() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="underline disabled:no-underline disabled:opacity-40"
+              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
             >
               Previous
             </button>
@@ -228,7 +228,7 @@ export default function OpportunitySection() {
             <button
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="underline disabled:no-underline disabled:opacity-40"
+              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
             >
               Next
             </button>

@@ -1,7 +1,9 @@
 import React from 'react'
 import FAQSection from '../components/FAQSection'
+import JoinAyoBlock from '../components/join-ayo/JoinAyoBlock'
 import JoinIntroSection from '../components/JoinIntroSection'
 import OpportunitySection from '../components/OpportunitySection'
+import ScrollAnimation from '../components/join-ayo/ScrollAnimation'
 import Hero from '../components/Hero'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -21,7 +23,14 @@ export default async function JoinAyoPage() {
 
   return (
     <main>
-      <Hero title="Join AYO" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero
+        title="Join AYO"
+        subtitle="Play alongside Aotearoa's most talented young musicians."
+        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+      />
+      <JoinIntroSection />
+      <JoinAyoBlock />
+      <ScrollAnimation />
       <OpportunitySection />
       <FAQSection category="join-ayo" />
     </main>

@@ -27,7 +27,11 @@ export default async function ContactUsPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <Hero title={heroTitle} backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+      <Hero
+        title={heroTitle}
+        subtitle="We'd love to hear from you."
+        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+      />
       <SquareLinkGrid
         title="Hey there! What can we help you with?"
         description="Answers to some of our frequently asked questions."

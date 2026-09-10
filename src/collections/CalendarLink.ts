@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const CalendarLink: CollectionConfig = {
-  slug: 'links',
+  slug: 'calendar-links',
   fields: [
     {
       name: 'embedLink',

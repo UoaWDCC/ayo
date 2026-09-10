@@ -6,6 +6,7 @@ import config from '@payload-config'
 import { redirect } from 'next/navigation'
 import Resources from '../components/Resources'
 import Links from '../components/Links'
+import ResourcesSection from '../components/Resources'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,8 +40,17 @@ export default async function MyAyoPage({
   const payload = await getPayload({ config })
 
   const linkResult = await payload.find({
-    collection: 'links',
+    collection: 'calendar-links',
     limit: 1,
+  })
+
+  const resourcesResult = await payload.find({
+    collection: 'link',
+    where: {
+      category: {
+        equals: 'resources',
+      },
+    },
   })
 
   const doc = linkResult.docs[0]
@@ -55,7 +65,7 @@ export default async function MyAyoPage({
     return (
       <main className="min-h-screen flex flex-col">
         <NavBar variant="dark" />
-        <div className="relative bg-white flex-1 flex flex-col px-6 sm:px-12 lg:px-24">
+        <div className="relative bg-white flex-1 flex flex-col px-6 sm:px-12 lg:px-24 pt-20 lg:pt-24">
           <div className="mt-auto flex flex-col md:flex-row md:items-end md:justify-between gap-8 pb-16 md:pb-24">
             <h1 className="font-bold text-black leading-none">
               <span className="block text-4xl sm:text-5xl lg:text-6xl leading-none">My</span>
@@ -98,7 +108,12 @@ export default async function MyAyoPage({
   return (
     <main>
       <NavBar />
-      <iframe src={calendarEmbed} className="ml-30 border: 0" width="800" height="600"></iframe>
+      <iframe
+        src={calendarEmbed}
+        className="ml-30 mt-20 lg:mt-24 border: 0"
+        width="800"
+        height="600"
+      ></iframe>
       <div className="flex">
         <a href={calendarUrl} className="p-3 ml-30 border-black border-2 rounded-md">
           <p>Add to Google Calendar</p>
@@ -108,7 +123,7 @@ export default async function MyAyoPage({
         </a>
         <MyAYOCopyLink copyLink={calendarICal} />
       </div>
-      <Resources />
+      <ResourcesSection RESOURCES={resourcesResult.docs} />
       <Links />
     </main>
   )

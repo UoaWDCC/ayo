@@ -18,6 +18,7 @@ import { People } from './collections/People'
 import { Roles } from './collections/Roles'
 import { FAQ } from './collections/FAQ'
 
+import { Links } from './collections/Links'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -40,6 +41,7 @@ export default buildConfig({
     People,
     Roles,
     FAQ,
+    Links,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
