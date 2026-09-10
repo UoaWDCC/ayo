@@ -17,6 +17,7 @@ import { CalendarLink } from './collections/CalendarLink'
 import { People } from './collections/People'
 import { Roles } from './collections/Roles'
 import { Links } from './collections/Links'
+import { TeamRoles } from './collections/TeamRoles'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -39,6 +40,7 @@ export default buildConfig({
     People,
     Roles,
     Links,
+    TeamRoles
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
