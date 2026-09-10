@@ -3,6 +3,7 @@ import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
+import FAQSection from '../components/FAQSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -92,7 +93,11 @@ export default async function SupportUsPage() {
   return (
     <main>
       <div className="w-full h-[vh] relative">
-        <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+        <Hero
+          title="Support Us"
+          subtitle="Help us keep music thriving for the next generation."
+          backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        />
       </div>
 
       <div className="text-black w-full">
@@ -142,6 +147,7 @@ export default async function SupportUsPage() {
         </a>
       </div>
       <AYOSection></AYOSection>
+      <FAQSection category="support-us" />
     </main>
   )
 }

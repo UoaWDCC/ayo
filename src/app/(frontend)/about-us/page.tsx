@@ -4,6 +4,7 @@ import Grid from '../components/Grid'
 import Hero from '../components/Hero'
 import OurTeam from '../components/OurTeam'
 import NewsletterSignupDemo from '../components/Newsletter'
+import FAQSection from '../components/FAQSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -71,7 +72,11 @@ export default async function AboutUsPage() {
   ]
   return (
     <div>
-      <Hero title="About Us" backgroundImage="/about-us-hero.jpg" />
+      <Hero
+        title="About Us"
+        subtitle="Aotearoa's first and original youth orchestra, founded 1948."
+        backgroundImage="/about-us-hero.jpg"
+      />
       <main className="min-h-screen bg-white text-black">
         <AboutUsSection />
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
@@ -99,6 +104,7 @@ export default async function AboutUsPage() {
         <OurTeam></OurTeam>
         <Grid title="Alumni" placeholderSubtitle="Role" items={playerItems} />
         <Grid title="Partners" placeholderSubtitle="Company" items={playerItems} />
+        <FAQSection category="about-us" />
       </main>
     </div>
   )

@@ -25,6 +25,7 @@ export default async function LandingPage() {
     <main className="min-h-screen bg-white text-black">
       <Hero
         title="Here Plays The Future"
+        subtitle="Aotearoa's first and original youth orchestra, founded 1948."
         backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
       />
       {/* <AboutIntro /> */}
