@@ -45,7 +45,7 @@ export default function AboutUsFilter({people}:AboutUsFilterProps) {
       </section>
 
     
-      {(filter === 'All' || filter === 'Team') && (<OurTeam/>)}
+      {(filter === 'All' || filter === 'Team') && (<OurTeam team={team}/>)}
       {(filter === 'All' || filter === 'Players') && (<Grid title="Players" placeholderSubtitle="Name" people={players} />)}
       {(filter === 'All' || filter === 'Alumni') && (<Grid title="Alumni" placeholderSubtitle="Name" people={alumni} />)}
    

@@ -1,10 +1,17 @@
 'use client'
 import React from 'react'
 
+import type { Person, TeamRole } from '@/payload-types'
+
 interface TeamMember {
   id: string
   name: string
   role: string
+}
+
+interface TeamMemberWithRole extends TeamMember {
+  sectionId: TeamRole['roleType']
+  sortOrder: number
 }
 
 interface LeadershipProfile {
@@ -22,6 +29,51 @@ interface TeamSection {
 }
 
 interface OurTeamProps {
+  team: Person[]
+}
+
+interface TeamContent {
+  heading: string
+  body: string
+}
+
+const TEAM_CONTENT: Record<TeamRole['roleType'], TeamContent> = {
+  executive: {
+    heading: 'Executive Committee',
+    body: "Our Executive Committee oversees everything from finances to logistics to player welfare, all while planning for AYO's future to ensure we stay responsive to the needs of Auckland's young musicians in a changing environment. The committee includes three player representatives, because we believe the people actually in the orchestra should have a voice in how it's run.",
+  },
+  admin: {
+    heading: 'Administration',
+    body: "Our Administration Team oversees everything from finances to logistics to player welfare, all while planning for AYO's future to ensure we stay responsive to the needs of Auckland's young musicians in a changing environment. The team includes three player representatives, because we believe the people actually in the orchestra should have a voice in how it's run.",
+  },
+}
+
+function getTeamSections(team: Person[]): TeamSection[] {
+  const members = team.flatMap((person): TeamMemberWithRole[] => {
+    const teamRoles = (person.teamRoles ?? []).filter(
+      (teamRole): teamRole is TeamRole => typeof teamRole === 'object' && teamRole !== null,
+    )
+
+    return teamRoles.map((teamRole) => ({
+      id: `${person.id}-${teamRole.id}`,
+      name: person.name,
+      role: teamRole.roleName,
+      sectionId: teamRole.roleType,
+      sortOrder: teamRole.sortOrder,
+    }))
+  })
+
+  return (Object.keys(TEAM_CONTENT) as TeamRole['roleType'][]).map((sectionId) => ({
+    id: sectionId,
+    ...TEAM_CONTENT[sectionId],
+    members: members
+      .filter((member) => member.sectionId === sectionId)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name))
+      .map(({ sectionId: _, sortOrder: __, ...member }) => member),
+  }))
+}
+
+interface OurTeamContent {
   title: string
   intro: {
     heading: string
@@ -32,10 +84,9 @@ interface OurTeamProps {
     body: string
     profile: LeadershipProfile
   }
-  sections: TeamSection[]
 }
 
-const MOCK_DATA: OurTeamProps = {
+const MOCK_DATA: OurTeamContent = {
   title: 'Team',
   intro: {
     heading: 'The People Who Keep AYO Running',
@@ -51,38 +102,6 @@ const MOCK_DATA: OurTeamProps = {
       imageUrl: '/about-us-our-team.jpg',
     },
   },
-  sections: [
-    {
-      id: 'executive-committee',
-      heading: 'Executive Committee',
-      body: "Our Executive Committee oversees everything from finances to logistics to player welfare, all while planning for AYO's future to ensure we stay responsive to the needs of Auckland's young musicians in a changing environment. The committee includes three player representatives, because we believe the people actually in the orchestra should have a voice in how it's run.",
-      members: [
-        { id: 'e1', name: 'Hon. Christopher Finlayson KC', role: 'Patron' },
-        { id: 'e2', name: 'Alastair Clement', role: 'President' },
-        { id: 'e3', name: 'Alexander Cowdell', role: 'Vice President' },
-        { id: 'e4', name: 'Adrian Hirst', role: 'Chairperson' },
-        { id: 'e5', name: 'Anne-Marie Forsyth', role: 'Secretary' },
-        { id: 'e6', name: 'Alastair Clement', role: 'Music Director' },
-        { id: 'e7', name: 'Alexander Cowdell', role: 'Orchestra Manager' },
-        { id: 'e8', name: 'Adrian Hirst', role: 'Assistant Orchestra Manager' },
-      ],
-    },
-    {
-      id: 'administration',
-      heading: 'Administration',
-      body: "Our Administration Team oversees everything from finances to logistics to player welfare, all while planning for AYO's future to ensure we stay responsive to the needs of Auckland's young musicians in a changing environment. The team includes three player representatives, because we believe the people actually in the orchestra should have a voice in how it's run.",
-      members: [
-        { id: 'a1', name: 'Hon. Christopher Finlayson KC', role: 'Patron' },
-        { id: 'a2', name: 'Alastair Clement', role: 'President' },
-        { id: 'a3', name: 'Alexander Cowdell', role: 'Vice President' },
-        { id: 'a4', name: 'Adrian Hirst', role: 'Chairperson' },
-        { id: 'a5', name: 'Anne-Marie Forsyth', role: 'Secretary' },
-        { id: 'a6', name: 'Alastair Clement', role: 'Music Director' },
-        { id: 'a7', name: 'Alexander Cowdell', role: 'Orchestra Manager' },
-        { id: 'a8', name: 'Adrian Hirst', role: 'Assistant Orchestra Manager' },
-      ],
-    },
-  ],
 }
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
@@ -146,8 +165,9 @@ function LeadershipPhoto({ profile }: { profile: LeadershipProfile }) {
   )
 }
 
-export default function OurTeam() {
-  const { title, intro, leadership, sections } = MOCK_DATA
+export default function OurTeam({ team }: OurTeamProps) {
+  const { title, intro, leadership } = MOCK_DATA
+  const sections = getTeamSections(team)
 
   return (
     <section className="w-full py-12">
