@@ -32,7 +32,7 @@ export default async function JoinAyoPage() {
       <JoinAyoBlock />
       <ScrollAnimation />
       <OpportunitySection />
-      <FAQSection />
+      <FAQSection category="join-ayo" />
     </main>
   )
 }

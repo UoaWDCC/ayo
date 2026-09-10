@@ -3,6 +3,7 @@ import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
+import FAQSection from '../components/FAQSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -128,6 +129,7 @@ export default async function SupportUsPage() {
         </div>
       </div>
       <AYOSection></AYOSection>
+      <FAQSection category="support-us" />
     </main>
   )
 }
