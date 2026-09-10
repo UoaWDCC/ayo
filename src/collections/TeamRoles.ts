@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const TeamRoles: CollectionConfig = {
-    slug: 'teamroles',
+    slug: 'team-roles',
 
     admin: {
         useAsTitle: 'displayName'

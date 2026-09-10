@@ -20,6 +20,19 @@ export const People: CollectionConfig = {
             hasMany: false,
             admin: {
                 sortOptions: 'sortOrder',
+                condition: (_, siblingData) =>
+                    siblingData.type === 'player' ||
+                    siblingData.type === 'alumni'
+            }
+        },
+        {
+            name: 'teamRoles',
+            type: 'relationship',
+            relationTo: 'team-roles',
+            hasMany: true,
+            admin: {
+                sortOptions: 'sortOrder',
+                condition: (_, siblingData) => siblingData.type === 'team'
             }
         },
         {
