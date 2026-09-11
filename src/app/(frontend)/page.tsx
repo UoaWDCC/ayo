@@ -34,8 +34,6 @@ export default async function LandingPage() {
 
   const introContent = richTextBlock?.content
 
-  console.log('introContent:', JSON.stringify(introContent, null, 2))
-
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as Media).url
