@@ -5,7 +5,7 @@ import Hero from './components/Hero'
 import AboutIntro from './components/AboutIntro'
 import EventsBlock from './components/events/EventsBlock'
 import BlogsBlock from './components/blogs/BlogsBlock'
-import AboutUsQuoteVid from './components/AboutUsQuoteVid'
+import AboutUsQuoteStatic from './components/AboutUsQuoteStatic'
 import SocialMediaBlock from './components/SocialMediaBlock'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -34,6 +34,13 @@ export default async function LandingPage() {
 
   const introContent = richTextBlock?.content
 
+  const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
+
+  const quoteImage = quoteBlock?.image
+
+  const quoteImageUrl =
+    typeof quoteImage === 'object' && quoteImage !== null ? (quoteImage as Media).url : undefined
+
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as Media).url
@@ -56,11 +63,10 @@ export default async function LandingPage() {
       </div>
 
       <div className="w-full mt-10">
-        <AboutUsQuoteVid
-          quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
-          posterImage="/about-us-quote-poster.jpg"
-          // videoSrc="/about-us-quote-preview.mp4"   //
-          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
+        <AboutUsQuoteStatic
+          quote={quoteBlock?.text}
+          image={quoteImageUrl}
+          caption={quoteBlock?.caption}
         />
       </div>
 
