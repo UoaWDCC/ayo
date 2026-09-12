@@ -241,6 +241,7 @@ export interface Page {
         | {
             image: string | Media;
             text: string;
+            caption?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'quote';
@@ -680,6 +681,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               image?: T;
               text?: T;
+              caption?: T;
               id?: T;
               blockName?: T;
             };

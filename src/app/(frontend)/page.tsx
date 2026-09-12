@@ -1,13 +1,27 @@
 import React from 'react'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
 import Hero from './components/Hero'
 import AboutIntro from './components/AboutIntro'
 import EventsBlock from './components/events/EventsBlock'
 import BlogsBlock from './components/blogs/BlogsBlock'
-import AboutUsQuoteVid from './components/AboutUsQuoteVid'
+import AboutUsQuoteStatic from './components/AboutUsQuoteStatic'
 import SocialMediaBlock from './components/SocialMediaBlock'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
+
+const introConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  paragraph: ({ node, nodesToJSX }) => {
+    const children = nodesToJSX({ nodes: node.children })
+    return (
+      <p className="mt-6 md:mt-[37px] font-sans font-light text-2xl sm:text-3xl md:text-[50px] leading-[1.22] text-text">
+        {children}
+      </p>
+    )
+  },
+})
 
 export default async function LandingPage() {
   const page = await getPageBySlug('home')
@@ -15,6 +29,17 @@ export default async function LandingPage() {
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
   const heroImage = heroBlock?.backgroundImage
+
+  const richTextBlock = page?.layout?.find((block) => block.blockType === 'rich-text')
+
+  const introContent = richTextBlock?.content
+
+  const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
+
+  const quoteImage = quoteBlock?.image
+
+  const quoteImageUrl =
+    typeof quoteImage === 'object' && quoteImage !== null ? (quoteImage as Media).url : undefined
 
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
@@ -35,20 +60,14 @@ export default async function LandingPage() {
         <p className="font-sans font-semibold text-xl sm:text-2xl md:text-[30px] leading-[1.2] text-text">
           AN INTRODUCTION
         </p>
-        <p className="mt-6 md:mt-[37px] font-sans font-light text-2xl sm:text-3xl md:text-[50px] leading-[1.22] text-text">
-          Aotearoa&apos;s first and original youth orchestra, founded 1948.
-        </p>
-        <p className="mt-6 md:mt-[37px] font-sans font-light text-2xl sm:text-3xl md:text-[50px] leading-[1.22] text-text">
-          Real repertoire. Real stages. Real standards.
-        </p>
+        {introContent && <RichText data={introContent} converters={introConverters} />}
       </div>
 
       <div className="w-full mt-10">
-        <AboutUsQuoteVid
-          quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
-          posterImage="/about-us-quote-poster.jpg"
-          // videoSrc="/about-us-quote-preview.mp4"   //
-          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
+        <AboutUsQuoteStatic
+          quote={quoteBlock?.text}
+          image={quoteImageUrl}
+          caption={quoteBlock?.caption}
         />
       </div>
 
