@@ -111,6 +111,7 @@ export interface Config {
   globalsSelect: {};
   locale: null;
   widgets: {
+    'ayo-agenda': AyoAgendaWidget;
     collections: CollectionsWidget;
   };
   user: User;
@@ -330,11 +331,16 @@ export interface CalendarLink {
   createdAt: string;
 }
 /**
+ * Every concert series, with its repertoire and performance dates.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "concerts".
  */
 export interface Concert {
   id: string;
+  /**
+   * How the concert appears on the public site.
+   */
   title: string;
   description: {
     root: {
@@ -351,8 +357,17 @@ export interface Concert {
     };
     [k: string]: unknown;
   };
+  /**
+   * The feature photo shown on the public listing and card.
+   */
   photo: string | Media;
+  /**
+   * Optional. The filename of the programme, if one is published.
+   */
   pdf?: string | null;
+  /**
+   * The works performed, shown on the public site in this order.
+   */
   repertoire: {
     composer: string;
     workTitle: string;
@@ -360,14 +375,23 @@ export interface Concert {
     movements?: string | null;
     id?: string | null;
   }[];
+  /**
+   * Each one appears as a separate date on the public site.
+   */
   performances: {
     dateTime: string;
+    /**
+     * Optional in the schema — the public site shows this line when it is set.
+     */
     venue?: string | null;
     venueAddress: string;
     bookingUrl: string;
     price: string;
     id?: string | null;
   }[];
+  /**
+   * Added once the concert has been performed.
+   */
   photo_links?:
     | {
         link?: string | null;
@@ -895,6 +919,16 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ayo-agenda_widget".
+ */
+export interface AyoAgendaWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

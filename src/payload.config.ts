@@ -25,8 +25,24 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    theme: 'light',
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      Nav: '@/admin/components/Nav#default',
+    },
+    dashboard: {
+      widgets: [
+        {
+          slug: 'ayo-agenda',
+          label: 'Agenda',
+          Component: '@/admin/components/DashboardAgenda#default',
+          minWidth: 'full',
+          maxWidth: 'full',
+        },
+      ],
+      defaultLayout: [{ widgetSlug: 'ayo-agenda', width: 'full' }],
     },
   },
   collections: [

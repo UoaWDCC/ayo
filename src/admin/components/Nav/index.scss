@@ -1,0 +1,81 @@
+.ayo-nav {
+  background: #fff;
+  border-right: 1px solid var(--ayo-rule);
+
+  &__wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 64px 0 16px;
+    overflow-y: auto;
+  }
+
+  &__logo img {
+    display: block;
+    height: 30px;
+    margin: 0 0 20px 24px;
+  }
+
+  &__dashboard {
+    display: block;
+    margin: 0 0 18px;
+    padding: 0 24px;
+    min-height: 36px;
+    line-height: 36px;
+    font-weight: 600;
+    color: var(--ayo-text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ayo-rule);
+    padding-bottom: 18px;
+
+    &--active {
+      box-shadow: inset 2px 0 0 0 var(--ayo-text);
+    }
+  }
+
+  &__groups {
+    flex: 1;
+  }
+
+  &__group {
+    margin-bottom: 18px;
+  }
+
+  &__group-label {
+    display: block;
+    padding: 0 24px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 32px;
+    padding: 0 24px;
+    color: var(--ayo-text);
+    text-decoration: none;
+    font-size: 14px;
+
+    &--active {
+      font-weight: 600;
+      box-shadow: inset 2px 0 0 0 var(--ayo-text);
+    }
+  }
+
+  &__count {
+    font-size: 12px;
+    color: var(--ayo-text-meta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__controls {
+    padding: 16px 24px 0;
+    border-top: 1px solid var(--ayo-rule);
+  }
+}

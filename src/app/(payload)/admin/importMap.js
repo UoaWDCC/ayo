@@ -21,7 +21,11 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { PhotoThumbnailCell as PhotoThumbnailCell_acbc642ed072f784c47ef1c07f45caf1 } from '@/admin/components/PhotoThumbnailCell'
+import { PublicSitePreview as PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc } from '@/admin/components/PublicSitePreview'
+import { default as default_c19b5b672d3a7bb4ff0bbaab4aa0da99 } from '@/admin/components/Nav'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
+import { default as default_3d0438a552678e9e7a3f2363f114148b } from '@/admin/components/DashboardAgenda'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -48,6 +52,10 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell": PhotoThumbnailCell_acbc642ed072f784c47ef1c07f45caf1,
+  "@/admin/components/PublicSitePreview#PublicSitePreview": PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc,
+  "@/admin/components/Nav#default": default_c19b5b672d3a7bb4ff0bbaab4aa0da99,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
+  "@/admin/components/DashboardAgenda#default": default_3d0438a552678e9e7a3f2363f114148b,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

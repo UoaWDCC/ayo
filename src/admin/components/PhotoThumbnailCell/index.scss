@@ -1,0 +1,15 @@
+.ayo-thumb {
+  width: 92px;
+
+  &__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--ayo-rule);
+
+    &--empty {
+      display: block;
+    }
+  }
+}
