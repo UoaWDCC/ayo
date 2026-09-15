@@ -9,15 +9,16 @@ const AboutUsSection = () => {
       <div className="mx-auto w-full max-w-7xl px-12 md:px-8 py-12 md:py-24">
         <p className="text-2xl md:text-3xl leading-body text-gray-600">
           Founded in 1948 as the very first youth orchestra in the Southern Hemisphere, the Auckland
-          Youth Orchestra (AYO) stands as Aotearoa New Zealand s premier regional youth symphony.
+          Youth Orchestra (AYO) stands as Aotearoa New Zealand&#39;s premier regional youth
+          symphony.
         </p>
 
         <p className="text-2xl md:text-3xl leading-body text-gray-600 mt-5">
           We bring together musicians aged 16 to 26 who are passionate about their craft and ready
           to step into an opportunity like no other. Under the baton of our international conductor
           and music director, our young artists train within a full-scale symphony orchestra,
-          collaborate with leading professional mentors, and play to expectant audiences in Auckland
-          s best concert halls.
+          collaborate with leading professional mentors, and play to expectant audiences in
+          Auckland&#39;s best concert halls.
         </p>
 
         <p className="text-2xl md:text-3xl leading-body text-gray-600 mt-5">
