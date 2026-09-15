@@ -6,7 +6,7 @@ const AboutUsSection = () => {
   return (
     <section className="w-full bg-white">
       {/* Intro text */}
-      <div className="mx-auto w-full max-w-7xl px-12 md:px-8 py-12 md:py-24">
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
         <p className="text-2xl md:text-3xl leading-body text-gray-600">
           Founded in 1948 as the very first youth orchestra in the Southern Hemisphere, the Auckland
           Youth Orchestra (AYO) stands as Aotearoa New Zealand&#39;s premier regional youth
@@ -38,7 +38,7 @@ const AboutUsSection = () => {
       </div>
 
       {/* Reach & alumni copy */}
-      <div className="mx-auto w-full max-w-7xl px-12 md:px-8 py-16 md:py-24">
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
         <p className="text-2xl md:text-3xl leading-body text-gray-600">
           AYO performs widely, across Tāmaki Makaurau and beyond. We ve taken our sound to Australia
           and the Pacific, North America, and Europe, and have built an international reputation as
@@ -67,10 +67,10 @@ const AboutUsSection = () => {
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full flex-col justify-center">
-          <span className="ml-[20%] lg:ml-[25%] text-4xl sm:text-5xl lg:text-6xl font-medium leading-none text-white">
+          <span className="ml-[15%] lg:ml-[25%] text-4xl sm:text-5xl lg:text-6xl font-medium leading-none text-white">
             Here Plays
           </span>
-          <span className="ml-[30%] lg:ml-[40%] mt-4 text-7xl sm:text-8xl lg:text-9xl font-medium leading-none text-white">
+          <span className="ml-[25%] lg:ml-[35%] mt-4 text-6xl sm:text-8xl lg:text-9xl font-medium leading-none text-white">
             the Future
           </span>
         </div>
