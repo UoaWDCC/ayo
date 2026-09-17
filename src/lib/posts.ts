@@ -94,7 +94,7 @@ export async function getRelatedPosts(currentSlug: string, count = 3): Promise<P
     return []
   }
 }
-export function getPhotoUrl(photo: number | Media | null | undefined): string | null {
+export function getPhotoUrl(photo: string | number | Media | null | undefined): string | null {
   if (typeof photo === 'object' && photo !== null) {
     return photo.url ?? null
   }

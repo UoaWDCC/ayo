@@ -1,7 +1,9 @@
 import React from 'react'
 import './styles.css'
-import Header from './components/NavBar'
-import Footer from './components/Footer'
+import FakeScrollbar from './components/FakeScrollbar'
+import SiteShell from './components/SiteShell'
+import PageTransitionProvider from './components/PageTransitionProvider'
+import SmoothScroll from './components/SmoothScroll'
 
 export const metadata = {
   title: 'Auckland Youth Orchestra',
@@ -14,8 +16,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
-        <Footer />
+        <SmoothScroll />
+        <FakeScrollbar target="window" fixed variant="dark" />
+        <PageTransitionProvider>
+          <SiteShell>{children}</SiteShell>
+        </PageTransitionProvider>
       </body>
     </html>
   )
