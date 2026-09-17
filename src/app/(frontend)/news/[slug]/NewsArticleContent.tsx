@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import { RichText } from '../../components/RichText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -181,7 +181,15 @@ const NewsArticleContent = ({
           </Link>
 
           {/* Body — Payload's RichText */}
-          <div ref={bodyRef} className="prose max-w-none text-base leading-relaxed space-y-8">
+          <div
+            ref={bodyRef}
+            className="prose prose-neutral max-w-none
++              prose-headings:font-semibold prose-headings:tracking-tight prose-headings:mt-10 prose-headings:mb-4
++              prose-h2:text-3xl prose-h3:text-2xl
++              prose-p:leading-relaxed prose-p:my-5
++              prose-blockquote:border-l-4 prose-blockquote:border-black prose-blockquote:pl-6 prose-blockquote:not-italic prose-blockquote:text-2xl
++              prose-img:rounded prose-img:mx-auto"
+          >
             {description && <RichText data={description} />}
           </div>
 

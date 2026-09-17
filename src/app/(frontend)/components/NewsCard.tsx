@@ -12,9 +12,10 @@ interface NewsCardProps {
   type: string
   author: string
   slug: string
+  image?: string | null
 }
 
-const NewsCard = ({ title, date, description, type, author, slug }: NewsCardProps) => {
+const NewsCard = ({ title, date, description, type, author, slug, image }: NewsCardProps) => {
   const cardRef = useRef<HTMLAnchorElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
@@ -47,7 +48,7 @@ const NewsCard = ({ title, date, description, type, author, slug }: NewsCardProp
         <Image
           ref={imageRef}
           alt={title}
-          src="/hero-placeholder.jpg"
+          src={image ?? '/hero-placeholder.jpg'}
           width={400}
           height={300}
           className="w-full h-full object-cover"

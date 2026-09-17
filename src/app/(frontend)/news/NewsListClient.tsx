@@ -19,6 +19,7 @@ export type NewsListArticle = {
   publishDate: string
   description: string
   author: string
+  image?: string | null
 }
 
 const months = [
@@ -270,6 +271,7 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
                 type={article.type}
                 author={article.author}
                 slug={article.slug}
+                image={article.image}
               />
             </div>
           ))}
