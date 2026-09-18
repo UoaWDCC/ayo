@@ -4,9 +4,8 @@ import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
 import FAQSection from '../components/FAQSection'
-import FAQSection from '../components/FAQSection'
 import SponsorsSection from '../components/SponsorsSection'
-
+import AboutUsQuoteStatic from '../components/AboutUsQuoteStatic'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
 
@@ -15,7 +14,6 @@ import SponsorList from '../components/SponsorList'
 
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
-  const sponsorList = ['Benjamin N.', 'E. Musk', 'J.E.E', 'William Gates', 'D.J Trump', 'Tyla Yung']
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
@@ -192,7 +190,7 @@ export default async function SupportUsPage() {
         </div>
       </div>
       <div>
-        <AboutUsQuoteVideo
+        <AboutUsQuoteStatic
           quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
           posterImage="/about-us-quote-poster.jpg"
           // videoSrc="/about-us-quote-preview.mp4"   //
@@ -265,7 +263,6 @@ export default async function SupportUsPage() {
           Incorporated, PO Box 99830, Newmarket, Auckland 1149.
         </p>
       </div>
-      <SponsorsSection sponsors={sponsorList}></SponsorsSection>
 
       <div className="grid col-span-1 col-start-6 content-center justify-items-center font-semibold mr-10 text-3xl py-3">
         <p>{'Want to support us?'}</p>
