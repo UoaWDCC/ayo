@@ -1,7 +1,5 @@
 'use client'
 import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
 import { useState } from 'react'
 import Spacer, { SpacerTime } from './PhotoSpotlightSpacer'
 
@@ -32,7 +30,7 @@ const PhotoSpotlight = ({
   setListUrl,
   bookNowUrl,
 }: SpotlightProps) => {
-  const [imgSrc, setImgSrc] = useState(staticImgSrc)
+  const [isHovered, setIsHovered] = useState(false)
   const [isSpacerOpen, setIsSpacerOpen] = useState(false)
 
   return (
@@ -40,26 +38,40 @@ const PhotoSpotlight = ({
       <button
         type="button"
         onClick={() => setIsSpacerOpen(true)}
-        className="relative flex h-screen min-h-[600px] w-full flex-col overflow-hidden text-left"
-        onMouseEnter={() => setImgSrc(hoverImgSrc)}
-        onMouseLeave={() => setImgSrc(staticImgSrc)}
+        className="relative flex h-[85vh] min-h-[560px] w-full flex-col overflow-hidden text-left"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <Image src={imgSrc} alt="alt text" fill className="object-cover object-center" priority />
+        {/* Both images stay mounted and crossfade via opacity so hovering never
+            re-triggers a network load / flash of the swapped src. */}
+        <Image
+          src={staticImgSrc}
+          alt="alt text"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <Image
+          src={hoverImgSrc}
+          alt=""
+          fill
+          aria-hidden="true"
+          className={`object-cover object-center transition-opacity duration-500 ease-out ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
+        {/* Dark scrim */}
+        <div className="absolute inset-0 bg-black/50" />
 
         {/* Layered content */}
         <div className="relative z-10 flex flex-col h-full">
-          <div className="mt-10 px-10 pb-10 flex">
-            <h3
-              className="text-white leading-none mr-5"
-              style={{ fontSize: 'clamp(0.5rem, 9vw, 1.5rem)' }}
-            >
+          <div className="mt-8 px-10 pb-10 flex">
+            <p className="text-white leading-none mr-5 text-xs sm:text-xs md:text-sm lg:text-base">
               {textSmall}
-            </h3>
+            </p>
 
-            <h3
-              className="flex items-center gap-2 text-white leading-none ml-auto"
-              style={{ fontSize: 'clamp(0.5rem, 9vw, 1.5rem)' }}
-            >
+            <p className="flex items-center gap-2 text-white leading-none ml-auto text-xs sm:text-xs md:text-sm lg:text-base">
               See More
               <Image
                 src="/arrow-up-right.svg"
@@ -69,7 +81,7 @@ const PhotoSpotlight = ({
                 aria-hidden="true"
                 className="brightness-0 invert"
               />
-            </h3>
+            </p>
           </div>
 
           {/* Title pinned to bottom-left */}

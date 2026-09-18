@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import FakeScrollbar from './FakeScrollbar'
 
 const TRANSITION_MS = 300
 
@@ -26,6 +27,7 @@ const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProp
   const [shouldRender, setShouldRender] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -90,7 +92,8 @@ const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProp
           isVisible ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex-1 overflow-y-auto">
+        <FakeScrollbar target={scrollRef} variant="dark" />
+        <div ref={scrollRef} className="flex-1 overflow-y-auto no-scrollbar">
           <div className="flex justify-end p-4">
             <button
               ref={closeButtonRef}

@@ -4,12 +4,14 @@ import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
 import FAQSection from '../components/FAQSection'
+import FAQSection from '../components/FAQSection'
 import SponsorsSection from '../components/SponsorsSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
-import { Partners } from '@/collections/Partners'
-import AboutUsQuoteVideo from '../components/AboutUsQuoteVid'
+
+import { getPartners } from '@/lib/getPartners'
+import SponsorList from '../components/SponsorList'
 
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
@@ -18,6 +20,8 @@ export default async function SupportUsPage() {
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
   const heroImage = heroBlock?.backgroundImage
+
+  const partners = await getPartners()
 
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
@@ -150,7 +154,11 @@ export default async function SupportUsPage() {
   return (
     <main>
       <div className="w-full h-[vh] relative">
-        <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+        <Hero
+          title="Support Us"
+          subtitle="Help us keep music thriving for the next generation."
+          backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        />
       </div>
       <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
         <div className="mb-6">
@@ -265,7 +273,21 @@ export default async function SupportUsPage() {
       <div className="grid col-span-1 col-start-6 content-center justify-items-center font-semibold underline mr-10">
         <Link href={''}>{'Click here for more details'}</Link>
       </div>
-      <FAQSection></FAQSection>
+      <SponsorList
+        sponsors={partners.map((p) => ({
+          id: p.id,
+          name: p.name,
+          imageUrl: typeof p.logo === 'object' && p.logo?.url ? p.logo.url : undefined,
+        }))}
+      />
+      <div className="text-center">
+        <p className="font-bold">Want to support us?</p>
+        <a href="/contact" className="underline">
+          Click here for more details ↗
+        </a>
+      </div>
+      <AYOSection></AYOSection>
+      <FAQSection category="support-us" />
     </main>
   )
 }

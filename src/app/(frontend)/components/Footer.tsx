@@ -10,15 +10,25 @@ const socialLinks = [
   { name: 'LinkedIn', href: '#', Icon: FaLinkedin },
 ]
 
-export default function Footer() {
+type FooterProps = {
+  /** 0 = not yet revealed, 1 = fully revealed. Drives the content's scroll-scrubbed entrance/exit. */
+  revealProgress?: number
+}
+
+export default function Footer({ revealProgress = 1 }: FooterProps) {
   const [email, setEmail] = useState('')
   return (
-    <footer className="bg-black text-white pb-0 w-full">
-      {/* Illusion of rounded bottom of page */}
-      <div className="bg-white h-16 rounded-b-[30px] mb-10 w-full"></div>
-
-      {/* Container to separate content */}
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 md:gap-10 md:justify-between items-start px-4">
+    <footer className="bg-black text-white pt-10 pb-0 w-full">
+      {/* Container to separate content — fades and slides in step with how much
+          of the footer has scrolled into view, and reverses the same way when
+          scrolling back up. */}
+      <div
+        className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 md:gap-10 md:justify-between items-start px-4"
+        style={{
+          opacity: revealProgress,
+          transform: `translateY(${(1 - revealProgress) * 32}px)`,
+        }}
+      >
         {/* Left container */}
         <div className="w-full h-full md:w-1/2">
           <div className="flex flex-row items-center justify-between gap-4 mt-5 md:flex-col md:items-start md:justify-start">
@@ -99,7 +109,12 @@ export default function Footer() {
                 </Link>
               ))}
             </div>
-            <span className="text-md font-semibold">SUBSCRIBE TO OUR NEWSLETTER</span>
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.28em] text-white/60">
+                Stay in the loop
+              </span>
+              <p className="text-md font-semibold mt-1">Sign up to our newsletter</p>
+            </div>
             <div className="flex w-full">
               {/* Simple email input and button for newsletter subscription */}
               <input

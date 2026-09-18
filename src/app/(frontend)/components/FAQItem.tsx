@@ -3,7 +3,6 @@
 import { useState } from 'react'
 
 type FAQItemProps = {
-  id: number
   question: string
   answer: string
 }
