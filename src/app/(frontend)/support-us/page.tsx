@@ -150,7 +150,7 @@ export default async function SupportUsPage() {
     },
   ]
   return (
-    <main>
+    <main className="min-h-screen bg-white text-black">
       <div className="w-full h-[vh] relative">
         <Hero
           title="Support Us"
