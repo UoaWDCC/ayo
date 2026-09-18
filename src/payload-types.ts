@@ -169,6 +169,9 @@ export interface User {
  */
 export interface Media {
   id: string;
+  /**
+   * Describes the image for screen readers and search engines.
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -197,6 +200,8 @@ export interface Partner {
   createdAt: string;
 }
 /**
+ * The static, page-builder pages of the public site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
@@ -319,6 +324,8 @@ export interface Password {
   createdAt: string;
 }
 /**
+ * The calendar embed, public, and iCal links used on the public site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "calendar-links".
  */
@@ -414,7 +421,6 @@ export interface Concert {
 export interface Post {
   id: string;
   title: string;
-  slug?: string | null;
   description: {
     root: {
       type: string;
@@ -439,6 +445,10 @@ export interface Post {
   category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
   author?: string | null;
   publishedDate?: string | null;
+  /**
+   * Generated from the title.
+   */
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -490,6 +500,8 @@ export interface Faq {
   createdAt: string;
 }
 /**
+ * Document links shown in the Resources and Links sections in /join-ayo.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "link".
  */
@@ -817,7 +829,6 @@ export interface ConcertsSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   description?: T;
   photos?:
     | T
@@ -828,6 +839,7 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   author?: T;
   publishedDate?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

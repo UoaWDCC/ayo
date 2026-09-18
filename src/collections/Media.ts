@@ -5,11 +5,18 @@ export const Media: CollectionConfig = {
   access: {
     read: () => true,
   },
+  admin: {
+    useAsTitle: 'filename',
+    defaultColumns: ['filename', 'alt', 'updatedAt'],
+  },
   fields: [
     {
       name: 'alt',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Describes the image for screen readers and search engines.',
+      },
     },
   ],
   upload: true,

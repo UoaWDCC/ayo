@@ -2,7 +2,9 @@
 
 import { reduceFieldsToValues } from 'payload/shared'
 import { useConfig, useFormFields } from '@payloadcms/ui'
-import React, { useEffect, useMemo, useState } from 'react'
+import { PreviewErrorBoundary } from '../shared/PreviewErrorBoundary'
+import { richTextToPlainText } from '../shared/richTextToPlainText'
+import React, { useDeferredValue, useEffect, useMemo, useState } from 'react'
 
 import './index.scss'
 
@@ -33,24 +35,12 @@ function fmtTime(iso?: string) {
   return d.toLocaleTimeString('en-NZ', { hour: 'numeric', minute: '2-digit' }).toLowerCase()
 }
 
-// Flattens a Lexical richText JSON value to plain text.
-function richTextToPlainText(value: unknown): string {
-  if (!value || typeof value !== 'object') return typeof value === 'string' ? value : ''
-  const nodes = (value as { root?: { children?: unknown[] } }).root?.children
-  if (!Array.isArray(nodes)) return ''
-  const walk = (node: unknown): string => {
-    if (!node || typeof node !== 'object') return ''
-    const n = node as { text?: string; children?: unknown[] }
-    if (typeof n.text === 'string') return n.text
-    if (Array.isArray(n.children)) return n.children.map(walk).join('')
-    return ''
-  }
-  return nodes.map(walk).join(' ').trim()
-}
-
 // Reproduces the public site's EventsCard (listing) and EventCard (grid card) using live form state.
-export const PublicSitePreview: React.FC = () => {
-  const fields = useFormFields(([fieldState]) => fieldState)
+const PublicSitePreviewInner: React.FC = () => {
+  const rawFields = useFormFields(([fieldState]) => fieldState)
+  // Defers the expensive derived recompute below off the hot keystroke path, so a burst of
+  // fast input dispatches its state updates without each one forcing a full re-render here.
+  const fields = useDeferredValue(rawFields)
   const { config } = useConfig()
   const [mode, setMode] = useState<'listing' | 'card'>('listing')
   const [media, setMedia] = useState<MediaDoc | null>(null)
@@ -98,7 +88,11 @@ export const PublicSitePreview: React.FC = () => {
       <div className="ayo-preview__head">
         <span className="ayo-preview__label">Preview</span>
         <div className="ayo-preview__toggle">
-          <button type="button" aria-pressed={mode === 'listing'} onClick={() => setMode('listing')}>
+          <button
+            type="button"
+            aria-pressed={mode === 'listing'}
+            onClick={() => setMode('listing')}
+          >
             Listing
           </button>
           <button type="button" aria-pressed={mode === 'card'} onClick={() => setMode('card')}>
@@ -160,5 +154,11 @@ export const PublicSitePreview: React.FC = () => {
     </div>
   )
 }
+
+export const PublicSitePreview: React.FC = () => (
+  <PreviewErrorBoundary>
+    <PublicSitePreviewInner />
+  </PreviewErrorBoundary>
+)
 
 export default PublicSitePreview

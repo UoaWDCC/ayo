@@ -6,13 +6,16 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 64px 0 16px;
+    // A2 specifies 24px, but Payload's native nav-collapse toggle is an absolutely
+    // positioned overlay (not part of this flow) sitting at ~10-34px from the top, so 24px
+    // makes the logo collide with it. 48px is the smallest clearance that avoids the overlap.
+    padding: 48px 0 48px;
     overflow-y: auto;
   }
 
   &__logo img {
     display: block;
-    height: 30px;
+    height: 22px;
     margin: 0 0 20px 24px;
   }
 
@@ -44,7 +47,7 @@
   &__group-label {
     display: block;
     padding: 0 24px 8px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -56,11 +59,11 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    min-height: 32px;
+    min-height: 36px;
     padding: 0 24px;
     color: var(--ayo-text);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
 
     &--active {
       font-weight: 600;
@@ -69,7 +72,7 @@
   }
 
   &__count {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--ayo-text-meta);
     font-variant-numeric: tabular-nums;
   }

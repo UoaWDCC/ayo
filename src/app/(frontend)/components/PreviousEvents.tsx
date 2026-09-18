@@ -4,85 +4,13 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Dropdown from './Dropdown'
-import EventCard, { type EventCardData } from './EventCard'
+import EventCard from './EventCard'
+import type { AgendaEvent } from '@/lib/concertEvents'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// TODO: replace with real data from API (Concerts collection)
-const events: (EventCardData & {
-  type: string
-  deadlineDate: string
-  year: number
-  month: string
-  location: string
-})[] = [
-  {
-    id: 1,
-    type: 'Concert',
-    deadlineDate: '2026-05-20T23:59:00+12:00',
-    year: 2026,
-    month: 'June',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [
-      { label: 'Recordings', href: '#' },
-      { label: 'Photos', href: '#' },
-    ],
-    footerNote: 'Photos available.',
-    ctaLabel: 'See Now',
-    ctaHref: '#',
-  },
-  {
-    id: 2,
-    type: 'Concert',
-    deadlineDate: '2026-05-20T23:59:00+12:00',
-    year: 2026,
-    month: 'June',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [
-      { label: 'Recordings', href: '#' },
-      { label: 'Photos', href: '#' },
-    ],
-    footerNote: 'Photos available.',
-    ctaLabel: 'See Now',
-    ctaHref: '#',
-  },
-  {
-    id: 3,
-    type: 'Concert',
-    deadlineDate: '2026-05-20T23:59:00+12:00',
-    year: 2026,
-    month: 'June',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [
-      { label: 'Recordings', href: '#' },
-      { label: 'Photos', href: '#' },
-    ],
-    footerNote: 'Photos available.',
-    ctaLabel: 'See Now',
-    ctaHref: '#',
-  },
-]
-
-export default function PreviousEvents() {
-  const [selectedYear, setSelectedYear] = useState<number | 'All'>(2026)
+export default function PreviousEvents({ events }: { events: AgendaEvent[] }) {
+  const [selectedYear, setSelectedYear] = useState<number | 'All'>('All')
   const [selectedMonth, setSelectedMonth] = useState('All')
   const [selectedType, setSelectedType] = useState('All')
   const [selectedLocation, setSelectedLocation] = useState('All')

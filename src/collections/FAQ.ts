@@ -45,5 +45,16 @@ export const FAQ: CollectionConfig = {
         description: 'Lower numbers appear first within the page.',
       },
     },
+    {
+      name: 'faqPreview',
+      type: 'ui',
+      label: 'Public preview',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/admin/components/FAQPreview#FAQPreview',
+        },
+      },
+    },
   ],
 }

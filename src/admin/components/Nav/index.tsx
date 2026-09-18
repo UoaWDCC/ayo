@@ -53,7 +53,10 @@ export default async function Nav({ payload, visibleEntities }: ServerProps) {
         group.items
           .filter((item) => visible.has(item.slug))
           .map(async (item) => {
-            const { totalDocs } = await payload.count({ collection: item.slug, overrideAccess: true })
+            const { totalDocs } = await payload.count({
+              collection: item.slug,
+              overrideAccess: true,
+            })
             return { ...item, count: totalDocs }
           }),
       )

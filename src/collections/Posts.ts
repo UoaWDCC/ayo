@@ -5,8 +5,6 @@ export const Posts: CollectionConfig = {
 
   hooks: {
     beforeChange: [
-      // before user presses save, this will run
-
       ({ data }) => {
         if (data?.title) {
           data.slug = data.title
@@ -21,9 +19,10 @@ export const Posts: CollectionConfig = {
 
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'category', 'publishedDate'],
+    defaultColumns: ['title', 'photos', 'category', 'publishedDate'],
   },
   fields: [
+    // Story — writing comes first, before any metadata.
     {
       name: 'title',
       type: 'text',
@@ -31,29 +30,52 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
-      name: 'slug',
-      type: 'text',
-      unique: true,
-      label: 'Slug',
-      admin: { readOnly: true }, //cant edit
-    },
-    {
       name: 'description',
       type: 'richText',
       required: true,
     },
+
+    {
+      name: 'photosSection',
+      type: 'ui',
+      label: 'Photos',
+      admin: {
+        custom: { note: 'The first photo is used as the card image on the News page.' },
+        components: {
+          Field: '@/admin/components/SectionDivider#SectionDivider',
+        },
+      },
+    },
     {
       name: 'photos',
       type: 'array',
-      label: 'Photos',
+      // The SectionDivider row above already introduces "Photos" as the section heading —
+      // Payload would otherwise render a second, redundant "Photos" label directly beneath it.
+      label: false,
+      admin: {
+        components: {
+          Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell',
+        },
+      },
       fields: [
         {
           name: 'photo',
           type: 'upload',
           relationTo: 'media',
-          // not required for now, but we can make it required later if we want to
         },
       ],
+    },
+
+    {
+      name: 'metadataSection',
+      type: 'ui',
+      label: 'Metadata',
+      admin: {
+        custom: { note: 'Category, author, date and the generated slug.' },
+        components: {
+          Field: '@/admin/components/SectionDivider#SectionDivider',
+        },
+      },
     },
     {
       name: 'category',
@@ -78,12 +100,33 @@ export const Posts: CollectionConfig = {
       name: 'publishedDate',
       type: 'date',
       label: 'Published Date',
-      //required: true,
       admin: {
+        // dayOnly avoids a timezone-offset bug where picking a date could save as the day before.
         date: {
-          //theres a +1 day bug when selecting on calendar, caused by timezone offsets appaerntly
           pickerAppearance: 'dayOnly',
-          displayFormat: 'MMM dd yyyy', // show year, month, day in the admin panel
+          displayFormat: 'MMM dd yyyy',
+        },
+      },
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      unique: true,
+      label: 'Slug',
+      admin: {
+        readOnly: true,
+        description: 'Generated from the title.',
+      },
+    },
+
+    {
+      name: 'postsPreview',
+      type: 'ui',
+      label: 'Preview',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/admin/components/PostsPreview#PostsPreview',
         },
       },
     },

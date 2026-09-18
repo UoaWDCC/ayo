@@ -7,13 +7,15 @@
   --ayo-muted: #b2b2b2;
   --ayo-rule: #ebebeb;
 
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-body:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
   --theme-text: var(--ayo-text);
   --theme-bg: #fff;
   --style-radius-s: 0;
   --style-radius-m: 0;
   --style-radius-l: 0;
-  --nav-width: 240px;
+  --nav-width: 232px;
   --app-header-height: calc(var(--base) * 2.2);
 }
 
@@ -33,5 +35,98 @@
     background: #fff;
     border-bottom: 1px solid var(--ayo-rule);
     box-shadow: none;
+  }
+
+  // Shared top offset below the app header for every content view (Dashboard, collection
+  // lists, edit documents) — `.gutter` is the one wrapper all three share, sitting flush
+  // against the header at padding-top: 0 by default. Horizontal gutters are untouched.
+  // `.doc-controls` (sticky Save/Cancel bar), `.doc-header` and `.document-fields__edit` (the
+  // form-fields column beside a sidebar preview) are EXCLUDED: padding any of Payload's
+  // edit-document gutters causes a real "Maximum update depth exceeded" crash, reproducible
+  // just by typing a single character into a field beside a live sidebar preview. Dashboard
+  // and collection lists are unaffected and get the offset.
+  .gutter:not(.doc-controls):not(.doc-header):not(.document-fields__edit) {
+    padding-top: 24px;
+  }
+
+  // A2 list-view page title matches the Dashboard's 40px chapter-break heading — Payload's
+  // stock list title is 32px/500.
+  .list-header__title {
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .custom-view-description {
+    font-size: 16px;
+    color: var(--ayo-text-secondary);
+    max-width: 56ch;
+  }
+
+  // A2's edit-document title is semibold; Payload's default is medium.
+  .doc-header__title {
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  // A2 is explicit that the preview column is static, not sticky: an earlier draft pinned it
+  // with `position: sticky` and every variant either drifted near the end of the document or,
+  // once height-capped, cut the preview through the middle of the photograph. Payload's own
+  // sidebar defaults to sticky; this reverts it to scroll with the document like A2 intends.
+  .document-fields__sidebar-wrap {
+    position: static;
+  }
+
+  // A2 row-density pass on Payload's own native list table — CSS only. The table itself (DOM
+  // structure, sorting, filtering, pagination, bulk actions) stays 100% native Payload; only
+  // padding, rule, header-label and title-link treatment are restyled to match A2's row rhythm.
+  // Default tier below is A2's "standard" density (FAQs, Media, People, Partners); editorial
+  // and utility tiers override it per collection via Payload's `.collection-list--{slug}` class.
+  .table {
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ayo-text-secondary);
+    }
+
+    th:not(.cell-_select),
+    td:not(.cell-_select) {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--ayo-rule);
+    }
+
+    tbody td a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ayo-text);
+    }
+  }
+
+  // Editorial density (30px): Concerts, Pages, Posts.
+  .collection-list--concerts .table th:not(.cell-_select),
+  .collection-list--concerts .table td:not(.cell-_select),
+  .collection-list--pages .table th:not(.cell-_select),
+  .collection-list--pages .table td:not(.cell-_select),
+  .collection-list--posts .table th:not(.cell-_select),
+  .collection-list--posts .table td:not(.cell-_select) {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  // Utility density (16px): Roles, Links, Calendar Links.
+  .collection-list--roles .table th:not(.cell-_select),
+  .collection-list--roles .table td:not(.cell-_select),
+  .collection-list--link .table th:not(.cell-_select),
+  .collection-list--link .table td:not(.cell-_select),
+  .collection-list--calendar-links .table th:not(.cell-_select),
+  .collection-list--calendar-links .table td:not(.cell-_select) {
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
 }

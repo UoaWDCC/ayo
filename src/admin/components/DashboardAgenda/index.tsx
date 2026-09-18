@@ -35,15 +35,29 @@ function isUpcoming(c: Concert, now: Date) {
 
 // Derived at read time, never stored: a concert whose last performance has passed with no links yet.
 function awaitingFollowUp(c: Concert, now: Date) {
-  return !isUpcoming(c, now) && (c.photo_links || []).length === 0 && (c.video_links || []).length === 0
+  return (
+    !isUpcoming(c, now) && (c.photo_links || []).length === 0 && (c.video_links || []).length === 0
+  )
 }
 
 function fmtDate(iso?: string) {
   if (!iso) return ''
-  return new Date(iso).toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'short' })
+  return new Date(iso).toLocaleDateString('en-NZ', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  })
 }
 
-function ConcertRow({ concert, meta, action }: { concert: Concert; meta: string; action?: string }) {
+function ConcertRow({
+  concert,
+  meta,
+  action,
+}: {
+  concert: Concert
+  meta: string
+  action?: string
+}) {
   const href = `/admin/collections/concerts/${concert.id}`
   return (
     <div className="ayo-agenda__row">
@@ -77,13 +91,23 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
 
   const upcoming = concerts
     .filter((c) => isUpcoming(c, now))
-    .sort((a, b) => new Date(nearestPerformance(a, now)?.dateTime || 0).getTime() - new Date(nearestPerformance(b, now)?.dateTime || 0).getTime())
+    .sort(
+      (a, b) =>
+        new Date(nearestPerformance(a, now)?.dateTime || 0).getTime() -
+        new Date(nearestPerformance(b, now)?.dateTime || 0).getTime(),
+    )
 
   const followUp = concerts.filter((c) => awaitingFollowUp(c, now))
 
   const recentLists = await Promise.all(
     RECENT_COLLECTIONS.map(({ slug }) =>
-      payload.find({ collection: slug, depth: 0, limit: 3, sort: '-updatedAt', overrideAccess: true }),
+      payload.find({
+        collection: slug,
+        depth: 0,
+        limit: 3,
+        sort: '-updatedAt',
+        overrideAccess: true,
+      }),
     ),
   )
   const recent = recentLists
@@ -98,7 +122,9 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
     .slice(0, 6)
 
   const emailHandle = (user?.email || '').split('@')[0] || ''
-  const greetingName = emailHandle ? emailHandle.charAt(0).toUpperCase() + emailHandle.slice(1) : 'there'
+  const greetingName = emailHandle
+    ? emailHandle.charAt(0).toUpperCase() + emailHandle.slice(1)
+    : 'there'
 
   const next = upcoming[0]
   const nextPerf = next ? nearestPerformance(next, now) : null
@@ -106,7 +132,12 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
   return (
     <div className="ayo-agenda">
       <p className="ayo-agenda__eyebrow">
-        {now.toLocaleDateString('en-NZ', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+        {now.toLocaleDateString('en-NZ', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        })}
       </p>
       <h2 className="ayo-agenda__greeting">Kia ora, {greetingName}.</h2>
       <p className="ayo-agenda__lead">
@@ -137,7 +168,13 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
         ) : (
           upcoming.map((c) => {
             const p = nearestPerformance(c, now)
-            return <ConcertRow key={c.id} concert={c} meta={`${fmtDate(p?.dateTime)} · ${p?.venue || 'venue not set'}`} />
+            return (
+              <ConcertRow
+                key={c.id}
+                concert={c}
+                meta={`${fmtDate(p?.dateTime)} · ${p?.venue || 'venue not set'}`}
+              />
+            )
           })
         )}
       </section>

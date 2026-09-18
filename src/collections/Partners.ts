@@ -1,21 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
-/**
- * Partners collection:
- *
- * - name: partner name
- * - partnerType: category of partner, using placeholder options until confirmed
- * - logo: uploaded partner logo from the Media collection
- * - websiteUrl: optional partner website link
- * - isActive: controls whether this partner should be shown on the frontend
- */
-
 export const Partners: CollectionConfig = {
   slug: 'partners',
 
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'partnerType', 'websiteUrl', 'isActive'],
+    defaultColumns: ['name', 'logo', 'partnerType', 'isActive'],
   },
 
   fields: [
@@ -30,7 +20,7 @@ export const Partners: CollectionConfig = {
       label: 'Partner Type',
       defaultValue: 'partner',
       options: [
-        // PLACEHOLDERS: Need to confirm with client about options
+        // Placeholder options — pending confirmation with the client.
         { label: 'Partner', value: 'partner' },
         { label: 'Sponsor', value: 'sponsor' },
         { label: 'Supporter', value: 'supporter' },
@@ -41,6 +31,11 @@ export const Partners: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       required: true,
+      admin: {
+        components: {
+          Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell',
+        },
+      },
     },
     {
       name: 'websiteUrl',
@@ -52,6 +47,17 @@ export const Partners: CollectionConfig = {
       type: 'checkbox',
       label: 'Active',
       defaultValue: true,
+    },
+    {
+      name: 'partnersPreview',
+      type: 'ui',
+      label: 'Public site preview',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/admin/components/PartnersPreview#PartnersPreview',
+        },
+      },
     },
   ],
 }

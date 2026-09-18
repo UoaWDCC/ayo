@@ -1,0 +1,73 @@
+.ayo-preview {
+  font-family: var(--font-body);
+  color: var(--ayo-text);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__page {
+    font-size: 12px;
+    color: var(--ayo-muted);
+  }
+
+  &__frame {
+    background: #fff;
+  }
+}
+
+.ayo-faq {
+  border-top: 1px solid var(--ayo-rule);
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--ayo-rule);
+    padding: 14px 0;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+  }
+
+  &__question {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  &__chevron {
+    flex: 0 0 auto;
+    transition: transform 0.15s ease;
+    color: var(--ayo-text-secondary);
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__answer {
+    margin: 0;
+    padding: 0 0 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ayo-text-secondary);
+    white-space: pre-wrap;
+  }
+}
