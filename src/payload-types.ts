@@ -79,6 +79,7 @@ export interface Config {
     roles: Role;
     faqs: Faq;
     link: Link;
+    'team-roles': TeamRole;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -98,6 +99,7 @@ export interface Config {
     roles: RolesSelect<false> | RolesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     link: LinkSelect<false> | LinkSelect<true>;
+    'team-roles': TeamRolesSelect<false> | TeamRolesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -426,6 +428,7 @@ export interface Person {
   id: string;
   name: string;
   role?: (string | null) | Role;
+  teamRoles?: (string | TeamRole)[] | null;
   type: 'player' | 'team' | 'alumni';
   description?: string | null;
   years: string;
@@ -448,6 +451,14 @@ export interface Role {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-roles".
+ */
+export interface TeamRole {
+  id: string;
+  roleName: string;
+  sortOrder: number;
+  roleType: 'executive' | 'admin';
+  displayName?: string | null;
  * via the `definition` "faqs".
  */
 export interface Faq {
@@ -548,6 +559,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'link';
         value: string | Link;
+      } | null)
+    | ({
+        relationTo: 'team-roles';
+        value: string | TeamRole;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -814,6 +829,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface PeopleSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  teamRoles?: T;
   type?: T;
   description?: T;
   years?: T;
@@ -853,6 +869,18 @@ export interface LinkSelect<T extends boolean = true> {
   name?: T;
   url?: T;
   category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-roles_select".
+ */
+export interface TeamRolesSelect<T extends boolean = true> {
+  roleName?: T;
+  sortOrder?: T;
+  roleType?: T;
+  displayName?: T;
   updatedAt?: T;
   createdAt?: T;
 }
