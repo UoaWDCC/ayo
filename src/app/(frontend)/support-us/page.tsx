@@ -3,9 +3,13 @@ import Link from 'next/link'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
+import FAQSection from '../components/FAQSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
+
+import { getPartners } from '@/lib/getPartners'
+import SponsorList from '../components/SponsorList'
 
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
@@ -13,6 +17,8 @@ export default async function SupportUsPage() {
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
   const heroImage = heroBlock?.backgroundImage
+
+  const partners = await getPartners()
 
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
@@ -87,7 +93,11 @@ export default async function SupportUsPage() {
   return (
     <main>
       <div className="w-full h-[vh] relative">
-        <Hero title="Support Us" backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+        <Hero
+          title="Support Us"
+          subtitle="Help us keep music thriving for the next generation."
+          backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        />
       </div>
 
       <div className="text-black w-full">
@@ -123,7 +133,21 @@ export default async function SupportUsPage() {
           </div>
         </div>
       </div>
+      <SponsorList
+        sponsors={partners.map((p) => ({
+          id: p.id,
+          name: p.name,
+          imageUrl: typeof p.logo === 'object' && p.logo?.url ? p.logo.url : undefined,
+        }))}
+      />
+      <div className="text-center">
+        <p className="font-bold">Want to support us?</p>
+        <a href="/contact" className="underline">
+          Click here for more details ↗
+        </a>
+      </div>
       <AYOSection></AYOSection>
+      <FAQSection category="support-us" />
     </main>
   )
 }

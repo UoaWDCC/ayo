@@ -16,6 +16,8 @@ import { Passwords } from './collections/Passwords'
 import { CalendarLink } from './collections/CalendarLink'
 import { People } from './collections/People'
 import { Roles } from './collections/Roles'
+import { FAQ } from './collections/FAQ'
+
 import { Links } from './collections/Links'
 import { TeamRoles } from './collections/TeamRoles'
 const filename = fileURLToPath(import.meta.url)
@@ -39,6 +41,7 @@ export default buildConfig({
     Posts,
     People,
     Roles,
+    FAQ,
     Links,
     TeamRoles
   ],
