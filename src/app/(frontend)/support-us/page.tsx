@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { RichText, type JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
-import AYOSection from '../components/AYOWallSection'
 import FAQItem from '../components/FAQItem'
 import SponsorsSection from '../components/SponsorsSection'
 import AboutUsQuoteStatic from '../components/AboutUsQuoteStatic'
@@ -296,7 +295,6 @@ export default async function SupportUsPage() {
           Click here for more details ↗
         </a>
       </div>
-      <AYOSection></AYOSection>
       {faqItems.length > 0 && (
         <section className="bg-white w-full">
           <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-14">
