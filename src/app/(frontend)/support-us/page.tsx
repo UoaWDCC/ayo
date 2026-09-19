@@ -30,6 +30,7 @@ export default async function SupportUsPage() {
   const richTextBlocks = page?.layout?.filter((block) => block.blockType === 'rich-text') ?? []
 
   const introductionContent = richTextBlocks[0]?.content
+  const supportSummaryContent = richTextBlocks[1]?.content
 
   const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
 
@@ -190,17 +191,9 @@ export default async function SupportUsPage() {
         />
       </div>
       <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
-        <p className="mb-6">
-          AYO is a registered charity (CC45382) and an IRD-registered donee organisation — see Ways
-          to Give for details on tax credits.{' '}
-        </p>
-
-        <p className="mb-6">
-          Whether you're a business looking for a meaningful community partnership, a trust
-          considering a grant, or an individual who simply loves what live music can do for young
-          people — there's a place for you in AYO's next chapter. Come and talk to us to find out
-          more.
-        </p>
+        {supportSummaryContent && (
+          <RichText data={supportSummaryContent} converters={supportTextConverters} />
+        )}
       </div>
       <div className="text-black w-full">
         <div className="flex justify-center">
