@@ -1,15 +1,18 @@
-import React from 'react'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import AboutUsSection from '../components/AboutUsSection'
 import Grid from '../components/Grid'
 import Hero from '../components/Hero'
 import OurTeam from '../components/OurTeam'
 import NewsletterSignupDemo from '../components/Newsletter'
+import AboutUsFilter from '../components/AboutUsFilter'
 import FAQSection from '../components/FAQSection'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
 
 export default async function AboutUsPage() {
+  const payload = await getPayload({ config })
   const page = await getPageBySlug('about-us')
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
@@ -20,56 +23,13 @@ export default async function AboutUsPage() {
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as Media).url
       : '/about-us-hero.jpg'
-  const playerItems = [
-    {
-      id: 1,
-      name: 'Frances Liu',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Frances Liu.jpg',
-    },
-    {
-      id: 2,
-      name: 'Damon Herlihy-O’Brien',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Damon Herlihy-O_Brien.jpg',
-    },
-    {
-      id: 3,
-      name: 'Ashley Ling',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Ashley Ling.jpg',
-    },
-    {
-      id: 4,
-      name: 'Joy Shi',
-      subtitle: 'Bassoonist',
-      imageUrl: 'players/Bassoon_Joy Shi.jpg',
-    },
-    {
-      id: 5,
-      name: 'Harper Zhang',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Harper Zhang.jpg',
-    },
-    {
-      id: 6,
-      name: 'Harry Kim',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Harry Kim.jpg',
-    },
-    {
-      id: 7,
-      name: 'Howard Lu',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Howard Lu.jpg',
-    },
-    {
-      id: 8,
-      name: 'Elvies Hu',
-      subtitle: 'Cellist',
-      imageUrl: 'players/Cello_Elvies Hu.jpg',
-    },
-  ]
+
+  const { docs: people } = await payload.find({
+    collection: 'people',
+    depth: 1,
+    limit: 1000,
+  })
+
   return (
     <div>
       <Hero
@@ -100,6 +60,8 @@ export default async function AboutUsPage() {
             </li>
           </ul>
         </div>
+
+        <AboutUsFilter people={people}/>
         <Grid title="Players" placeholderSubtitle="Name" items={playerItems} />
         <OurTeam></OurTeam>
         <Grid title="Alumni" placeholderSubtitle="Role" items={playerItems} />
