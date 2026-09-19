@@ -275,12 +275,6 @@ export default async function SupportUsPage() {
         )}
       </div>
 
-      <div className="grid col-span-1 col-start-6 content-center justify-items-center font-semibold mr-10 text-3xl py-3">
-        <p>{'Want to support us?'}</p>
-      </div>
-      <div className="grid col-span-1 col-start-6 content-center justify-items-center font-semibold underline mr-10">
-        <Link href={''}>{'Click here for more details'}</Link>
-      </div>
       <SponsorList
         sponsors={partners.map((p) => ({
           id: p.id,
