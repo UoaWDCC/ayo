@@ -53,6 +53,13 @@ const tableContentConverters: JSXConvertersFunction = ({ defaultConverters }) =>
   },
 })
 
+const getInTouchConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  paragraph: ({ node, nodesToJSX }) => (
+    <p className="text-body text-sm">{nodesToJSX({ nodes: node.children })}</p>
+  ),
+})
+
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
 
@@ -66,6 +73,7 @@ export default async function SupportUsPage() {
   const supportSummaryContent = richTextBlocks[1]?.content
   // TODO: The Givealittle CMS link currently points to /givealittlelink; replace it when confirmed.
   const waysToGiveContent = richTextBlocks[2]?.content
+  const getInTouchContent = richTextBlocks[3]?.content
 
   const tableBlock = page?.layout?.find((block) => block.blockType === 'table')
   // TODO: Table row links currently point to /support-us; replace them when destinations are confirmed.
@@ -258,11 +266,13 @@ export default async function SupportUsPage() {
             </div>
           </div>
         </div>
-        <p className="text-center font-bold text-sm mt-10">Get in Touch </p>
-        <p className="text-center text-body text-sm mt-10">
-          Email our treasurer at treasurer@ayo.org.nz, or write to us at Auckland Youth Orchestra
-          Incorporated, PO Box 99830, Newmarket, Auckland 1149.
-        </p>
+        {getInTouchContent && (
+          <RichText
+            className="mx-auto mt-6 mb-8 w-[90%]"
+            data={getInTouchContent}
+            converters={getInTouchConverters}
+          />
+        )}
       </div>
 
       <div className="grid col-span-1 col-start-6 content-center justify-items-center font-semibold mr-10 text-3xl py-3">
