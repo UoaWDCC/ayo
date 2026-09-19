@@ -19,14 +19,31 @@ import { Roles } from './collections/Roles'
 import { FAQ } from './collections/FAQ'
 
 import { Links } from './collections/Links'
+import { TeamRoles } from './collections/TeamRoles'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
     user: Users.slug,
+    theme: 'light',
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      Nav: '@/admin/components/Nav#default',
+    },
+    dashboard: {
+      widgets: [
+        {
+          slug: 'ayo-agenda',
+          label: 'Agenda',
+          Component: '@/admin/components/DashboardAgenda#default',
+          minWidth: 'full',
+          maxWidth: 'full',
+        },
+      ],
+      defaultLayout: [{ widgetSlug: 'ayo-agenda', width: 'full' }],
     },
   },
   collections: [
@@ -42,6 +59,7 @@ export default buildConfig({
     Roles,
     FAQ,
     Links,
+    TeamRoles
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

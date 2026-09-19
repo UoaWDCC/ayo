@@ -1,0 +1,23 @@
+.ayo-preview {
+  font-family: var(--font-body);
+  color: var(--ayo-text);
+
+  &__head {
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__empty {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ayo-text-meta);
+    font-style: italic;
+  }
+}

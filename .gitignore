@@ -49,3 +49,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Local design-reference handoff (not for commit)
+/.codex-handoff/

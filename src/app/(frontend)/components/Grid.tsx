@@ -1,28 +1,18 @@
 import React from 'react'
 import Card from './Card'
 
-export type GridItem = {
-  id: string | number
-  name: string
-  subtitle: string
-  imageUrl?: string
-}
+import type { Person } from '@/payload-types'
+
 
 type GridProps = {
   title: string
-  items?: GridItem[]
+  people: Person[]
   placeholderCount?: number
   placeholderSubtitle?: string
 }
 
-const Grid = ({ title, items, placeholderCount = 8, placeholderSubtitle = 'Role' }: GridProps) => {
-  const displayItems: GridItem[] =
-    items ??
-    Array.from({ length: placeholderCount }, (_, i) => ({
-      id: i,
-      name: title,
-      subtitle: placeholderSubtitle,
-    }))
+
+const Grid = ({title, people}: GridProps) => {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 md:px-8 md:py-12">
@@ -30,11 +20,6 @@ const Grid = ({ title, items, placeholderCount = 8, placeholderSubtitle = 'Role'
         <h1 className="text-6xl font-bold leading-none m-0">
           Our <em>{title}</em>
         </h1>
-        <div className="flex items-center gap-1 text-sm mt-2">
-          <span className="text-black/40 font-normal">Showing</span>
-          <span className="font-bold">{title}</span>
-          <span className="text-black font-semibold">&#8249;</span>
-        </div>
       </div>
       <div className="items-start justify-between mb-8">
         <h2 className="text-2xl font-bold mb-8">The People Who Keep AYO Running</h2>
@@ -48,8 +33,16 @@ const Grid = ({ title, items, placeholderCount = 8, placeholderSubtitle = 'Role'
       </div>
 
       <div className="grid grid-cols-4 gap-8">
-        {displayItems.map((item) => (
-          <Card key={item.id} name={item.name} subtitle={item.subtitle} imageUrl={item.imageUrl} />
+        {people.map((person) => (
+          <Card key={person.id} name={person.name} 
+            subtitle={
+              typeof person.role === 'object' && person.role !== null
+              ? person.role.roleName: ''} 
+            imageUrl={
+              typeof person.photo === 'object' && person.photo !== null && person.photo.url
+                ? person.photo.url
+                : ''
+            } />
         ))}
       </div>
     </section>
