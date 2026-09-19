@@ -41,6 +41,18 @@ const waysToGiveConverters: JSXConvertersFunction = ({ defaultConverters }) => (
   },
 })
 
+const tableContentConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  paragraph: ({ node, nodesToJSX }) => (
+    <p className="mb-4 last:mb-0">{nodesToJSX({ nodes: node.children })}</p>
+  ),
+  list: ({ node, nodesToJSX }) => {
+    const ListTag = node.tag
+
+    return <ListTag className="list-disc pl-6 py-4">{nodesToJSX({ nodes: node.children })}</ListTag>
+  },
+})
+
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
 
@@ -54,6 +66,10 @@ export default async function SupportUsPage() {
   const supportSummaryContent = richTextBlocks[1]?.content
   // TODO: The Givealittle CMS link currently points to /givealittlelink; replace it when confirmed.
   const waysToGiveContent = richTextBlocks[2]?.content
+
+  const tableBlock = page?.layout?.find((block) => block.blockType === 'table')
+  // TODO: Table row links currently point to /support-us; replace them when destinations are confirmed.
+  const donationRows = tableBlock?.rows ?? []
 
   const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
 
@@ -226,13 +242,15 @@ export default async function SupportUsPage() {
             )}
 
             <div>
-              {tierArray.map((tier, index) => (
-                <div key={index}>
+              {donationRows.map((row, index) => (
+                <div key={row.id ?? index}>
                   <DonationBlock
-                    tierName={tier.tierName}
-                    descriptionContent={tier.descriptionContent}
-                    linkText={tier.linkText}
-                    linkUrl={tier.linkUrl}
+                    tierName={row.label}
+                    descriptionContent={
+                      <RichText data={row.content} converters={tableContentConverters} />
+                    }
+                    linkText={row.linkLabel ?? ''}
+                    linkUrl={row.linkUrl ?? ''}
                     index={index}
                   />
                 </div>
