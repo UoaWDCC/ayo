@@ -113,6 +113,7 @@ export interface Config {
   globalsSelect: {};
   locale: null;
   widgets: {
+    'ayo-agenda': AyoAgendaWidget;
     collections: CollectionsWidget;
   };
   user: User;
@@ -165,11 +166,16 @@ export interface User {
   collection: 'users';
 }
 /**
+ * The images used across the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: string;
+  /**
+   * Describes the image for screen readers and search engines.
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -184,6 +190,8 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * The partners and sponsors shown on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
@@ -198,6 +206,8 @@ export interface Partner {
   createdAt: string;
 }
 /**
+ * The page-builder for pages of the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
@@ -320,6 +330,8 @@ export interface Password {
   createdAt: string;
 }
 /**
+ * The calendar embed, public, and iCal links used on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "calendar-links".
  */
@@ -332,11 +344,16 @@ export interface CalendarLink {
   createdAt: string;
 }
 /**
+ * Every concert series, with its repertoire and performance dates.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "concerts".
  */
 export interface Concert {
   id: string;
+  /**
+   * How the concert appears on the site.
+   */
   title: string;
   description: {
     root: {
@@ -353,8 +370,17 @@ export interface Concert {
     };
     [k: string]: unknown;
   };
+  /**
+   * The feature photo shown on the public listing and card.
+   */
   photo: string | Media;
+  /**
+   * Optional. The filename of the programme, if one is published.
+   */
   pdf?: string | null;
+  /**
+   * The works performed, shown on the site in this order.
+   */
   repertoire: {
     composer: string;
     workTitle: string;
@@ -362,14 +388,23 @@ export interface Concert {
     movements?: string | null;
     id?: string | null;
   }[];
+  /**
+   * Each one appears as a separate date on the site.
+   */
   performances: {
     dateTime: string;
+    /**
+     * Optional in the schema. The site shows this line when it is set.
+     */
     venue?: string | null;
     venueAddress: string;
     bookingUrl: string;
     price: string;
     id?: string | null;
   }[];
+  /**
+   * Added once the concert has been performed.
+   */
   photo_links?:
     | {
         link?: string | null;
@@ -386,13 +421,14 @@ export interface Concert {
   createdAt: string;
 }
 /**
+ * The news and story posts shown on the site's News page.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
   id: string;
   title: string;
-  slug?: string | null;
   description: {
     root: {
       type: string;
@@ -417,10 +453,16 @@ export interface Post {
   category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
   author?: string | null;
   publishedDate?: string | null;
+  /**
+   * Generated from the title.
+   */
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Everyone in AYO, players, team, and alumni, shown on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
@@ -438,6 +480,8 @@ export interface Person {
   createdAt: string;
 }
 /**
+ * The instrument sections and roles used to group People.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
  */
@@ -450,6 +494,8 @@ export interface Role {
   createdAt: string;
 }
 /**
+ * Frequently asked questions shown on their respective pages of the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-roles".
  */
@@ -469,14 +515,13 @@ export interface Faq {
    * Which page this FAQ appears on.
    */
   category: 'about-us' | 'concerts-events' | 'join-ayo' | 'support-us';
-  /**
-   * Lower numbers appear first within the page.
-   */
   sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Document links shown in the Resources and Links sections in /join-ayo.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "link".
  */
@@ -808,7 +853,6 @@ export interface ConcertsSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   description?: T;
   photos?:
     | T
@@ -819,6 +863,7 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   author?: T;
   publishedDate?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -923,6 +968,16 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ayo-agenda_widget".
+ */
+export interface AyoAgendaWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

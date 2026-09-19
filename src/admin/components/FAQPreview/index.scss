@@ -1,0 +1,119 @@
+.ayo-preview {
+  font-family: var(--font-body);
+  color: var(--ayo-text);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__page {
+    font-size: 12px;
+    color: var(--ayo-muted);
+  }
+}
+
+.ayo-faq-order {
+  border-top: 1px solid var(--ayo-rule);
+
+  &__empty {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ayo-text-meta);
+    font-style: italic;
+  }
+
+  &__item {
+    border-bottom: 1px solid var(--ayo-rule);
+
+    &--current {
+      background: var(--ayo-rule);
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  &__item--current &__row {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &__handle {
+    flex: 0 0 auto;
+    cursor: grab;
+    color: var(--ayo-muted);
+    font-size: 14px;
+    line-height: 1;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__question {
+    flex: 1;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ayo-text);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  &__item--current &__question {
+    cursor: default;
+  }
+
+  &__flag {
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__answer {
+    margin: 0;
+    padding: 0 0 12px 24px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ayo-text-secondary);
+    white-space: pre-wrap;
+  }
+
+  &__item--current &__answer {
+    padding-left: 34px;
+  }
+}
+
+.ayo-faq-order__hint {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--ayo-text-meta);
+  font-style: italic;
+
+  &--error {
+    color: #b91c1c;
+  }
+}

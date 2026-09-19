@@ -1,77 +1,82 @@
 import type { CollectionConfig } from 'payload'
 
 export const People: CollectionConfig = {
-    slug: 'people',
+  slug: 'people',
 
-    admin: {
-        useAsTitle: 'name'
+  admin: {
+    useAsTitle: 'name',
+    description: 'Everyone in AYO, players, team, and alumni, shown on the site.',
+    defaultColumns: ['name', 'photo', 'type', 'role', 'isActive'],
+  },
+
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
     },
-
-    fields: [
+    {
+      name: 'role',
+      type: 'relationship',
+      relationTo: 'roles',
+      hasMany: false,
+      admin: {
+        sortOptions: 'sortOrder',
+      },
+    },
+    {
+      name: 'type',
+      type: 'select',
+      required: true,
+      options: [
         {
-            name: 'name',
-            type: 'text',
-            required: true
+          label: 'Player',
+          value: 'player',
         },
         {
-            name: 'role',
-            type: 'relationship',
-            relationTo: 'roles',
-            hasMany: false,
-            admin: {
-                sortOptions: 'sortOrder',
-                condition: (_, siblingData) =>
-                    siblingData.type === 'player' ||
-                    siblingData.type === 'alumni'
-            }
+          label: 'Team',
+          value: 'team',
         },
         {
-            name: 'teamRoles',
-            type: 'relationship',
-            relationTo: 'team-roles',
-            hasMany: true,
-            admin: {
-                sortOptions: 'sortOrder',
-                condition: (_, siblingData) => siblingData.type === 'team'
-            }
+          label: 'Alumni',
+          value: 'alumni',
         },
-        {
-            name: 'type',
-            type: 'select',
-            required: true,
-            options: [
-                {
-                    label: 'Player',
-                    value: 'player'
-                },
-                {
-                    label: 'Team',
-                    value: 'team'
-                },
-                {
-                    label: 'Alumni',
-                    value: 'alumni'
-                }
-            ]
+      ],
+    },
+    {
+      name: 'description',
+      type: 'text',
+    },
+    {
+      name: 'years',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'photo',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        components: {
+          Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell',
         },
-        {
-            name: 'description',
-            type: 'text'
+      },
+    },
+    {
+      name: 'isActive',
+      type: 'checkbox',
+      required: true,
+    },
+    {
+      name: 'peoplePreview',
+      type: 'ui',
+      label: 'Site preview',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/admin/components/PeoplePreview#PeoplePreview',
         },
-        {
-            name: 'years',
-            type: 'text',
-            required: true
-        },
-        {
-            name: 'photo',
-            type: 'upload',
-            relationTo: 'media'
-        },
-        {
-            name: 'isActive',
-            type: 'checkbox',
-            required: true
-        }
-    ]
+      },
+    },
+  ],
 }

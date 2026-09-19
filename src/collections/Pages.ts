@@ -7,24 +7,12 @@ import { ImageBlock } from '@/blocks/ImageBlock'
 import { TableBlock } from '@/blocks/TableBlock'
 import { FAQBlock } from '@/blocks/FAQBlock'
 
-/**
- * Pages collection:
- *
- * Block-based page builder for static/public-facing pages
- * (Home, About, Get Involved, Support Us, Contact, etc).
- *
- * - title: internal admin-facing page name
- * - slug: URL identifier used by the frontend to resolve which page
- *   to render (e.g. "home", "about", "support-us")
- * - layout: ordered array of content blocks (Hero, RichText) that the
- *   admin composes per page without needing a developer to hardcode
- *   frontend content
- */
-
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
+    description: 'The page-builder for pages of the site.',
+    defaultColumns: ['title', 'slug', 'layout', 'updatedAt'],
   },
   fields: [
     {
@@ -41,6 +29,17 @@ export const Pages: CollectionConfig = {
       name: 'layout',
       type: 'blocks',
       blocks: [Hero, RichText, VideoBlock, QuoteBlock, ImageBlock, TableBlock, FAQBlock],
+    },
+    {
+      name: 'pagePreview',
+      type: 'ui',
+      label: 'Preview',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/admin/components/PagesPreview#PagesPreview',
+        },
+      },
     },
   ],
 }

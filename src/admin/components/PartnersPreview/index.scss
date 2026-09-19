@@ -1,0 +1,48 @@
+.ayo-preview {
+  font-family: var(--font-body);
+  color: var(--ayo-text);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__inactive {
+    font-size: 12px;
+    color: var(--ayo-muted);
+    font-style: italic;
+  }
+}
+
+.ayo-partner-tile {
+  background: #fff;
+  border: 1px solid var(--ayo-rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  &__logo {
+    display: block;
+    height: 96px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+
+    &--empty {
+      width: 100%;
+      background: var(--ayo-rule);
+    }
+  }
+}

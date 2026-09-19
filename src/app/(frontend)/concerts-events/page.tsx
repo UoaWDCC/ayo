@@ -6,10 +6,12 @@ import PreviousEvents from '../components/PreviousEvents'
 import FAQSection from '../components/FAQSection'
 import ConcertsIntro from '../components/ConcertsIntro'
 import { getPageBySlug } from '@/lib/getPageBySlug'
+import { getConcertEvents } from '@/lib/concertEvents'
 import type { Media } from '@/payload-types'
 
 export default async function ConcertsEventsPage() {
   const page = await getPageBySlug('concerts-events')
+  const { upcoming, previous } = await getConcertEvents()
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
@@ -49,7 +51,7 @@ export default async function ConcertsEventsPage() {
         bookNowUrl="#"
       />
 
-      <UpcomingEvents />
+      <UpcomingEvents events={upcoming} />
 
       <div className="w-full mt-10">
         <AboutUsQuoteVid
@@ -62,7 +64,7 @@ export default async function ConcertsEventsPage() {
         />
       </div>
 
-      <PreviousEvents />
+      <PreviousEvents events={previous} />
       <FAQSection category="concerts-events" />
     </main>
   )
