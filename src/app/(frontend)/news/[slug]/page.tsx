@@ -1,63 +1,59 @@
-// single blog page
-// app/news/[slug]/page.tsx
+//server component
+import { notFound } from 'next/navigation'
+import {
+  getPostBySlug,
+  getRelatedPosts,
+  categoryLabel,
+  formatPublishedDate,
+  getPhotoUrl,
+} from '@/lib/posts'
 import NewsArticleContent from './NewsArticleContent'
 
-const placeholderPost = {
-  title: 'AYO Newsletter – July, 2026',
-  author: 'Mary Lin',
-  date: 'Sun. 21 June',
-  heroImage: '/grey_rectangle.png',
-  body: [
-    {
-      type: 'paragraph',
-      text: 'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance. A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance. A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance. A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    },
-    {
-      type: 'imagePair',
-      images: ['/grey_rectangle.png', '/grey_rectangle.png'],
-      caption:
-        'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    },
-    {
-      type: 'paragraph',
-      text: 'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance. A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné,.',
-    },
-    {
-      type: 'quote',
-      text: 'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné.',
-    },
-    {
-      type: 'paragraph',
-      text: 'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance. A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonín Dvořák, and the modern energy of Emmanuel Séjourné,.',
-    },
-    {
-      type: 'image',
-      src: '/grey_rectangle.png',
-    },
-  ],
+export async function generateStaticParams() {
+  const { getPosts } = await import('@/lib/posts')
+  const posts = await getPosts()
+  return posts.filter((post) => post.slug).map((post) => ({ slug: post.slug as string }))
 }
 
-const relatedPosts = [
-  {
-    id: 1,
-    title: '2025 Soloist Competition',
-    date: 'November 1st, 2025',
-    image: '/grey_rectangle.png',
-  },
-  {
-    id: 2,
-    title: 'Hear Tony Yan Tong Chen on RNZ Concert',
-    date: 'June 6th, 2025',
-    image: '/grey_rectangle.png',
-  },
-  {
-    id: 3,
-    title: 'Howick June Concert Cancelled',
-    date: 'June 6th, 2025',
-    image: '/grey_rectangle.png',
-  },
-]
+export default async function SinglePostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = await getPostBySlug(slug)
 
-export default async function SinglePostPage() {
-  return <NewsArticleContent post={placeholderPost} relatedPosts={relatedPosts} />
+  if (!post) {
+    notFound()
+  }
+
+  const relatedPostsRaw = post.slug ? await getRelatedPosts(post.slug, 3) : []
+
+  const heroPhoto = post.photos?.[0]?.photo
+  const heroImageUrl = getPhotoUrl(heroPhoto)
+
+  const remainingPhotos = (post.photos?.slice(1) ?? [])
+    .map((entry, i) => {
+      const src = getPhotoUrl(entry.photo)
+      const alt = typeof entry.photo === 'object' && entry.photo !== null ? entry.photo.alt : ''
+      return src ? { id: entry.id ?? String(i), src, alt: alt ?? '' } : null
+    })
+    .filter((p): p is { id: string; src: string; alt: string } => p !== null)
+
+  const relatedPosts = relatedPostsRaw.map((related) => ({
+    id: related.id,
+    slug: related.slug ?? '',
+    title: related.title,
+    date: formatPublishedDate(related.publishedDate),
+    image: getPhotoUrl(related.photos?.[0]?.photo),
+  }))
+
+  return (
+    <NewsArticleContent
+      title={post.title}
+      author={post.author ?? ''}
+      date={formatPublishedDate(post.publishedDate)}
+      category={post.category ? categoryLabel(post.category) : null}
+      heroImageUrl={heroImageUrl}
+      description={post.description}
+      remainingPhotos={remainingPhotos}
+      relatedPosts={relatedPosts}
+    />
+  )
 }
