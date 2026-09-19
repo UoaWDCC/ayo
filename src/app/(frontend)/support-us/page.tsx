@@ -20,6 +20,27 @@ const supportTextConverters: JSXConvertersFunction = ({ defaultConverters }) => 
   ),
 })
 
+const waysToGiveConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  heading: ({ node, nodesToJSX }) => {
+    const HeadingTag = node.tag
+
+    return (
+      <HeadingTag className="text-heading font-semibold">
+        {nodesToJSX({ nodes: node.children })}
+      </HeadingTag>
+    )
+  },
+  paragraph: ({ node, nodesToJSX }) => (
+    <p className="mt-2 mb-5 leading-9">{nodesToJSX({ nodes: node.children })}</p>
+  ),
+  list: ({ node, nodesToJSX }) => {
+    const ListTag = node.tag
+
+    return <ListTag className="list-disc pl-6 py-4">{nodesToJSX({ nodes: node.children })}</ListTag>
+  },
+})
+
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
 
@@ -31,6 +52,8 @@ export default async function SupportUsPage() {
 
   const introductionContent = richTextBlocks[0]?.content
   const supportSummaryContent = richTextBlocks[1]?.content
+  // TODO: The Givealittle CMS link currently points to /givealittlelink; replace it when confirmed.
+  const waysToGiveContent = richTextBlocks[2]?.content
 
   const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
 
@@ -197,35 +220,10 @@ export default async function SupportUsPage() {
       </div>
       <div className="text-black w-full">
         <div className="flex justify-center">
-          <div className="text-body my-10 w-[90%]">
-            <h1 className="text-heading font-semibold">Ways to Give</h1>
-            <p className="mt-2 leading-9">
-              We are grateful for the donations and grants from our major supporters and for the
-              generosity of others. Every donation is appreciated and helpful. Auckland Youth
-              Orchestra Incorporated is a registered charity, CC45382, and is an IRD-registered
-              Donee Organisation for tax credits on donations.
-            </p>
-            <p className="mt-5 mb-10"> For one off donations:</p>
-            <ul className="list-disc pl-6 py-4">
-              <li>
-                <span className="font-bold">Direct to our bank account:</span>
-                Auckland Youth Orchestra Incorporated, 12-3030-0505986-00. This is our preferred
-                method for larger donations, as it comes to us in full.
-              </li>
-              <li>
-                <span className="font-bold">
-                  <Link href="givealittlelink">
-                    <span className="underline">Givealittle: </span>
-                  </Link>
-                </span>
-                instant tax receipt, credit card or internet banking. Note: Givealittle takes a 5%
-                platform fee before funds reach us.
-              </li>
-            </ul>
-            <p className="mt-5 mb-10">
-              All donations over $5.00 NZD are eligible for a New Zealand charitable giving tax
-              credit, and a receipt will be issued on request.
-            </p>
+          <div className="text-body my-10 w-[90%] [&_a]:underline">
+            {waysToGiveContent && (
+              <RichText data={waysToGiveContent} converters={waysToGiveConverters} />
+            )}
 
             <div>
               {tierArray.map((tier, index) => (
