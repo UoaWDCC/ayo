@@ -4,94 +4,13 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Dropdown from './Dropdown'
-import EventCard, { type EventCardData } from './EventCard'
+import EventCard from './EventCard'
+import type { AgendaEvent } from '@/lib/concertEvents'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// TODO: replace with real data from API (Concerts collection)
-const events: (EventCardData & {
-  type: string
-  deadlineDate: string
-  year: number
-  month: string
-  location: string
-})[] = [
-  {
-    id: 1,
-    type: 'Concert',
-    deadlineDate: '2026-05-20T23:59:00+12:00',
-    year: 2026,
-    month: 'May',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
-    ctaHref: '#',
-  },
-  {
-    id: 2,
-    type: 'Concert',
-    deadlineDate: '2026-05-20T23:59:00+12:00',
-    year: 2026,
-    month: 'May',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
-    ctaHref: '#',
-  },
-  {
-    id: 3,
-    type: 'Concert',
-    deadlineDate: '2026-08-15T23:59:00+12:00',
-    year: 2026,
-    month: 'August',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
-    ctaHref: '#',
-  },
-  {
-    id: 4,
-    type: 'Concert',
-    deadlineDate: '2026-08-15T23:59:00+12:00',
-    year: 2026,
-    month: 'August',
-    location: 'Auckland, New Zealand',
-    title: 'Séjourné, Bizet & Dvorak',
-    subtitle: 'Sun, 21 June · Auckland Town Hall',
-    description:
-      'A programme shaped by the vivid colour of Georges Bizet, the expressive voice of Antonin Dvorak, and the modern energy of Emmanuel Séjourné, bringing together tradition and contemporary sound in one performance.',
-    image: '/about-us-quote-poster.jpg',
-    performances: [{ time: '19:30', date: 'Sunday, 21 June', venue: 'Auckland Town Hall' }],
-    links: [],
-    footerNote: 'Tickets available.',
-    ctaLabel: 'Book Now',
-    ctaHref: '#',
-  },
-]
-
-export default function UpcomingEvents() {
-  const [selectedYear, setSelectedYear] = useState<number | 'All'>(2026)
+export default function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
+  const [selectedYear, setSelectedYear] = useState<number | 'All'>('All')
   const [selectedMonth, setSelectedMonth] = useState('All')
   const [selectedType, setSelectedType] = useState('All')
   const [selectedLocation, setSelectedLocation] = useState('All')
@@ -245,17 +164,16 @@ export default function UpcomingEvents() {
             Upcoming Events
           </h2>
           <p className="upcoming-lead-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
-            A season of performances showcasing bold works and the energy of young musicians
-            growing through music.
+            A season of performances showcasing bold works and the energy of young musicians growing
+            through music.
           </p>
 
           <p className="upcoming-lead-fade mt-4 text-[18px] leading-[22px] text-black">
             Alongside our concert seasons we run a growing programme of tours, workshops,
             masterclasses, and educational events, built to develop young musicians, open doors for
-            new members, and give our supporters even more ways to get involved. Whether
-            you&apos;re a player looking to grow, a family exploring what we offer, or a sponsor
-            following our impact, this is where you&apos;ll find the full picture of what we do
-            beyond the stage.
+            new members, and give our supporters even more ways to get involved. Whether you&apos;re
+            a player looking to grow, a family exploring what we offer, or a sponsor following our
+            impact, this is where you&apos;ll find the full picture of what we do beyond the stage.
           </p>
 
           <p className="upcoming-lead-fade mt-4 text-[18px] leading-[22px] text-black font-semibold">

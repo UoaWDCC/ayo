@@ -1,0 +1,53 @@
+.ayo-preview {
+  font-family: var(--font-body);
+  color: var(--ayo-text);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__section {
+    font-size: 12px;
+    color: var(--ayo-muted);
+  }
+
+  &__url {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: var(--ayo-text-meta);
+    word-break: break-all;
+  }
+}
+
+.ayo-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 0;
+  border-top: 1px solid var(--ayo-rule);
+  border-bottom: 1px solid var(--ayo-rule);
+
+  &__name {
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  &__date {
+    font-size: 12px;
+    color: var(--ayo-muted);
+  }
+}

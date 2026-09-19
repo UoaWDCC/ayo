@@ -79,6 +79,7 @@ export interface Config {
     roles: Role;
     faqs: Faq;
     link: Link;
+    'team-roles': TeamRole;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -98,6 +99,7 @@ export interface Config {
     roles: RolesSelect<false> | RolesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     link: LinkSelect<false> | LinkSelect<true>;
+    'team-roles': TeamRolesSelect<false> | TeamRolesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -111,6 +113,7 @@ export interface Config {
   globalsSelect: {};
   locale: null;
   widgets: {
+    'ayo-agenda': AyoAgendaWidget;
     collections: CollectionsWidget;
   };
   user: User;
@@ -163,11 +166,16 @@ export interface User {
   collection: 'users';
 }
 /**
+ * The images used across the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: string;
+  /**
+   * Describes the image for screen readers and search engines.
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -182,6 +190,8 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * The partners and sponsors shown on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
@@ -196,6 +206,8 @@ export interface Partner {
   createdAt: string;
 }
 /**
+ * The page-builder for pages of the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
@@ -318,6 +330,8 @@ export interface Password {
   createdAt: string;
 }
 /**
+ * The calendar embed, public, and iCal links used on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "calendar-links".
  */
@@ -330,11 +344,16 @@ export interface CalendarLink {
   createdAt: string;
 }
 /**
+ * Every concert series, with its repertoire and performance dates.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "concerts".
  */
 export interface Concert {
   id: string;
+  /**
+   * How the concert appears on the site.
+   */
   title: string;
   description: {
     root: {
@@ -351,8 +370,17 @@ export interface Concert {
     };
     [k: string]: unknown;
   };
+  /**
+   * The feature photo shown on the public listing and card.
+   */
   photo: string | Media;
+  /**
+   * Optional. The filename of the programme, if one is published.
+   */
   pdf?: string | null;
+  /**
+   * The works performed, shown on the site in this order.
+   */
   repertoire: {
     composer: string;
     workTitle: string;
@@ -360,14 +388,23 @@ export interface Concert {
     movements?: string | null;
     id?: string | null;
   }[];
+  /**
+   * Each one appears as a separate date on the site.
+   */
   performances: {
     dateTime: string;
+    /**
+     * Optional in the schema. The site shows this line when it is set.
+     */
     venue?: string | null;
     venueAddress: string;
     bookingUrl: string;
     price: string;
     id?: string | null;
   }[];
+  /**
+   * Added once the concert has been performed.
+   */
   photo_links?:
     | {
         link?: string | null;
@@ -384,13 +421,14 @@ export interface Concert {
   createdAt: string;
 }
 /**
+ * The news and story posts shown on the site's News page.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
   id: string;
   title: string;
-  slug?: string | null;
   description: {
     root: {
       type: string;
@@ -415,10 +453,16 @@ export interface Post {
   category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
   author?: string | null;
   publishedDate?: string | null;
+  /**
+   * Generated from the title.
+   */
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Everyone in AYO, players, team, and alumni, shown on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
@@ -426,6 +470,7 @@ export interface Person {
   id: string;
   name: string;
   role?: (string | null) | Role;
+  teamRoles?: (string | TeamRole)[] | null;
   type: 'player' | 'team' | 'alumni';
   description?: string | null;
   years: string;
@@ -435,6 +480,8 @@ export interface Person {
   createdAt: string;
 }
 /**
+ * The instrument sections and roles used to group People.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
  */
@@ -447,7 +494,17 @@ export interface Role {
   createdAt: string;
 }
 /**
+ * Frequently asked questions shown on their respective pages of the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-roles".
+ */
+export interface TeamRole {
+  id: string;
+  roleName: string;
+  sortOrder: number;
+  roleType: 'executive' | 'admin';
+  displayName?: string | null;
  * via the `definition` "faqs".
  */
 export interface Faq {
@@ -458,14 +515,13 @@ export interface Faq {
    * Which page this FAQ appears on.
    */
   category: 'about-us' | 'concerts-events' | 'join-ayo' | 'support-us';
-  /**
-   * Lower numbers appear first within the page.
-   */
   sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Document links shown in the Resources and Links sections in /join-ayo.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "link".
  */
@@ -548,6 +604,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'link';
         value: string | Link;
+      } | null)
+    | ({
+        relationTo: 'team-roles';
+        value: string | TeamRole;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -793,7 +853,6 @@ export interface ConcertsSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   description?: T;
   photos?:
     | T
@@ -804,6 +863,7 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   author?: T;
   publishedDate?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -814,6 +874,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface PeopleSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  teamRoles?: T;
   type?: T;
   description?: T;
   years?: T;
@@ -858,6 +919,18 @@ export interface LinkSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-roles_select".
+ */
+export interface TeamRolesSelect<T extends boolean = true> {
+  roleName?: T;
+  sortOrder?: T;
+  roleType?: T;
+  displayName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -895,6 +968,16 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ayo-agenda_widget".
+ */
+export interface AyoAgendaWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
