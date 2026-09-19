@@ -5,6 +5,7 @@ export const Partners: CollectionConfig = {
 
   admin: {
     useAsTitle: 'name',
+    description: 'The partners and sponsors shown on the site.',
     defaultColumns: ['name', 'logo', 'partnerType', 'isActive'],
   },
 
@@ -51,7 +52,7 @@ export const Partners: CollectionConfig = {
     {
       name: 'partnersPreview',
       type: 'ui',
-      label: 'Public site preview',
+      label: 'Site preview',
       admin: {
         position: 'sidebar',
         components: {

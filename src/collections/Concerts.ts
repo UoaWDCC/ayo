@@ -15,7 +15,7 @@ export const Concerts: CollectionConfig = {
       type: 'text',
       required: true,
       admin: {
-        description: 'How the concert appears on the public site.',
+        description: 'How the concert appears on the site.',
       },
     },
     {
@@ -54,7 +54,7 @@ export const Concerts: CollectionConfig = {
       // minimum of one array item
       required: true,
       admin: {
-        description: 'The works performed, shown on the public site in this order.',
+        description: 'The works performed, shown on the site in this order.',
       },
     },
     {
@@ -66,7 +66,7 @@ export const Concerts: CollectionConfig = {
           name: 'venue',
           type: 'text',
           admin: {
-            description: 'Optional in the schema — the public site shows this line when it is set.',
+            description: 'Optional in the schema. The site shows this line when it is set.',
           },
         },
         { name: 'venueAddress', type: 'text', required: true },
@@ -76,7 +76,7 @@ export const Concerts: CollectionConfig = {
       // minimum of one array item
       required: true,
       admin: {
-        description: 'Each one appears as a separate date on the public site.',
+        description: 'Each one appears as a separate date on the site.',
       },
     },
     {
@@ -95,7 +95,7 @@ export const Concerts: CollectionConfig = {
     {
       name: 'publicSitePreview',
       type: 'ui',
-      label: 'Public site preview',
+      label: 'Site preview',
       admin: {
         position: 'sidebar',
         components: {

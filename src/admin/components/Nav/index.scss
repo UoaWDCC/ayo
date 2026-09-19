@@ -1,6 +1,6 @@
 .ayo-nav {
-  background: #fff;
-  border-right: 1px solid var(--ayo-rule);
+  background: #000;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
 
   &__wrap {
     display: flex;
@@ -8,8 +8,9 @@
     height: 100%;
     // A2 specifies 24px, but Payload's native nav-collapse toggle is an absolutely
     // positioned overlay (not part of this flow) sitting at ~10-34px from the top, so 24px
-    // makes the logo collide with it. 48px is the smallest clearance that avoids the overlap.
-    padding: 48px 0 48px;
+    // makes the logo collide with it. 60px gives a bit more clearance below it than the
+    // minimum 48px.
+    padding: 60px 0 48px;
     overflow-y: auto;
   }
 
@@ -25,14 +26,13 @@
     padding: 0 24px;
     min-height: 36px;
     line-height: 36px;
+    font-size: 15px;
     font-weight: 600;
-    color: var(--ayo-text);
+    color: #fff;
     text-decoration: none;
-    border-bottom: 1px solid var(--ayo-rule);
-    padding-bottom: 18px;
 
     &--active {
-      box-shadow: inset 2px 0 0 0 var(--ayo-text);
+      box-shadow: inset 2px 0 0 0 #fff;
     }
   }
 
@@ -51,7 +51,7 @@
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--ayo-text-secondary);
+    color: rgba(255, 255, 255, 0.6);
   }
 
   &__link {
@@ -61,24 +61,24 @@
     gap: 8px;
     min-height: 36px;
     padding: 0 24px;
-    color: var(--ayo-text);
+    color: #fff;
     text-decoration: none;
     font-size: 15px;
 
     &--active {
       font-weight: 600;
-      box-shadow: inset 2px 0 0 0 var(--ayo-text);
+      box-shadow: inset 2px 0 0 0 #fff;
     }
   }
 
   &__count {
     font-size: 13px;
-    color: var(--ayo-text-meta);
+    color: rgba(255, 255, 255, 0.5);
     font-variant-numeric: tabular-nums;
   }
 
   &__controls {
     padding: 16px 24px 0;
-    border-top: 1px solid var(--ayo-rule);
+    color: rgba(255, 255, 255, 0.7);
   }
 }

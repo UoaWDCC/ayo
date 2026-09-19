@@ -19,6 +19,7 @@ export const Posts: CollectionConfig = {
 
   admin: {
     useAsTitle: 'title',
+    description: "The news and story posts shown on the site's News page.",
     defaultColumns: ['title', 'photos', 'category', 'publishedDate'],
   },
   fields: [

@@ -7,6 +7,7 @@ export const Media: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'filename',
+    description: 'The images used across the site.',
     defaultColumns: ['filename', 'alt', 'updatedAt'],
   },
   fields: [

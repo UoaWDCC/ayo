@@ -27,7 +27,7 @@ export const Links: CollectionConfig = {
     {
       name: 'linksPreview',
       type: 'ui',
-      label: 'Public preview',
+      label: 'Site preview',
       admin: {
         position: 'sidebar',
         components: {

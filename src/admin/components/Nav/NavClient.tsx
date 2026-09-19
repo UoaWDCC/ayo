@@ -21,7 +21,7 @@ export const NavClient: React.FC<{ groups: NavGroup[] }> = ({ groups }) => {
       <div className="ayo-nav__wrap">
         <Link href="/admin" className="ayo-nav__logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/ayo-logo-black-bgwhite.png" alt="AYO" />
+          <img src="/ayo-logo-white.png" alt="AYO" />
         </Link>
 
         <Link

@@ -3,8 +3,14 @@ import type { CollectionConfig } from 'payload'
 export const FAQ: CollectionConfig = {
   slug: 'faqs',
 
+  labels: {
+    singular: 'FAQ',
+    plural: 'FAQs',
+  },
+
   admin: {
     useAsTitle: 'question',
+    description: 'Frequently asked questions shown on their respective pages of the site.',
     defaultColumns: ['question', 'category', 'sortOrder'],
   },
 
@@ -36,19 +42,21 @@ export const FAQ: CollectionConfig = {
       },
     },
     {
+      // Managed entirely by dragging rows in the "Site preview" panel below, not typed in —
+      // hidden from the edit form but still a normal field: it's saved, queried, and sorted on
+      // like any other (see the public site's FAQ queries and defaultColumns above).
       name: 'sortOrder',
       type: 'number',
       label: 'Sort Order',
       defaultValue: 0,
       admin: {
-        position: 'sidebar',
-        description: 'Lower numbers appear first within the page.',
+        hidden: true,
       },
     },
     {
       name: 'faqPreview',
       type: 'ui',
-      label: 'Public preview',
+      label: 'Site preview',
       admin: {
         position: 'sidebar',
         components: {

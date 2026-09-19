@@ -131,22 +131,19 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
 
   return (
     <div className="ayo-agenda">
-      <p className="ayo-agenda__eyebrow">
-        {now.toLocaleDateString('en-NZ', {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        })}
-      </p>
       <h2 className="ayo-agenda__greeting">Kia ora, {greetingName}.</h2>
       <p className="ayo-agenda__lead">
         {upcoming.length === 0
           ? 'No concert series are on sale.'
           : `${upcoming.length} concert ${upcoming.length === 1 ? 'series is' : 'series are'} on sale.`}
-        {next && nextPerf
-          ? ` The next is ${next.title}${nextPerf.venue ? `, at ${nextPerf.venue}` : ''} on ${fmtDate(nextPerf.dateTime)}.`
-          : ''}
+        {next && nextPerf ? (
+          <>
+            {' The next is '}
+            <strong>{next.title}</strong>
+            {nextPerf.venue ? `, at ${nextPerf.venue}` : ''}
+            {` on ${fmtDate(nextPerf.dateTime)}.`}
+          </>
+        ) : null}
       </p>
 
       <div className="ayo-agenda__actions">

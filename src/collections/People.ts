@@ -5,6 +5,7 @@ export const People: CollectionConfig = {
 
   admin: {
     useAsTitle: 'name',
+    description: 'Everyone in AYO, players, team, and alumni, shown on the site.',
     defaultColumns: ['name', 'photo', 'type', 'role', 'isActive'],
   },
 
@@ -69,7 +70,7 @@ export const People: CollectionConfig = {
     {
       name: 'peoplePreview',
       type: 'ui',
-      label: 'Public preview',
+      label: 'Site preview',
       admin: {
         position: 'sidebar',
         components: {

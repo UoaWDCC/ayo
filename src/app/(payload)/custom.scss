@@ -33,7 +33,6 @@
 
   .app-header {
     background: #fff;
-    border-bottom: 1px solid var(--ayo-rule);
     box-shadow: none;
   }
 
@@ -67,14 +66,6 @@
   .doc-header__title {
     font-weight: 600;
     line-height: 1.15;
-  }
-
-  // A2 is explicit that the preview column is static, not sticky: an earlier draft pinned it
-  // with `position: sticky` and every variant either drifted near the end of the document or,
-  // once height-capped, cut the preview through the middle of the photograph. Payload's own
-  // sidebar defaults to sticky; this reverts it to scroll with the document like A2 intends.
-  .document-fields__sidebar-wrap {
-    position: static;
   }
 
   // A2 row-density pass on Payload's own native list table — CSS only. The table itself (DOM
@@ -129,4 +120,146 @@
     padding-top: 16px;
     padding-bottom: 16px;
   }
+}
+
+// Payload forces the edit-doc two-column area to fill `calc(100% - <doc-controls height>)` of its
+// ancestor chain whenever a sidebar preview is present, then flex-stretches every level down to
+// `.document-fields` regardless of `height`. The calc assumes a fixed, short doc-header; a
+// collection `admin.description` (several of ours have one) makes it taller, and the leftover
+// height forces a page-level scrollbar even on short forms with nothing below the fold.
+// `height: auto` alone doesn't defeat flex stretch, so `align-items: flex-start` breaks the
+// stretch too. Outside `@layer payload` deliberately: Payload's own rules here are unlayered, so
+// an override inside the layer would lose the cascade regardless of specificity.
+html body .collection-edit,
+html body .collection-edit__form,
+html body .collection-edit__main-wrapper,
+html body .collection-edit__main,
+html body .document-fields,
+html body .document-fields__edit,
+html body .document-fields__sidebar-wrap {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+html body .collection-edit__main-wrapper,
+html body .document-fields {
+  align-items: flex-start !important;
+}
+
+// The preview should follow the scroll rather than disappearing above the fold once the form
+// grows past the viewport. An earlier attempt at sticky drifted/cut the preview off because it
+// fought Payload's own forced-viewport-fill height and stretch on this column; both are broken
+// above, so sticky can now position against the sidebar's own (short) content height.
+// top: 64px clears Payload's own `.doc-controls` bar, which is separately sticky at top: 0 and
+// 56px tall — at top: 24px the preview's top ~32px sat hidden behind it.
+html body .document-fields__sidebar-wrap {
+  position: sticky !important;
+  top: 64px !important;
+  max-width: 100% !important;
+}
+
+// Payload alternates list-table row background by default (nth-child(odd)); a flat background is
+// enough to scan rows without an alternating-highlight pattern. Unlayered + specific like the
+// rules above, for the same reason: Payload's own rule here is unlayered too. `:not(:hover)`
+// keeps this from also overriding the hover background (defined in @layer payload below it in
+// the cascade), which otherwise only ever showed on even rows.
+html body .table tbody tr:nth-child(odd):not(:hover) {
+  background: transparent !important;
+}
+
+// Every array/blocks row (Repertoire, Performances, Pages' Layout blocks, ...) natively gets a
+// full border box (all four sides), so a document with several rows reads as a stack of outlined
+// boxes. The grey header background already marks each row's bounds, so the border is redundant.
+html body .array-field__row,
+html body .blocks-field__row {
+  border: 0 !important;
+}
+
+// Calendar Links' columns are all long, mostly-unbroken URLs. `table-layout: auto` (the browser
+// default) sizes each column to its widest content before wrapping, which pushed the table wider
+// than the viewport and forced horizontal scroll — every other list is short enough not to hit
+// this. `fixed` distributes the available width up front instead, and `overflow-wrap: anywhere`
+// lets a URL actually break wherever needed to fit its column, not just at existing `?`/`&`.
+html body .collection-list--calendar-links .table {
+  table-layout: fixed !important;
+}
+
+html body .collection-list--calendar-links .table td,
+html body .collection-list--calendar-links .table th {
+  overflow-wrap: anywhere !important;
+}
+
+// Two native rule lines bracket the "Last Modified / Created" meta row on every edit document:
+// `.doc-header`'s own bottom edge (a background-line pseudo-element, not a real border) above it,
+// and a literal `.doc-controls__divider` element below it.
+html body .doc-header::after {
+  display: none !important;
+}
+
+html body .doc-controls__divider {
+  display: none !important;
+}
+
+// The Edit/API tab switcher above the document title, and the account avatar in the app header.
+html body .doc-tabs {
+  display: none !important;
+}
+
+html body .app-header__account {
+  display: none !important;
+}
+
+// The vertical rule between the form column and the preview column.
+html body .document-fields__edit {
+  border-right: 0 !important;
+}
+
+// The Payload cube logo at the start of the top-bar breadcrumb, and the literal "/" separator
+// that sat between it and the first breadcrumb label — with the logo hidden, that separator
+// became the leftmost visible character on every page (e.g. "/ Concerts").
+html body .step-nav__home {
+  display: none !important;
+}
+
+html body .step-nav__home + span {
+  display: none !important;
+}
+
+// The Dashboard breadcrumb is a react-select "switch dashboard view" control natively, rendered
+// with a dropdown chevron. We don't use that switcher, so it should read as plain static text
+// like every other page's breadcrumb label.
+html body .dashboard-breadcrumb-select .rs__indicators {
+  display: none !important;
+}
+
+html body .dashboard-breadcrumb-select .rs__control {
+  cursor: default !important;
+}
+
+// The nav collapse/expand toggle renders as a white pill badge with a black icon by default. With
+// the nav open, it sits on the black rail, so the badge becomes transparent and the icon white to
+// blend in. Collapsed, the toggle sits on the white page background instead (no black rail behind
+// it), so it stays black-on-transparent there — inverting it too would make the icon disappear
+// against the white page.
+html body .nav-toggler--is-open .hamburger {
+  background: transparent !important;
+  color: #fff !important;
+}
+
+html body .nav-toggler:not(.nav-toggler--is-open) .hamburger {
+  background: transparent !important;
+  color: var(--ayo-text) !important;
+}
+
+// A little breathing room between the list title and its "Create New" pill.
+html body .list-header__title-actions {
+  margin-left: 20px !important;
+}
+
+// The last breadcrumb segment (the document title) is natively capped at 160px and ellipsized —
+// long titles like concert series names get cut off mid-word.
+html body .step-nav__last {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
 }

@@ -18,38 +18,6 @@
     color: var(--ayo-text-secondary);
   }
 
-  &__toggle {
-    display: flex;
-    gap: 14px;
-
-    button {
-      background: none;
-      border: 0;
-      padding: 0;
-      cursor: pointer;
-      font: inherit;
-      font-size: 12px;
-      color: var(--ayo-text-secondary);
-
-      &[aria-pressed='true'] {
-        color: var(--ayo-text);
-        font-weight: 600;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-      }
-    }
-  }
-
-  &__block-label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ayo-text-meta);
-  }
-
   &__empty {
     font-size: 13px;
     font-style: italic;

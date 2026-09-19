@@ -11,7 +11,7 @@ export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
-    description: 'The static, page-builder pages of the public site.',
+    description: 'The page-builder for pages of the site.',
     defaultColumns: ['title', 'slug', 'layout', 'updatedAt'],
   },
   fields: [

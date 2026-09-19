@@ -164,6 +164,8 @@ export interface User {
   collection: 'users';
 }
 /**
+ * The images used across the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -186,6 +188,8 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * The partners and sponsors shown on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
@@ -200,7 +204,7 @@ export interface Partner {
   createdAt: string;
 }
 /**
- * The static, page-builder pages of the public site.
+ * The page-builder for pages of the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -324,7 +328,7 @@ export interface Password {
   createdAt: string;
 }
 /**
- * The calendar embed, public, and iCal links used on the public site.
+ * The calendar embed, public, and iCal links used on the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "calendar-links".
@@ -346,7 +350,7 @@ export interface CalendarLink {
 export interface Concert {
   id: string;
   /**
-   * How the concert appears on the public site.
+   * How the concert appears on the site.
    */
   title: string;
   description: {
@@ -373,7 +377,7 @@ export interface Concert {
    */
   pdf?: string | null;
   /**
-   * The works performed, shown on the public site in this order.
+   * The works performed, shown on the site in this order.
    */
   repertoire: {
     composer: string;
@@ -383,12 +387,12 @@ export interface Concert {
     id?: string | null;
   }[];
   /**
-   * Each one appears as a separate date on the public site.
+   * Each one appears as a separate date on the site.
    */
   performances: {
     dateTime: string;
     /**
-     * Optional in the schema — the public site shows this line when it is set.
+     * Optional in the schema. The site shows this line when it is set.
      */
     venue?: string | null;
     venueAddress: string;
@@ -415,6 +419,8 @@ export interface Concert {
   createdAt: string;
 }
 /**
+ * The news and story posts shown on the site's News page.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
@@ -453,6 +459,8 @@ export interface Post {
   createdAt: string;
 }
 /**
+ * Everyone in AYO, players, team, and alumni, shown on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
@@ -469,6 +477,8 @@ export interface Person {
   createdAt: string;
 }
 /**
+ * The instrument sections and roles used to group People.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
  */
@@ -481,6 +491,8 @@ export interface Role {
   createdAt: string;
 }
 /**
+ * Frequently asked questions shown on their respective pages of the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
  */
@@ -492,9 +504,6 @@ export interface Faq {
    * Which page this FAQ appears on.
    */
   category: 'about-us' | 'concerts-events' | 'join-ayo' | 'support-us';
-  /**
-   * Lower numbers appear first within the page.
-   */
   sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;

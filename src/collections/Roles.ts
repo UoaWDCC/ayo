@@ -5,6 +5,7 @@ export const Roles: CollectionConfig = {
 
   admin: {
     useAsTitle: 'displayName',
+    description: 'The instrument sections and roles used to group People.',
     defaultColumns: ['displayName', 'roleName', 'sortOrder'],
   },
 
