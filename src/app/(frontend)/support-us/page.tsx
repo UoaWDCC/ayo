@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { RichText, type JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
 import AYOSection from '../components/AYOWallSection'
@@ -12,12 +13,23 @@ import type { Media } from '@/payload-types'
 import { getPartners } from '@/lib/getPartners'
 import SponsorList from '../components/SponsorList'
 
+const supportTextConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  paragraph: ({ node, nodesToJSX }) => (
+    <p className="mb-6">{nodesToJSX({ nodes: node.children })}</p>
+  ),
+})
+
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
   const heroImage = heroBlock?.backgroundImage
+
+  const richTextBlocks = page?.layout?.filter((block) => block.blockType === 'rich-text') ?? []
+
+  const introductionContent = richTextBlocks[0]?.content
 
   const partners = await getPartners()
 
@@ -159,35 +171,9 @@ export default async function SupportUsPage() {
         />
       </div>
       <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
-        <div className="mb-6">
-          Behind every AYO player who walks on stage lies years of dedication. The concerts we're so
-          proud of require months of collaborative preparation most audiences never see. That work
-          doesn't fund itself. Venue hire, professional coaching, sheet music, instrument upkeep: it
-          all adds up, long before the lights go up on a single performance.{' '}
-        </div>
-
-        <div className="mb-6">
-          {' '}
-          As a charitable organisation, we're non-profit, volunteer-run, and we keep costs as lean
-          as we can. But to keep offering Aotearoa New Zealand's best young musicians a genuine
-          professional-standard training ground — the kind of opportunity that shapes careers, not
-          just resumes — we rely on people who believe in what we're building just as much as we
-          do.{' '}
-        </div>
-
-        <div className="mb-6">
-          Your support fuels our youth, getting a full orchestra onto a stage in front of an
-          audience that might otherwise never hear what young New Zealanders are capable of. It
-          keeps an institution with impressive longevity doing what it's always done: turning
-          talented young people into serious musicians, and serious musicians into lifelong artists,
-          colleagues and friends.{' '}
-        </div>
-        <div className="mb-6">
-          Sponsors and supporters sit close to that story all year. As a mark of thanks, we're glad
-          to acknowledge their generosity — in our concert programmes, with seating set aside at our
-          Auckland Town Hall concerts, and in the knowledge that their name is attached to something
-          with a track record stretching back to 1948.{' '}
-        </div>
+        {introductionContent && (
+          <RichText data={introductionContent} converters={supportTextConverters} />
+        )}
       </div>
       <div>
         <AboutUsQuoteStatic
