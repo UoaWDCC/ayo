@@ -31,6 +31,13 @@ export default async function SupportUsPage() {
 
   const introductionContent = richTextBlocks[0]?.content
 
+  const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
+
+  const quoteImage = quoteBlock?.image
+
+  const quoteImageUrl =
+    typeof quoteImage === 'object' && quoteImage !== null ? quoteImage.url : undefined
+
   const partners = await getPartners()
 
   const heroImageUrl =
@@ -177,10 +184,9 @@ export default async function SupportUsPage() {
       </div>
       <div>
         <AboutUsQuoteStatic
-          quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
-          posterImage="/about-us-quote-poster.jpg"
-          // videoSrc="/about-us-quote-preview.mp4"   //
-          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
+          quote={quoteBlock?.text}
+          image={quoteImageUrl ?? undefined}
+          caption={quoteBlock?.caption ?? undefined}
         />
       </div>
       <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
