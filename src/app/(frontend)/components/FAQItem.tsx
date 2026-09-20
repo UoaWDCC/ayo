@@ -1,10 +1,11 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 
 type FAQItemProps = {
   question: string
-  answer: string
+  answer: ReactNode
 }
 
 const FAQItem = ({ question, answer }: FAQItemProps) => {
@@ -42,7 +43,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="mt-4 text-[20px] leading-8 text-gray-600">{answer}</p>
+          <div className="mt-4 text-[20px] leading-8 text-gray-600">{answer}</div>
         </div>
       </div>
     </div>
