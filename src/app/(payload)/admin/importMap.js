@@ -27,7 +27,6 @@ import { PagesPreview as PagesPreview_11ed3e12036c2cc7fa2af00242166d95 } from '@
 import { PublicSitePreview as PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc } from '@/admin/components/PublicSitePreview'
 import { SectionDivider as SectionDivider_7c42241ce0a116caad4b6cead0455875 } from '@/admin/components/SectionDivider'
 import { PostsPreview as PostsPreview_0ce014a33cccebb26dbbe32ce169e2b1 } from '@/admin/components/PostsPreview'
-import { PeoplePreview as PeoplePreview_1408803dc49360be92431d6459eb515c } from '@/admin/components/PeoplePreview'
 import { RolesPreview as RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c } from '@/admin/components/RolesPreview'
 import { FAQPreview as FAQPreview_c94ce367c218914e0b30ea022bfca7c2 } from '@/admin/components/FAQPreview'
 import { LinksPreview as LinksPreview_71751564b35375072afb90447714da42 } from '@/admin/components/LinksPreview'
@@ -66,7 +65,6 @@ export const importMap = {
   "@/admin/components/PublicSitePreview#PublicSitePreview": PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc,
   "@/admin/components/SectionDivider#SectionDivider": SectionDivider_7c42241ce0a116caad4b6cead0455875,
   "@/admin/components/PostsPreview#PostsPreview": PostsPreview_0ce014a33cccebb26dbbe32ce169e2b1,
-  "@/admin/components/PeoplePreview#PeoplePreview": PeoplePreview_1408803dc49360be92431d6459eb515c,
   "@/admin/components/RolesPreview#RolesPreview": RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c,
   "@/admin/components/FAQPreview#FAQPreview": FAQPreview_c94ce367c218914e0b30ea022bfca7c2,
   "@/admin/components/LinksPreview#LinksPreview": LinksPreview_71751564b35375072afb90447714da42,
