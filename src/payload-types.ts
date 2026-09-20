@@ -461,8 +461,6 @@ export interface Post {
   createdAt: string;
 }
 /**
- * Everyone in AYO, players, team, and alumni, shown on the site.
- *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
@@ -494,8 +492,6 @@ export interface Role {
   createdAt: string;
 }
 /**
- * Frequently asked questions shown on their respective pages of the site.
- *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-roles".
  */
@@ -505,6 +501,13 @@ export interface TeamRole {
   sortOrder: number;
   roleType: 'executive' | 'admin';
   displayName?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Frequently asked questions shown on their respective pages of the site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
  */
 export interface Faq {

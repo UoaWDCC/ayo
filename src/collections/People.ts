@@ -5,8 +5,6 @@ export const People: CollectionConfig = {
 
   admin: {
     useAsTitle: 'name',
-    description: 'Everyone in AYO, players, team, and alumni, shown on the site.',
-    defaultColumns: ['name', 'photo', 'type', 'role', 'isActive'],
   },
 
   fields: [
@@ -22,6 +20,18 @@ export const People: CollectionConfig = {
       hasMany: false,
       admin: {
         sortOptions: 'sortOrder',
+        condition: (_, siblingData) =>
+          siblingData.type === 'player' || siblingData.type === 'alumni',
+      },
+    },
+    {
+      name: 'teamRoles',
+      type: 'relationship',
+      relationTo: 'team-roles',
+      hasMany: true,
+      admin: {
+        sortOptions: 'sortOrder',
+        condition: (_, siblingData) => siblingData.type === 'team',
       },
     },
     {
@@ -56,27 +66,11 @@ export const People: CollectionConfig = {
       name: 'photo',
       type: 'upload',
       relationTo: 'media',
-      admin: {
-        components: {
-          Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell',
-        },
-      },
     },
     {
       name: 'isActive',
       type: 'checkbox',
       required: true,
-    },
-    {
-      name: 'peoplePreview',
-      type: 'ui',
-      label: 'Site preview',
-      admin: {
-        position: 'sidebar',
-        components: {
-          Field: '@/admin/components/PeoplePreview#PeoplePreview',
-        },
-      },
     },
   ],
 }

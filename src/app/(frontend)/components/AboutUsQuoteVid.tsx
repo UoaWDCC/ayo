@@ -107,7 +107,7 @@ const AboutUsQuoteVideo = ({
 
       {quote && (
         <div className="relative z-10 flex h-full items-end justify-end p-6 md:p-8">
-          <p className="w-full md:w-1/2 text-right text-white text-xl lg:text-3xl xl:text-5xl leading-snug">
+          <p className="w-full xl:w-1/2 text-right text-white text-md md:text-3xl xl:text-5xl leading-snug">
             &ldquo;{quote}&rdquo;
           </p>
         </div>
@@ -116,12 +116,12 @@ const AboutUsQuoteVideo = ({
       {(titleSmall || titleLarge) && (
         <div className="relative z-10 flex h-full flex-col justify-end pb-6 md:pb-8">
           {titleSmall && (
-            <h3 className="pl-[4%] text-white font-medium leading-none m-0 text-3xl sm:text-4xl md:text-6xl lg:text-7xl">
+            <h3 className="pl-[4%] text-white font-medium leading-none m-0 text-2xl sm:text-4xl md:text-6xl lg:text-7xl">
               {titleSmall}
             </h3>
           )}
           {titleLarge && (
-            <h2 className="pl-[11%] text-white font-medium leading-none m-0 text-5xl sm:text-6xl md:text-8xl lg:text-9xl">
+            <h2 className="pl-[11%] text-white font-medium leading-none m-0 text-3xl sm:text-6xl md:text-8xl lg:text-9xl">
               {titleLarge}
             </h2>
           )}

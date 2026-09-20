@@ -39,13 +39,13 @@ export default async function AboutUsPage() {
       />
       <main className="min-h-screen bg-white text-black">
         <AboutUsSection />
-        <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 text-2xl leading-body">
-          <p className="">
+        <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-10 leading-body">
+          <p className="text-2xl">
             Like any good symphony, AYO is made up of multiple moving parts. Some sit in the
             background; others take centre stage. Every one of them helps in making the magic
             happen.
           </p>
-          <ul className="text-2xl ml-10 list-disc">
+          <ul className="text-2xl ml-10 mt-5 list-disc">
             <li>
               <span className="font-bold">Our Players: </span>some of Aotearoa&apos;s most driven
               young musicians.
@@ -61,11 +61,7 @@ export default async function AboutUsPage() {
           </ul>
         </div>
 
-        <AboutUsFilter people={people}/>
-        <Grid title="Players" placeholderSubtitle="Name" items={playerItems} />
-        <OurTeam></OurTeam>
-        <Grid title="Alumni" placeholderSubtitle="Role" items={playerItems} />
-        <Grid title="Partners" placeholderSubtitle="Company" items={playerItems} />
+        <AboutUsFilter people={people} />
         <FAQSection category="about-us" />
       </main>
     </div>
