@@ -109,9 +109,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 }
 
 function SectionBody({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-base sm:text-lg text-black/60 leading-relaxed max-w-4xl mb-8">{children}</p>
-  )
+  return <p className="text-base sm:text-lg text-black/60 leading-relaxed mb-8">{children}</p>
 }
 
 function MemberGrid({ members }: { members: TeamMember[] }) {
@@ -170,8 +168,8 @@ export default function OurTeam({ team }: OurTeamProps) {
   const sections = getTeamSections(team)
 
   return (
-    <section className="w-full py-12">
-      <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-12 md:py-24">
+    <section className="w-full">
+      <div className="">
         <div className="flex items-start justify-between mb-8">
           <h1 className="text-5xl sm:text-6xl font-bold leading-none m-0">
             Our <em>{title}</em>
