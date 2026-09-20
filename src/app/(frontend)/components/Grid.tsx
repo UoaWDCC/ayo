@@ -7,12 +7,11 @@ type GridProps = {
   title: string
   people: Person[]
   placeholderCount?: number
-  subtitle?: string
   desc: string
   linkName: string
 }
 
-const Grid = ({ title, people, subtitle, desc, linkName }: GridProps) => {
+const Grid = ({ title, people, desc, linkName }: GridProps) => {
   return (
     <section className="mt-5">
       <div className="flex items-start justify-between mb-8">
@@ -20,12 +19,11 @@ const Grid = ({ title, people, subtitle, desc, linkName }: GridProps) => {
           Our <em>{title}</em>
         </h1>
       </div>
-      <div className="items-start justify-between mb-8">
-        <h2 className="text-2xl font-bold mb-8">{subtitle}</h2>
+      <div className="items-start justify-between mb-8 text-[#2E2E2E]">
         <p className="text-xl mb-4">{desc}</p>
         <p className="text-xl mb-4">Thinking about joining them? Find out what it takes.</p>
         <Link href="/join-us">
-          <p className="text-xl font-bold underline">{linkName}</p>
+          <p className="text-xl font-bold underline text-black">{linkName} ↗</p>
         </Link>
       </div>
 

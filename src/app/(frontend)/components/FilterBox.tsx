@@ -22,7 +22,7 @@ export default function FilterBox({ selectedOption, onSelectOption }: FilterBoxP
   return (
     <div className="relative inline-block">
       {/* Closed state filter text */}
-      <div className="flex items-center gap-1 text-xl">
+      <div className="flex items-center gap-1 text-lg md:text-xl -mb-10">
         <span className="text-black/40 font-normal mr-5">Showing </span>
         <button onClick={() => setIsOpen(!isOpen)} className="text-black font-semibold">
           <span className="font-bold">{selectedOption}</span> &#8249;

@@ -44,7 +44,6 @@ export default function AboutUsFilter({ people }: AboutUsFilterProps) {
       {(filter === 'All' || filter === 'Players') && (
         <Grid
           title="Players"
-          subtitle="The People Who Keep AYO Running"
           people={players}
           desc="AYO brings together some of Aotearoa's most driven young musicians, each one
           committed to the hours of rehearsal, the discipline of the ensemble, and the thrill of of
