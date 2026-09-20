@@ -470,7 +470,6 @@ export interface Person {
   id: string;
   name: string;
   role?: (string | null) | Role;
-  teamRoles?: (string | TeamRole)[] | null;
   type: 'player' | 'team' | 'alumni';
   description?: string | null;
   years: string;
@@ -497,14 +496,6 @@ export interface Role {
  * Frequently asked questions shown on their respective pages of the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team-roles".
- */
-export interface TeamRole {
-  id: string;
-  roleName: string;
-  sortOrder: number;
-  roleType: 'executive' | 'admin';
-  displayName?: string | null;
  * via the `definition` "faqs".
  */
 export interface Faq {
@@ -530,6 +521,19 @@ export interface Link {
   name: string;
   url: string;
   category: 'resources' | 'links';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-roles".
+ */
+export interface TeamRole {
+  id: string;
+  roleName: string;
+  sortOrder: number;
+  roleType: 'executive' | 'admin';
+  displayName?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -874,7 +878,6 @@ export interface PostsSelect<T extends boolean = true> {
 export interface PeopleSelect<T extends boolean = true> {
   name?: T;
   role?: T;
-  teamRoles?: T;
   type?: T;
   description?: T;
   years?: T;

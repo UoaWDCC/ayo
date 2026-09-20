@@ -61,11 +61,7 @@ export default async function AboutUsPage() {
           </ul>
         </div>
 
-        <AboutUsFilter people={people}/>
-        <Grid title="Players" placeholderSubtitle="Name" items={playerItems} />
-        <OurTeam></OurTeam>
-        <Grid title="Alumni" placeholderSubtitle="Role" items={playerItems} />
-        <Grid title="Partners" placeholderSubtitle="Company" items={playerItems} />
+        <AboutUsFilter people={people} />
         <FAQSection category="about-us" />
       </main>
     </div>
