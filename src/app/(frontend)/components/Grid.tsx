@@ -1,16 +1,18 @@
 import React from 'react'
 import Card from './Card'
-
+import Link from 'next/link'
 import type { Person } from '@/payload-types'
 
 type GridProps = {
   title: string
   people: Person[]
   placeholderCount?: number
-  placeholderSubtitle?: string
+  subtitle?: string
+  desc: string
+  linkName: string
 }
 
-const Grid = ({ title, people }: GridProps) => {
+const Grid = ({ title, people, subtitle, desc, linkName }: GridProps) => {
   return (
     <section className="mt-5">
       <div className="flex items-start justify-between mb-8">
@@ -19,17 +21,15 @@ const Grid = ({ title, people }: GridProps) => {
         </h1>
       </div>
       <div className="items-start justify-between mb-8">
-        <h2 className="text-2xl font-bold mb-8">The People Who Keep AYO Running</h2>
-        <p className="text-xl mb-4">
-          AYO brings together some of Aotearoa&apos;s most driven young musicians, each one
-          committed to the hours of rehearsal, the discipline of the ensemble, and the thrill of of
-          coming together to perform seriously ambitious repertoire.
-        </p>
+        <h2 className="text-2xl font-bold mb-8">{subtitle}</h2>
+        <p className="text-xl mb-4">{desc}</p>
         <p className="text-xl mb-4">Thinking about joining them? Find out what it takes.</p>
-        <p className="text-xl font-bold underline">Become A Player</p>
+        <Link href="/join-us">
+          <p className="text-xl font-bold underline">{linkName}</p>
+        </Link>
       </div>
 
-      <div className="grid grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
         {people.map((person) => (
           <Card
             key={person.id}

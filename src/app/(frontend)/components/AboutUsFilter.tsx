@@ -42,10 +42,23 @@ export default function AboutUsFilter({ people }: AboutUsFilterProps) {
 
       {(filter === 'All' || filter === 'Team') && <OurTeam team={team} />}
       {(filter === 'All' || filter === 'Players') && (
-        <Grid title="Players" placeholderSubtitle="Name" people={players} />
+        <Grid
+          title="Players"
+          subtitle="The People Who Keep AYO Running"
+          people={players}
+          desc="AYO brings together some of Aotearoa's most driven young musicians, each one
+          committed to the hours of rehearsal, the discipline of the ensemble, and the thrill of of
+          coming together to perform seriously ambitious repertoire."
+          linkName="Become A Player"
+        />
       )}
       {(filter === 'All' || filter === 'Alumni') && (
-        <Grid title="Alumni" placeholderSubtitle="Name" people={alumni} />
+        <Grid
+          title="Alumni"
+          people={alumni}
+          desc="Look inside almost any professional orchestra in Aotearoa New Zealand (and plenty overseas) and you'll find AYO alumni. Many of our players go on to the New Zealand Symphony Orchestra, the Auckland Philharmonia, conservatory teaching posts, international orchestras and ensembles, and solo and conducting careers. No matter where their professional life takes them, our alumni carry with them lasting friendships and the confidence that comes from channeling absolute focus, hard work, and inspiration into an exceptional collaborative performance. Many of our alumni stay close to AYO for years as mentors, donors, and advocates for the next generation coming through."
+          linkName="Join the AYO Alumni Network"
+        />
       )}
     </section>
   )
