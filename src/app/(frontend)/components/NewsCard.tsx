@@ -1,7 +1,8 @@
 'use client'
 
-import { gsap } from 'gsap'
+import gsap from 'gsap'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
 interface NewsCardProps {
@@ -11,10 +12,11 @@ interface NewsCardProps {
   type: string
   author: string
   slug: string
+  image?: string | null
 }
 
-const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null)
+const NewsCard = ({ title, date, description, type, author, slug, image }: NewsCardProps) => {
+  const cardRef = useRef<HTMLAnchorElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
@@ -41,12 +43,12 @@ const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => 
   }, [])
 
   return (
-    <div ref={cardRef} className="text-black">
-      <div className="w-full aspect-[4/3] overflow-hidden bg-[#EBEBEB]">
+    <Link href={`/news/${slug}`} ref={cardRef} className="group block text-black">
+      <div className="w-full aspect-4/3 overflow-hidden bg-[#EBEBEB]">
         <Image
           ref={imageRef}
           alt={title}
-          src="/hero-placeholder.jpg"
+          src={image ?? '/hero-placeholder.jpg'}
           width={400}
           height={300}
           className="w-full h-full object-cover"
@@ -54,9 +56,7 @@ const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => 
       </div>
 
       <h3 className="font-semibold text-lg mt-4">{title}</h3>
-
       <p className="text-sm text-muted mt-1">{date}</p>
-
       <p className="text-sm mt-3 text-black/70 line-clamp-3">{description}</p>
 
       <p className="mt-4 flex items-center gap-1 text-sm underline group-hover:opacity-70 transition-opacity">
@@ -67,7 +67,7 @@ const NewsCard = ({ title, date, description, type, author }: NewsCardProps) => 
       <span className="block mt-4 text-xs uppercase font-semibold text-black">
         {type} · {author}
       </span>
-    </div>
+    </Link>
   )
 }
 

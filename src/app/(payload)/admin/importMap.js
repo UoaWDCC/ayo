@@ -1,3 +1,5 @@
+import { PhotoThumbnailCell as PhotoThumbnailCell_acbc642ed072f784c47ef1c07f45caf1 } from '@/admin/components/PhotoThumbnailCell'
+import { PartnersPreview as PartnersPreview_efb7d9322bdb49ceba3fe8544f320024 } from '@/admin/components/PartnersPreview'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { LexicalDiffComponent as LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -21,10 +23,22 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { PagesPreview as PagesPreview_11ed3e12036c2cc7fa2af00242166d95 } from '@/admin/components/PagesPreview'
+import { PublicSitePreview as PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc } from '@/admin/components/PublicSitePreview'
+import { SectionDivider as SectionDivider_7c42241ce0a116caad4b6cead0455875 } from '@/admin/components/SectionDivider'
+import { PostsPreview as PostsPreview_0ce014a33cccebb26dbbe32ce169e2b1 } from '@/admin/components/PostsPreview'
+import { PeoplePreview as PeoplePreview_1408803dc49360be92431d6459eb515c } from '@/admin/components/PeoplePreview'
+import { RolesPreview as RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c } from '@/admin/components/RolesPreview'
+import { FAQPreview as FAQPreview_c94ce367c218914e0b30ea022bfca7c2 } from '@/admin/components/FAQPreview'
+import { LinksPreview as LinksPreview_71751564b35375072afb90447714da42 } from '@/admin/components/LinksPreview'
+import { default as default_c19b5b672d3a7bb4ff0bbaab4aa0da99 } from '@/admin/components/Nav'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
+import { default as default_3d0438a552678e9e7a3f2363f114148b } from '@/admin/components/DashboardAgenda'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
+  "@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell": PhotoThumbnailCell_acbc642ed072f784c47ef1c07f45caf1,
+  "@/admin/components/PartnersPreview#PartnersPreview": PartnersPreview_efb7d9322bdb49ceba3fe8544f320024,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -48,6 +62,16 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/admin/components/PagesPreview#PagesPreview": PagesPreview_11ed3e12036c2cc7fa2af00242166d95,
+  "@/admin/components/PublicSitePreview#PublicSitePreview": PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc,
+  "@/admin/components/SectionDivider#SectionDivider": SectionDivider_7c42241ce0a116caad4b6cead0455875,
+  "@/admin/components/PostsPreview#PostsPreview": PostsPreview_0ce014a33cccebb26dbbe32ce169e2b1,
+  "@/admin/components/PeoplePreview#PeoplePreview": PeoplePreview_1408803dc49360be92431d6459eb515c,
+  "@/admin/components/RolesPreview#RolesPreview": RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c,
+  "@/admin/components/FAQPreview#FAQPreview": FAQPreview_c94ce367c218914e0b30ea022bfca7c2,
+  "@/admin/components/LinksPreview#LinksPreview": LinksPreview_71751564b35375072afb90447714da42,
+  "@/admin/components/Nav#default": default_c19b5b672d3a7bb4ff0bbaab4aa0da99,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
+  "@/admin/components/DashboardAgenda#default": default_3d0438a552678e9e7a3f2363f114148b,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

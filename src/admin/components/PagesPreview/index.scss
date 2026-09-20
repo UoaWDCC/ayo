@@ -1,0 +1,262 @@
+.ayo-pages-preview {
+  font-family: var(--font-body);
+  color: var(--ayo-text);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__empty {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ayo-text-meta);
+  }
+
+  &__frame {
+    background: #fff;
+
+    &--full {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+  }
+
+  &__full-block {
+    border-top: 1px solid var(--ayo-rule);
+    padding-top: 20px;
+
+    &:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+  }
+}
+
+.ayo-block-preview {
+  &__hero,
+  &__quote {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--ayo-rule);
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__hero-empty,
+  &__quote-empty {
+    position: absolute;
+    inset: 0;
+    background: var(--ayo-rule);
+  }
+
+  &__hero-scrim,
+  &__quote-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  &__hero h1 {
+    position: absolute;
+    left: 16px;
+    bottom: 14px;
+    right: 16px;
+    margin: 0;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  &__quote {
+    aspect-ratio: 16 / 6;
+  }
+
+  &__quote-caption {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    right: 14px;
+    margin: 0;
+    color: #fff;
+    font-size: 12px;
+  }
+
+  &__quote-text {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    left: 40%;
+    margin: 0;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.3;
+    text-align: right;
+  }
+
+  &__richtext {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ayo-text);
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+
+  &__video-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  &__video-empty {
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ayo-rule);
+    color: var(--ayo-text-meta);
+    font-size: 13px;
+  }
+
+  &__video p {
+    margin: 10px 0 0;
+    font-size: 13px;
+    color: var(--ayo-text-secondary);
+  }
+
+  &__image img {
+    display: block;
+    width: 100%;
+  }
+
+  &__image-empty {
+    aspect-ratio: 4 / 3;
+    background: var(--ayo-rule);
+  }
+
+  &__table-row {
+    padding: 16px 0;
+    border-top: 1px solid var(--ayo-rule);
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ayo-text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+
+  &__table-content {
+    margin-top: 6px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ayo-text-secondary);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__faq-item {
+    border-top: 1px solid var(--ayo-rule);
+    padding: 14px 0;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      color: var(--ayo-text);
+    }
+
+    button span:first-child {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  &__faq-chevron {
+    display: inline-block;
+    transition: transform 150ms ease;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__faq-answer {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ayo-text-secondary);
+
+    p {
+      margin: 0;
+    }
+  }
+}

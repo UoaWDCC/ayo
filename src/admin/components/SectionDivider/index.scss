@@ -1,0 +1,23 @@
+.ayo-section-divider {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--ayo-rule);
+
+  &__title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ayo-text);
+  }
+
+  &__note {
+    margin: 8px 0 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ayo-text-secondary);
+    max-width: 56ch;
+  }
+}
