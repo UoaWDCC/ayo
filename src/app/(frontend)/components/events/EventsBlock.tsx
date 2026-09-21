@@ -104,21 +104,27 @@ const Events = () => {
   const currentPageEvents = eventsData.slice(start, start + CARDS_PER_PAGE)
 
   return (
-    <div className="text-black w-full px-24 py-14">
+    <div className="text-black w-full px-8 md:px-20 lg:px-24 xl:px-32 py-14">
       <div className="my-10">
-        <h1 className="text-heading font-semibold">Concerts & Events</h1>
-        <div className="flex mt-5">
-          <p className="mr-6 text-muted font-medium"> Year </p>
-          <select className="font-semibold underline appearance-none">
-            <option value="2026">2026</option>
-            <option value="2027">2027</option>
-          </select>
+        <h1 className="text-[32px] leading-[40px] md:text-[40px] md:leading-[48px] font-semibold">
+          Concerts & Events
+        </h1>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-2 mt-5">
+          <div className="flex items-center gap-x-6">
+            <p className="text-muted font-medium">Year</p>
+            <select className="font-semibold underline appearance-none">
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
 
-          <p className="ml-15 mr-6 text-muted font-medium"> Month </p>
-          <select className="font-semibold underline appearance-none">
-            <option value="June">June</option>
-            <option value="July">July</option>
-          </select>
+          <div className="flex items-center gap-x-6">
+            <p className="text-muted font-medium">Month</p>
+            <select className="font-semibold underline appearance-none">
+              <option value="June">June</option>
+              <option value="July">July</option>
+            </select>
+          </div>
         </div>
       </div>
 
