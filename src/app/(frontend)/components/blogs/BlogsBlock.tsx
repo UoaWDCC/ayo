@@ -80,10 +80,12 @@ export default function BlogsBlock() {
   const currentBlogs = DummyBlogs.slice((currentPage - 1) * 2, (currentPage - 1) * 2 + 2) // 1-2, 3-4, 5-6, 7
 
   return (
-    <div className="px-24 py-14">
+    <div className="px-8 md:px-20 lg:px-24 xl:px-32 py-14">
       <Link href={'/news'}>
         {/* TO: Resources page // all News */}
-        <h1 className="text-4xl font-semibold mb-6 hover:text-muted transition-colors">News</h1>
+        <h1 className="text-[32px] leading-[40px] md:text-[40px] md:leading-[48px] font-semibold mb-6 hover:text-muted transition-colors">
+          News
+        </h1>
       </Link>
       {/* What's New? // Latest Stories*/}
 
