@@ -16,6 +16,10 @@ export default async function JoinAyoPage() {
 
   const heroImage = heroBlock?.backgroundImage
 
+  const richTextBlocks = page?.layout?.filter((block) => block.blockType === 'rich-text') ?? []
+
+  const introText = richTextBlocks[0]?.content ?? []
+
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as Media).url
@@ -28,7 +32,7 @@ export default async function JoinAyoPage() {
         subtitle="Play alongside Aotearoa's most talented young musicians."
         backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
       />
-      <JoinIntroSection />
+      <JoinIntroSection introText={introText} />
       <JoinAyoBlock />
       <ScrollAnimation />
       <OpportunitySection />

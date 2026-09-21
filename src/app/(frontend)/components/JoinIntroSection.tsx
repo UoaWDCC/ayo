@@ -2,6 +2,10 @@
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
+import type { DefaultNodeTypes } from '@payloadcms/richtext-lexical'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
@@ -63,6 +67,21 @@ const infoRows: InfoRow[] = [
   },
 ]
 
+{/* Maps the original Tailwind CSS from the hardcoded values to the RichText injection */}
+const introConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  heading: ({ node, nodesToJSX }) => (
+    <h2 className="intro-fade font-semibold text-[20px] leading-[32px] md:text-[38px] md:leading-[48px]">
+      {nodesToJSX({ nodes: node.children })}
+    </h2>
+  ),
+  paragraph: ({ node, nodesToJSX }) => (
+    <p className="intro-fade mt-8 text-[18px] leading-6.5 md:text-[20px] md:leading-7 text-[#2E2E2E]">
+      {nodesToJSX({ nodes: node.children })}
+    </p>
+  ),
+})
+
 const InfoRowCard = ({ row }: { row: InfoRow }) => {
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -108,7 +127,7 @@ const InfoRowCard = ({ row }: { row: InfoRow }) => {
   )
 }
 
-const JoinIntroSection = () => {
+const JoinIntroSection = ({ introText }: { introText: SerializedEditorState }) => {
   const introRef = useRef<HTMLDivElement>(null)
   const rowsRef = useRef<HTMLDivElement>(null)
 
@@ -168,32 +187,8 @@ const JoinIntroSection = () => {
     <section className="bg-white text-black w-full">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
         <div ref={introRef} className="max-w-[1380px]">
-          <h2 className="intro-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
-            So, you&apos;re looking for that something extra?
-          </h2>
-
-          <div className="intro-fade mt-8 space-y-8 text-[18px] leading-6.5 md:text-[20px] md:leading-7 text-[#2E2E2E]">
-            <p>
-              The next big challenge, or a chance to really hone your skills while performing
-              incredible repertoire with like-minded peers?
-            </p>
-
-            <p>
-              AYO is for musicians aged 16 to 26 who&apos;ve put in the years and are ready for
-              more: the incomparable thrill of performing with a full symphony orchestra,
-              exceptional training from our experienced conductor &amp; mentors, and some of the
-              most driven young players in the country as colleagues.
-            </p>
-
-            <p>We rehearse hard, perform often, and expect a lot &mdash; and we give a lot back.</p>
-
-            <p>
-              AYO teaches you what it takes to perform at your best. But more than that, AYO helps
-              you find your people &mdash; musicians who get it, who encourage and inspire you, who
-              show up week after week chasing the same thing you are. Camps, tours, long rehearsals,
-              the nerves before a big concert: shared experiences like these build friendships that
-              outlast the music, and memories that stay with our players for life.
-            </p>
+          <div className="intro-content">
+            <RichText data={introText} converters={introConverters} />
           </div>
 
           <div ref={rowsRef} className="mt-14 border-t border-[#EBEBEB]">
