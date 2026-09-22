@@ -75,6 +75,8 @@ const InfoRowCard = ({ row }: { row: TableRow }) => {
         {row.linkLabel && row.linkUrl && (
           <Link
             href={row.linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-[18px] leading-5.5 font-semibold underline transition-opacity hover:opacity-70"
           >
             {row.linkLabel}

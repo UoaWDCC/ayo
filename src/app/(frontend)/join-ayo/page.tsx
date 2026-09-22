@@ -23,9 +23,6 @@ export default async function JoinAyoPage() {
   const tableBlock = page?.layout?.find((block) => block.blockType === 'table')
   const joinUsRows = tableBlock?.rows ?? []
 
-  const faqBlock = page?.layout?.find((block) => block.blockType === 'faq')
-  const faqItems = faqBlock?.items ?? []
-
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as Media).url
