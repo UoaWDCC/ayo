@@ -20,6 +20,12 @@ export default async function JoinAyoPage() {
 
   const introText = richTextBlocks[0]?.content ?? []
 
+  const tableBlock = page?.layout?.find((block) => block.blockType === 'table')
+  const joinUsRows = tableBlock?.rows ?? []
+
+  const faqBlock = page?.layout?.find((block) => block.blockType === 'faq')
+  const faqItems = faqBlock?.items ?? []
+
   const heroImageUrl =
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as Media).url
@@ -32,7 +38,7 @@ export default async function JoinAyoPage() {
         subtitle="Play alongside Aotearoa's most talented young musicians."
         backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
       />
-      <JoinIntroSection introText={introText} />
+      <JoinIntroSection introText={introText} introRows={joinUsRows} />
       <JoinAyoBlock />
       <ScrollAnimation />
       <OpportunitySection />
