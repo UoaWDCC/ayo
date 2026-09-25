@@ -66,12 +66,10 @@ const PhotoSpotlight = ({
 
         {/* Layered content */}
         <div className="relative z-10 flex flex-col h-full">
-          <div className="mt-8 px-10 pb-10 flex">
-            <p className="text-white leading-none mr-5 text-xs sm:text-xs md:text-sm lg:text-base">
-              {textSmall}
-            </p>
+          <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between">
+            <p className="text-xs md:text-sm lg:text-base text-white mr-5">{textSmall}</p>
 
-            <p className="flex items-center gap-2 text-white leading-none ml-auto text-xs sm:text-xs md:text-sm lg:text-base">
+            <p className="flex items-center gap-1 text-sm lg:text-base font-medium text-white whitespace-nowrap">
               See More
               <Image
                 src="/arrow-up-right.svg"
