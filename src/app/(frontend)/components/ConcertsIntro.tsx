@@ -51,18 +51,20 @@ export default function ConcertsIntro() {
               Every single AYO concert is the ultimate payoff of months of rehearsal and practice by
               our players who passionately tackle serious repertoire head-on. Expect full symphonic
               programmes, mesmerizing soloists from within our own ranks and beyond, and that pure,
-              absolute magic that sparks when incredible talent is given the space to excel. Truly,
-              there is nothing else like it. <br />
+              absolute magic that sparks when incredible talent is given the space to excel. <br />{' '}
               <br />
-              Sign up to our newsletter for early notice of concert dates and priority booking
+              Truly, there is nothing else like it. <br /> <br />
+              Sign up to our newsletter for early notice of concert dates and priority booking.
+              <br />
+              <Link
+                href="#"
+                className="concerts-lead-fade mt-6 inline-flex items-center gap-1 font-semibold text-[18px] md:text-[20px] hover:opacity-70 transition-opacity"
+              >
+                <span className="underline">Sign up to our newsletter</span>
+                &ensp;↗
+              </Link>
             </p>
           </div>
-          <Link
-            href="#"
-            className="concerts-lead-fade mt-6 inline-flex items-center gap-1 font-semibold underline text-[18px] md:text-[20px] hover:opacity-70 transition-opacity"
-          >
-            Sign up &ensp;↗
-          </Link>
         </div>
       </div>
     </section>
