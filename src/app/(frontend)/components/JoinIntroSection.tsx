@@ -2,68 +2,44 @@
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
+import type { DefaultNodeTypes } from '@payloadcms/richtext-lexical'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
-import type { ReactNode } from 'react'
+import type { Page } from '@/payload-types'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type InfoRow = {
-  title: string
-  content: ReactNode
-  linkText: string
-  linkUrl: string
-}
+type TableRow = Extract<NonNullable<Page['layout']>[number], { blockType: 'table' }>['rows'][number]
 
-const infoRows: InfoRow[] = [
-  {
-    title: 'What it takes',
-    content: (
-      <ul className="list-disc pl-8">
-        <li>
-          An audition: set orchestral excerpts (we&apos;ll send these ahead) plus a short piece of
-          your choice.
-        </li>
-        <li>Weekly rehearsals &mdash; [current rehearsal time, location]</li>
-        <li>Availability for concerts, our annual weekend camp, and weekend tours</li>
-        <li>Commitment to your peers. You giving your best for the whole ensemble</li>
-      </ul>
-    ),
-    linkText: 'Register',
-    linkUrl: '#',
-  },
-  {
-    title: 'What you get',
-    content: (
-      <ul className="list-disc pl-8">
-        <li>High-level orchestral training &amp; performance opportunities</li>
-        <li>Professional coaching</li>
-        <li>Multiple performances a year, on real stages, for real audiences</li>
-        <li>
-          The opportunity to audition for our Soloist Competition (LINK), and eligibility for our
-          Scholarships (LINKS)
-        </li>
-        <li>A community that, for many of our alumni, lasts a lifetime</li>
-      </ul>
-    ),
-    linkText: 'Register',
-    linkUrl: '#',
-  },
-  {
-    title: 'The cost',
-    content: (
-      <p>
-        As a Registered Charity we can keep costs low. An annual Player Subscription fee is due
-        before audition &mdash; see [current fees] for this year&apos;s amount. If we can&apos;t
-        offer you a place, it&apos;s fully refunded.
-      </p>
-    ),
-    linkText: 'Read More',
-    linkUrl: '#',
-  },
-]
+{/* Maps the original Tailwind CSS from the hardcoded values to the RichText injection */}
+const introConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  heading: ({ node, nodesToJSX }) => (
+    <h2 className="intro-fade font-semibold text-[20px] leading-[32px] md:text-[38px] md:leading-[48px]">
+      {nodesToJSX({ nodes: node.children })}
+    </h2>
+  ),
+  paragraph: ({ node, nodesToJSX }) => (
+    <p className="intro-fade mt-8 text-[18px] leading-6.5 md:text-[20px] md:leading-7 text-[#2E2E2E]">
+      {nodesToJSX({ nodes: node.children })}
+    </p>
+  ),
+})
 
-const InfoRowCard = ({ row }: { row: InfoRow }) => {
+{/* Ensures the correct styling for the table rows including retaining list items in the RichText */}
+const tableConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  list: ({ node, nodesToJSX }) => {
+    const ListTag = node.tag
+
+    return <ListTag className="list-disc pl-8">{nodesToJSX({ nodes: node.children })}</ListTag>
+  },
+})
+
+const InfoRowCard = ({ row }: { row: TableRow }) => {
   const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -88,27 +64,31 @@ const InfoRowCard = ({ row }: { row: InfoRow }) => {
       className="info-row grid grid-cols-1 gap-5 border-b border-[#EBEBEB] px-4 py-7 md:grid-cols-[1.4fr_2fr_0.8fr] md:gap-10 md:px-6 md:py-8 transition-colors hover:bg-gray-50"
     >
       <h3 className="font-semibold text-[24px] leading-7.75 md:text-[26px] md:leading-8.5">
-        {row.title}
+        {row.label}
       </h3>
 
       <div className="text-[18px] leading-6.25 md:text-[20px] md:leading-7 text-[#2E2E2E]">
-        {row.content}
+        <RichText data={row.content} converters={tableConverters} />
       </div>
 
       <div className="md:justify-self-end">
-        <Link
-          href={row.linkUrl}
-          className="inline-flex items-center gap-1 text-[18px] leading-5.5 font-semibold underline transition-opacity hover:opacity-70"
-        >
-          {row.linkText}
-          <img src="/arrow-up-right.svg" alt="" className="h-[1em] w-[1em]" />
-        </Link>
+        {row.linkLabel && row.linkUrl && (
+          <Link
+            href={row.linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[18px] leading-5.5 font-semibold underline transition-opacity hover:opacity-70"
+          >
+            {row.linkLabel}
+            <img src="/arrow-up-right.svg" alt="" className="h-[1em] w-[1em]" />
+          </Link>
+        )}
       </div>
     </div>
   )
 }
 
-const JoinIntroSection = () => {
+const JoinIntroSection = ({ introText, introRows }: { introText: SerializedEditorState; introRows: TableRow[] }) => {
   const introRef = useRef<HTMLDivElement>(null)
   const rowsRef = useRef<HTMLDivElement>(null)
 
@@ -168,37 +148,13 @@ const JoinIntroSection = () => {
     <section className="bg-white text-black w-full">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
         <div ref={introRef} className="max-w-[1380px]">
-          <h2 className="intro-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
-            So, you&apos;re looking for that something extra?
-          </h2>
-
-          <div className="intro-fade mt-8 space-y-8 text-[18px] leading-6.5 md:text-[20px] md:leading-7 text-[#2E2E2E]">
-            <p>
-              The next big challenge, or a chance to really hone your skills while performing
-              incredible repertoire with like-minded peers?
-            </p>
-
-            <p>
-              AYO is for musicians aged 16 to 26 who&apos;ve put in the years and are ready for
-              more: the incomparable thrill of performing with a full symphony orchestra,
-              exceptional training from our experienced conductor &amp; mentors, and some of the
-              most driven young players in the country as colleagues.
-            </p>
-
-            <p>We rehearse hard, perform often, and expect a lot &mdash; and we give a lot back.</p>
-
-            <p>
-              AYO teaches you what it takes to perform at your best. But more than that, AYO helps
-              you find your people &mdash; musicians who get it, who encourage and inspire you, who
-              show up week after week chasing the same thing you are. Camps, tours, long rehearsals,
-              the nerves before a big concert: shared experiences like these build friendships that
-              outlast the music, and memories that stay with our players for life.
-            </p>
+          <div className="intro-content">
+            <RichText data={introText} converters={introConverters} />
           </div>
 
           <div ref={rowsRef} className="mt-14 border-t border-[#EBEBEB]">
-            {infoRows.map((row) => (
-              <InfoRowCard key={row.title} row={row} />
+            {introRows.map((row) => (
+              <InfoRowCard key={row.id ?? row.label} row={row} />
             ))}
           </div>
         </div>
