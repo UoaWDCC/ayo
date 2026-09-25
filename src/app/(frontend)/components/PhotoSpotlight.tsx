@@ -85,18 +85,18 @@ const PhotoSpotlight = ({
           </div>
 
           {/* Title pinned to bottom-left */}
-          <div className="mt-auto px-10 pb-10">
+          <div className="mt-auto px-8 md:px-10 pb-5 md:pb-10">
             <h3
               className="text-white leading-none m-0"
-              style={{ fontSize: 'clamp(0.5rem, 9vw, 4rem)' }}
+              style={{ fontSize: 'clamp(1rem, 6vw, 4rem)' }}
             >
               {headingSmall}
             </h3>
           </div>
-          <div className="mt-0 px-10 sm:px-16 md:px-20 pb-10">
+          <div className="mt-0 px-12 sm:px-16 md:px-20 pb-10">
             <h1
               className="text-white font-semibold leading-none m-0"
-              style={{ fontSize: 'clamp(2.5rem, 9vw, 12rem)' }}
+              style={{ fontSize: 'clamp(2.5rem, 10vw, 12rem)' }}
             >
               {headingLarge}
             </h1>
