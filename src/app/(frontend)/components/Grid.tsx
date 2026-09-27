@@ -7,7 +7,7 @@ type GridProps = {
   title: string
   people: Person[]
   placeholderCount?: number
-  desc: string
+  desc?: React.ReactNode
   linkName: string
 }
 
