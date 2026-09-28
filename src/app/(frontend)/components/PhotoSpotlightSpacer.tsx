@@ -240,7 +240,7 @@ export default function Spacer({
             )}
 
             {galleryImages.length > 0 && (
-              <div className="mt-6 grid grid-cols-3 gap-3 md:gap-4">
+              <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                 {galleryImages.map((src, i) => (
                   <div key={i} className="relative aspect-[4/3] w-full overflow-hidden">
                     <Image

@@ -237,7 +237,7 @@ export default function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
             />
 
             {/* search bar */}
-            <div className="ml-auto flex items-center gap-2 border border-[#EBEBEB] px-3 py-1">
+            <div className="lg:ml-auto flex items-center gap-2 border border-[#EBEBEB] px-3 py-1">
               <svg
                 width="15"
                 height="15"

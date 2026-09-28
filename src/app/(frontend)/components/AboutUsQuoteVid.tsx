@@ -59,7 +59,7 @@ const AboutUsQuoteVideo = ({
       rel="noopener noreferrer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`group relative block ${aspectClassName} w-full overflow-hidden`}
+      className={`group relative block ${aspectClassName} w-full overflow-hidden h-[85vh] min-h-[560px]`}
       aria-label="Watch the full AYO performance video on YouTube"
     >
       {/* PLACEHOLDER */}
@@ -89,9 +89,9 @@ const AboutUsQuoteVideo = ({
       <div className="absolute inset-0 bg-black/50 transition-colors duration-300" />
 
       <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between">
-        <p className="text-xs sm:text-xs md:text-sm lg:text-base text-white">{caption}</p>
+        <p className="text-xs md:text-sm lg:text-base text-white mr-5">{caption}</p>
         {showSeeMore && (
-          <p className="flex items-center gap-1 text-xs sm:text-xs md:text-sm lg:text-base font-medium text-white whitespace-nowrap">
+          <p className="flex items-center gap-1 text-sm lg:text-base font-medium text-white whitespace-nowrap">
             See More
             <Image
               src="/arrow-up-right.svg"
@@ -116,12 +116,18 @@ const AboutUsQuoteVideo = ({
       {(titleSmall || titleLarge) && (
         <div className="relative z-10 flex h-full flex-col justify-end pb-6 md:pb-8">
           {titleSmall && (
-            <h3 className="pl-[4%] text-white font-medium leading-none m-0 text-2xl sm:text-4xl md:text-6xl lg:text-7xl">
+            <h3
+              className="pl-[5%] text-white font-medium leading-none m-0"
+              style={{ fontSize: 'clamp(1rem, 6vw, 4rem)' }}
+            >
               {titleSmall}
             </h3>
           )}
           {titleLarge && (
-            <h2 className="pl-[11%] text-white font-medium leading-none m-0 text-3xl sm:text-6xl md:text-8xl lg:text-9xl">
+            <h2
+              className="pl-[11%] text-white font-medium leading-none m-0"
+              style={{ fontSize: 'clamp(2.5rem, 8vw, 12rem)' }}
+            >
               {titleLarge}
             </h2>
           )}
