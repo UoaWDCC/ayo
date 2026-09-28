@@ -1,10 +1,10 @@
 type AboutUsQuoteStaticProps = {
   /** quote overlay text. omit to render the block without a quote. */
-  quote?: string
+  quote?: string | null
   /** background image for the block. */
-  image?: string
+  image?: string | null
   /** small label pinned top-left. omit to hide. */
-  caption?: string
+  caption?: string | null
   /** tailwind aspect-ratio class for the block. defaults to aspect-[16/6] */
   aspectClassName?: string
 }
