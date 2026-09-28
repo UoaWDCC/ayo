@@ -32,7 +32,7 @@ export default async function AboutUsPage() {
     alumniDesc, // 9. Alumni
   ] = richTextBlocks
 
-  const [, leadershipImage] = imageBlocks
+  const [futureImage, leadershipImage] = imageBlocks
 
   const heroImage = heroBlock?.backgroundImage
   const heroImageUrl =
@@ -44,6 +44,11 @@ export default async function AboutUsPage() {
   const quoteImageUrl =
     typeof quoteImage === 'object' && quoteImage !== null
       ? ((quoteImage as Media).url ?? undefined)
+      : undefined
+
+  const futureImageUrl =
+    typeof futureImage?.image === 'object' && futureImage.image !== null
+      ? ((futureImage.image as Media).url ?? undefined)
       : undefined
 
   const leadershipImageUrl =
@@ -71,6 +76,7 @@ export default async function AboutUsPage() {
           quote={quoteBlock?.text ?? undefined}
           quoteImageUrl={quoteImageUrl}
           quoteCaption={quoteBlock?.caption ?? undefined}
+          bannerImageUrl={futureImageUrl}
         />
 
         {bulletPointsText?.content && (

@@ -10,6 +10,7 @@ type AboutUsSectionProps = {
   quote?: string
   quoteImageUrl?: string
   quoteCaption?: string
+  bannerImageUrl?: string
 }
 
 const AboutUsSection = ({
@@ -18,10 +19,10 @@ const AboutUsSection = ({
   quote,
   quoteImageUrl,
   quoteCaption,
+  bannerImageUrl,
 }: AboutUsSectionProps) => {
   return (
     <section className="w-full bg-white">
-      {/* Intro text */}
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
         {foundingStoryText ? (
           <div className="text-2xl md:text-3xl leading-body text-gray-600">
@@ -30,12 +31,10 @@ const AboutUsSection = ({
         ) : null}
       </div>
 
-      {/* Quote banner */}
       <div className="w-full mt-10">
         <AboutUsQuoteStatic quote={quote} image={quoteImageUrl} caption={quoteCaption} />
       </div>
 
-      {/* Reach & alumni copy */}
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
         {reachAndAlumniText ? (
           <div className="text-2xl md:text-3xl leading-body text-gray-600">
@@ -44,10 +43,9 @@ const AboutUsSection = ({
         ) : null}
       </div>
 
-      {/* "Here Plays the Future" banner */}
       <div className="relative h-[320px] md:h-[420px] w-full overflow-hidden">
         <Image
-          src="/about-us-quote-poster.jpg"
+          src={bannerImageUrl ?? '/about-us-quote-poster.jpg'}
           alt="Auckland Youth Orchestra performing"
           fill
           className="object-cover"

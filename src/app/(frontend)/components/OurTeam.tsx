@@ -25,10 +25,7 @@ interface OurTeamProps {
   adminText?: SerializedEditorState
 }
 
-const SECTION_HEADINGS: Record<TeamRole['roleType'], string> = {
-  executive: 'Executive Committee',
-  admin: 'Administration',
-}
+const SECTION_ORDER: TeamRole['roleType'][] = ['executive', 'admin']
 
 function getTeamSections(team: Person[]) {
   const members = team.flatMap((person): TeamMemberWithRole[] => {
@@ -45,18 +42,13 @@ function getTeamSections(team: Person[]) {
     }))
   })
 
-  return (Object.keys(SECTION_HEADINGS) as TeamRole['roleType'][]).map((sectionId) => ({
+  return SECTION_ORDER.map((sectionId) => ({
     id: sectionId,
-    heading: SECTION_HEADINGS[sectionId],
     members: members
       .filter((member) => member.sectionId === sectionId)
       .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name))
       .map(({ sectionId: _, sortOrder: __, ...member }) => member),
   }))
-}
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-2xl sm:text-3xl font-semibold mb-3">{children}</h2>
 }
 
 function MemberGrid({ members }: { members: TeamMember[] }) {
@@ -141,15 +133,14 @@ export default function OurTeam({
       </div>
 
       {introText && (
-        <div className="mb-10 text-base sm:text-lg text-[#2E2E2E] leading-relaxed">
+        <div className="mb-10 text-base sm:text-lg text-[#2E2E2E] leading-relaxed [&_h1]:text-2xl [&_h1]:mb-3">
           <RichText data={introText} />
         </div>
       )}
 
       {leadershipText && (
         <div className="mb-4">
-          <SectionHeading>Artistic Leadership</SectionHeading>
-          <div className="text-base sm:text-lg text-[#2E2E2E] leading-relaxed mb-8">
+          <div className="mb-8 text-base sm:text-lg text-[#2E2E2E] leading-relaxed [&_h1]:text-2xl [&_h1]:mb-3">
             <RichText data={leadershipText} />
           </div>
           <LeadershipPhoto
@@ -160,17 +151,19 @@ export default function OurTeam({
         </div>
       )}
 
-      {sections.map((section) => (
-        <div key={section.id} className="mb-14">
-          <SectionHeading>{section.heading}</SectionHeading>
-          {sectionTextMap[section.id] ? (
-            <div className="text-base sm:text-lg text-[#2E2E2E] leading-relaxed mb-8">
-              <RichText data={sectionTextMap[section.id]!} />
-            </div>
-          ) : null}
-          <MemberGrid members={section.members} />
-        </div>
-      ))}
+      {sections.map((section) => {
+        const text = sectionTextMap[section.id]
+        return (
+          <div key={section.id} className="mb-14">
+            {text && (
+              <div className="mb-8 text-base sm:text-lg text-[#2E2E2E] leading-relaxed [&_h1]:text-2xl [&_h1]:mb-3">
+                <RichText data={text} />
+              </div>
+            )}
+            <MemberGrid members={section.members} />
+          </div>
+        )
+      })}
     </section>
   )
 }
