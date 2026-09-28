@@ -22,26 +22,31 @@ export default function BlogsFilter() {
   const [selectedYear, setSelectedYear] = useState('2025')
   const [selectedMonth, setSelectedMonth] = useState('All')
   return (
-    <div className="flex mb-6">
-      <p className="mr-6 text-muted font-medium">Year</p>
-      <select
-        value={selectedYear}
-        onChange={(e) => setSelectedYear(e.target.value)}
-        className="font-semibold underline appearance-none"
-      >
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
-      </select>
-      <p className="ml-15 mr-6 text-muted font-medium">Month</p>
-      <select
-        value={selectedMonth}
-        onChange={(e) => setSelectedMonth(e.target.value)}
-        className="font-semibold underline appearance-none"
-      >
-        <option value="">All</option>
-        <option value="November">November</option>
-        <option value="June">June</option>
-      </select>
+    <div className="flex flex-wrap items-center gap-x-8 gap-y-2 mb-6">
+      <div className="flex items-center gap-x-6">
+        <p className="text-muted font-medium">Year</p>
+        <select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}
+          className="font-semibold underline appearance-none"
+        >
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+        </select>
+      </div>
+
+      <div className="flex items-center gap-x-6">
+        <p className="text-muted font-medium">Month</p>
+        <select
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(e.target.value)}
+          className="font-semibold underline appearance-none"
+        >
+          <option value="">All</option>
+          <option value="November">November</option>
+          <option value="June">June</option>
+        </select>
+      </div>
     </div>
   )
 }

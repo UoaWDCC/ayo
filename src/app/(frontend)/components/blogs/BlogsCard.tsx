@@ -28,7 +28,7 @@ export default function BlogsCard(Blog: Blog) {
           </div>
         </div>
         <div>
-          <p className="italic text-justify">{Blog.excerpt}</p>
+          <p className="italic lg:text-justify">{Blog.excerpt}</p>
         </div>
       </div>
     </Link>
