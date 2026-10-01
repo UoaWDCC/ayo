@@ -170,7 +170,7 @@ export default async function SupportUsPage() {
         <>
           <p>
             A bequest is a gift written into your will (a sum of money, an asset, or a share of your
-            estate) left to AYO to help shape the orchestra's future long after your own
+            estate) left to AYO to help shape the orchestra&apos;s future long after your own
             contribution is made.{' '}
           </p>
           <ul className="list-disc pl-6 py-4">
@@ -179,15 +179,15 @@ export default async function SupportUsPage() {
               whole document.
             </li>
             <li>
-              If you don't yet have a will, your solicitor can include AYO directly when it's drawn
+              If you don&apos;t yet have a will, your solicitor can include AYO directly when it&apos;s drawn
               up.
             </li>
           </ul>
-          You're free to place any conditions you like on a bequest, though since it may be many
-          years before it reaches us, we'd gently suggest keeping the terms general so it can be put
-          to the greatest need at the time. As with any bequest, it will only be valid if it's
-          properly included, signed, and witnessed in your will or codicil, so it's worth confirming
-          the details with your solicitor. We'd love the chance to thank you personally — if you're
+          You&apos;re free to place any conditions you like on a bequest, though since it may be many
+          years before it reaches us, we&apos;d gently suggest keeping the terms general so it can be put
+          to the greatest need at the time. As with any bequest, it will only be valid if it&apos;s
+          properly included, signed, and witnessed in your will or codicil, so it&apos;s worth confirming
+          the details with your solicitor. We&apos;d love the chance to thank you personally — if you&apos;re
           considering remembering AYO in your will, or have already done so, please get in touch.
         </>
       ),
@@ -200,7 +200,7 @@ export default async function SupportUsPage() {
         <p>
           Our running costs are significant, and some needs are very specific — from secure, dry
           storage for instruments and equipment, to professional recording and production support.
-          If your business can help meet a particular need like this, we'd love to talk about what a
+          If your business can help meet a particular need like this, we&apos;d love to talk about what a
           partnership could look like.
         </p>
       ),
@@ -212,7 +212,7 @@ export default async function SupportUsPage() {
       descriptionContent: (
         <ul className="list-disc pl-6 py-4">
           <li>Come to a concert — a full house means everything to our players.</li>
-          <li>Sign up to our newsletter — stay close to what's coming next.</li>
+          <li>Sign up to our newsletter — stay close to what&apos;s coming next.</li>
           <li>
             Give practical or administrative support — as a volunteer-run charity, time and energy
             is our most precious resource, and we always welcome a hand.
