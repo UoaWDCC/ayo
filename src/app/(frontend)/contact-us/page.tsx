@@ -1,7 +1,6 @@
 import React from 'react'
-import ContactFormSection from '../components/ContactFormSection'
+import ContactHelpSection from '../components/ContactHelpSection'
 import Hero from '../components/Hero'
-import SquareLinkGrid from '../components/SquareLinkGrid'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import type { Media } from '@/payload-types'
@@ -32,14 +31,14 @@ export default async function ContactUsPage() {
         subtitle="We'd love to hear from you."
         backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
       />
-      <SquareLinkGrid
+      <ContactHelpSection
         title="Hey there! What can we help you with?"
         description="Answers to some of our frequently asked questions."
         items={[
           {
             id: 'get-involved',
             title: 'Get Involved\nwith AYO',
-            href: '/join-ayo',
+            href: '/join-ayo#faq',
           },
           {
             id: 'supporting',
@@ -49,16 +48,15 @@ export default async function ContactUsPage() {
           {
             id: 'join',
             title: 'Join\nAYO',
-            href: '/join-ayo',
+            href: '/join-ayo#faq',
           },
           {
             id: 'concerts-events',
             title: 'Concerts\n& Events',
-            href: '/concerts-events',
+            href: '/concerts-events#faq',
           },
         ]}
       />
-      <ContactFormSection />
     </main>
   )
 }
