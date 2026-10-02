@@ -1,66 +1,51 @@
 import React from 'react'
-import AboutUsQuoteVideo from './AboutUsQuoteVid'
+import AboutUsQuoteStatic from './AboutUsQuoteStatic'
+import { RichText } from './RichText'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import Image from 'next/image'
 
-const AboutUsSection = () => {
+type AboutUsSectionProps = {
+  foundingStoryText?: SerializedEditorState
+  reachAndAlumniText?: SerializedEditorState
+  quote?: string
+  quoteImageUrl?: string
+  quoteCaption?: string
+  bannerImageUrl?: string
+}
+
+const AboutUsSection = ({
+  foundingStoryText,
+  reachAndAlumniText,
+  quote,
+  quoteImageUrl,
+  quoteCaption,
+  bannerImageUrl,
+}: AboutUsSectionProps) => {
   return (
     <section className="w-full bg-white">
-      {/* Intro text */}
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
-        <p className="text-2xl md:text-3xl leading-body text-gray-600">
-          Founded in 1948 as the very first youth orchestra in the Southern Hemisphere, the Auckland
-          Youth Orchestra (AYO) stands as Aotearoa New Zealand&#39;s premier regional youth
-          symphony.
-        </p>
-
-        <p className="text-2xl md:text-3xl leading-body text-gray-600 mt-5">
-          We bring together musicians aged 16 to 26 who are passionate about their craft and ready
-          to step into an opportunity like no other. Under the baton of our international conductor
-          and music director, our young artists train within a full-scale symphony orchestra,
-          collaborate with leading professional mentors, and play to expectant audiences in
-          Auckland&#39;s best concert halls.
-        </p>
-
-        <p className="text-2xl md:text-3xl leading-body text-gray-600 mt-5">
-          The result? First class experiences. Polish and freshness in equal measure, alongside
-          genuine connections.
-        </p>
+        {foundingStoryText ? (
+          <div className="text-2xl md:text-3xl leading-body text-gray-600">
+            <RichText data={foundingStoryText} />
+          </div>
+        ) : null}
       </div>
 
-      {/* Hover-to-preview quote / video — full width */}
       <div className="w-full mt-10">
-        <AboutUsQuoteVideo
-          quote="Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary."
-          posterImage="/about-us-quote-poster.jpg"
-          // videoSrc="/about-us-quote-preview.mp4"   //
-          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
-        />
+        <AboutUsQuoteStatic quote={quote} image={quoteImageUrl} caption={quoteCaption} />
       </div>
 
-      {/* Reach & alumni copy */}
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
-        <p className="text-2xl md:text-3xl leading-body text-gray-600">
-          AYO performs widely, across Tāmaki Makaurau and beyond. We ve taken our sound to Australia
-          and the Pacific, North America, and Europe, and have built an international reputation as
-          a world-class youth orchestra.
-        </p>
-
-        <p className="text-2xl md:text-3xl leading-body text-gray-600 mt-5">
-          Our players do far more than master performance - they discover how to lead with courage,
-          organise with precision, and support each other under pressure. Many go on to professional
-          orchestras around the world. Others take that same discipline into business, science,
-          public life, and beyond.
-        </p>
-
-        <p className="text-2xl md:text-3xl leading-body text-gray-600 mt-5">
-          Wherever their path lies, you can be sure of one thing:
-        </p>
+        {reachAndAlumniText ? (
+          <div className="text-2xl md:text-3xl leading-body text-gray-600">
+            <RichText data={reachAndAlumniText} />
+          </div>
+        ) : null}
       </div>
 
-      {/* "Here Plays the Future" banner */}
       <div className="relative h-[320px] md:h-[420px] w-full overflow-hidden">
         <Image
-          src="/about-us-quote-poster.jpg"
+          src={bannerImageUrl ?? '/about-us-quote-poster.jpg'}
           alt="Auckland Youth Orchestra performing"
           fill
           className="object-cover"

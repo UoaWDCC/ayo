@@ -7,7 +7,7 @@ type GridProps = {
   title: string
   people: Person[]
   placeholderCount?: number
-  desc: string
+  desc?: React.ReactNode
   linkName: string
 }
 
@@ -20,8 +20,7 @@ const Grid = ({ title, people, desc, linkName }: GridProps) => {
         </h1>
       </div>
       <div className="items-start justify-between mb-8 text-[#2E2E2E]">
-        <p className="text-xl mb-4">{desc}</p>
-        <p className="text-xl mb-4">Thinking about joining them? Find out what it takes.</p>
+        <div className="text-xl mb-4 [&_p]:mb-4">{desc}</div>
         <Link href="/join-us">
           <p className="text-xl font-bold underline text-black">{linkName} ↗</p>
         </Link>
