@@ -287,7 +287,7 @@ export default async function SupportUsPage() {
           Click here for more details ↗
         </a>
       </div>
-      <FAQSection category="support-us" />
+      <FAQSection category="support-us" emptyClassName="h-12" />
     </main>
   )
 }
