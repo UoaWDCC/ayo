@@ -283,7 +283,7 @@ export default async function SupportUsPage() {
       />
       <div className="text-center">
         <p className="font-semibold text-2xl">Want to support us?</p>
-        <a href="/contact" className="underline">
+        <a href="/contact-us" className="underline">
           Click here for more details ↗
         </a>
       </div>
