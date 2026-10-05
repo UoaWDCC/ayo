@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { RichText, type JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
 import DonationBlock from '../components/DonationBlock'
 import Hero from '../components/Hero'
-import FAQItem from '../components/FAQItem'
+import FAQSection from '../components/FAQSection'
 import SponsorsSection from '../components/SponsorsSection'
 import AboutUsQuoteStatic from '../components/AboutUsQuoteStatic'
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -59,11 +59,6 @@ const getInTouchConverters: JSXConvertersFunction = ({ defaultConverters }) => (
   ),
 })
 
-const faqAnswerConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
-  ...defaultConverters,
-  paragraph: ({ node, nodesToJSX }) => <p>{nodesToJSX({ nodes: node.children })}</p>,
-})
-
 export default async function SupportUsPage() {
   const page = await getPageBySlug('support-us')
 
@@ -82,9 +77,6 @@ export default async function SupportUsPage() {
   const tableBlock = page?.layout?.find((block) => block.blockType === 'table')
   // TODO: Table row links currently point to /support-us; replace them when destinations are confirmed.
   const donationRows = tableBlock?.rows ?? []
-
-  const faqBlock = page?.layout?.find((block) => block.blockType === 'faq')
-  const faqItems = faqBlock?.items ?? []
 
   const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
 
@@ -295,22 +287,7 @@ export default async function SupportUsPage() {
           Click here for more details ↗
         </a>
       </div>
-      {faqItems.length > 0 && (
-        <section className="bg-white w-full">
-          <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-14">
-            <h2 className="font-semibold text-[40px] leading-[56px] text-black mb-8">FAQs</h2>
-            <div>
-              {faqItems.map((item, index) => (
-                <FAQItem
-                  key={item.id ?? index}
-                  question={item.question}
-                  answer={<RichText data={item.answer} converters={faqAnswerConverters} />}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <FAQSection category="support-us" />
     </main>
   )
 }
