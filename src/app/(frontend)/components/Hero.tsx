@@ -25,25 +25,32 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
   }, [])
 
   return (
-    <section className="relative w-full h-screen min-h-[600px] flex flex-col">
+    <section className="relative w-full flex flex-col bg-neutral-900 pt-15 md:h-screen md:min-h-[600px] md:pt-0">
       {/* NavBar is `position: fixed`, so it must live outside any `overflow-hidden` ancestor —
           overflow clipping still applies to fixed-position descendants, and since this section
           scrolls with the page, the clip box would move off-screen and cut the navbar off once
           the user scrolls past the hero. */}
       <NavBar overlay />
 
-      <div className="absolute inset-0 overflow-hidden">
+      {backgroundImage && (
+        // Natural image dimensions keep the mobile hero proportional without cropping.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={backgroundImage} alt={title} className="block h-auto w-full md:hidden" />
+      )}
+
+      <div className="absolute inset-0 hidden overflow-hidden bg-neutral-900 md:block">
         {/* Background */}
         {backgroundImage ? (
           <div
-            className="absolute inset-x-0 top-[-40%] bottom-[-40%]"
-            style={{ transform: `translateY(${scrollY * PARALLAX_FACTOR}px)` }}
+            className="hero-background absolute inset-0 md:inset-x-0 md:top-[-40%] md:bottom-[-40%]"
+            style={{ ['--hero-parallax' as string]: `${scrollY * PARALLAX_FACTOR}px` }}
           >
             <Image
               src={backgroundImage}
               alt={title}
               fill
-              className="object-cover object-center animate-hero-zoom"
+              className="object-contain md:object-cover object-center animate-hero-zoom"
+              sizes="100vw"
               priority
             />
           </div>
@@ -56,9 +63,9 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
       </div>
 
       {/* Layered content */}
-      <div className="relative z-10 flex flex-col h-full">
+      <div className="relative z-10 flex flex-1 flex-col pt-6 md:h-full md:pt-0">
         {/* Title pinned to bottom-left */}
-        <div className="mt-auto px-10 pb-5">
+        <div className="mt-auto px-4 pb-6 sm:px-6 md:px-10 md:pb-5">
           <h1
             className="text-white font-semibold leading-none m-0 max-w-2xl animate-hero-fade-up"
             style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)', ['--hero-delay' as string]: '0.1s' }}
@@ -73,7 +80,7 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
 
           {/* Subtitle (left) / scroll indicator (right) */}
           <div
-            className="mt-4 flex items-center justify-between gap-4 ml-2 animate-hero-fade-up"
+            className="mt-4 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between md:ml-2 animate-hero-fade-up"
             style={{ ['--hero-delay' as string]: '0.55s' }}
           >
             <p className="text-white/90 font-sans text-sm sm:text-base max-w-3xl">{subtitle}</p>

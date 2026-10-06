@@ -92,7 +92,7 @@ export default async function SupportUsPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <div className="w-full h-[vh] relative">
+      <div className="w-full relative">
         <Hero
           title="Support Us"
           subtitle="Help us keep music thriving for the next generation."

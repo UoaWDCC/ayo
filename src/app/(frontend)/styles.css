@@ -60,7 +60,18 @@
 }
 
 .animate-hero-zoom {
-  animation: hero-zoom 6s ease-out forwards;
+  animation: none;
+}
+
+/* Show the full image on mobile; reserve zoom and parallax for desktop. */
+@media (min-width: 48rem) {
+  .animate-hero-zoom {
+    animation: hero-zoom 6s ease-out forwards;
+  }
+
+  .hero-background {
+    transform: translateY(var(--hero-parallax, 0px));
+  }
 }
 
 .animate-hero-fade-up {

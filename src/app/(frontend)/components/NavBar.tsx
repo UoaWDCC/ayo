@@ -130,7 +130,7 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
             contentVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <div className="flex items-center justify-between px-10 h-15 lg:h-19">
+          <div className="flex items-center justify-between px-4 sm:px-6 md:px-10 h-15 lg:h-19">
             <Link href="/" className="shrink-0" onClick={() => setIsMenuOpen(false)}>
               <img
                 src={isDark ? '/ayo-logo-white.png' : '/ayo-logo-black-bgwhite.png'}
@@ -182,15 +182,15 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
           {/* Mobile nav */}
           <nav
             id="mobile-nav"
-            className={`lg:hidden flex flex-col items-center gap-6 px-8 overflow-hidden text-lg font-semibold transition-[max-height,translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isMenuOpen ? 'max-h-112 translate-y-0 pb-8' : 'max-h-0 -translate-y-4'
+            className={`lg:hidden flex flex-col items-center gap-6 px-8 text-lg font-semibold transition-[max-height,translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              isMenuOpen ? 'max-h-[calc(100svh-3.75rem)] overflow-y-auto translate-y-0 pb-8' : 'max-h-0 overflow-hidden -translate-y-4'
             }`}
           >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="transition-opacity duration-200 hover:opacity-70"
+                  className="shrink-0 transition-opacity duration-200 hover:opacity-70"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
