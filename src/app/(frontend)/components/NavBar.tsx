@@ -130,7 +130,7 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
             contentVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <div className="flex items-center justify-between pl-4 pr-8 sm:px-6 md:px-10 h-15 lg:h-19">
+          <div className="flex items-center justify-between pl-4 pr-4 sm:px-6 md:px-10 h-15 lg:h-19">
             <Link href="/" className="shrink-0" onClick={() => setIsMenuOpen(false)}>
               <img
                 src={isDark ? '/ayo-logo-white.png' : '/ayo-logo-black-bgwhite.png'}
