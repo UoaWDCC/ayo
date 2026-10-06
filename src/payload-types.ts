@@ -486,7 +486,7 @@ export interface Person {
 export interface Role {
   id: string;
   roleName: string;
-  sortOrder: number;
+  sortOrder?: number | null;
   displayName?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -498,7 +498,7 @@ export interface Role {
 export interface TeamRole {
   id: string;
   roleName: string;
-  sortOrder: number;
+  sortOrder?: number | null;
   roleType: 'executive' | 'admin';
   displayName?: string | null;
   updatedAt: string;

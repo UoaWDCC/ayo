@@ -34,7 +34,7 @@ const RolesPreviewInner: React.FC = () => {
   }, [id])
 
   return (
-    <div className="ayo-preview">
+    <div className="ayo-preview ayo-roles-holders-preview">
       <div className="ayo-preview__head">
         <span className="ayo-preview__label">Current holders</span>
       </div>

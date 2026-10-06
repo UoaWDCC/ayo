@@ -16,9 +16,15 @@ export const Roles: CollectionConfig = {
       required: true,
     },
     {
+      // manage by the "Site preview" panel
+      // based on implementation in FAQ section
       name: 'sortOrder',
       type: 'number',
-      required: true,
+      label: 'Sort Order',
+      defaultValue: 0,
+      admin: {
+        hidden: true,
+      },
     },
     {
       name: 'displayName',
@@ -26,6 +32,17 @@ export const Roles: CollectionConfig = {
       admin: {
         hidden: true,
         readOnly: true,
+      },
+    },
+    {
+      name: 'roleOrderPreview',
+      type: 'ui',
+      label: 'Display order',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/admin/components/RolesOrderPreview#RolesOrderPreview',
+        },
       },
     },
     {
