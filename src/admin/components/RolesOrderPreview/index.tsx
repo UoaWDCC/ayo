@@ -9,8 +9,11 @@ import './index.scss'
 
 type RoleFormData = { roleName?: string }
 type RoleDoc = { id: string; roleName?: string; sortOrder?: number }
+type RolesOrderPreviewProps = {
+  collectionSlug?: 'roles' | 'team-roles'
+}
 
-const RolesOrderPreviewInner: React.FC = () => {
+const RolesOrderPreviewInner: React.FC<RolesOrderPreviewProps> = ({ collectionSlug = 'roles' }) => {
   const rawFields = useFormFields(([fieldState]) => fieldState)
   const fields = useDeferredValue(rawFields)
   const values = useMemo(() => reduceFieldsToValues(fields, true) as RoleFormData, [fields])
@@ -23,10 +26,13 @@ const RolesOrderPreviewInner: React.FC = () => {
   const draggedId = useRef<string | null>(null)
 
   const fetchItems = (signal?: AbortSignal) =>
-    fetch(`${config.serverURL}${config.routes.api}/roles?sort=sortOrder&limit=200&depth=0`, {
-      credentials: 'include',
-      signal,
-    })
+    fetch(
+      `${config.serverURL}${config.routes.api}/${collectionSlug}?sort=sortOrder&limit=200&depth=0`,
+      {
+        credentials: 'include',
+        signal,
+      },
+    )
       .then((res) => (res.ok ? res.json() : null))
       .then((body) => setItems(body?.docs ?? []))
 
@@ -41,10 +47,10 @@ const RolesOrderPreviewInner: React.FC = () => {
     fetchItems(controller.signal).catch(() => {})
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [collectionSlug])
 
   const patchRoleOrder = (item: RoleDoc, sortOrder: number) =>
-    fetch(`${config.serverURL}${config.routes.api}/roles/${item.id}`, {
+    fetch(`${config.serverURL}${config.routes.api}/${collectionSlug}/${item.id}`, {
       method: 'PATCH',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -94,7 +100,9 @@ const RolesOrderPreviewInner: React.FC = () => {
       }),
     )
       .then(() =>
-        setItems((previous) => previous?.map((item, index) => ({ ...item, sortOrder: index })) ?? previous),
+        setItems(
+          (previous) => previous?.map((item, index) => ({ ...item, sortOrder: index })) ?? previous,
+        ),
       )
       .catch(() => {
         setOrderError(true)
@@ -155,6 +163,12 @@ const RolesOrderPreviewInner: React.FC = () => {
 export const RolesOrderPreview: React.FC = () => (
   <PreviewErrorBoundary>
     <RolesOrderPreviewInner />
+  </PreviewErrorBoundary>
+)
+
+export const TeamRolesOrderPreview: React.FC = () => (
+  <PreviewErrorBoundary>
+    <RolesOrderPreviewInner collectionSlug="team-roles" />
   </PreviewErrorBoundary>
 )
 

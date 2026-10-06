@@ -31,6 +31,8 @@ import { RolesOrderPreview as RolesOrderPreview_4de8c1177985b3bed6eb369ce826ed0f
 import { RolesPreview as RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c } from '@/admin/components/RolesPreview'
 import { FAQPreview as FAQPreview_c94ce367c218914e0b30ea022bfca7c2 } from '@/admin/components/FAQPreview'
 import { LinksPreview as LinksPreview_71751564b35375072afb90447714da42 } from '@/admin/components/LinksPreview'
+import { TeamRolesOrderPreview as TeamRolesOrderPreview_4de8c1177985b3bed6eb369ce826ed0f } from '@/admin/components/RolesOrderPreview'
+import { TeamRolesPreview as TeamRolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c } from '@/admin/components/RolesPreview'
 import { default as default_c19b5b672d3a7bb4ff0bbaab4aa0da99 } from '@/admin/components/Nav'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { default as default_3d0438a552678e9e7a3f2363f114148b } from '@/admin/components/DashboardAgenda'
@@ -70,6 +72,8 @@ export const importMap = {
   "@/admin/components/RolesPreview#RolesPreview": RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c,
   "@/admin/components/FAQPreview#FAQPreview": FAQPreview_c94ce367c218914e0b30ea022bfca7c2,
   "@/admin/components/LinksPreview#LinksPreview": LinksPreview_71751564b35375072afb90447714da42,
+  "@/admin/components/RolesOrderPreview#TeamRolesOrderPreview": TeamRolesOrderPreview_4de8c1177985b3bed6eb369ce826ed0f,
+  "@/admin/components/RolesPreview#TeamRolesPreview": TeamRolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c,
   "@/admin/components/Nav#default": default_c19b5b672d3a7bb4ff0bbaab4aa0da99,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/admin/components/DashboardAgenda#default": default_3d0438a552678e9e7a3f2363f114148b,

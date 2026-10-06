@@ -4,7 +4,7 @@ export const TeamRoles: CollectionConfig = {
     slug: 'team-roles',
 
     admin: {
-        useAsTitle: 'displayName'
+        useAsTitle: 'displayName',
     },
 
     fields: [
@@ -17,6 +17,10 @@ export const TeamRoles: CollectionConfig = {
             name: 'sortOrder',
             type: 'number',
             required: true,
+            defaultValue: 0,
+            admin: {
+                hidden: true,
+            },
         },
         {
             name: 'roleType',
@@ -40,6 +44,28 @@ export const TeamRoles: CollectionConfig = {
                 hidden: true,
                 readOnly: true,
             }
+        },
+        {
+            name: 'roleOrderPreview',
+            type: 'ui',
+            label: 'Display order',
+            admin: {
+                position: 'sidebar',
+                components: {
+                    Field: '@/admin/components/RolesOrderPreview#TeamRolesOrderPreview',
+                },
+            },
+        },
+        {
+            name: 'rolePreview',
+            type: 'ui',
+            label: 'Current holders',
+            admin: {
+                position: 'sidebar',
+                components: {
+                    Field: '@/admin/components/RolesPreview#TeamRolesPreview',
+                },
+            },
         },
     ],
 

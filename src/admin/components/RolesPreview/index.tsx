@@ -7,10 +7,17 @@ import React, { useEffect, useState } from 'react'
 import './index.scss'
 
 type PersonDoc = { id: string; name?: string; type?: string; isActive?: boolean }
+type RolesPreviewProps = {
+  relationshipField?: 'role' | 'teamRoles'
+  emptyLabel?: string
+}
 
 // Shows the People currently assigned to this role, derived live from the People collection
 // (never hard-coded) — People.role is a relationship to Roles, so we query the other side.
-const RolesPreviewInner: React.FC = () => {
+const RolesPreviewInner: React.FC<RolesPreviewProps> = ({
+  relationshipField = 'role',
+  emptyLabel = 'role',
+}) => {
   const { id } = useDocumentInfo()
   const { config } = useConfig()
   const [people, setPeople] = useState<PersonDoc[] | null>(null)
@@ -21,7 +28,8 @@ const RolesPreviewInner: React.FC = () => {
       return
     }
     const controller = new AbortController()
-    const query = `where[role][equals]=${encodeURIComponent(String(id))}&sort=name&limit=100&depth=0`
+    const operator = relationshipField === 'teamRoles' ? 'contains' : 'equals'
+    const query = `where[${relationshipField}][${operator}]=${encodeURIComponent(String(id))}&sort=name&limit=100&depth=0`
     fetch(`${config.serverURL}${config.routes.api}/people?${query}`, {
       credentials: 'include',
       signal: controller.signal,
@@ -31,7 +39,7 @@ const RolesPreviewInner: React.FC = () => {
       .catch(() => {})
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
+  }, [id, relationshipField])
 
   return (
     <div className="ayo-preview ayo-roles-holders-preview">
@@ -40,7 +48,7 @@ const RolesPreviewInner: React.FC = () => {
       </div>
 
       {!id ? (
-        <p className="ayo-preview__empty">Save the role to see who currently holds it.</p>
+        <p className="ayo-preview__empty">Save the {emptyLabel} to see who currently holds it.</p>
       ) : people === null ? (
         <p className="ayo-preview__empty">Loading…</p>
       ) : people.length === 0 ? (
@@ -64,6 +72,15 @@ const RolesPreviewInner: React.FC = () => {
 export const RolesPreview: React.FC = () => (
   <PreviewErrorBoundary>
     <RolesPreviewInner />
+  </PreviewErrorBoundary>
+)
+
+export const TeamRolesPreview: React.FC = () => (
+  <PreviewErrorBoundary>
+    <RolesPreviewInner
+      relationshipField="teamRoles"
+      emptyLabel="team role"
+    />
   </PreviewErrorBoundary>
 )
 

@@ -498,7 +498,7 @@ export interface Role {
 export interface TeamRole {
   id: string;
   roleName: string;
-  sortOrder?: number | null;
+  sortOrder: number;
   roleType: 'executive' | 'admin';
   displayName?: string | null;
   updatedAt: string;
