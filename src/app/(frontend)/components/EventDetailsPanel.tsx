@@ -99,7 +99,7 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
           </div>
 
           <div className="px-6">
-            <div className="w-full aspect-[4/3] overflow-hidden bg-[#EBEBEB]">
+            <div className="w-full aspect-[4/3] bg-[#EBEBEB]">
               <Image
                 src={event.image}
                 alt={event.title}
@@ -122,10 +122,10 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
                 <p className="text-sm font-semibold">Times:</p>
                 <ul className="mt-2 space-y-1">
                   {event.performances.map((performance, idx) => (
-                    <li key={idx} className="flex justify-between gap-4 text-sm">
+                    <li key={idx} className="flex gap-4 text-xs">
                       <span>{performance.time}</span>
                       <span>{performance.date}</span>
-                      <span className="text-muted">{performance.venue}</span>
+                      <span className="text-muted text-right ml-auto">{performance.venue}</span>
                     </li>
                   ))}
                 </ul>

@@ -7,9 +7,10 @@ type DropdownProps = {
   value: string
   options: string[]
   onChange: (value: string) => void
+  align?: 'left' | 'right'
 }
 
-const Dropdown = ({ label, value, options, onChange }: DropdownProps) => {
+const Dropdown = ({ label, value, options, onChange, align = 'left' }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -63,33 +64,31 @@ const Dropdown = ({ label, value, options, onChange }: DropdownProps) => {
           </svg>
         </button>
 
-        <ul
-          role="listbox"
-          aria-hidden={!isOpen}
-          className={`absolute left-0 top-full z-20 mt-2 min-w-full origin-top whitespace-nowrap border border-[#EBEBEB] bg-white py-1 transition-[opacity,transform] duration-100 ease-out will-change-transform ${
-            isOpen
-              ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
-              : 'pointer-events-none -translate-y-1 scale-95 opacity-0'
-          }`}
-        >
-          {options.map((option) => (
-            <li key={option} role="option" aria-selected={option === value}>
-              <button
-                type="button"
-                tabIndex={isOpen ? 0 : -1}
-                onClick={() => {
-                  onChange(option)
-                  setIsOpen(false)
-                }}
-                className={`block w-full cursor-pointer px-4 py-2 text-left transition-colors hover:bg-gray-50 ${
-                  option === value ? 'font-semibold text-black' : 'text-black/70'
-                }`}
-              >
-                {option}
-              </button>
-            </li>
-          ))}
-        </ul>
+        {isOpen && (
+          <ul
+            role="listbox"
+            className={`absolute ${
+              align === 'right' ? 'right-0' : 'left-0'
+            } top-full z-20 mt-2 min-w-full origin-top animate-[dropdown-in_100ms_ease-out] whitespace-nowrap border border-[#EBEBEB] bg-white py-1`}
+          >
+            {options.map((option) => (
+              <li key={option} role="option" aria-selected={option === value}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onChange(option)
+                    setIsOpen(false)
+                  }}
+                  className={`block w-full cursor-pointer px-4 py-2 text-left transition-colors hover:bg-gray-50 ${
+                    option === value ? 'font-semibold text-black' : 'text-black/70'
+                  }`}
+                >
+                  {option}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   )

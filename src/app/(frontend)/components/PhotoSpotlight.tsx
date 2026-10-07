@@ -66,12 +66,12 @@ const PhotoSpotlight = ({
 
         {/* Layered content */}
         <div className="relative z-10 flex flex-col h-full">
-          <div className="mt-8 px-10 pb-10 flex">
-            <p className="text-white leading-none mr-5 text-xs sm:text-xs md:text-sm lg:text-base">
+          <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between gap-4">
+            <p className="min-w-0 flex-1 break-words text-xs md:text-sm lg:text-base text-white">
               {textSmall}
             </p>
 
-            <p className="flex items-center gap-2 text-white leading-none ml-auto text-xs sm:text-xs md:text-sm lg:text-base">
+            <p className="flex shrink-0 items-center gap-1 text-sm lg:text-base font-medium text-white whitespace-nowrap">
               See More
               <Image
                 src="/arrow-up-right.svg"
@@ -79,24 +79,24 @@ const PhotoSpotlight = ({
                 width={30}
                 height={30}
                 aria-hidden="true"
-                className="brightness-0 invert"
+                className="h-5 w-5 sm:h-[30px] sm:w-[30px] brightness-0 invert"
               />
             </p>
           </div>
 
           {/* Title pinned to bottom-left */}
-          <div className="mt-auto px-10 pb-10">
+          <div className="mt-auto px-8 md:px-10 pb-5 md:pb-10">
             <h3
               className="text-white leading-none m-0"
-              style={{ fontSize: 'clamp(0.5rem, 9vw, 4rem)' }}
+              style={{ fontSize: 'clamp(1rem, 6vw, 4rem)' }}
             >
               {headingSmall}
             </h3>
           </div>
-          <div className="mt-0 px-10 sm:px-16 md:px-20 pb-10">
+          <div className="mt-0 px-12 sm:px-16 md:px-20 pb-10">
             <h1
               className="text-white font-semibold leading-none m-0"
-              style={{ fontSize: 'clamp(2.5rem, 9vw, 12rem)' }}
+              style={{ fontSize: 'clamp(2.5rem, 10vw, 12rem)' }}
             >
               {headingLarge}
             </h1>

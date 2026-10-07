@@ -240,7 +240,7 @@ export default function Spacer({
             )}
 
             {galleryImages.length > 0 && (
-              <div className="mt-6 grid grid-cols-3 gap-3 md:gap-4">
+              <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                 {galleryImages.map((src, i) => (
                   <div key={i} className="relative aspect-[4/3] w-full overflow-hidden">
                     <Image
@@ -263,9 +263,11 @@ export default function Spacer({
                       key={i}
                       className="flex flex-col gap-x-8 gap-y-1 text-sm sm:flex-row sm:items-baseline md:text-base"
                     >
-                      <span className="sm:w-32 sm:shrink-0">{t.time}</span>
-                      <span className="sm:w-48 sm:shrink-0">{t.date}</span>
-                      <span>{t.location}</span>
+                      <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm md:text-base">
+                        <span>{t.time}</span>
+                        <span>{t.date}</span>
+                        <span className="min-w-0 break-words">{t.location}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
