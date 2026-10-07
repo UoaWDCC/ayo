@@ -1,25 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-// Placeholder grid images until real Instagram posts/API are wired up
-const posts = [
-  '/hero-placeholder.jpg',
-  '/about-us-quote-poster.jpg',
-  '/about-us-our-team.jpg',
-  '/hero-placeholder.jpg',
-  '/about-us-quote-poster.jpg',
-  '/about-us-our-team.jpg',
-  '/hero-placeholder.jpg',
-  '/about-us-quote-poster.jpg',
-]
+import { getInstagramFeed } from '@/lib/instagramFeedHelper'
 
-export default function SocialMediaBlock() {
+const INSTAGRAM_URL = 'https://www.instagram.com/aucklandyouthorchestra/'
+
+export default async function SocialMediaBlock() {
+  const { posts } = await getInstagramFeed({ limit: 8 })
   return (
     <div className="px-8 md:px-20 lg:px-24 xl:px-32 py-14">
       <h1 className="text-[32px] leading-[40px] md:text-[40px] md:leading-[48px] font-semibold mb-2">
         Follow us!
       </h1>
-
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-x-4">
           <div className="w-[52px] h-[52px] shrink-0 rounded-full bg-[#D9D9D9] overflow-hidden">
@@ -35,7 +27,7 @@ export default function SocialMediaBlock() {
         </div>
 
         <Link
-          href="https://www.instagram.com/aucklandyouthorchestra/"
+          href={INSTAGRAM_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-black text-white text-sm font-medium px-6 py-2 hover:bg-neutral-800 transition-colors"
@@ -43,19 +35,34 @@ export default function SocialMediaBlock() {
           Follow us
         </Link>
       </div>
+      {posts.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          {posts.map((post) => (
+            <Link
+              key={post.id}
+              href={post.permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <Image
+                className="w-full h-auto aspect-square object-cover"
+                src={post.imageUrl}
+                width={279}
+                height={271}
+                alt={post.caption ? post.caption.slice(0, 120) : 'Instagram post'}
+              />
+            </Link>
+          ))}
+        </div>
+      )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-        {posts.map((post, idx) => (
-          <Image
-            key={idx}
-            className="w-full h-auto aspect-square object-cover"
-            src={post}
-            width={279}
-            height={271}
-            alt="Instagram post"
-          />
-        ))}
-      </div>
+      <p className="text-neutral-600 mt-6">
+        Stay up to date with us on Instagram! Visit{' '}
+        <Link href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="underline">
+          @aucklandyouthorchestra
+        </Link>
+      </p>
     </div>
   )
 }
