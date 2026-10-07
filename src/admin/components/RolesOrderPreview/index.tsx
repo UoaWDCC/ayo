@@ -81,27 +81,29 @@ const RolesOrderPreviewInner: React.FC<RolesOrderPreviewProps> = ({ collectionSl
   const handleDragEnd = () => {
     draggedId.current = null
     if (!items) return
-    const changed = items.filter((item, index) => item.sortOrder !== index)
+    const changed = items.filter((item, index) => item.sortOrder !== index + 1)
     if (changed.length === 0) return
     setSavingOrder(true)
     setOrderError(false)
     Promise.all(
       changed.map((item) => {
         const index = items.indexOf(item)
+        const sortOrder = index + 1
         if (item.id === id) {
-          dispatchFields({ type: 'UPDATE', path: 'sortOrder', value: index })
+          dispatchFields({ type: 'UPDATE', path: 'sortOrder', value: sortOrder })
           dispatchFields({
             type: 'UPDATE',
             path: 'displayName',
-            value: `${index} - ${item.roleName || values.roleName || 'Untitled role'}`,
+            value: `${sortOrder} - ${item.roleName || values.roleName || 'Untitled role'}`,
           })
         }
-        return patchRoleOrder(item, index)
+        return patchRoleOrder(item, sortOrder)
       }),
     )
       .then(() =>
         setItems(
-          (previous) => previous?.map((item, index) => ({ ...item, sortOrder: index })) ?? previous,
+          (previous) =>
+            previous?.map((item, index) => ({ ...item, sortOrder: index + 1 })) ?? previous,
         ),
       )
       .catch(() => {
