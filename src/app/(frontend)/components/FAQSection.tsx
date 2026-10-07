@@ -2,10 +2,18 @@ import FAQItem from './FAQItem'
 import { getFaqsByCategory } from '@/lib/getFaqsByCategory'
 import type { Faq } from '@/payload-types'
 
-const FAQSection = async ({ category }: { category: Faq['category'] }) => {
+const FAQSection = async ({
+  category,
+  emptyClassName,
+}: {
+  category: Faq['category']
+  emptyClassName?: string
+}) => {
   const faqs = await getFaqsByCategory(category)
 
-  if (faqs.length === 0) return null
+  if (faqs.length === 0) {
+    return emptyClassName ? <div aria-hidden="true" className={emptyClassName} /> : null
+  }
 
   return (
     <section className="bg-white w-full">
