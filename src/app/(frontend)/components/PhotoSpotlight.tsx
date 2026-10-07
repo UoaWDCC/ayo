@@ -66,10 +66,12 @@ const PhotoSpotlight = ({
 
         {/* Layered content */}
         <div className="relative z-10 flex flex-col h-full">
-          <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between">
-            <p className="text-xs md:text-sm lg:text-base text-white mr-5">{textSmall}</p>
+          <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between gap-4">
+            <p className="min-w-0 flex-1 break-words text-xs md:text-sm lg:text-base text-white">
+              {textSmall}
+            </p>
 
-            <p className="flex items-center gap-1 text-sm lg:text-base font-medium text-white whitespace-nowrap">
+            <p className="flex shrink-0 items-center gap-1 text-sm lg:text-base font-medium text-white whitespace-nowrap">
               See More
               <Image
                 src="/arrow-up-right.svg"
@@ -77,7 +79,7 @@ const PhotoSpotlight = ({
                 width={30}
                 height={30}
                 aria-hidden="true"
-                className="brightness-0 invert"
+                className="h-5 w-5 sm:h-[30px] sm:w-[30px] brightness-0 invert"
               />
             </p>
           </div>
