@@ -1,0 +1,61 @@
+.ayo-role-order {
+  border-top: 1px solid var(--ayo-rule);
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--ayo-rule);
+    font-size: 13px;
+
+    &--current {
+      padding-left: 8px;
+      padding-right: 8px;
+      background: var(--ayo-rule);
+    }
+  }
+
+  &__handle {
+    flex: 0 0 auto;
+    cursor: grab;
+    color: var(--ayo-muted);
+    font-size: 14px;
+    line-height: 1;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--ayo-text);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__flag {
+    flex: 0 0 auto;
+    color: var(--ayo-text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__empty,
+  &__hint {
+    margin: 10px 0 0;
+    color: var(--ayo-text-meta);
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  &__hint--error {
+    color: #b91c1c;
+  }
+}

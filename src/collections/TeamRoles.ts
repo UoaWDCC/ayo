@@ -4,7 +4,9 @@ export const TeamRoles: CollectionConfig = {
     slug: 'team-roles',
 
     admin: {
-        useAsTitle: 'displayName'
+        useAsTitle: 'roleName',
+        description: 'The team roles used to group People of type Team.',
+        defaultColumns: ['roleName', 'sortOrder', 'roleType'],
     },
 
     fields: [
@@ -16,7 +18,12 @@ export const TeamRoles: CollectionConfig = {
         {
             name: 'sortOrder',
             type: 'number',
+            label: 'Sort Order',
             required: true,
+            defaultValue: 0,
+            admin: {
+                hidden: true,
+            },
         },
         {
             name: 'roleType',
@@ -34,21 +41,26 @@ export const TeamRoles: CollectionConfig = {
             ]
         },
         {
-            name: 'displayName',
-            type: 'text',
+            name: 'roleOrderPreview',
+            type: 'ui',
+            label: 'Display order',
             admin: {
-                hidden: true,
-                readOnly: true,
-            }
+                position: 'sidebar',
+                components: {
+                    Field: '@/admin/components/RolesOrderPreview#TeamRolesOrderPreview',
+                },
+            },
         },
-    ],
-
-    hooks: {
-        beforeChange: [
-            ({ data }) => {
-                data.displayName = `${data.sortOrder} - ${data.roleName}`
-                return data
-            }
-        ]
-    }
+        {
+            name: 'rolePreview',
+            type: 'ui',
+            label: 'Current holders',
+            admin: {
+                position: 'sidebar',
+                components: {
+                    Field: '@/admin/components/RolesPreview#TeamRolesPreview',
+                },
+            },
+        },
+    ]
 }

@@ -28,6 +28,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { slug: 'people', label: 'People' },
       { slug: 'roles', label: 'Roles' },
+      { slug: 'team-roles', label: 'Team Roles' },
       { slug: 'partners', label: 'Partners' },
     ],
   },

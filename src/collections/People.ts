@@ -5,6 +5,8 @@ export const People: CollectionConfig = {
 
   admin: {
     useAsTitle: 'name',
+    description: 'The Players, Team members, and Alumni of the AYO.',
+    defaultColumns: ['name', 'type', 'years', 'isActive', 'roles', 'teamRoles'],
   },
 
   fields: [
