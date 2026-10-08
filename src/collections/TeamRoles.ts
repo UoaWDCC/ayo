@@ -4,7 +4,9 @@ export const TeamRoles: CollectionConfig = {
     slug: 'team-roles',
 
     admin: {
-        useAsTitle: 'displayName',
+        useAsTitle: 'roleName',
+        description: 'The team roles used to group People of type Team.',
+        defaultColumns: ['roleName', 'sortOrder', 'roleType'],
     },
 
     fields: [
@@ -39,14 +41,6 @@ export const TeamRoles: CollectionConfig = {
             ]
         },
         {
-            name: 'displayName',
-            type: 'text',
-            admin: {
-                hidden: true,
-                readOnly: true,
-            }
-        },
-        {
             name: 'roleOrderPreview',
             type: 'ui',
             label: 'Display order',
@@ -68,14 +62,5 @@ export const TeamRoles: CollectionConfig = {
                 },
             },
         },
-    ],
-
-    hooks: {
-        beforeChange: [
-            ({ data }) => {
-                data.displayName = `${data.sortOrder} - ${data.roleName}`
-                return data
-            }
-        ]
-    }
+    ]
 }

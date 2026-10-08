@@ -4,9 +4,9 @@ export const Roles: CollectionConfig = {
   slug: 'roles',
 
   admin: {
-    useAsTitle: 'displayName',
-    description: 'The instrument sections and roles used to group People.',
-    defaultColumns: ['displayName', 'roleName', 'sortOrder'],
+    useAsTitle: 'roleName',
+    description: 'The instrument sections and roles used to group People of type Players or Alumni.',
+    defaultColumns: ['roleName', 'sortOrder'],
   },
 
   fields: [
@@ -25,14 +25,6 @@ export const Roles: CollectionConfig = {
       required: true,
       admin: {
         hidden: true,
-      },
-    },
-    {
-      name: 'displayName',
-      type: 'text',
-      admin: {
-        hidden: true,
-        readOnly: true,
       },
     },
     {
@@ -57,14 +49,5 @@ export const Roles: CollectionConfig = {
         },
       },
     },
-  ],
-
-  hooks: {
-    beforeChange: [
-      ({ data }) => {
-        data.displayName = `${data.sortOrder} - ${data.roleName}`
-        return data
-      },
-    ],
-  },
+  ]
 }

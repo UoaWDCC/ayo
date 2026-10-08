@@ -461,6 +461,8 @@ export interface Post {
   createdAt: string;
 }
 /**
+ * The Players, Team members, and Alumni of the AYO.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
@@ -478,7 +480,7 @@ export interface Person {
   createdAt: string;
 }
 /**
- * The instrument sections and roles used to group People.
+ * The instrument sections and roles used to group People of type Players or Alumni.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
@@ -487,11 +489,12 @@ export interface Role {
   id: string;
   roleName: string;
   sortOrder: number;
-  displayName?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * The team roles used to group People of type Team.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-roles".
  */
@@ -500,7 +503,6 @@ export interface TeamRole {
   roleName: string;
   sortOrder: number;
   roleType: 'executive' | 'admin';
-  displayName?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -893,7 +895,6 @@ export interface PeopleSelect<T extends boolean = true> {
 export interface RolesSelect<T extends boolean = true> {
   roleName?: T;
   sortOrder?: T;
-  displayName?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -928,7 +929,6 @@ export interface TeamRolesSelect<T extends boolean = true> {
   roleName?: T;
   sortOrder?: T;
   roleType?: T;
-  displayName?: T;
   updatedAt?: T;
   createdAt?: T;
 }
