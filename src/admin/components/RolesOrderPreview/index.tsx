@@ -47,7 +47,7 @@ const RolesOrderPreviewInner: React.FC<RolesOrderPreviewProps> = ({ collectionSl
     fetchItems(controller.signal).catch(() => {})
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collectionSlug])
+  }, [collectionSlug, id])
 
   const patchRoleOrder = (item: RoleDoc, sortOrder: number) =>
     fetch(`${config.serverURL}${config.routes.api}/${collectionSlug}/${item.id}`, {

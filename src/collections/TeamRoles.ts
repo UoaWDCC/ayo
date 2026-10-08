@@ -16,6 +16,7 @@ export const TeamRoles: CollectionConfig = {
         {
             name: 'sortOrder',
             type: 'number',
+            label: 'Sort Order',
             required: true,
             defaultValue: 0,
             admin: {

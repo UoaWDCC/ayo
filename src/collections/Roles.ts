@@ -22,6 +22,7 @@ export const Roles: CollectionConfig = {
       type: 'number',
       label: 'Sort Order',
       defaultValue: 0,
+      required: true,
       admin: {
         hidden: true,
       },

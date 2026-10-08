@@ -486,7 +486,7 @@ export interface Person {
 export interface Role {
   id: string;
   roleName: string;
-  sortOrder?: number | null;
+  sortOrder: number;
   displayName?: string | null;
   updatedAt: string;
   createdAt: string;
