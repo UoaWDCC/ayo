@@ -20,6 +20,7 @@ import { FAQ } from './collections/FAQ'
 
 import { Links } from './collections/Links'
 import { TeamRoles } from './collections/TeamRoles'
+import { ProcessingOfDataAgreement } from './collections/ProcessingOfDataAgreement'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -59,7 +60,8 @@ export default buildConfig({
     Roles,
     FAQ,
     Links,
-    TeamRoles
+    TeamRoles,
+    ProcessingOfDataAgreement,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
