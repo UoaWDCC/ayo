@@ -3,15 +3,29 @@
 import { useEffect, useRef, useState } from 'react'
 
 type DropdownProps = {
-  label: string
+  label?: string
   value: string
   options: string[]
   onChange: (value: string) => void
   align?: 'left' | 'right'
+  // Shown when value is empty, e.g. an unanswered form field.
+  placeholder?: string
+  // Stretches the trigger to fill its container, for use as a form field.
+  fullWidth?: boolean
 }
 
-const Dropdown = ({ label, value, options, onChange, align = 'left' }: DropdownProps) => {
+const Dropdown = ({
+  label,
+  value,
+  options,
+  onChange,
+  align = 'left',
+  placeholder = '',
+  fullWidth = false,
+}: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
+  // Keeps the menu mounted after closing so dropdown-out can play before it unmounts.
+  const [isRendered, setIsRendered] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -35,18 +49,23 @@ const Dropdown = ({ label, value, options, onChange, align = 'left' }: DropdownP
   }, [isOpen])
 
   return (
-    <div className="flex items-center gap-2">
-      <label className="text-[#B2B2B2]">{label}</label>
+    <div className={`flex items-center gap-2 ${fullWidth ? 'w-full' : ''}`}>
+      {label && <label className="text-[#B2B2B2]">{label}</label>}
 
-      <div ref={containerRef} className="relative">
+      <div ref={containerRef} className={`relative ${fullWidth ? 'w-full' : ''}`}>
         <button
           type="button"
-          onClick={() => setIsOpen((open) => !open)}
+          onClick={() => {
+            if (!isOpen) setIsRendered(true)
+            setIsOpen((open) => !open)
+          }}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
-          className="flex items-center gap-1.5 font-semibold text-black cursor-pointer transition-opacity hover:opacity-70"
+          className={`flex items-center gap-1.5 font-semibold text-black cursor-pointer transition-opacity hover:opacity-70 ${
+            fullWidth ? 'w-full justify-between text-left' : ''
+          }`}
         >
-          {value}
+          {value || <span className="font-normal text-[#B2B2B2]">{placeholder}</span>}
           <svg
             width="10"
             height="6"
@@ -64,12 +83,19 @@ const Dropdown = ({ label, value, options, onChange, align = 'left' }: DropdownP
           </svg>
         </button>
 
-        {isOpen && (
+        {isRendered && (
           <ul
             role="listbox"
+            onAnimationEnd={() => {
+              if (!isOpen) setIsRendered(false)
+            }}
             className={`absolute ${
               align === 'right' ? 'right-0' : 'left-0'
-            } top-full z-20 mt-2 min-w-full origin-top animate-[dropdown-in_100ms_ease-out] whitespace-nowrap border border-[#EBEBEB] bg-white py-1`}
+            } top-full z-20 mt-2 min-w-full origin-top whitespace-nowrap border border-[#EBEBEB] bg-white py-1 ${
+              isOpen
+                ? 'animate-[dropdown-in_100ms_ease-out]'
+                : 'pointer-events-none animate-[dropdown-out_100ms_ease-in_forwards]'
+            }`}
           >
             {options.map((option) => (
               <li key={option} role="option" aria-selected={option === value}>

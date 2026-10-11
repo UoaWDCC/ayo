@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import Image from 'next/image'
 import FakeScrollbar from './FakeScrollbar'
 
 const TRANSITION_MS = 300
@@ -92,43 +93,51 @@ const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProp
           isVisible ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <FakeScrollbar target={scrollRef} variant="dark" />
-        <div ref={scrollRef} className="flex-1 overflow-y-auto no-scrollbar">
-          <div className="flex justify-end p-4">
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={onClose}
-              aria-label="Close"
-              className="text-black/60 hover:opacity-70 text-xl leading-none cursor-pointer"
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="px-6">
-            {imageUrl && (
-              <div className="w-full aspect-4/3 overflow-hidden bg-[#EBEBEB]">
-                <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
-              </div>
-            )}
-
-            <h2 id={titleId} className="font-semibold text-2xl leading-tight mt-6">
-              {title}
-            </h2>
-
-            <div className="flex gap-6 mt-2 text-sm text-black/70">
-              <span>
-                <span className="text-black/50">Awarded: </span>
-                {awarded}
-              </span>
-              <span>
-                <span className="text-black/50">Value: </span>
-                {value}
-              </span>
+        <div className="relative flex-1 min-h-0">
+          <FakeScrollbar target={scrollRef} variant="dark" />
+          <div ref={scrollRef} className="h-full overflow-y-auto no-scrollbar">
+            <div className="flex justify-end p-4">
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="text-black/60 hover:opacity-70 text-xl leading-none cursor-pointer"
+              >
+                ✕
+              </button>
             </div>
 
-            <p className="text-sm mt-4 text-black/70 leading-relaxed">{description}</p>
+            <div className="px-6">
+              {imageUrl && (
+                <div className="w-full aspect-4/3 overflow-hidden bg-[#EBEBEB]">
+                  <Image
+                    src={imageUrl}
+                    alt={title}
+                    width={450}
+                    height={340}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+
+              <h2 id={titleId} className="font-semibold text-2xl leading-tight mt-6">
+                {title}
+              </h2>
+
+              <div className="flex gap-6 mt-2 text-sm text-black/70">
+                <span>
+                  <span className="text-black/50">Awarded: </span>
+                  {awarded}
+                </span>
+                <span>
+                  <span className="text-black/50">Value: </span>
+                  {value}
+                </span>
+              </div>
+
+              <p className="text-sm mt-4 text-black/70 leading-relaxed">{description}</p>
+            </div>
           </div>
         </div>
 
@@ -142,9 +151,12 @@ const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProp
             className="text-sm font-semibold flex items-center gap-1 transition-opacity hover:opacity-70"
           >
             Apply
-            <img
+            <Image
               src="/arrow-up-right.svg"
               alt=""
+              width={15}
+              height={15}
+              aria-hidden="true"
               className="w-[15px] h-[15px] brightness-0 invert"
             />
           </a>

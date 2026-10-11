@@ -10,6 +10,21 @@ const socialLinks = [
   { name: 'LinkedIn', href: '#', Icon: FaLinkedin },
 ]
 
+const navLinks = [
+  { label: 'HOME', href: '/' },
+  { label: 'ABOUT US', href: '/about-us' },
+  { label: 'NEWS', href: '/news' },
+  { label: 'CONCERT & EVENTS', href: '/concerts-events' },
+  { label: 'JOIN AYO', href: '/join-ayo' },
+  { label: 'SUPPORT US', href: '/support-us' },
+  { label: 'CONTACT US', href: '/contact-us' },
+  { label: 'MY AYO', href: '/my-ayo' },
+  { label: 'POLICIES', href: '/policies' },
+]
+
+// Standard design-system hover: fade to 70% opacity.
+const linkHover = 'transition-opacity duration-200 hover:opacity-70 motion-reduce:transition-none'
+
 type FooterProps = {
   /** 0 = not yet revealed, 1 = fully revealed. Drives the content's scroll-scrubbed entrance/exit. */
   revealProgress?: number
@@ -52,43 +67,12 @@ export default function Footer({ revealProgress = 1 }: FooterProps) {
         {/* Right container */}
         <div className="w-full md:w-1/2 text-left font-semibold">
           <nav className="flex flex-col gap-4 mt-5 mb-6">
-            {/* Placeholder links, update with actual paths when available */}
             <div className="flex gap-x-6 gap-y-1 sm:gap-x-10 md:gap-x-20 flex-wrap">
-              <Link href="/" className="text-white text-md hover:opacity-70">
-                HOME
-              </Link>
-
-              <Link href="/about-us" className="text-white text-md hover:opacity-70">
-                ABOUT US
-              </Link>
-
-              <Link href="/news" className="text-white text-md hover:opacity-70">
-                NEWS
-              </Link>
-
-              <Link href="/concerts-events" className="text-white text-md hover:opacity-70">
-                CONCERT & EVENTS
-              </Link>
-
-              <Link href="/join-ayo" className="text-white text-md hover:opacity-70">
-                JOIN AYO
-              </Link>
-
-              <Link href="/support-us" className="text-white text-md hover:opacity-70">
-                SUPPORT US
-              </Link>
-
-              <Link href="/contact-us" className="text-white text-md hover:opacity-70">
-                CONTACT US
-              </Link>
-
-              <Link href="/my-ayo" className="text-white text-md hover:opacity-70">
-                MY AYO
-              </Link>
-
-              <Link href="/policies" className="text-white text-md hover:opacity-70">
-                POLICIES
-              </Link>
+              {navLinks.map((link) => (
+                <Link key={link.href} href={link.href} className={`text-white text-md ${linkHover}`}>
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </nav>
 
@@ -103,36 +87,39 @@ export default function Footer({ revealProgress = 1 }: FooterProps) {
                   aria-label={social.name}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white hover:opacity-70"
+                  className="text-white transition duration-200 ease-out hover:-translate-y-0.5 hover:opacity-70 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                 >
                   <social.Icon size={22} aria-hidden="true" />
                 </Link>
               ))}
             </div>
             <div>
-              <span className="text-xs font-semibold uppercase tracking-[0.28em] text-white/60">
-                Stay in the loop
-              </span>
               <p className="text-md font-semibold mt-1">Sign up to our newsletter</p>
             </div>
-            <div className="flex w-full">
-              {/* Simple email input and button for newsletter subscription */}
+            <form
+              className="flex w-full gap-3"
+              onSubmit={(e) => {
+                e.preventDefault()
+                // TODO: replace with actual newsletter API call
+                console.log('subscribing:', email)
+              }}
+            >
               <input
-                className="bg-white text-black font-semibold focus:outline-none px-4 py-3 flex-1 min-w-0"
+                className="bg-white text-black focus:outline-none px-4 py-3 flex-1 min-w-0 placeholder:text-[#B2B2B2]"
                 type="email"
-                placeholder=""
+                required
+                placeholder="Email address"
+                aria-label="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button
-                className="bg-white text-black font-semibold px-4 py-3 cursor-pointer border-l border-gray-300"
-                //For demonstration, this just logs the email to the console
-                //Replace with actual newsletter API call later
-                onClick={() => console.log('subscribing:', email)}
+                type="submit"
+                className="bg-white text-black font-semibold px-6 py-3 cursor-pointer border border-white transition-colors hover:bg-white/80"
               >
-                ›
+                Subscribe
               </button>
-            </div>
+            </form>
 
             <span className="text-md font-semibold mt-6">
               AYO - AUCKLAND YOUTH ORCHESTRA © {new Date().getFullYear()}

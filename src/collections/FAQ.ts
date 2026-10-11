@@ -35,6 +35,7 @@ export const FAQ: CollectionConfig = {
         { label: 'About Us', value: 'about-us' },
         { label: 'Concerts & Events', value: 'concerts-events' },
         { label: 'Join AYO', value: 'join-ayo' },
+        { label: 'News', value: 'news' },
         { label: 'Support Us', value: 'support-us' },
       ],
       admin: {

@@ -76,10 +76,13 @@ const AboutUsQuoteVideo = ({
           <source src={videoSrc} type="video/mp4" />
         </video>
       ) : posterImage ? (
-        <img
+        <Image
           src={posterImage}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          fill
+          // Full-bleed block, so the browser can pick a width from the viewport alone.
+          sizes="100vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
         // PLACEHOLDER

@@ -84,74 +84,76 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
           isVisible ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <FakeScrollbar target={scrollRef} variant="dark" />
-        <div ref={scrollRef} className="flex-1 overflow-y-auto no-scrollbar">
-          <div className="flex justify-end p-4">
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={onClose}
-              aria-label="Close"
-              className="text-black/60 hover:opacity-70 text-xl leading-none"
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="px-6">
-            <div className="w-full aspect-[4/3] bg-[#EBEBEB]">
-              <Image
-                src={event.image}
-                alt={event.title}
-                width={450}
-                height={340}
-                className="w-full h-full object-cover"
-              />
+        <div className="relative flex-1 min-h-0">
+          <FakeScrollbar target={scrollRef} variant="dark" />
+          <div ref={scrollRef} className="h-full overflow-y-auto no-scrollbar">
+            <div className="flex justify-end p-4">
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="text-black/60 hover:opacity-70 text-xl leading-none"
+              >
+                ✕
+              </button>
             </div>
 
-            <h2 id={titleId} className="font-semibold text-2xl mt-6">
-              {event.title}
-            </h2>
+            <div className="px-6">
+              <div className="w-full aspect-[4/3] bg-[#EBEBEB]">
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  width={450}
+                  height={340}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-            <p className="text-sm text-muted mt-1">{event.subtitle}</p>
+              <h2 id={titleId} className="font-semibold text-2xl mt-6">
+                {event.title}
+              </h2>
 
-            <p className="text-sm mt-4 text-black/70 leading-relaxed">{event.description}</p>
+              <p className="text-sm text-muted mt-1">{event.subtitle}</p>
 
-            {event.performances.length > 0 && (
-              <div className="mt-6">
-                <p className="text-sm font-semibold">Times:</p>
-                <ul className="mt-2 space-y-1">
-                  {event.performances.map((performance, idx) => (
-                    <li key={idx} className="flex gap-4 text-xs">
-                      <span>{performance.time}</span>
-                      <span>{performance.date}</span>
-                      <span className="text-muted text-right ml-auto">{performance.venue}</span>
-                    </li>
+              <p className="text-sm mt-4 text-black/70 leading-relaxed">{event.description}</p>
+
+              {event.performances.length > 0 && (
+                <div className="mt-6">
+                  <p className="text-sm font-semibold">Times:</p>
+                  <ul className="mt-2 space-y-1">
+                    {event.performances.map((performance, idx) => (
+                      <li key={idx} className="flex gap-4 text-xs">
+                        <span>{performance.time}</span>
+                        <span>{performance.date}</span>
+                        <span className="text-muted text-right ml-auto">{performance.venue}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {event.links.length > 0 && (
+                <div className="flex gap-8 mt-6 text-sm">
+                  {event.links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className="flex items-center gap-1 underline hover:opacity-70"
+                    >
+                      {link.label}
+                      <Image
+                        src="/arrow-up-right.svg"
+                        alt=""
+                        width={20}
+                        height={20}
+                        aria-hidden="true"
+                      />
+                    </a>
                   ))}
-                </ul>
-              </div>
-            )}
-
-            {event.links.length > 0 && (
-              <div className="flex gap-8 mt-6 text-sm">
-                {event.links.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="flex items-center gap-1 underline hover:opacity-70"
-                  >
-                    {link.label}
-                    <Image
-                      src="/arrow-up-right.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      aria-hidden="true"
-                    />
-                  </a>
-                ))}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

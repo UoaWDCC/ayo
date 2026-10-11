@@ -2,7 +2,7 @@ import React from 'react'
 import Hero from '../components/Hero'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
-import type { Media } from '@/payload-types'
+import { resolveHeroImage } from '@/lib/heroImage'
 
 export const metadata = {
   title: 'Policies | Auckland Youth Orchestra',
@@ -14,21 +14,16 @@ export default async function PoliciesPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroImage = heroBlock?.backgroundImage
-
-  const heroImageUrl =
-    typeof heroImage === 'object' && heroImage !== null
-      ? (heroImage as Media).url
-      : '/hero-placeholder.jpg'
+  const heroImage = resolveHeroImage(heroBlock?.backgroundImage)
 
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title="Policies"
+        title={heroBlock?.slogan || 'Policies'}
         subtitle="Guidelines and procedures that keep AYO running smoothly."
-        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        backgroundImage={heroImage}
       />
-      <div className="max-w-4xl mx-auto px-6 sm:px-8 py-16 sm:py-24">
+      <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-25 pb-12.5">
         <p className="text-lg text-gray-700">Policy content coming soon.</p>
       </div>
     </main>

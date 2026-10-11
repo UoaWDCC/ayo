@@ -23,6 +23,17 @@ import { TeamRoles } from './collections/TeamRoles'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+/**
+ * Public base URL of the R2 bucket (an r2.dev subdomain or a custom domain).
+ * When it is set, media URLs point straight at R2 so files are served by
+ * Cloudflare's edge; when it isn't, they stay on /api/media/file/<filename>,
+ * which streams every byte through this Node server on each request.
+ *
+ * Keep next.config.mjs's `images.remotePatterns` in step with this host, or
+ * next/image will refuse to optimize the URLs.
+ */
+const r2PublicUrl = process.env.R2_PUBLIC_URL?.replace(/\/+$/, '')
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -73,7 +84,15 @@ export default buildConfig({
   plugins: [
     s3Storage({
       collections: {
-        [Media.slug]: true,
+        [Media.slug]: r2PublicUrl
+          ? {
+              // Payload's access control on this collection is already `read: () => true`,
+              // so routing reads through it buys nothing and costs a proxied request.
+              disablePayloadAccessControl: true,
+              generateFileURL: ({ filename, prefix }: { filename: string; prefix?: string }) =>
+                [r2PublicUrl, prefix, filename].filter(Boolean).join('/'),
+            }
+          : true,
       },
       bucket: process.env.S3_BUCKET || '',
       config: {

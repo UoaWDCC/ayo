@@ -3,13 +3,14 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar'
+import type { HeroImage } from '@/lib/heroImage'
 
 type HeroProps = {
   title: string
   /** Short line shown below the title, aligned to the left */
   subtitle?: string
-  /** Absolute path from /public, e.g. "/hero-orchestra.jpg" */
-  backgroundImage?: string
+  /** Background photo and its intrinsic size — build it with `resolveHeroImage`. */
+  backgroundImage?: HeroImage
 }
 
 const PARALLAX_FACTOR = 0.5
@@ -32,35 +33,37 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
           the user scrolls past the hero. */}
       <NavBar overlay />
 
-      {backgroundImage && (
-        // Natural image dimensions keep the mobile hero proportional without cropping.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={backgroundImage} alt={title} className="block h-auto w-full md:hidden" />
-      )}
-
-      <div className="absolute inset-0 hidden overflow-hidden bg-neutral-900 md:block">
-        {/* Background */}
-        {backgroundImage ? (
+      {/* One <Image> serves both layouts: in normal flow on mobile (natural proportions, no
+          cropping) and an absolutely-positioned cover on desktop. Rendering a second <img>
+          for mobile doubles the bytes every visitor downloads — browsers fetch
+          `display: none` images too, and React preloads both of them during SSR. */}
+      {backgroundImage ? (
+        <div className="relative w-full md:absolute md:inset-0 md:overflow-hidden md:bg-neutral-900">
+          {/* `.hero-background` and `.animate-hero-zoom` are both scoped to >= 48rem in
+              styles.css, so the shared element stays still and unzoomed on mobile. */}
           <div
-            className="hero-background absolute inset-0 md:inset-x-0 md:top-[-40%] md:bottom-[-40%]"
+            className="hero-background md:absolute md:inset-x-0 md:top-[-5%] md:bottom-[-5%]"
             style={{ ['--hero-parallax' as string]: `${scrollY * PARALLAX_FACTOR}px` }}
           >
             <Image
-              src={backgroundImage}
+              src={backgroundImage.url}
               alt={title}
-              fill
-              className="object-contain md:object-cover object-center animate-hero-zoom"
+              width={backgroundImage.width}
+              height={backgroundImage.height}
               sizes="100vw"
               priority
+              className="block h-auto w-full animate-hero-zoom md:absolute md:inset-0 md:h-full md:object-cover md:object-center"
             />
           </div>
-        ) : (
-          <div className="absolute inset-0 bg-neutral-700" />
-        )}
 
-        {/* Dark scrim */}
-        <div className="absolute inset-0 bg-black/50" />
-      </div>
+          {/* Dark scrim — desktop only, where the title sits over the image. */}
+          <div className="absolute inset-0 hidden bg-black/50 md:block" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 hidden overflow-hidden bg-neutral-700 md:block">
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      )}
 
       {/* Layered content */}
       <div className="relative z-10 flex flex-1 flex-col pt-6 md:h-full md:pt-0">
@@ -84,33 +87,26 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
             style={{ ['--hero-delay' as string]: '0.55s' }}
           >
             <p className="text-white/90 font-sans text-sm sm:text-base max-w-3xl">{subtitle}</p>
-            <div className="flex items-center gap-1 text-white/90 shrink-0">
+            <div className="flex items-center gap-2 text-white/90 shrink-0">
               <span className="font-sans text-sm sm:text-base whitespace-nowrap">
                 Scroll for More
               </span>
-              <div className="w-8 h-8 flex items-center justify-center animate-scroll-diagonal">
+              {/* overflow-hidden clips the arrow as it slides in and out of its box. */}
+              <div className="w-3.5 h-3.5 overflow-hidden">
                 <svg
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 12 12"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="rotate-180"
+                  className="block w-full h-full animate-scroll-diagonal"
                   aria-hidden="true"
                 >
+                  <path d="M11 1L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="butt" />
                   <path
-                    d="M14.5 9.5L9 15"
+                    d="M1 3V11H9"
                     stroke="currentColor"
                     strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M10 9H14.6717C14.853 9 15 9.14703 15 9.32837V14"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    strokeLinecap="butt"
+                    strokeLinejoin="miter"
                   />
                 </svg>
               </div>

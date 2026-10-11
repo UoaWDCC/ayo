@@ -188,6 +188,40 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    desktop?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * The partners and sponsors shown on the site.
@@ -218,6 +252,10 @@ export interface Page {
   layout?:
     | (
         | {
+            /**
+             * The large heading shown over the hero image (e.g. "Here Plays The Future"). Leave blank to use the page's default heading.
+             */
+            slogan?: string | null;
             backgroundImage: string | Media;
             id?: string | null;
             blockName?: string | null;
@@ -517,13 +555,13 @@ export interface Faq {
   /**
    * Which page this FAQ appears on.
    */
-  category: 'about-us' | 'concerts-events' | 'join-ayo' | 'support-us';
+  category: 'about-us' | 'concerts-events' | 'join-ayo' | 'news' | 'support-us';
   sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Document links shown in the Resources and Links sections in /join-ayo.
+ * Document links shown in the Resources and Links sections in /my-ayo.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "link".
@@ -693,6 +731,50 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        tablet?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        desktop?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -720,6 +802,7 @@ export interface PagesSelect<T extends boolean = true> {
         hero?:
           | T
           | {
+              slogan?: T;
               backgroundImage?: T;
               id?: T;
               blockName?: T;

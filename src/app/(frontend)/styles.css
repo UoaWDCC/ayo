@@ -24,19 +24,25 @@
   --text-heading: 40px;
 }
 
+/* Arrow slides in from the top-right corner of its box, rests, then slides out the
+   bottom-left corner. The parent's overflow-hidden clips it, so it never leaves the box. */
 @keyframes scroll-diagonal {
-  0%,
-  100% {
-    transform: scale(1);
+  0% {
+    transform: translate(100%, -100%);
+    animation-timing-function: ease-out;
   }
-  50% {
-    transform: scale(1.25);
+  35%,
+  65% {
+    transform: translate(0, 0);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translate(-100%, 100%);
   }
 }
 
 .animate-scroll-diagonal {
-  transform-origin: bottom left;
-  animation: scroll-diagonal 1.5s ease-in-out infinite;
+  animation: scroll-diagonal 2s infinite;
 }
 
 @keyframes hero-zoom {
@@ -141,4 +147,147 @@ html::-webkit-scrollbar {
 .fake-scrollbar-thumb.variant-light:hover,
 .fake-scrollbar-thumb.variant-light.dragging {
   background-color: rgba(255, 255, 255, 0.75);
+}
+
+/* The filter dropdowns in <Dropdown> open with dropdown-in and close with dropdown-out. */
+@keyframes dropdown-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes dropdown-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(0.96);
+  }
+}
+
+/* Static fallback for the Join AYO stage, applied by <ScrollAnimation> when the
+   viewer prefers reduced motion or is on a small screen — the two cases where the
+   1500vh scroll-driven version can't run. Every scene is absolutely positioned in
+   one sticky viewport, so without this they would all stack on top of each other.
+   These rules un-stick the stage and return each scene to normal document flow.
+   Inline left/top/width/height on the photo and timeline items need !important. */
+.join-ayo-stage.join-static {
+  height: auto;
+}
+
+.join-static .join-stage-inner {
+  position: static;
+  min-height: 0;
+  overflow: visible;
+}
+
+/* Purely decorative layers — nothing to read, so they just go. */
+.join-static .join-stage-backdrop,
+.join-static .join-curtain,
+.join-static .join-applause,
+.join-static .join-staff-lines,
+.join-static .join-timeline-note,
+.join-static .join-timeline-clef {
+  display: none;
+}
+
+.join-static .join-scenes {
+  display: block;
+  min-height: 0;
+}
+
+.join-static .join-opening-title,
+.join-static .join-photo-wrap,
+.join-static .join-copy,
+.join-static .join-score,
+.join-static .join-sections,
+.join-static .join-crescendo,
+.join-static .join-finale,
+.join-static .join-register {
+  position: static;
+  inset: auto;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  text-align: left;
+}
+
+.join-static .join-opening-title,
+.join-static .join-photo-wrap,
+.join-static .join-copy,
+.join-static .join-score,
+.join-static .join-sections,
+.join-static .join-crescendo,
+.join-static .join-finale {
+  margin-bottom: 4.5rem;
+}
+
+.join-static .join-photo-wrap {
+  display: block;
+}
+
+.join-static .join-photo-grid {
+  display: grid;
+  height: auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.join-static .join-photo-card {
+  position: relative;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+  aspect-ratio: 3 / 4;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* The history timeline scrolls horizontally when animated; stacked, it reads as
+   a plain two-up list with its heading pulled back above the items. */
+.join-static .join-score {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.join-static .join-score-timeline {
+  position: static;
+  display: grid;
+  width: auto !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+  transform: none !important;
+}
+
+.join-static .join-timeline-item {
+  position: relative;
+  left: auto !important;
+  top: auto !important;
+  width: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.join-static .join-timeline-label {
+  position: static;
+  order: -1;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
 }

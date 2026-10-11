@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import type { IconType } from 'react-icons'
 
 export type SquareLinkGridItem = {
   id: string | number
   title: string
   href?: string
+  icon?: IconType
   imageAlt?: string
   imageSrc?: string
 }
@@ -21,7 +23,7 @@ const cardClasses =
 
 export default function SquareLinkGrid({ title, description, items }: SquareLinkGridProps) {
   return (
-    <section className="w-full bg-white px-8 py-16 text-black md:px-20 lg:px-24">
+    <section className="w-full bg-white px-8 pt-25 pb-12.5 text-black md:px-20 lg:px-24">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-[30px] font-semibold leading-tight">{title}</h2>
         {description && <p className="mt-5 text-[24px] leading-tight">{description}</p>}
@@ -39,17 +41,21 @@ export default function SquareLinkGrid({ title, description, items }: SquareLink
 function SquareLinkCard({ item }: { item: SquareLinkGridItem }) {
   const content = (
     <>
-      <div className="relative h-[88px] w-[114px] bg-[#D9D9D9]">
-        {item.imageSrc && (
-          <Image
-            src={item.imageSrc}
-            alt={item.imageAlt ?? item.title}
-            fill
-            sizes="114px"
-            className="object-cover"
-          />
-        )}
-      </div>
+      {item.icon ? (
+        <item.icon aria-hidden="true" className="h-[88px] w-[88px]" />
+      ) : (
+        <div className="relative h-[88px] w-[114px] bg-[#D9D9D9]">
+          {item.imageSrc && (
+            <Image
+              src={item.imageSrc}
+              alt={item.imageAlt ?? item.title}
+              fill
+              sizes="114px"
+              className="object-cover"
+            />
+          )}
+        </div>
+      )}
       <h3 className="mt-7 max-w-[180px] whitespace-pre-line text-[25px] font-semibold leading-[1.08]">
         {item.title}
       </h3>

@@ -4,10 +4,15 @@ import AboutUsSection from '../components/AboutUsSection'
 import Hero from '../components/Hero'
 import AboutUsFilter from '../components/AboutUsFilter'
 import FAQSection from '../components/FAQSection'
-import { RichText } from '../components/RichText'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import StaggerReveal from '../components/StaggerReveal'
+import { createIntroConverters } from '../components/richTextConverters'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
+import { resolveHeroImage } from '@/lib/heroImage'
 import type { Media } from '@/payload-types'
+
+const bulletConverters = createIntroConverters('about-bullets-fade')
 
 export default async function AboutUsPage() {
   const payload = await getPayload({ config })
@@ -34,12 +39,7 @@ export default async function AboutUsPage() {
 
   const [futureImage, leadershipImage] = imageBlocks
 
-  const heroImage = heroBlock?.backgroundImage
-  const heroImageUrl =
-    typeof heroImage === 'object' && heroImage !== null
-      ? ((heroImage as Media).url ?? undefined)
-      : '/about-us-hero.jpg'
-
+  const heroImage = resolveHeroImage(heroBlock?.backgroundImage, '/about-us-hero.jpg')
   const quoteImage = quoteBlock?.image
   const quoteImageUrl =
     typeof quoteImage === 'object' && quoteImage !== null
@@ -65,9 +65,9 @@ export default async function AboutUsPage() {
   return (
     <div>
       <Hero
-        title="About Us"
+        title={heroBlock?.slogan || 'About Us'}
         subtitle="Aotearoa's first and original youth orchestra, founded 1948."
-        backgroundImage={heroImageUrl}
+        backgroundImage={heroImage}
       />
       <main className="min-h-screen bg-white text-black">
         <AboutUsSection
@@ -80,9 +80,13 @@ export default async function AboutUsPage() {
         />
 
         {bulletPointsText?.content && (
-          <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-10 leading-body text-2xl [&_ul]:list-disc [&_ul]:ml-6">
-            <RichText data={bulletPointsText.content} />
-          </div>
+          <section className="bg-white w-full">
+            <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
+              <StaggerReveal fadeClass="about-bullets-fade" className="max-w-[1380px]">
+                <RichText data={bulletPointsText.content} converters={bulletConverters} />
+              </StaggerReveal>
+            </div>
+          </section>
         )}
 
         <AboutUsFilter

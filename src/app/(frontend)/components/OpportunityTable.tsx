@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import OpportunityModal from './OpportunityModal'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -75,7 +76,14 @@ const OpportunityRow = ({
           className="text-sm flex items-center underline font-bold transition-opacity hover:opacity-70"
         >
           Apply
-          <img src="/arrow-up-right.svg" alt="" className="w-[15px] h-[15px]" />
+          <Image
+            src="/arrow-up-right.svg"
+            alt=""
+            width={15}
+            height={15}
+            aria-hidden="true"
+            className="w-[15px] h-[15px]"
+          />
         </a>
       </div>
     </div>

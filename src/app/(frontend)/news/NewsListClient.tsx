@@ -4,9 +4,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Dropdown from '../components/Dropdown'
-import Hero from '../components/Hero'
 import NewsCard from '../components/NewsCard'
-import NewsletterSignup from '../components/NewsletterSignup'
+import StaggerReveal from '../components/StaggerReveal'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -74,7 +73,7 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedType, selectedYear, selectedMonth, showCount])
+  }, [selectedType, selectedYear, selectedMonth, showCount, searchInput])
 
   const searchedNews = sortedNews.filter(
     (article) =>
@@ -82,70 +81,16 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
       article.description.toLowerCase().includes(searchInput.toLowerCase()),
   )
 
-  const totalPages = Math.max(1, Math.ceil(sortedNews.length / showCount))
+  const totalPages = Math.max(1, Math.ceil(searchedNews.length / showCount))
   const paginatedNews = searchedNews.slice((currentPage - 1) * showCount, currentPage * showCount)
 
-  const leadRef = useRef<HTMLDivElement>(null)
-  const introRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const isFirstGridRender = useRef(true)
 
   useEffect(() => {
-    if (!leadRef.current) return
-    const leadEls = leadRef.current.querySelectorAll('.news-lead-fade')
-    const firstLeadEl = leadEls[0]
-    if (!firstLeadEl) return
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        leadEls,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: firstLeadEl,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        },
-      )
-    })
-    return () => ctx.revert()
-  }, [])
-
-  useEffect(() => {
-    if (!introRef.current) return
-    const introEls = introRef.current.querySelectorAll('.news-intro-fade')
-    const firstIntroEl = introEls[0]
-    if (!firstIntroEl) return
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        introEls,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: firstIntroEl,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        },
-      )
-    })
-    return () => ctx.revert()
-  }, [])
-
-  useEffect(() => {
     if (!gridRef.current) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const cards = gridRef.current.querySelectorAll('.news-card-item')
     const firstCard = cards[0]
     if (!firstCard) return
@@ -171,6 +116,7 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
       return
     }
 
+    // Re-entry after a filter/search change is shorter than the first reveal.
     gsap.killTweensOf(cards)
     gsap.fromTo(
       cards,
@@ -181,48 +127,38 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
 
   return (
     <section className="bg-white w-full">
-      <Hero
-        title="News"
-        subtitle="Catch up to the latest updates about us."
-        backgroundImage="/hero-placeholder.jpg"
-      />
-
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-16 md:pt-20 pb-8">
-        <div ref={leadRef} className="max-w-[1380px]">
-          <h2 className="news-lead-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
-            Stay close to the music, all year round.
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
+        <StaggerReveal fadeClass="news-list-fade">
+          <h2 className="news-list-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px] text-black">
+            Latest News
           </h2>
-          <div className="news-lead-fade mt-8 text-[18px] leading-6.5 md:text-[20px] md:leading-7 text-[#2E2E2E]">
-            <p>
-              From newsletters to behind-the-scenes stories, this is where we share what&apos;s
-              happening across the Auckland Youth Orchestra &mdash; on stage, in rehearsal, and
-              everywhere in between.
-            </p>
-          </div>
-        </div>
-      </div>
+          <p className="news-list-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+            Newsletters, interviews and behind-the-scenes stories from across the orchestra.
+          </p>
 
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pb-8 md:pb-12">
-        <div ref={introRef}>
-          <div className="news-intro-fade relative z-30 flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px]">
+          {/* Controls */}
+          <div className="news-list-fade relative z-30 flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px]">
             <Dropdown
               label="Year"
               value={selectedYear}
               options={years}
               onChange={setSelectedYear}
             />
+
             <Dropdown
               label="Month"
               value={selectedMonth}
               options={months}
               onChange={setSelectedMonth}
             />
+
             <Dropdown
               label="Type"
               value={selectedType}
               options={newsTypes}
               onChange={setSelectedType}
             />
+
             <Dropdown
               label="Show"
               value={String(showCount)}
@@ -230,7 +166,8 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
               onChange={(value) => setShowCount(Number(value))}
             />
 
-            <div className="ml-auto flex items-center gap-2 border border-[#EBEBEB] px-3 py-1">
+            {/* search bar */}
+            <div className="lg:ml-auto flex items-center gap-2.5 border border-[#EBEBEB] px-4 py-2.5">
               <svg
                 width="15"
                 height="15"
@@ -246,18 +183,21 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
                   strokeLinecap="round"
                 />
               </svg>
+
               <input
                 type="text"
                 placeholder="Search..."
+                value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 className="outline-none bg-transparent placeholder:text-[#B2B2B2]"
               />
             </div>
           </div>
-        </div>
+        </StaggerReveal>
 
         <hr className="border-[#EBEBEB] mt-6" />
 
+        {/* Article Cards Grid */}
         <div
           ref={gridRef}
           className="relative z-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8"
@@ -277,6 +217,7 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
           ))}
         </div>
 
+        {/* Pagination */}
         <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
           <div className="flex gap-12">
             <button
@@ -286,6 +227,7 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
             >
               Previous
             </button>
+
             <button
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
@@ -294,13 +236,12 @@ export default function NewsListClient({ articles }: { articles: NewsListArticle
               Next
             </button>
           </div>
+
           <span className="font-normal">
             {currentPage} of {totalPages}
           </span>
         </div>
       </div>
-
-      <NewsletterSignup />
     </section>
   )
 }

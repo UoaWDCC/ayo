@@ -1,15 +1,25 @@
 import React from 'react'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import type { JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
+import Button from './components/Button'
 import Hero from './components/Hero'
-import AboutIntro from './components/AboutIntro'
-import EventsBlock from './components/events/EventsBlock'
-import BlogsBlock from './components/blogs/BlogsBlock'
+import EventCard from './components/EventCard'
+import NewsCard from './components/NewsCard'
 import AboutUsQuoteVid from './components/AboutUsQuoteVid'
 import ScrollReveal from './components/ScrollReveal'
 import SocialMediaBlock from './components/SocialMediaBlock'
+import StaggerReveal from './components/StaggerReveal'
+import { createIntroConverters } from './components/richTextConverters'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
+import { resolveHeroImage } from '@/lib/heroImage'
+import { getConcertEvents } from '@/lib/concertEvents'
+import {
+  getPosts,
+  categoryLabel,
+  formatPublishedDate,
+  richTextToPlainText,
+  getPhotoUrl,
+} from '@/lib/posts'
 import type { Media } from '@/payload-types'
 
 // Same quote and poster as the About Us page, used until the Payload quote block is filled in.
@@ -17,28 +27,24 @@ const DEFAULT_QUOTE =
   'Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary.'
 const DEFAULT_QUOTE_POSTER = '/about-us-quote-poster.jpg'
 
-const introConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
-  ...defaultConverters,
-  paragraph: ({ node, nodesToJSX }) => {
-    const children = nodesToJSX({ nodes: node.children })
-    return (
-      <p className="mt-6 md:mt-[37px] font-sans font-light text-2xl sm:text-3xl md:text-[40px] lg:text-[50px] leading-[1.22] text-text">
-        {children}
-      </p>
-    )
-  },
-})
+// How many upcoming events / latest articles the home page previews before linking out.
+const PREVIEW_COUNT = 3
+
+const introConverters = createIntroConverters('home-intro-fade')
 
 export default async function LandingPage() {
   const page = await getPageBySlug('home')
+  const { upcoming } = await getConcertEvents()
+  const posts = await getPosts()
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroImage = heroBlock?.backgroundImage
+  const heroImage = resolveHeroImage(heroBlock?.backgroundImage)
 
-  const richTextBlock = page?.layout?.find((block) => block.blockType === 'rich-text')
+  const richTextBlocks = page?.layout?.filter((block) => block.blockType === 'rich-text') ?? []
 
-  const introContent = richTextBlock?.content
+  // Read positionally: [0] is the introduction under the hero.
+  const introContent = richTextBlocks[0]?.content
 
   const quoteBlock = page?.layout?.find((block) => block.blockType === 'quote')
 
@@ -47,31 +53,34 @@ export default async function LandingPage() {
   const quoteImageUrl =
     typeof quoteImage === 'object' && quoteImage !== null ? (quoteImage as Media).url : undefined
 
-  const heroImageUrl =
-    typeof heroImage === 'object' && heroImage !== null
-      ? (heroImage as Media).url
-      : '/hero-placeholder.jpg'
+  const upcomingPreview = [...upcoming]
+    .sort((a, b) => new Date(a.deadlineDate).getTime() - new Date(b.deadlineDate).getTime())
+    .slice(0, PREVIEW_COUNT)
+
+  // getPosts already sorts newest first.
+  const latestPosts = posts.slice(0, PREVIEW_COUNT)
 
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title="Here Plays The Future"
+        title={heroBlock?.slogan || 'Here Plays The Future'}
         subtitle="Aotearoa's first and original youth orchestra, founded 1948."
-        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        backgroundImage={heroImage}
       />
-      {/* <AboutIntro /> */}
 
-      {/* Temporary placeholder for introduction */}
-      <ScrollReveal>
-        <div className="w-full max-w-[1380px] px-8 md:px-20 lg:px-24 xl:px-32 py-12 md:py-24">
-          <p className="font-sans font-semibold text-xl sm:text-2xl md:text-[30px] leading-[1.2] text-text">
-            AN INTRODUCTION
-          </p>
-          {introContent && <RichText data={introContent} converters={introConverters} />}
+      <section className="bg-white w-full">
+        <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-25 pb-12.5">
+          <div className="max-w-[1380px]">
+            {introContent && (
+              <StaggerReveal fadeClass="home-intro-fade">
+                <RichText data={introContent} converters={introConverters} />
+              </StaggerReveal>
+            )}
+          </div>
         </div>
-      </ScrollReveal>
+      </section>
 
-      <ScrollReveal className="w-full mt-10">
+      <ScrollReveal className="w-full my-12.5">
         <AboutUsQuoteVid
           quote={quoteBlock?.text ?? DEFAULT_QUOTE}
           posterImage={quoteImageUrl ?? DEFAULT_QUOTE_POSTER}
@@ -82,15 +91,83 @@ export default async function LandingPage() {
         />
       </ScrollReveal>
 
-      <ScrollReveal>
-        <EventsBlock />
-      </ScrollReveal>
-      <ScrollReveal>
-        <BlogsBlock />
-      </ScrollReveal>
-      <ScrollReveal>
-        <SocialMediaBlock />
-      </ScrollReveal>
+      <section className="bg-white w-full">
+        <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
+          <StaggerReveal fadeClass="home-events-fade">
+            <h2 className="home-events-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+              Upcoming Events
+            </h2>
+            <p className="home-events-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+              A season of performances showcasing bold works and the energy of young musicians
+              growing through music.
+            </p>
+
+            <hr className="border-[#EBEBEB] mt-6" />
+
+            {upcomingPreview.length > 0 ? (
+              <div className="relative z-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                {upcomingPreview.map((event) => (
+                  <div key={event.id} className="home-events-fade">
+                    <EventCard
+                      event={{
+                        ...event,
+                        footerLabel: `${event.type.toUpperCase()} · ${event.location.toUpperCase()}`,
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="home-events-fade mt-8 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+                New events are added throughout the season — check back soon.
+              </p>
+            )}
+
+            <Button href="/concerts-events" className="home-events-fade mt-12">
+              See all Concerts &amp; Events
+            </Button>
+          </StaggerReveal>
+        </div>
+      </section>
+
+      <section className="bg-white w-full">
+        <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
+          <StaggerReveal fadeClass="home-news-fade">
+            <h2 className="home-news-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+              Latest News
+            </h2>
+            <p className="home-news-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+              Newsletters, interviews and behind-the-scenes stories from across the orchestra.
+            </p>
+
+            <hr className="border-[#EBEBEB] mt-6" />
+
+            {latestPosts.length > 0 && (
+              <div className="relative z-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                {latestPosts.map((post) => (
+                  <div key={post.id} className="home-news-fade">
+                    <NewsCard
+                      title={post.title}
+                      date={formatPublishedDate(post.publishedDate)}
+                      description={richTextToPlainText(post.description)}
+                      type={categoryLabel(post.category)}
+                      author={post.author ?? ''}
+                      slug={post.slug ?? ''}
+                      image={getPhotoUrl(post.photos?.[0]?.photo)}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <Button href="/news" className="home-news-fade mt-12">
+              See all News
+            </Button>
+          </StaggerReveal>
+        </div>
+      </section>
+
+      <SocialMediaBlock />
     </main>
   )
 }

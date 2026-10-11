@@ -4,7 +4,7 @@ export const Links: CollectionConfig = {
   slug: 'link',
   admin: {
     useAsTitle: 'name',
-    description: 'Document links shown in the Resources and Links sections in /join-ayo.',
+    description: 'Document links shown in the Resources and Links sections in /my-ayo.',
     defaultColumns: ['name', 'category', 'url'],
   },
   fields: [

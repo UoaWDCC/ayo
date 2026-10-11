@@ -1,10 +1,17 @@
 import React from 'react'
+import {
+  PiHandHeartLight,
+  PiHandshakeLight,
+  PiMusicNotesLight,
+  PiScrollLight,
+  PiUserPlusLight,
+} from 'react-icons/pi'
 import ContactFormSection from '../components/ContactFormSection'
 import Hero from '../components/Hero'
 import SquareLinkGrid from '../components/SquareLinkGrid'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
-import type { Media } from '@/payload-types'
+import { resolveHeroImage } from '@/lib/heroImage'
 
 export const metadata = {
   title: 'Contact Us | Auckland Youth Orchestra',
@@ -16,21 +23,16 @@ export default async function ContactUsPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = 'Contact Us'
+  const heroTitle = heroBlock?.slogan || 'Contact Us'
 
-  const heroImage = heroBlock?.backgroundImage
-
-  const heroImageUrl =
-    typeof heroImage === 'object' && heroImage !== null
-      ? (heroImage as Media).url
-      : '/hero-placeholder.jpg'
+  const heroImage = resolveHeroImage(heroBlock?.backgroundImage)
 
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
         title={heroTitle}
         subtitle="We'd love to hear from you."
-        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        backgroundImage={heroImage}
       />
       <SquareLinkGrid
         title="Hey there! What can we help you with?"
@@ -39,22 +41,32 @@ export default async function ContactUsPage() {
           {
             id: 'get-involved',
             title: 'Get Involved\nwith AYO',
+            icon: PiHandshakeLight,
             href: '/join-ayo',
           },
           {
             id: 'supporting',
             title: 'Supporting\nAYO',
+            icon: PiHandHeartLight,
             href: '/support-us',
           },
           {
             id: 'join',
             title: 'Join\nAYO',
+            icon: PiUserPlusLight,
             href: '/join-ayo',
           },
           {
             id: 'concerts-events',
             title: 'Concerts\n& Events',
+            icon: PiMusicNotesLight,
             href: '/concerts-events',
+          },
+          {
+            id: 'policies',
+            title: 'Policies',
+            icon: PiScrollLight,
+            href: '/policies',
           },
         ]}
       />

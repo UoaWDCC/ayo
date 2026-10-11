@@ -1,14 +1,23 @@
-import MyAYOCopyLink from '../components/MyAYOCopyLink'
-import NavBar from '../components/NavBar'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { redirect } from 'next/navigation'
-import Resources from '../components/Resources'
-import Links from '../components/Links'
-import ResourcesSection from '../components/Resources'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import Button from '../components/Button'
+import DocumentList from '../components/DocumentList'
+import Hero from '../components/Hero'
+import MyAYOCopyLink from '../components/MyAYOCopyLink'
+import StaggerReveal from '../components/StaggerReveal'
+import { createIntroConverters } from '../components/richTextConverters'
+import { getPageBySlug } from '@/lib/getPageBySlug'
+import { resolveHeroImage } from '@/lib/heroImage'
 
 export const dynamic = 'force-dynamic'
+
+const introConverters = createIntroConverters('my-ayo-intro-fade')
+
+const inputClasses =
+  'w-full border-0 border-b border-black bg-transparent px-2 pb-3 text-[16px] outline-none'
 
 async function checkPassword(formData: FormData) {
   'use server'
@@ -16,6 +25,7 @@ async function checkPassword(formData: FormData) {
   const password = formData.get('password')
   const { docs } = await payload.find({
     collection: 'passwords',
+    pagination: false,
   })
   const correctPasswords = docs.map((doc) => doc.password)
 
@@ -37,94 +47,173 @@ export default async function MyAyoPage({
 }: {
   searchParams: Promise<{ error?: string }>
 }) {
-  const payload = await getPayload({ config })
+  const page = await getPageBySlug('my-ayo')
 
-  const linkResult = await payload.find({
-    collection: 'calendar-links',
-    limit: 1,
-  })
-
-  const resourcesResult = await payload.find({
-    collection: 'link',
-    where: {
-      category: {
-        equals: 'resources',
-      },
-    },
-  })
-
-  const doc = linkResult.docs[0]
-  const calendarEmbed = doc?.embedLink ?? ''
-  const calendarUrl = doc?.publicLink ?? ''
-  const calendarICal = doc?.icalLink ?? ''
+  const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
+  const heroImage = resolveHeroImage(heroBlock?.backgroundImage)
+  const hero = (
+    <Hero
+      title={heroBlock?.slogan || 'My AYO'}
+      subtitle="The calendar, resources and links for current AYO members."
+      backgroundImage={heroImage}
+    />
+  )
 
   const cookieStore = await cookies()
   const hasAccess = cookieStore.get('my-ayo-access')?.value === 'granted'
+
   if (!hasAccess) {
     const { error } = await searchParams
-    return (
-      <main className="min-h-screen flex flex-col">
-        <NavBar variant="dark" />
-        <div className="relative bg-white flex-1 flex flex-col px-6 sm:px-12 lg:px-24 pt-20 lg:pt-24">
-          <div className="mt-auto flex flex-col md:flex-row md:items-end md:justify-between gap-8 pb-16 md:pb-24">
-            <h1 className="font-bold text-black leading-none">
-              <span className="block text-4xl sm:text-5xl lg:text-6xl leading-none">My</span>
-              <span className="block text-7xl sm:text-8xl lg:text-9xl leading-none">AYO</span>
-            </h1>
 
-            <form
-              action={checkPassword}
-              className="flex flex-col items-start w-full md:w-96 lg:w-[420px]"
-            >
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                className="w-full border-0 border-b border-black bg-transparent text-base font-normal text-black placeholder-black pb-2 focus:outline-none"
-              />
-              <div className="flex w-full items-center justify-between mt-4">
-                {error ? (
-                  <p className="italic font-semibold text-[15px] text-black">
-                    Password is incorrect.
-                  </p>
-                ) : (
-                  <span />
-                )}
-                <button
-                  type="submit"
-                  className="bg-black text-white font-semibold text-[15px] px-6 py-2"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
+    return (
+      <main className="min-h-screen bg-white text-black">
+        {hero}
+
+        <section className="bg-white w-full">
+          <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-25 pb-12.5">
+            <StaggerReveal fadeClass="my-ayo-login-fade" className="max-w-[1380px]">
+              <h2 className="my-ayo-login-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+                Member login
+              </h2>
+              <p className="my-ayo-login-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+                Enter the members&apos; password to continue.
+              </p>
+
+              <form action={checkPassword} className="my-ayo-login-fade mt-8 w-full md:w-96 lg:w-[420px]">
+                <label className="block">
+                  <span className="block px-2 pb-3 text-[15px] font-semibold">Password</span>
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    autoComplete="current-password"
+                    aria-invalid={error ? true : undefined}
+                    aria-describedby={error ? 'my-ayo-password-error' : undefined}
+                    className={inputClasses}
+                  />
+                </label>
+
+                <div className="mt-6 flex w-full items-center justify-between gap-4">
+                  {error ? (
+                    <p
+                      id="my-ayo-password-error"
+                      role="alert"
+                      className="text-[15px] leading-[18px] italic text-black"
+                    >
+                      Password is incorrect.
+                    </p>
+                  ) : (
+                    <span />
+                  )}
+                  <Button type="submit">Submit</Button>
+                </div>
+              </form>
+            </StaggerReveal>
           </div>
-        </div>
+        </section>
       </main>
     )
   }
 
+  const payload = await getPayload({ config })
+
+  const [linkResult, resourcesResult, linksResult] = await Promise.all([
+    payload.find({ collection: 'calendar-links', limit: 1 }),
+    payload.find({
+      collection: 'link',
+      where: { category: { equals: 'resources' } },
+      pagination: false,
+    }),
+    payload.find({
+      collection: 'link',
+      where: { category: { equals: 'links' } },
+      pagination: false,
+    }),
+  ])
+
+  const calendar = linkResult.docs[0]
+  const calendarEmbed = calendar?.embedLink ?? ''
+  const calendarUrl = calendar?.publicLink ?? ''
+  const calendarICal = calendar?.icalLink ?? ''
+
+  // Rich-text block [0] on the `my-ayo` page: optional intro shown once a member has logged in.
+  const richTextBlocks = page?.layout?.filter((block) => block.blockType === 'rich-text') ?? []
+  const introContent = richTextBlocks[0]?.content
+
   return (
-    <main>
-      <NavBar />
-      <iframe
-        src={calendarEmbed}
-        className="ml-30 mt-20 lg:mt-24 border: 0"
-        width="800"
-        height="600"
-      ></iframe>
-      <div className="flex">
-        <a href={calendarUrl} className="p-3 ml-30 border-black border-2 rounded-md">
-          <p>Add to Google Calendar</p>
-        </a>
-        <a href={calendarICal} className="p-3 ml-30 border-black border-2 rounded-md">
-          <p>Subscribe on iPhone / Apple Calendar</p>
-        </a>
-        <MyAYOCopyLink copyLink={calendarICal} />
-      </div>
-      <ResourcesSection RESOURCES={resourcesResult.docs} />
-      <Links />
+    <main className="min-h-screen bg-white text-black">
+      {hero}
+
+      {introContent && (
+        <section className="bg-white w-full">
+          <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-25 pb-12.5">
+            <div className="max-w-[1380px]">
+              <StaggerReveal fadeClass="my-ayo-intro-fade">
+                <RichText data={introContent} converters={introConverters} />
+              </StaggerReveal>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="bg-white w-full">
+        <div
+          className={`mx-8 md:mx-20 lg:mx-24 xl:mx-32 ${introContent ? 'py-12.5' : 'pt-25 pb-12.5'}`}
+        >
+          <StaggerReveal fadeClass="my-ayo-calendar-fade">
+            <h2 className="my-ayo-calendar-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+              Calendar
+            </h2>
+            <p className="my-ayo-calendar-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+              Rehearsals, concerts and key dates for the season.
+            </p>
+
+            {calendarEmbed ? (
+              <iframe
+                src={calendarEmbed}
+                title="AYO calendar"
+                className="my-ayo-calendar-fade mt-8 block w-full aspect-[3/4] md:aspect-[16/9] border border-[#EBEBEB]"
+              />
+            ) : (
+              <p className="my-ayo-calendar-fade mt-8 text-[18px] leading-[22px] italic text-[#B2B2B2]">
+                The calendar isn&apos;t available yet.
+              </p>
+            )}
+
+            {(calendarUrl || calendarICal) && (
+              <div className="my-ayo-calendar-fade mt-8 flex flex-wrap items-center gap-4">
+                {calendarUrl && (
+                  <Button href={calendarUrl} external>
+                    Add to Google Calendar
+                  </Button>
+                )}
+                {calendarICal && (
+                  <Button href={calendarICal} external>
+                    Subscribe on Apple Calendar
+                  </Button>
+                )}
+                {calendarICal && <MyAYOCopyLink copyLink={calendarICal} />}
+              </div>
+            )}
+          </StaggerReveal>
+        </div>
+      </section>
+
+      <DocumentList
+        title="Resources"
+        subtitle="Handbooks, forms and documents for members."
+        documents={resourcesResult.docs}
+        fadeClass="my-ayo-resources-fade"
+        searchable
+        showDate
+      />
+
+      <DocumentList
+        title="Links"
+        subtitle="Useful sites and services for AYO members."
+        documents={linksResult.docs}
+        fadeClass="my-ayo-links-fade"
+      />
     </main>
   )
 }

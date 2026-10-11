@@ -25,7 +25,7 @@ function HeroPreview({ block, pageTitle }: { block: AnyBlock; pageTitle: string 
         <div className="ayo-block-preview__hero-empty" />
       )}
       <div className="ayo-block-preview__hero-scrim" />
-      <h1>{pageTitle || 'Untitled page'}</h1>
+      <h1>{(block.slogan as string) || pageTitle || 'Untitled page'}</h1>
     </div>
   )
 }
