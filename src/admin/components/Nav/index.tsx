@@ -14,6 +14,7 @@ const NAV_GROUPS: NavGroup[] = [
       { slug: 'pages', label: 'Pages' },
       { slug: 'posts', label: 'Posts' },
       { slug: 'faqs', label: 'FAQs' },
+      { slug: 'processing-of-data-agreement', label: 'Data Agreement' },
     ],
   },
   {
