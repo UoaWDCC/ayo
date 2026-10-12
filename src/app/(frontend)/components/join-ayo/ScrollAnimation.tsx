@@ -15,45 +15,26 @@ export default function ScrollAnimation() {
 
     let animationFrame = 0
     let context: gsap.Context | undefined
+    let stage: HTMLElement | null = null
 
-    const initializeAnimation = () => {
-      const stage = document.querySelector<HTMLElement>('.join-ayo-stage')
+    // The scroll-driven stage needs a tall viewport and a pointer-driven scroll to
+    // read at all, so on small screens and under reduced motion we hand off to the
+    // static layout in styles.css instead of running the timeline.
+    const staticQuery = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 767px)')
 
-      if (!stage) {
-        animationFrame = window.requestAnimationFrame(initializeAnimation)
+    const buildAnimation = () => {
+      if (!stage) return
+
+      context?.revert()
+      context = undefined
+
+      if (staticQuery.matches) {
+        stage.classList.add('join-static')
+        ScrollTrigger.refresh()
         return
       }
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-      if (reduceMotion) {
-        gsap.set('.join-curtain', { autoAlpha: 0 })
-        gsap.set(
-          [
-            '.join-opening-title',
-            '.join-photo-wrap',
-            '.join-copy',
-            '.join-score',
-            '.join-score-timeline',
-            '.join-timeline-item',
-            '.join-timeline-label',
-            '.join-timeline-clef',
-            '.join-timeline-note',
-            '.join-sections',
-            '.join-section-photo',
-            '.join-crescendo',
-            '.join-applause',
-            '.join-finale',
-            '.join-register',
-          ],
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-          },
-        )
-        return
-      }
+      stage.classList.remove('join-static')
 
       context = gsap.context(() => {
         gsap.set('.join-curtain-left', { xPercent: 0 })
@@ -268,11 +249,25 @@ export default function ScrollAnimation() {
       ScrollTrigger.refresh()
     }
 
+    const initializeAnimation = () => {
+      stage = document.querySelector<HTMLElement>('.join-ayo-stage')
+
+      if (!stage) {
+        animationFrame = window.requestAnimationFrame(initializeAnimation)
+        return
+      }
+
+      buildAnimation()
+      staticQuery.addEventListener('change', buildAnimation)
+    }
+
     initializeAnimation()
 
     return () => {
       window.cancelAnimationFrame(animationFrame)
+      staticQuery.removeEventListener('change', buildAnimation)
       context?.revert()
+      stage?.classList.remove('join-static')
       initialized.current = false
     }
   }, [])

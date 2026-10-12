@@ -19,10 +19,23 @@ import { Roles } from './collections/Roles'
 import { FAQ } from './collections/FAQ'
 
 import { Links } from './collections/Links'
+import { Opportunities } from './collections/Opportunities'
 import { TeamRoles } from './collections/TeamRoles'
+import { SiteSettings } from './globals/SiteSettings'
 import { ProcessingOfDataAgreement } from './collections/ProcessingOfDataAgreement'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+/**
+ * Public base URL of the R2 bucket (an r2.dev subdomain or a custom domain).
+ * When it is set, media URLs point straight at R2 so files are served by
+ * Cloudflare's edge; when it isn't, they stay on /api/media/file/<filename>,
+ * which streams every byte through this Node server on each request.
+ *
+ * Keep next.config.mjs's `images.remotePatterns` in step with this host, or
+ * next/image will refuse to optimize the URLs.
+ */
+const r2PublicUrl = process.env.R2_PUBLIC_URL?.replace(/\/+$/, '')
 
 export default buildConfig({
   admin: {
@@ -44,25 +57,38 @@ export default buildConfig({
           maxWidth: 'full',
         },
       ],
-      defaultLayout: [{ widgetSlug: 'ayo-agenda', width: 'full' }],
+      /**
+       * `collections` is Payload's own widget: a card per collection and global the
+       * signed-in user can read, grouped by `admin.group`. Naming a defaultLayout at
+       * all opts out of it, so it has to be listed explicitly or the dashboard shows
+       * nothing but the agenda.
+       */
+      defaultLayout: [
+        { widgetSlug: 'ayo-agenda', width: 'full' },
+        { widgetSlug: 'collections', width: 'full' },
+      ],
     },
   },
+  // Within a group, the sidebar and the dashboard cards list collections in this
+  // order, so keep each group's entries together.
   collections: [
-    Users,
-    Media,
-    Partners,
     Pages,
-    Passwords,
-    CalendarLink,
-    Concerts,
     Posts,
+    FAQ,
+    Opportunities,
+    Concerts,
+    CalendarLink,
     People,
     Roles,
-    FAQ,
-    Links,
     TeamRoles,
+    Partners,
+    Media,
+    Links,
+    Users,
+    Passwords,
     ProcessingOfDataAgreement,
   ],
+  globals: [SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -75,7 +101,15 @@ export default buildConfig({
   plugins: [
     s3Storage({
       collections: {
-        [Media.slug]: true,
+        [Media.slug]: r2PublicUrl
+          ? {
+              // Payload's access control on this collection is already `read: () => true`,
+              // so routing reads through it buys nothing and costs a proxied request.
+              disablePayloadAccessControl: true,
+              generateFileURL: ({ filename, prefix }: { filename: string; prefix?: string }) =>
+                [r2PublicUrl, prefix, filename].filter(Boolean).join('/'),
+            }
+          : true,
       },
       bucket: process.env.S3_BUCKET || '',
       config: {

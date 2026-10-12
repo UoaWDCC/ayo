@@ -5,6 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import Button from '../../components/Button'
+import NavBar from '../../components/NavBar'
 import { RichText } from '../../components/RichText'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -26,7 +29,7 @@ type NewsArticleContentProps = {
   date: string
   category: string | null
   heroImageUrl: string | null
-  description: any // Payload lexical richText data
+  description?: SerializedEditorState | null
   remainingPhotos: RemainingPhoto[]
   relatedPosts: RelatedPost[]
 }
@@ -48,6 +51,8 @@ const NewsArticleContent = ({
   const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const onScroll = () => setScrollY(window.scrollY)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -55,6 +60,8 @@ const NewsArticleContent = ({
   }, [])
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       if (heroRef.current) {
         gsap.fromTo(
@@ -143,6 +150,12 @@ const NewsArticleContent = ({
     <article className="bg-white">
       {/* Hero */}
       <div className="relative h-105 w-full bg-black">
+        {/* NavBar is `position: fixed`, so it must stay outside the parallax wrapper below —
+            overflow clipping still applies to fixed-position descendants, and that wrapper
+            scrolls away with the hero. `overlay` keeps it transparent with white content over
+            the image, matching every page that renders the shared `Hero`. */}
+        <NavBar overlay />
+
         <div className="absolute inset-0 overflow-hidden">
           <div
             className="absolute inset-x-0 top-[-40%] bottom-[-40%]"
@@ -152,6 +165,8 @@ const NewsArticleContent = ({
               <Image src={heroImageUrl} alt={title} fill className="object-cover" priority />
             )}
           </div>
+          {/* Dark scrim (matches the shared Hero), with the gradient layered on top */}
+          <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
         </div>
 
@@ -173,29 +188,26 @@ const NewsArticleContent = ({
 
       <div className="px-6 py-14">
         <div className="max-w-175 mx-auto">
-          <Link
-            href="/news"
-            className="inline-block mb-10 underline underline-offset-4 hover:text-muted transition-colors"
-          >
-            ← Back to Listing Page
-          </Link>
+          <Button href="/news" className="mb-10">
+            Back to News
+          </Button>
 
           {/* Body — Payload's RichText */}
           <div
             ref={bodyRef}
             className="prose prose-neutral max-w-none
-+              prose-headings:font-semibold prose-headings:tracking-tight prose-headings:mt-10 prose-headings:mb-4
-+              prose-h2:text-3xl prose-h3:text-2xl
-+              prose-p:leading-relaxed prose-p:my-5
-+              prose-blockquote:border-l-4 prose-blockquote:border-black prose-blockquote:pl-6 prose-blockquote:not-italic prose-blockquote:text-2xl
-+              prose-img:rounded prose-img:mx-auto"
+              prose-headings:font-semibold prose-headings:tracking-tight prose-headings:mt-10 prose-headings:mb-4
+              prose-h2:text-3xl prose-h3:text-2xl
+              prose-p:leading-relaxed prose-p:my-5
+              prose-blockquote:border-l-4 prose-blockquote:border-black prose-blockquote:pl-6 prose-blockquote:not-italic prose-blockquote:text-2xl
+              prose-img:rounded prose-img:mx-auto"
           >
             {description && <RichText data={description} />}
           </div>
 
           {/* Any photos beyond the hero image */}
           {remainingPhotos.length > 0 && (
-            <div ref={photosRef} className="mt-10 grid grid-cols-2 gap-3">
+            <div ref={photosRef} className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
               {remainingPhotos.map((photo) => (
                 <div key={photo.id} className="article-photo-item relative aspect-4/3 w-full">
                   <Image src={photo.src} alt={photo.alt} fill className="object-cover" />
@@ -208,7 +220,7 @@ const NewsArticleContent = ({
           {relatedPosts.length > 0 && (
             <div className="mt-20 border-t border-[#EBEBEB] pt-10">
               <h2 className="text-2xl font-semibold mb-8">Related Posts</h2>
-              <div ref={relatedRef} className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div ref={relatedRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {relatedPosts.map((related) => (
                   <Link
                     key={related.id}
@@ -225,7 +237,7 @@ const NewsArticleContent = ({
                         />
                       )}
                     </div>
-                    <h3 className="font-semibold group-hover:text-muted transition-colors">
+                    <h3 className="font-semibold transition-opacity group-hover:opacity-70">
                       {related.title}
                     </h3>
                     <p className="text-sm mt-1">{related.date}</p>

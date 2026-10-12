@@ -7,14 +7,15 @@ import ScrollAnimation from '../components/join-ayo/ScrollAnimation'
 import Hero from '../components/Hero'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
-import type { Media } from '@/payload-types'
+import { resolveHeroImage } from '@/lib/heroImage'
+import { getOpportunities } from '@/lib/getOpportunities'
 
 export default async function JoinAyoPage() {
-  const page = await getPageBySlug('join-ayo')
+  const [page, opportunities] = await Promise.all([getPageBySlug('join-ayo'), getOpportunities()])
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroImage = heroBlock?.backgroundImage
+  const heroImage = resolveHeroImage(heroBlock?.backgroundImage)
 
   const richTextBlocks = page?.layout?.filter((block) => block.blockType === 'rich-text') ?? []
 
@@ -23,22 +24,17 @@ export default async function JoinAyoPage() {
   const tableBlock = page?.layout?.find((block) => block.blockType === 'table')
   const joinUsRows = tableBlock?.rows ?? []
 
-  const heroImageUrl =
-    typeof heroImage === 'object' && heroImage !== null
-      ? (heroImage as Media).url
-      : '/hero-placeholder.jpg'
-
   return (
-    <main>
+    <main className="min-h-screen bg-white text-black">
       <Hero
-        title="Join AYO"
-        subtitle="Play alongside Aotearoa's most talented young musicians."
-        backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'}
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
+        backgroundImage={heroImage}
       />
       <JoinIntroSection introText={introText} introRows={joinUsRows} />
       <JoinAyoBlock />
-      <ScrollAnimation />
-      <OpportunitySection />
+      {/* <ScrollAnimation /> */}
+      <OpportunitySection opportunities={opportunities} />
       <FAQSection category="join-ayo" />
     </main>
   )

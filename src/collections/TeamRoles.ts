@@ -4,6 +4,7 @@ export const TeamRoles: CollectionConfig = {
     slug: 'team-roles',
 
     admin: {
+        group: 'People & Supporters',
         useAsTitle: 'displayName'
     },
 

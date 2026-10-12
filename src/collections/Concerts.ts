@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Concerts: CollectionConfig = {
   slug: 'concerts',
   admin: {
+    group: 'Concerts',
     useAsTitle: 'title',
     description: 'Every concert series, with its repertoire and performance dates.',
     // 'title' must lead: Payload only wraps the first defaultColumns entry in a row link,

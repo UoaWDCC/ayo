@@ -1,3 +1,6 @@
+import Image from 'next/image'
+import Button from '../Button'
+
 const photoMoments = [
   {
     src: '/grey_rectangle.png',
@@ -218,22 +221,28 @@ export default function JoinAyoSection() {
 
   return (
     <section className="join-ayo-stage relative h-[1500vh] w-full bg-black text-white">
-      <div className="sticky top-0 min-h-screen overflow-hidden">
-        <div className="absolute inset-0 bg-black" />
+      <div className="join-stage-inner sticky top-0 min-h-screen overflow-hidden">
+        <div className="join-stage-backdrop absolute inset-0 bg-black" />
 
         <div className="join-curtain join-curtain-left absolute inset-y-0 left-0 z-30 w-1/2 overflow-hidden bg-black">
-          <img
+          <Image
             src={openingPhoto.src}
             alt=""
+            width={1600}
+            height={900}
+            priority
             className="h-full w-[200%] max-w-none object-cover opacity-90 grayscale"
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)]" />
           <div className="absolute inset-0 bg-black/20" />
         </div>
         <div className="join-curtain join-curtain-right absolute inset-y-0 right-0 z-30 w-1/2 overflow-hidden bg-black">
-          <img
+          <Image
             src={openingPhoto.src}
             alt=""
+            width={1600}
+            height={900}
+            priority
             className="ml-[-100%] h-full w-[200%] max-w-none object-cover opacity-90 grayscale"
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)]" />
@@ -243,14 +252,14 @@ export default function JoinAyoSection() {
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-white/80">
             Auckland Youth Orchestra
           </p>
-          <h1 className="text-5xl font-semibold leading-none sm:text-7xl lg:text-8xl">
+          <h2 className="text-5xl font-semibold leading-none sm:text-7xl lg:text-8xl">
             Join the sound.
-          </h1>
+          </h2>
         </div>
 
-        <div className="relative z-10 flex min-h-screen w-full items-center justify-center px-5 py-12 sm:px-8 lg:px-16">
+        <div className="join-scenes relative z-10 flex min-h-screen w-full items-center justify-center px-5 py-12 sm:px-8 lg:px-16">
           <div className="join-photo-wrap absolute inset-0 flex items-center justify-center opacity-0">
-            <div className="relative h-[74vh] w-full max-w-6xl">
+            <div className="join-photo-grid relative h-[74vh] w-full max-w-6xl">
               {photoMoments.map((moment, index) => (
                 <figure
                   key={moment.label}
@@ -262,9 +271,11 @@ export default function JoinAyoSection() {
                     height: `${photoLayout[index].height}%`,
                   }}
                 >
-                  <img
+                  <Image
                     src={moment.src}
                     alt={moment.alt}
+                    width={800}
+                    height={1000}
                     className="h-full w-full object-cover grayscale"
                   />
                   <div className="absolute inset-0 border border-white/18" />
@@ -303,7 +314,7 @@ export default function JoinAyoSection() {
             >
               {/* Staff lines — continuous across the full timeline */}
               <div
-                className="absolute left-0 right-0 space-y-4"
+                className="join-staff-lines absolute left-0 right-0 space-y-4"
                 style={{ top: 'calc(50% - 34px)' }}
               >
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -355,9 +366,11 @@ export default function JoinAyoSection() {
                     }}
                   >
                     <div className="aspect-4/3 overflow-hidden bg-black/60 mb-4 border border-white/15">
-                      <img
+                      <Image
                         src={moment.src}
                         alt={moment.alt}
+                        width={400}
+                        height={300}
                         className="h-full w-full object-cover grayscale"
                       />
                     </div>
@@ -388,9 +401,11 @@ export default function JoinAyoSection() {
             {orchestraSections.map((section, idx) => (
               <div key={section} className="join-section-family text-left">
                 <div className="mb-4 aspect-4/3 overflow-hidden bg-black/40 join-section-photo-wrap">
-                  <img
+                  <Image
                     src={sectionPhotos[idx].src}
                     alt={sectionPhotos[idx].alt}
+                    width={400}
+                    height={300}
                     className="join-section-photo h-full w-full object-cover"
                   />
                 </div>
@@ -444,15 +459,12 @@ export default function JoinAyoSection() {
             <p className="mx-auto mt-6 max-w-xl text-lg leading-body text-white/82">
               Registrations are currently open until <strong>May 20th, 2026.</strong>
             </p>
-            <a
-              href="#"
-              className="mt-8 inline-flex min-h-12 items-center justify-center border border-white px-7 text-base font-semibold text-white transition hover:bg-white hover:text-black"
-            >
-              Register for an audition
-            </a>
+            <Button href="#" variant="white" className="mt-8">
+              Register for An Audition
+            </Button>
             <div className="mt-8 text-sm leading-body text-white/70">
               <p className="font-semibold text-white">Enquires: Mary Lin, Orchestra Manager</p>
-              <a href="mailto:manager@ayo.org.nz" className="underline underline-offset-3">
+              <a href="mailto:manager@ayo.org.nz" className="underline">
                 manager@ayo.org.nz
               </a>
             </div>

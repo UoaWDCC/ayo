@@ -16,6 +16,7 @@ function youtubeEmbedUrl(url: string): string | null {
 
 function HeroPreview({ block, pageTitle }: { block: AnyBlock; pageTitle: string }) {
   const image = useMediaUrl(block.backgroundImage)
+  const subtitle = block.subtitle as string | undefined
   return (
     <div className="ayo-block-preview__hero">
       {image?.url ? (
@@ -25,7 +26,21 @@ function HeroPreview({ block, pageTitle }: { block: AnyBlock; pageTitle: string 
         <div className="ayo-block-preview__hero-empty" />
       )}
       <div className="ayo-block-preview__hero-scrim" />
-      <h1>{pageTitle || 'Untitled page'}</h1>
+      <div className="ayo-block-preview__hero-copy">
+        <h1>{(block.slogan as string) || pageTitle || 'Untitled page'}</h1>
+        {subtitle ? <p>{subtitle}</p> : null}
+      </div>
+    </div>
+  )
+}
+
+function MemberSectionPreview({ block }: { block: AnyBlock }) {
+  const label = (block.section as string) || 'unassigned'
+  return (
+    <div className="ayo-block-preview__member-section">
+      <span className="ayo-block-preview__member-section-label">My AYO · {label}</span>
+      <h2>{(block.heading as string) || 'Untitled section'}</h2>
+      {block.subtitle ? <p>{block.subtitle as string}</p> : null}
     </div>
   )
 }
@@ -162,6 +177,8 @@ export function BlockPreview({ block, pageTitle }: { block: AnyBlock; pageTitle:
       return <TablePreview block={block} />
     case 'faq':
       return <FaqPreview block={block} />
+    case 'member-section':
+      return <MemberSectionPreview block={block} />
     default:
       return null
   }

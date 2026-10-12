@@ -1132,6 +1132,16 @@ For deeper exploration of specific topics, refer to the context files located in
     - Performance best practices
     - Styling components
 
+14. **`design-system.md`** - Public frontend design system (⚠️ READ BEFORE ANY FRONTEND UI WORK)
+
+    - Section/gutter pattern, vertical rhythm and type scale
+    - Colour tokens and the values actually in use
+    - The single scroll-reveal and its hover counterparts
+    - Shared components to reuse instead of rebuilding
+    - Filter row, pagination, card grid and side panel patterns
+    - Link/icon/image rules and the Payload-driven copy pattern
+    - Checklist for adding a new section
+
 ## Resources
 
 - Docs: https://payloadcms.com/docs

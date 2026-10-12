@@ -4,6 +4,7 @@ export const People: CollectionConfig = {
   slug: 'people',
 
   admin: {
+    group: 'People & Supporters',
     useAsTitle: 'name',
   },
 

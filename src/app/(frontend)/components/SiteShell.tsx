@@ -2,12 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Footer from './Footer'
+import type { SocialLink } from '@/lib/getSiteSettings'
 
 // Ease-out: the reveal races ahead early then settles in, instead of tracking
 // scroll position 1:1.
 const easeOutCubic = (t: number) => 1 - (1 - t) ** 3
 
-export default function SiteShell({ children }: { children: React.ReactNode }) {
+export default function SiteShell({
+  children,
+  socialLinks,
+}: {
+  children: React.ReactNode
+  /** Footer social profiles, read from Payload in the layout above. */
+  socialLinks?: SocialLink[]
+}) {
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerHeight, setFooterHeight] = useState(0)
   const [revealProgress, setRevealProgress] = useState(0)
@@ -63,9 +71,12 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
           scrolled far enough for that spacer to enter the viewport, the sticky
           footer sitting behind it (pulled up to overlap that same spacer via a
           matching negative margin) shows through — the page appears to slide
-          up and off the footer underneath it. */}
-      <main className="relative z-10">
-        {children}
+          up and off the footer underneath it.
+          Because `main` stacks above the footer, it ignores pointer events so clicks
+          over the spacer fall through to the footer's links; the page content
+          (wrapped in a layout-neutral `contents` div) opts back in. */}
+      <main className="relative z-10 pointer-events-none">
+        <div className="contents pointer-events-auto">{children}</div>
         <div style={{ height: footerHeight }} aria-hidden="true" />
       </main>
       <div
@@ -73,7 +84,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
         style={footerHeight ? { marginTop: -footerHeight } : undefined}
       >
         <div ref={footerRef}>
-          <Footer revealProgress={revealProgress} />
+          <Footer revealProgress={revealProgress} socialLinks={socialLinks} />
         </div>
       </div>
     </>

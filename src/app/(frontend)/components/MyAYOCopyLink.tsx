@@ -1,24 +1,27 @@
 'use client'
-import React from 'react'
+
 import { useState } from 'react'
+import Button from './Button'
+
+const LABEL = 'Copy ICS link'
 
 const MyAYOCopyLink = ({ copyLink }: { copyLink: string }) => {
-  const [text, setText] = useState('Copy ICS link')
+  const [text, setText] = useState(LABEL)
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(copyLink)
-    setText('Copied!')
-    setTimeout(() => {
-      setText('Copy ICS link')
-    }, 1000)
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(copyLink)
+      setText('Copied!')
+    } catch {
+      setText('Copy failed')
+    }
+    setTimeout(() => setText(LABEL), 1500)
   }
+
   return (
-    <button
-      onClick={handleCopy}
-      className="p-3 ml-30 border-black border-2 rounded-md cursor-pointer"
-    >
+    <Button onClick={handleCopy} aria-live="polite">
       {text}
-    </button>
+    </Button>
   )
 }
 

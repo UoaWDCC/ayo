@@ -1,6 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import Button from './Button'
+import StaggerReveal from './StaggerReveal'
+
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
 export default function NewsletterSignup() {
@@ -38,64 +41,63 @@ export default function NewsletterSignup() {
 
   return (
     <section className="bg-white text-black w-full">
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-8 md:pt-10 pb-16 md:pb-20 border-t border-[#EBEBEB] flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#B2B2B2]">
-            Stay in the loop
-          </p>
+          <StaggerReveal fadeClass="newsletter-fade">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+              <div>
+                <h2 className="newsletter-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+                  Sign up to our newsletter
+                </h2>
 
-          <h2 className="mt-3 font-semibold text-[32px] md:text-[40px] leading-[40px] md:leading-[48px]">
-            Sign up to our newsletter
-          </h2>
+                <p className="newsletter-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+                  Concert announcements, stories and updates from across the AYO community, sent
+                  straight to your inbox.
+                </p>
+              </div>
 
-          <p className="mt-4 max-w-md text-[16px] leading-6 text-[#2E2E2E]">
-            Get concert announcements, stories, and updates from across the AYO community sent
-            straight to your inbox.
-          </p>
-        </div>
+              <div className="newsletter-fade w-full max-w-md">
+                <form onSubmit={handleSubmit} className="flex w-full flex-wrap items-stretch gap-6">
+                  <input
+                    type="email"
+                    required
+                    placeholder="Email address"
+                    aria-label="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status === 'loading'}
+                    className="min-w-0 flex-1 border border-[#EBEBEB] bg-transparent px-4 py-3 text-[15px] leading-[18px] text-black outline-none placeholder:text-[#B2B2B2]"
+                  />
 
-        <div className="w-full max-w-md">
-          <form onSubmit={handleSubmit} className="flex w-full border border-[#EBEBEB]">
-            <input
-              type="email"
-              required
-              placeholder="Email address"
-              aria-label="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={status === 'loading'}
-              className="min-w-0 flex-1 bg-transparent px-4 py-3 text-black outline-none placeholder:text-[#B2B2B2]"
-            />
+                  {/* Honeypot: hidden from people, visible to bots */}
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                  />
 
-            {/* Honeypot: hidden from people, visible to bots */}
-            <input
-              type="text"
-              name="website"
-              tabIndex={-1}
-              autoComplete="off"
-              aria-hidden="true"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              className="absolute -left-[9999px] h-0 w-0 opacity-0"
-            />
+                  <Button type="submit">
+                    {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                  </Button>
+                </form>
 
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              className="cursor-pointer bg-black px-6 py-3 font-semibold text-white transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
-            </button>
-          </form>
-          <p
-            role="status"
-            aria-live="polite"
-            className={`mt-3 min-h-5 text-sm ${
-              status === 'error' ? 'text-red-600' : 'text-[#2E2E2E]'
-            }`}
-          >
-            {message}
-          </p>
+                <p
+                  role="status"
+                  aria-live="polite"
+                  className={`mt-3 min-h-5 text-sm ${
+                    status === 'error' ? 'text-red-600' : 'text-[#2E2E2E]'
+                  }`}
+                >
+                  {message}
+                </p>
+              </div>
+            </div>
+          </StaggerReveal>
         </div>
       </div>
     </section>

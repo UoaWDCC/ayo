@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createHash } from 'crypto'
+// this file tells mailchimp to add this person
 // sends the correct response messaeg: " You're already subscribed!" or
 //  "Almost there! Check your inbox to confirm your subscription."
 export async function POST(req: Request) {

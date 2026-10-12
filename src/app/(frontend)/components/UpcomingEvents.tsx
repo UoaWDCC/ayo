@@ -158,7 +158,7 @@ export default function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
 
   return (
     <section className="bg-white w-full">
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-14">
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
         <div ref={leadRef}>
           <h2 className="upcoming-lead-fade font-semibold text-[40px] leading-[48px] text-black">
             Upcoming Events
@@ -237,7 +237,7 @@ export default function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
             />
 
             {/* search bar */}
-            <div className="lg:ml-auto flex items-center gap-2 border border-[#EBEBEB] px-3 py-1">
+            <div className="lg:ml-auto flex items-center gap-2.5 border border-[#EBEBEB] px-4 py-2.5">
               <svg
                 width="15"
                 height="15"

@@ -14,7 +14,7 @@ type LinkPreviewData = {
 }
 
 // Reproduces the public site's Resources/Links row treatment
-// (src/app/(frontend)/components/Resources.tsx and Links.tsx) using live, unsaved form state.
+// (src/app/(frontend)/components/DocumentList.tsx) using live, unsaved form state.
 // Resources rows additionally show a date (real records show updatedAt); Links rows do not.
 const LinksPreviewInner: React.FC = () => {
   const rawFields = useFormFields(([fieldState]) => fieldState)
