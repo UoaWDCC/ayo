@@ -4,6 +4,7 @@ import FakeScrollbar from './components/FakeScrollbar'
 import SiteShell from './components/SiteShell'
 import PageTransitionProvider from './components/PageTransitionProvider'
 import SmoothScroll from './components/SmoothScroll'
+import { getSocialLinks } from '@/lib/getSiteSettings'
 
 export const metadata = {
   title: 'Auckland Youth Orchestra',
@@ -12,6 +13,7 @@ export const metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
+  const socialLinks = await getSocialLinks()
 
   return (
     <html lang="en">
@@ -19,7 +21,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <SmoothScroll />
         <FakeScrollbar target="window" fixed variant="dark" />
         <PageTransitionProvider>
-          <SiteShell>{children}</SiteShell>
+          <SiteShell socialLinks={socialLinks}>{children}</SiteShell>
         </PageTransitionProvider>
       </body>
     </html>

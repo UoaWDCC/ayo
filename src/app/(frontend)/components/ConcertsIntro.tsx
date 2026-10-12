@@ -2,12 +2,17 @@
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Link from 'next/link'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { useEffect, useRef } from 'react'
+import { createIntroConverters } from './richTextConverters'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function ConcertsIntro() {
+{/* Maps the original Tailwind CSS from the hardcoded values to the RichText injection */}
+const introConverters = createIntroConverters('concerts-lead-fade')
+
+export default function ConcertsIntro({ introText }: { introText?: SerializedEditorState | null }) {
   const leadRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -40,31 +45,9 @@ export default function ConcertsIntro() {
 
   return (
     <section className="bg-white w-full">
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-16 md:pt-20 pb-15">
+      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-25 pb-12.5">
         <div ref={leadRef} className="max-w-[1380px]">
-          <h2 className="concerts-lead-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
-            Every performance, months in the making.
-          </h2>
-
-          <div className="concerts-lead-fade mt-8 text-[18px] leading-6.5 md:text-[20px] md:leading-7 text-[#2E2E2E]">
-            <p>
-              Every single AYO concert is the ultimate payoff of months of rehearsal and practice by
-              our players who passionately tackle serious repertoire head-on. Expect full symphonic
-              programmes, mesmerizing soloists from within our own ranks and beyond, and that pure,
-              absolute magic that sparks when incredible talent is given the space to excel. <br />{' '}
-              <br />
-              Truly, there is nothing else like it. <br /> <br />
-              Sign up to our newsletter for early notice of concert dates and priority booking.
-              <br />
-              <Link
-                href="#"
-                className="concerts-lead-fade mt-6 inline-flex items-center gap-1 font-semibold text-[18px] md:text-[20px] hover:opacity-70 transition-opacity"
-              >
-                <span className="underline">Sign up to our newsletter</span>
-                &ensp;↗
-              </Link>
-            </p>
-          </div>
+          {introText && <RichText data={introText} converters={introConverters} />}
         </div>
       </div>
     </section>

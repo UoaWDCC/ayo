@@ -1,8 +1,12 @@
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import React from 'react'
-import AboutUsQuoteStatic from './AboutUsQuoteStatic'
-import { RichText } from './RichText'
-import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import Image from 'next/image'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+
+import AboutUsQuoteStatic from './AboutUsQuoteStatic'
+import ScrollReveal from './ScrollReveal'
+import StaggerReveal from './StaggerReveal'
+import { createIntroConverters } from './richTextConverters'
 
 type AboutUsSectionProps = {
   foundingStoryText?: SerializedEditorState
@@ -12,6 +16,9 @@ type AboutUsSectionProps = {
   quoteCaption?: string
   bannerImageUrl?: string
 }
+
+const foundingConverters = createIntroConverters('about-founding-fade')
+const reachConverters = createIntroConverters('about-reach-fade')
 
 const AboutUsSection = ({
   foundingStoryText,
@@ -23,27 +30,28 @@ const AboutUsSection = ({
 }: AboutUsSectionProps) => {
   return (
     <section className="w-full bg-white">
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
-        {foundingStoryText ? (
-          <div className="text-2xl md:text-3xl leading-body text-gray-600">
-            <RichText data={foundingStoryText} />
-          </div>
-        ) : null}
-      </div>
+      {foundingStoryText && (
+        <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-25 pb-12.5">
+          <StaggerReveal fadeClass="about-founding-fade" className="max-w-[1380px]">
+            <RichText data={foundingStoryText} converters={foundingConverters} />
+          </StaggerReveal>
+        </div>
+      )}
 
-      <div className="w-full mt-10">
+      {/* Full-bleed media break — deliberately outside the gutter. */}
+      <ScrollReveal className="w-full my-12.5">
         <AboutUsQuoteStatic quote={quote} image={quoteImageUrl} caption={quoteCaption} />
-      </div>
+      </ScrollReveal>
 
-      <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-20 md:pt-[92px] pb-16 md:pb-24">
-        {reachAndAlumniText ? (
-          <div className="text-2xl md:text-3xl leading-body text-gray-600">
-            <RichText data={reachAndAlumniText} />
-          </div>
-        ) : null}
-      </div>
+      {reachAndAlumniText && (
+        <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
+          <StaggerReveal fadeClass="about-reach-fade" className="max-w-[1380px]">
+            <RichText data={reachAndAlumniText} converters={reachConverters} />
+          </StaggerReveal>
+        </div>
+      )}
 
-      <div className="relative h-[320px] md:h-[420px] w-full overflow-hidden">
+      <ScrollReveal className="relative h-[320px] md:h-[420px] w-full overflow-hidden my-12.5">
         <Image
           src={bannerImageUrl ?? '/about-us-quote-poster.jpg'}
           alt="Auckland Youth Orchestra performing"
@@ -59,9 +67,7 @@ const AboutUsSection = ({
             the Future
           </span>
         </div>
-      </div>
-
-      <div className="h-16 bg-white w-full" />
+      </ScrollReveal>
     </section>
   )
 }

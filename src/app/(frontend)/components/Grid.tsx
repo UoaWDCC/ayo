@@ -1,48 +1,107 @@
+'use client'
+
 import React from 'react'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import Button from './Button'
 import Card from './Card'
-import Link from 'next/link'
+import StaggerReveal from './StaggerReveal'
+import { createSubsectionConverters } from './richTextConverters'
 import type { Person } from '@/payload-types'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 type GridProps = {
   title: string
+  /** Italic muted sub-line that pairs with the heading. */
+  subtitle: string
   people: Person[]
-  placeholderCount?: number
-  desc?: React.ReactNode
+  /** Section copy from Payload. */
+  desc?: SerializedEditorState
   linkName: string
+  linkHref: string
+  /** Left-hand label in each person panel's bottom bar. */
+  panelNote: string
+  /** Fade class for this section's reveal — one per section. */
+  fadeClass: string
+  /**
+   * The grid mounted because the viewer changed the filter, so `AboutUsFilter`
+   * is already playing the shorter re-entry over the whole section. Skip the
+   * scroll reveal rather than running both.
+   */
+  skipReveal?: boolean
 }
 
-const Grid = ({ title, people, desc, linkName }: GridProps) => {
-  return (
-    <section className="mt-5">
-      <div className="flex items-start justify-between mb-8">
-        <h1 className="text-6xl font-bold leading-none m-0">
-          Our <em>{title}</em>
-        </h1>
-      </div>
-      <div className="items-start justify-between mb-8 text-[#2E2E2E]">
-        <div className="text-xl mb-4 [&_p]:mb-4">{desc}</div>
-        <Link href="/join-us">
-          <p className="text-xl font-bold underline text-black">{linkName} ↗</p>
-        </Link>
-      </div>
+const Grid = ({
+  title,
+  subtitle,
+  people,
+  desc,
+  linkName,
+  linkHref,
+  panelNote,
+  fadeClass,
+  skipReveal = false,
+}: GridProps) => {
+  const lead = (
+    <>
+      <h2
+        className={`${fadeClass} font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]`}
+      >
+        Our <em>{title}</em>
+      </h2>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <p className={`${fadeClass} mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic`}>
+        {subtitle}
+      </p>
+
+      {desc && (
+        <div className="mt-8">
+          <RichText data={desc} converters={createSubsectionConverters(fadeClass)} />
+        </div>
+      )}
+
+      <Button href={linkHref} className={`${fadeClass} mt-8`}>
+        {linkName}
+      </Button>
+    </>
+  )
+
+  return (
+    <div className="about-filter-section">
+      <StaggerReveal fadeClass={fadeClass} active={!skipReveal}>
+        {lead}
+      </StaggerReveal>
+
+      {/* Tighter stagger than a section reveal: these grids run to dozens of cards. */}
+      <StaggerReveal
+        fadeClass={`${fadeClass}-card`}
+        stagger={0.04}
+        active={!skipReveal}
+        className="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-8"
+      >
         {people.map((person) => (
           <Card
             key={person.id}
-            name={person.name}
-            subtitle={
-              typeof person.role === 'object' && person.role !== null ? person.role.roleName : ''
-            }
-            imageUrl={
-              typeof person.photo === 'object' && person.photo !== null && person.photo.url
-                ? person.photo.url
-                : ''
-            }
+            fadeClass={`${fadeClass}-card`}
+            person={{
+              name: person.name,
+              role:
+                typeof person.role === 'object' && person.role !== null
+                  ? person.role.roleName
+                  : undefined,
+              imageUrl:
+                typeof person.photo === 'object' && person.photo !== null && person.photo.url
+                  ? person.photo.url
+                  : undefined,
+              description: person.description ?? undefined,
+              years: person.years,
+              footerNote: panelNote,
+              ctaLabel: linkName,
+              ctaHref: linkHref,
+            }}
           />
         ))}
-      </div>
-    </section>
+      </StaggerReveal>
+    </div>
   )
 }
 

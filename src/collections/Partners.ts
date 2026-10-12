@@ -4,6 +4,7 @@ export const Partners: CollectionConfig = {
   slug: 'partners',
 
   admin: {
+    group: 'People & Supporters',
     useAsTitle: 'name',
     description: 'The partners and sponsors shown on the site.',
     defaultColumns: ['name', 'logo', 'partnerType', 'isActive'],

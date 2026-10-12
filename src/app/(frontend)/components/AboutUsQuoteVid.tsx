@@ -10,13 +10,13 @@ type AboutUsQuoteVideoProps = {
   posterImage?: string
   /** gif that plays on hover. goes back to a static poster if you go off */
   videoSrc?: string
-  /** full performance video the block links out to after clicking */
-  youtubeUrl: string
-  /** small label pinned top-left. defaults to the 75th Anniversary caption */
+  /** full performance video the block links out to after clicking. omit to render the block without a link. */
+  youtubeUrl?: string
+  /** small label pinned top-left. omit to render no label. */
   caption?: string
   /** tailwind aspect-ratio class for the block. defaults to aspect-[16/6] */
   aspectClassName?: string
-  /** show a "See More" label top-right next to the caption. links to youtubeUrl like the rest of the block. */
+  /** show a "See More" label top-right next to the caption. only rendered when `youtubeUrl` is set. */
   showSeeMore?: boolean
   /** two-line title pinned bottom-left (regular weight over bold), e.g. "Our Past" / "Highlights". omit to render no title. */
   titleSmall?: string
@@ -33,7 +33,7 @@ const AboutUsQuoteVideo = ({
   posterImage,
   videoSrc,
   youtubeUrl,
-  caption = '75th Anniversary Concert - Friday, 23rd of October, 2023',
+  caption,
   aspectClassName = 'aspect-[16/6]',
   showSeeMore = false,
   titleSmall,
@@ -52,15 +52,24 @@ const AboutUsQuoteVideo = ({
     video.currentTime = 0
   }
 
+  // Without a video URL in Payload the block still renders — as a plain
+  // container rather than a link that goes nowhere.
+  const Wrapper = youtubeUrl ? 'a' : 'div'
+  const wrapperProps = youtubeUrl
+    ? ({
+        href: youtubeUrl,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        'aria-label': 'Watch the full AYO performance video on YouTube',
+      } as const)
+    : {}
+
   return (
-    <a
-      href={youtubeUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Wrapper
+      {...wrapperProps}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`group relative block ${aspectClassName} w-full overflow-hidden h-[85vh] min-h-[560px]`}
-      aria-label="Watch the full AYO performance video on YouTube"
     >
       {/* PLACEHOLDER */}
       {videoSrc ? (
@@ -76,10 +85,13 @@ const AboutUsQuoteVideo = ({
           <source src={videoSrc} type="video/mp4" />
         </video>
       ) : posterImage ? (
-        <img
+        <Image
           src={posterImage}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          fill
+          // Full-bleed block, so the browser can pick a width from the viewport alone.
+          sizes="100vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
         // PLACEHOLDER
@@ -89,8 +101,12 @@ const AboutUsQuoteVideo = ({
       <div className="absolute inset-0 bg-black/50 transition-colors duration-300" />
 
       <div className="absolute z-10 top-0 left-0 right-0 mt-5 px-5 flex items-start justify-between">
-        <p className="text-xs md:text-sm lg:text-base text-white mr-5">{caption}</p>
-        {showSeeMore && (
+        {caption ? (
+          <p className="text-xs md:text-sm lg:text-base text-white mr-5">{caption}</p>
+        ) : (
+          <span />
+        )}
+        {showSeeMore && youtubeUrl && (
           <p className="flex items-center gap-1 text-sm lg:text-base font-medium text-white whitespace-nowrap">
             See More
             <Image
@@ -133,7 +149,7 @@ const AboutUsQuoteVideo = ({
           )}
         </div>
       )}
-    </a>
+    </Wrapper>
   )
 }
 

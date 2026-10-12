@@ -76,16 +76,52 @@
     background: rgba(0, 0, 0, 0.5);
   }
 
-  &__hero h1 {
+  &__hero-copy {
     position: absolute;
     left: 16px;
-    bottom: 14px;
     right: 16px;
+    bottom: 14px;
+  }
+
+  &__hero h1 {
     margin: 0;
     color: #fff;
     font-size: 22px;
     font-weight: 600;
     line-height: 1.1;
+  }
+
+  &__hero-copy p {
+    margin: 8px 0 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  &__member-section {
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--ayo-text);
+    }
+
+    p {
+      margin: 8px 0 0;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--ayo-text-meta);
+    }
+  }
+
+  &__member-section-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ayo-text-meta);
   }
 
   &__quote {

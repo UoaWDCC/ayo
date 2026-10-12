@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 type AboutUsQuoteStaticProps = {
   /** quote overlay text. omit to render the block without a quote. */
   quote?: string | null
@@ -20,7 +22,7 @@ const AboutUsQuoteStatic = ({
       className={`relative flex min-h-64 flex-col justify-between ${aspectClassName} max-md:aspect-auto md:block md:min-h-0 w-full overflow-hidden`}
     >
       {image ? (
-        <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <Image src={image} alt="" fill sizes="100vw" className="object-cover" />
       ) : (
         <div className="absolute inset-0 bg-neutral-800" />
       )}

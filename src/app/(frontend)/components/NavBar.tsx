@@ -51,7 +51,9 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
   // from the top while scrolling down (bar fully hidden — content faded to nothing, background
   // never shows); and revealed by scrolling up (solid white background, black content). The bar
   // only ever turns solid in response to an upward scroll — never just from leaving the top.
+  // A standalone header reads none of these states, so it doesn't track scrolling at all.
   useEffect(() => {
+    if (!overlay) return
     lastScrollY.current = window.scrollY
 
     const update = () => {
@@ -85,18 +87,25 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
     update()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [isMenuOpen])
+  }, [isMenuOpen, overlay])
 
+  // All three scroll-reveal states below only exist for an overlay header, which has to work
+  // against whatever hero sits under it. A standalone header paints its own background, so its
+  // `variant` is authoritative: it stays that colour through scrolling, an open mobile menu and
+  // page transitions alike, instead of flipping to white and back.
+  //
   // Forced solid + black-on-white for the duration of a page transition, so the bar stays
-  // legible over the white cover regardless of scroll position or page variant.
-  const isSolid = isRevealed || isMenuOpen || isTransitioning
-  const isDark = !isSolid && (overlay || variant === 'dark')
+  // legible over the white cover regardless of scroll position.
+  const isSolid = overlay && (isRevealed || isMenuOpen || isTransitioning)
+  const isDark = overlay ? !isSolid : variant === 'dark'
 
   // The background only ever shows once revealed by an upward scroll (or always, for the
   // standalone/non-overlay header). It slides down + fades in to reveal, and slides back up +
   // fades out to hide — the same motion in both directions.
   const bgVisible = isSolid || !overlay
-  const bgColor = !bgVisible || isSolid ? 'bg-white' : isDark ? 'bg-black' : 'bg-white'
+  // An overlay's background is always white — it only ever shows in the solid state, and keeping
+  // it white means the slide-up hide animation fades out without flashing another colour.
+  const bgColor = !overlay && isDark ? 'bg-black' : 'bg-white'
   const text = isDark ? 'text-white' : 'text-black'
 
   // The content is visible at the top (white) and once revealed (black); scrolling down away

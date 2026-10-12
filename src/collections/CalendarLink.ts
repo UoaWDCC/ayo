@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const CalendarLink: CollectionConfig = {
   slug: 'calendar-links',
   admin: {
+    group: 'Concerts',
     description: 'The calendar embed, public, and iCal links used on the site.',
     defaultColumns: ['embedLink', 'publicLink', 'icalLink', 'updatedAt'],
   },

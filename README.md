@@ -36,6 +36,21 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
 
+## Page copy lives in Payload
+
+Headings, sub-lines and outbound links are edited in the admin UI rather than
+in the components — a field left blank renders nothing instead of falling back
+to a value in the code. On a database that predates this, run the one-off
+backfill to write the previous copy into the matching fields:
+
+```
+DRY_RUN=1 pnpm payload run src/scripts/backfillCmsCopy.ts   # preview
+pnpm payload run src/scripts/backfillCmsCopy.ts             # write
+```
+
+It only fills blanks, so it is safe to run more than once, and it finishes by
+listing anything that still needs a person in the admin UI.
+
 ## Contributors
 
 - Sam Sajch

@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import FakeScrollbar from './FakeScrollbar'
 import { announceModalOpen } from './modalEvents'
 
@@ -160,17 +161,18 @@ export default function Spacer({
     }
   }, [shouldRender])
 
-  if (!shouldRender) return null
+  if (!shouldRender || typeof document === 'undefined') return null
 
-  return (
+  // Portalled to <body> at z-[120] so it sits above the fixed NavBar header (z-[110]).
+  return createPortal(
     <div
       ref={backdropRef}
       onClick={(e) => {
         // Only close if the click landed on the backdrop itself, not a child
         if (e.target === backdropRef.current) onClose()
       }}
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 md:p-8 transition-opacity duration-300 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
+      className={`fixed inset-0 z-[120] flex items-center justify-center bg-black/60 p-4 md:p-8 transition-[opacity,backdrop-filter] duration-300 ${
+        isVisible ? 'opacity-100 backdrop-blur-sm' : 'opacity-0 backdrop-blur-none'
       }`}
       role="dialog"
       aria-modal="true"
@@ -219,6 +221,8 @@ export default function Spacer({
             >
               <Image src={image} alt={title} fill priority className="object-cover object-center" />
             </div>
+            {/* Dark scrim (matches the shared Hero), with the gradient layered on top */}
+            <div className="absolute inset-0 bg-black/50" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent px-6 pb-6 pt-20 md:px-10 md:pb-8">
               <h2
                 id="spacer-title"
@@ -279,10 +283,17 @@ export default function Spacer({
                 href={setListUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-1 font-bold text-white"
+                className="mt-6 inline-flex items-center gap-1 font-bold text-white transition-opacity hover:opacity-70"
               >
                 <span className="underline underline-offset-2">Set List</span>
-                <span aria-hidden>↗</span>
+                <Image
+                  src="/arrow-up-right.svg"
+                  alt=""
+                  width={20}
+                  height={20}
+                  aria-hidden="true"
+                  className="h-[1em] w-[1em] brightness-0 invert"
+                />
               </a>
             )}
           </div>
@@ -297,15 +308,23 @@ export default function Spacer({
                 href={bookNowUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm font-bold text-black md:text-base"
+                className="inline-flex items-center gap-1 text-sm font-bold text-black transition-opacity hover:opacity-70 md:text-base"
               >
                 <span className="underline underline-offset-2">Book Now</span>
-                <span aria-hidden>↗</span>
+                <Image
+                  src="/arrow-up-right.svg"
+                  alt=""
+                  width={20}
+                  height={20}
+                  aria-hidden="true"
+                  className="h-[1em] w-[1em]"
+                />
               </a>
             )}
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

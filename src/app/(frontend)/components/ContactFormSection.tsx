@@ -1,11 +1,15 @@
 'use client'
 
-import React, { useId, useRef, useState } from 'react'
+import Link from 'next/link'
+import Dropdown from './Dropdown'
+import React, { useCallback, useId, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import DataAgreementModal from './DataAgreementModal'
 
 const inputClasses =
   'w-full border-0 border-b border-black bg-transparent px-2 pb-3 text-[16px] outline-none'
+
+const queryTypes = ['General enquiry', 'Joining AYO', 'Support AYO', 'Concerts and events']
 
 type ContactFormSectionProps = {
   /** The agreement text from Payload, shown in the pop-up. */
@@ -14,22 +18,23 @@ type ContactFormSectionProps = {
 
 export default function ContactFormSection({ agreementContent }: ContactFormSectionProps) {
   const [agreed, setAgreed] = useState(false)
+  const [queryType, setQueryType] = useState('')
   const [isAgreementOpen, setIsAgreementOpen] = useState(false)
   const agreementTriggerRef = useRef<HTMLButtonElement>(null)
   const consentTextId = useId()
 
-  const closeAgreement = () => {
+  const closeAgreement = useCallback(() => {
     setIsAgreementOpen(false)
     agreementTriggerRef.current?.focus()
-  }
+  }, [])
 
-  const agree = () => {
+  const agree = useCallback(() => {
     setAgreed(true)
     closeAgreement()
-  }
+  }, [closeAgreement])
 
   return (
-    <section className="w-full bg-white px-8 py-20 text-black md:px-20 lg:px-24 lg:py-28">
+    <section className="w-full bg-white px-8 py-12.5 text-black md:px-20 lg:px-24">
       <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="flex flex-col justify-between gap-20">
           <div>
@@ -50,28 +55,26 @@ export default function ContactFormSection({ agreementContent }: ContactFormSect
         <form className="w-full" aria-label="Contact form">
           <div className="grid gap-9">
             <label className="block">
-              <span className="block px-2 pb-3 text-[15px]">Name*</span>
+              <span className="block px-2 pb-3 text-[15px] font-semibold">Name*</span>
               <input className={inputClasses} type="text" name="name" aria-label="Name" />
             </label>
 
-            <label className="block">
-              <span className="block px-2 pb-3 text-[15px]">Query Type*</span>
-              <select
-                className={inputClasses}
-                name="queryType"
-                aria-label="Query Type"
-                defaultValue=""
-              >
-                <option value="" disabled />
-                <option value="general">General enquiry</option>
-                <option value="join">Joining AYO</option>
-                <option value="support">Supporting AYO</option>
-                <option value="concerts">Concerts and events</option>
-              </select>
-            </label>
+            <div className="block">
+              <span className="block px-2 pb-3 text-[15px] font-semibold">Query Type*</span>
+              <div className="border-b border-black px-2 pb-3 text-[16px]">
+                <Dropdown
+                  value={queryType}
+                  options={queryTypes}
+                  onChange={setQueryType}
+                  placeholder="Select a query type"
+                  fullWidth
+                />
+              </div>
+              <input type="hidden" name="queryType" value={queryType} />
+            </div>
 
             <label className="block">
-              <span className="block px-2 pb-3 text-[15px]">E-mail Address</span>
+              <span className="block px-2 pb-3 text-[15px] font-semibold">E-mail Address</span>
               <input
                 className={inputClasses}
                 type="email"
@@ -81,7 +84,7 @@ export default function ContactFormSection({ agreementContent }: ContactFormSect
             </label>
 
             <label className="block">
-              <span className="block px-2 pb-3 text-[15px]">Message</span>
+              <span className="block px-2 pb-3 text-[15px] font-semibold">Message</span>
               <textarea
                 className={`${inputClasses} min-h-[112px] resize-none`}
                 name="message"

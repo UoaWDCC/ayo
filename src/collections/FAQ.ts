@@ -9,6 +9,7 @@ export const FAQ: CollectionConfig = {
   },
 
   admin: {
+    group: 'Content',
     useAsTitle: 'question',
     description: 'Frequently asked questions shown on their respective pages of the site.',
     defaultColumns: ['question', 'category', 'sortOrder'],
@@ -35,6 +36,7 @@ export const FAQ: CollectionConfig = {
         { label: 'About Us', value: 'about-us' },
         { label: 'Concerts & Events', value: 'concerts-events' },
         { label: 'Join AYO', value: 'join-ayo' },
+        { label: 'News', value: 'news' },
         { label: 'Support Us', value: 'support-us' },
       ],
       admin: {
