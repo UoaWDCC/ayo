@@ -54,6 +54,7 @@ export const Posts: CollectionConfig = {
       // The SectionDivider row above already introduces "Photos" as the section heading —
       // Payload would otherwise render a second, redundant "Photos" label directly beneath it.
       label: false,
+      minRows: 1,
       admin: {
         components: {
           Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell',
@@ -83,6 +84,7 @@ export const Posts: CollectionConfig = {
       name: 'category',
       type: 'select',
       label: 'Category',
+      required: true,
       options: [
         { label: 'Blog', value: 'blog' },
         { label: 'Alumni Story', value: 'alumni_story' },
@@ -97,11 +99,13 @@ export const Posts: CollectionConfig = {
       name: 'author',
       type: 'text',
       label: 'Author',
+      required: true,
     },
     {
       name: 'publishedDate',
       type: 'date',
       label: 'Published Date',
+      required: true,
       admin: {
         // dayOnly avoids a timezone-offset bug where picking a date could save as the day before.
         date: {

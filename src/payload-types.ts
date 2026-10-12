@@ -373,9 +373,9 @@ export interface Post {
         id?: string | null;
       }[]
     | null;
-  category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
-  author?: string | null;
-  publishedDate?: string | null;
+  category: 'blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience';
+  author: string;
+  publishedDate: string;
   /**
    * Generated from the title.
    */
