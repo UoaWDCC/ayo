@@ -1,16 +1,37 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useState } from 'react'
 import Dropdown from './Dropdown'
+import React, { useCallback, useId, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import DataAgreementModal from './DataAgreementModal'
 
 const inputClasses =
   'w-full border-0 border-b border-black bg-transparent px-2 pb-3 text-[16px] outline-none'
 
 const queryTypes = ['General enquiry', 'Joining AYO', 'Support AYO', 'Concerts and events']
 
-export default function ContactFormSection() {
+type ContactFormSectionProps = {
+  /** The agreement text from Payload, shown in the pop-up. */
+  agreementContent?: ReactNode
+}
+
+export default function ContactFormSection({ agreementContent }: ContactFormSectionProps) {
+  const [agreed, setAgreed] = useState(false)
   const [queryType, setQueryType] = useState('')
+  const [isAgreementOpen, setIsAgreementOpen] = useState(false)
+  const agreementTriggerRef = useRef<HTMLButtonElement>(null)
+  const consentTextId = useId()
+
+  const closeAgreement = useCallback(() => {
+    setIsAgreementOpen(false)
+    agreementTriggerRef.current?.focus()
+  }, [])
+
+  const agree = useCallback(() => {
+    setAgreed(true)
+    closeAgreement()
+  }, [closeAgreement])
 
   return (
     <section className="w-full bg-white px-8 py-12.5 text-black md:px-20 lg:px-24">
@@ -73,24 +94,49 @@ export default function ContactFormSection() {
           </div>
 
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <label className="flex items-start gap-3 text-[15px] leading-5">
-              <input
-                type="checkbox"
-                name="privacy"
-                className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer appearance-none border border-black bg-white checked:bg-black"
-              />
-              <span>
-                By clicking submit, you agree to the{' '}
-                <Link href="/policies" className="font-semibold underline">
-                  processing of personal data
-                </Link>.
+            <div className="flex items-start gap-3 text-[15px] leading-5">
+              <span className="relative mt-0.5 h-5 w-5 shrink-0">
+                <input
+                  type="checkbox"
+                  name="privacy"
+                  aria-labelledby={consentTextId}
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  className="peer h-5 w-5 cursor-pointer appearance-none border border-black bg-white checked:bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                />
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 hidden h-5 w-5 text-white peer-checked:block"
+                >
+                  <path d="M5 10.5l3.5 3.5L15 6.5" />
+                </svg>
               </span>
-            </label>
+              <span id={consentTextId}>
+                By clicking submit, you agree to the{' '}
+                <button
+                  ref={agreementTriggerRef}
+                  type="button"
+                  onClick={() => setIsAgreementOpen(true)}
+                  aria-haspopup="dialog"
+                  className="cursor-pointer font-semibold underline hover:opacity-70"
+                >
+                  processing of personal data
+                </button>
+                .
+              </span>
+            </div>
 
             <div className="flex items-center justify-end">
               <button
                 type="button"
-                className="bg-black px-8 py-3 text-[15px] font-semibold text-white hover:bg-black/80"
+                disabled={!agreed}
+                className="bg-black px-8 py-3 text-[15px] font-semibold text-white enabled:hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Submit
               </button>
@@ -98,6 +144,10 @@ export default function ContactFormSection() {
           </div>
         </form>
       </div>
+
+      <DataAgreementModal isOpen={isAgreementOpen} onClose={closeAgreement} onAgree={agree}>
+        {agreementContent}
+      </DataAgreementModal>
     </section>
   )
 }

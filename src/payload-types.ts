@@ -81,6 +81,7 @@ export interface Config {
     link: Link;
     users: User;
     passwords: Password;
+    'processing-of-data-agreement': ProcessingOfDataAgreement;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -102,6 +103,7 @@ export interface Config {
     link: LinkSelect<false> | LinkSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     passwords: PasswordsSelect<false> | PasswordsSelect<true>;
+    'processing-of-data-agreement': ProcessingOfDataAgreementSelect<false> | ProcessingOfDataAgreementSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -644,6 +646,39 @@ export interface Password {
   createdAt: string;
 }
 /**
+ * The text shown when someone clicks "processing of personal data" on the Contact Us form. Only the most recently updated entry is shown.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "processing-of-data-agreement".
+ */
+export interface ProcessingOfDataAgreement {
+  id: string;
+  /**
+   * For your reference only. This is not shown on the site.
+   */
+  title: string;
+  /**
+   * The agreement text visitors can read before agreeing.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -722,6 +757,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'passwords';
         value: string | Password;
+      } | null)
+    | ({
+        relationTo: 'processing-of-data-agreement';
+        value: string | ProcessingOfDataAgreement;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1111,6 +1150,16 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface PasswordsSelect<T extends boolean = true> {
   password?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "processing-of-data-agreement_select".
+ */
+export interface ProcessingOfDataAgreementSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
