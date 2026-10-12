@@ -7,7 +7,7 @@ import type { HeroImage } from '@/lib/heroImage'
 
 type HeroProps = {
   title: string
-  /** Short line shown below the title, aligned to the left */
+  /** Short line shown below the title, aligned to the left. Comes from the hero block's `subtitle`. */
   subtitle?: string
   /** Background photo and its intrinsic size — build it with `resolveHeroImage`. */
   backgroundImage?: HeroImage
@@ -86,7 +86,13 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
             className="mt-4 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between md:ml-2 animate-hero-fade-up"
             style={{ ['--hero-delay' as string]: '0.55s' }}
           >
-            <p className="text-white/90 font-sans text-sm sm:text-base max-w-3xl">{subtitle}</p>
+            {/* An empty placeholder keeps the scroll indicator on the right when
+                the page has no subtitle set in Payload. */}
+            {subtitle ? (
+              <p className="text-white/90 font-sans text-sm sm:text-base max-w-3xl">{subtitle}</p>
+            ) : (
+              <span />
+            )}
             <div className="flex items-center gap-2 text-white/90 shrink-0">
               <span className="font-sans text-sm sm:text-base whitespace-nowrap">
                 Scroll for More

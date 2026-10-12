@@ -7,7 +7,14 @@ import React from 'react'
 
 import './index.scss'
 
-type NavGroup = { label: string; items: { count: number; label: string; slug: string }[] }
+type NavItem = {
+  /** Collections show a document count; globals are a single document and show none. */
+  count?: number
+  href: string
+  label: string
+  slug: string
+}
+type NavGroup = { label: string; items: NavItem[] }
 
 export const NavClient: React.FC<{ groups: NavGroup[] }> = ({ groups }) => {
   const { navOpen, navRef } = useNav()
@@ -36,16 +43,17 @@ export const NavClient: React.FC<{ groups: NavGroup[] }> = ({ groups }) => {
             <div key={group.label} className="ayo-nav__group">
               <span className="ayo-nav__group-label">{group.label}</span>
               {group.items.map((item) => {
-                const href = `/admin/collections/${item.slug}`
-                const active = pathname?.startsWith(href)
+                const active = pathname?.startsWith(item.href)
                 return (
                   <Link
-                    key={item.slug}
-                    href={href}
+                    key={item.href}
+                    href={item.href}
                     className={`ayo-nav__link${active ? ' ayo-nav__link--active' : ''}`}
                   >
                     <span>{item.label}</span>
-                    <span className="ayo-nav__count">{item.count}</span>
+                    {item.count !== undefined && (
+                      <span className="ayo-nav__count">{item.count}</span>
+                    )}
                   </Link>
                 )
               })}

@@ -8,9 +8,10 @@ import Hero from '../components/Hero'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import { resolveHeroImage } from '@/lib/heroImage'
+import { getOpportunities } from '@/lib/getOpportunities'
 
 export default async function JoinAyoPage() {
-  const page = await getPageBySlug('join-ayo')
+  const [page, opportunities] = await Promise.all([getPageBySlug('join-ayo'), getOpportunities()])
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
@@ -26,14 +27,14 @@ export default async function JoinAyoPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title={heroBlock?.slogan || 'Join AYO'}
-        subtitle="Play alongside Aotearoa's most talented young musicians."
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
       <JoinIntroSection introText={introText} introRows={joinUsRows} />
       <JoinAyoBlock />
       <ScrollAnimation />
-      <OpportunitySection />
+      <OpportunitySection opportunities={opportunities} />
       <FAQSection category="join-ayo" />
     </main>
   )

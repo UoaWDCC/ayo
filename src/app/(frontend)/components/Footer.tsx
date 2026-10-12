@@ -2,13 +2,17 @@
 import Link from 'next/link'
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import { useState } from 'react'
+import type { IconType } from 'react-icons'
+import type { SocialLink, SocialPlatform } from '@/lib/getSiteSettings'
 
-const socialLinks = [
-  { name: 'Instagram', href: '#', Icon: FaInstagram },
-  { name: 'YouTube', href: '#', Icon: FaYoutube },
-  { name: 'Facebook', href: '#', Icon: FaFacebook },
-  { name: 'LinkedIn', href: '#', Icon: FaLinkedin },
-]
+// The icons stay in code; the profile URLs behind them come from the
+// `site-settings` global, so a platform with no URL set renders no icon.
+const socialIcons: Record<SocialPlatform, IconType> = {
+  instagram: FaInstagram,
+  youtube: FaYoutube,
+  facebook: FaFacebook,
+  linkedin: FaLinkedin,
+}
 
 const navLinks = [
   { label: 'HOME', href: '/' },
@@ -28,9 +32,11 @@ const linkHover = 'transition-opacity duration-200 hover:opacity-70 motion-reduc
 type FooterProps = {
   /** 0 = not yet revealed, 1 = fully revealed. Drives the content's scroll-scrubbed entrance/exit. */
   revealProgress?: number
+  /** Social profiles that have a URL set in Payload. */
+  socialLinks?: SocialLink[]
 }
 
-export default function Footer({ revealProgress = 1 }: FooterProps) {
+export default function Footer({ revealProgress = 1, socialLinks = [] }: FooterProps) {
   const [email, setEmail] = useState('')
   return (
     <footer className="bg-black text-white pt-10 pb-0 w-full">
@@ -69,7 +75,11 @@ export default function Footer({ revealProgress = 1 }: FooterProps) {
           <nav className="flex flex-col gap-4 mt-5 mb-6">
             <div className="flex gap-x-6 gap-y-1 sm:gap-x-10 md:gap-x-20 flex-wrap">
               {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} className={`text-white text-md ${linkHover}`}>
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-white text-md ${linkHover}`}
+                >
                   {link.label}
                 </Link>
               ))}
@@ -77,22 +87,28 @@ export default function Footer({ revealProgress = 1 }: FooterProps) {
           </nav>
 
           <div className="flex flex-col gap-4 w-full">
-            {/* Social media links, hrefs to be filled in with the real profile URLs */}
-            <span className="text-md font-semibold mt-3">CONNECT</span>
-            <div className="flex gap-5 mb-3">
-              {socialLinks.map((social) => (
-                <Link
-                  key={social.name}
-                  href={social.href}
-                  aria-label={social.name}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white transition duration-200 ease-out hover:-translate-y-0.5 hover:opacity-70 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                >
-                  <social.Icon size={22} aria-hidden="true" />
-                </Link>
-              ))}
-            </div>
+            {socialLinks.length > 0 && (
+              <>
+                <span className="text-md font-semibold mt-3">CONNECT</span>
+                <div className="flex gap-5 mb-3">
+                  {socialLinks.map((social) => {
+                    const Icon = socialIcons[social.platform]
+                    return (
+                      <Link
+                        key={social.platform}
+                        href={social.href}
+                        aria-label={social.name}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white transition duration-200 ease-out hover:-translate-y-0.5 hover:opacity-70 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                      >
+                        <Icon size={22} aria-hidden="true" />
+                      </Link>
+                    )
+                  })}
+                </div>
+              </>
+            )}
             <div>
               <p className="text-md font-semibold mt-1">Sign up to our newsletter</p>
             </div>

@@ -8,8 +8,10 @@ import StaggerReveal from './StaggerReveal'
 const PAGE_SIZE = 5
 
 type DocumentListProps = {
-  title: string
-  subtitle: string
+  /** Section heading, from the page's member-section block. Omitted when unset. */
+  title?: string
+  /** Italic line under the heading, from the same block. Omitted when unset. */
+  subtitle?: string
   documents: Link[]
   /** Class the section reveal animates — each section uses its own. */
   fadeClass: string
@@ -54,22 +56,26 @@ export default function DocumentList({
     <section className="bg-white w-full">
       <div className={`mx-8 md:mx-20 lg:mx-24 xl:mx-32 ${className}`}>
         <StaggerReveal fadeClass={fadeClass}>
-          <h2
-            className={`${fadeClass} font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]`}
-          >
-            {title}
-          </h2>
-          <p className={`${fadeClass} mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic`}>
-            {subtitle}
-          </p>
+          {title && (
+            <h2
+              className={`${fadeClass} font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]`}
+            >
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <p className={`${fadeClass} mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic`}>
+              {subtitle}
+            </p>
+          )}
 
           {searchable && (
             <div
               className={`${fadeClass} flex flex-wrap items-center gap-8 mt-8 text-[15px] leading-[18px]`}
             >
               <span className="text-[#B2B2B2]">
-                Showing <span className="font-semibold text-black">{filtered.length}</span>{' '}
-                document{filtered.length === 1 ? '' : 's'}
+                Showing <span className="font-semibold text-black">{filtered.length}</span> document
+                {filtered.length === 1 ? '' : 's'}
               </span>
               <div className="lg:ml-auto flex items-center gap-2.5 border border-[#EBEBEB] px-4 py-2.5">
                 <svg
@@ -92,7 +98,7 @@ export default function DocumentList({
                 <input
                   type="search"
                   placeholder="Search..."
-                  aria-label={`Search ${title.toLowerCase()}`}
+                  aria-label={title ? `Search ${title.toLowerCase()}` : 'Search documents'}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   className="outline-none bg-transparent placeholder:text-[#B2B2B2]"

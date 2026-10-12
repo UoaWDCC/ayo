@@ -5,113 +5,9 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Dropdown from './Dropdown'
 import OpportunityTable from './OpportunityTable'
+import type { OpportunityListing } from '@/lib/getOpportunities'
 
 gsap.registerPlugin(ScrollTrigger)
-
-// TODO: replace with real data from API
-
-const opportunities = [
-  {
-    id: 1,
-    type: 'Scholarship',
-    title: 'Lodge of the Liberal Arts: Howard Wyatt Memorial Scholarship',
-    deadlineLabel: '20th of May, 11:59pm NZST',
-    deadlineDate: '2026-05-20T23:59:00+12:00',
-    description:
-      'The Freemasons of Lodge No.500 have established a trust for charitable purposes, to assist young musicians in their education. Scholarships totalling $3,000 are granted each year to members of AYO who have shown outstanding...',
-    applyUrl: '#',
-  },
-  {
-    id: 2,
-    type: 'Scholarship',
-    title: 'Chip and Muriel Stevens Award',
-    deadlineLabel: '20th of May, 11:59pm NZST',
-    deadlineDate: '2026-05-20T23:59:00+12:00',
-    description:
-      'This $1,500 award is dedicated to the memory of a former Chairman of AYO, N.W. (Chip) Stevens, who spent his lifetime encouraging young people to love music and young musicians to reach their full potential.',
-    applyUrl: '#',
-  },
-  {
-    id: 3,
-    type: 'Competition',
-    title: 'AYO Soloist Competition',
-    deadlineLabel: '15th of August, 11:59pm NZST',
-    deadlineDate: '2026-08-15T23:59:00+12:00',
-    description:
-      'The AYO Soloist Competition offers existing orchestra members the chance to compete for monetary prizes and a concerto appearance with the orchestra. The orchestra showcases young soloists and composers; it...',
-    applyUrl: '#',
-  },
-  {
-    id: 4,
-    type: 'Scholarship',
-    title: 'AYO International Performance Grant',
-    deadlineLabel: '1st of June, 11:59pm NZST',
-    deadlineDate: '2026-06-01T23:59:00+12:00',
-    description:
-      'Supports orchestra members travelling internationally for advanced musical training and performance opportunities.',
-    applyUrl: '#',
-  },
-  {
-    id: 5,
-    type: 'Competition',
-    title: 'Emerging Composer Competition',
-    deadlineLabel: '10th of July, 11:59pm NZST',
-    deadlineDate: '2026-07-10T23:59:00+12:00',
-    description:
-      'Young composers are invited to submit original orchestral works for adjudication and potential live performance.',
-    applyUrl: '#',
-  },
-  {
-    id: 6,
-    type: 'Workshop',
-    title: 'Conducting Masterclass Programme',
-    deadlineLabel: '5th of June, 11:59pm NZST',
-    deadlineDate: '2026-06-05T23:59:00+12:00',
-    description:
-      'A practical workshop series led by professional conductors focusing on rehearsal technique, score preparation, and ensemble leadership.',
-    applyUrl: '#',
-  },
-  {
-    id: 7,
-    type: 'Scholarship',
-    title: 'Regional Music Development Scholarship',
-    deadlineLabel: '25th of May, 11:59pm NZST',
-    deadlineDate: '2026-05-25T23:59:00+12:00',
-    description:
-      'Financial assistance for students from regional communities pursuing advanced orchestral studies.',
-    applyUrl: '#',
-  },
-  {
-    id: 8,
-    type: 'Competition',
-    title: 'Chamber Ensemble Showcase',
-    deadlineLabel: '30th of September, 11:59pm NZST',
-    deadlineDate: '2026-09-30T23:59:00+12:00',
-    description:
-      'Small ensembles compete for performance opportunities during the annual AYO concert season.',
-    applyUrl: '#',
-  },
-  {
-    id: 9,
-    type: 'Residency',
-    title: 'Composer-in-Residence Programme',
-    deadlineLabel: '18th of August, 11:59pm NZST',
-    deadlineDate: '2026-08-18T23:59:00+12:00',
-    description:
-      'Selected applicants will collaborate directly with the orchestra over a six-month residency period developing new compositions.',
-    applyUrl: '#',
-  },
-  {
-    id: 10,
-    type: 'Workshop',
-    title: 'Advanced Audition Preparation Intensive',
-    deadlineLabel: '12th of June, 11:59pm NZST',
-    deadlineDate: '2026-06-12T23:59:00+12:00',
-    description:
-      'An intensive coaching programme helping musicians prepare orchestral excerpts, solo repertoire, and audition strategies.',
-    applyUrl: '#',
-  },
-]
 
 const SORT_LABELS = {
   asc: 'Closing Date (Soonest)',
@@ -120,21 +16,32 @@ const SORT_LABELS = {
 
 const SHOW_OPTIONS = [3, 5, 10]
 
-export default function OpportunitySection() {
+type OpportunitySectionProps = {
+  /** Open opportunities from Payload, soonest deadline first. */
+  opportunities: OpportunityListing[]
+}
+
+export default function OpportunitySection({ opportunities }: OpportunitySectionProps) {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [selectedType, setSelectedType] = useState('All')
   const [showCount, setShowCount] = useState(5)
   const [currentPage, setCurrentPage] = useState(1)
   const [searchInput, setSearchInput] = useState('')
 
-  // Dynamically generate available types
-  const opportunityTypes = ['All', ...new Set(opportunities.map((opp) => opp.type))]
+  // The Type filter offers exactly the types currently on offer.
+  const opportunityTypes = useMemo(
+    () => ['All', ...new Set(opportunities.map((opp) => opp.type))],
+    [opportunities],
+  )
 
   // Filter opportunities
-  const filteredOpportunities =
-    selectedType === 'All'
-      ? opportunities
-      : opportunities.filter((opp) => opp.type === selectedType)
+  const filteredOpportunities = useMemo(
+    () =>
+      selectedType === 'All'
+        ? opportunities
+        : opportunities.filter((opp) => opp.type === selectedType),
+    [opportunities, selectedType],
+  )
 
   // Sort opportunities
   const sortedOpportunities = useMemo(() => {
@@ -158,7 +65,7 @@ export default function OpportunitySection() {
   }, [selectedType, sortOrder, showCount, searchInput])
 
   // Pagination for what actually shows after filtering and search
-  const totalPages = Math.ceil(searchedOpportunities.length / showCount)
+  const totalPages = Math.max(1, Math.ceil(searchedOpportunities.length / showCount))
 
   const paginatedOpportunities = searchedOpportunities.slice(
     (currentPage - 1) * showCount,
@@ -251,9 +158,7 @@ export default function OpportunitySection() {
               label="Sort by"
               value={SORT_LABELS[sortOrder]}
               options={Object.values(SORT_LABELS)}
-              onChange={(value) =>
-                setSortOrder(value === SORT_LABELS.asc ? 'asc' : 'desc')
-              }
+              onChange={(value) => setSortOrder(value === SORT_LABELS.asc ? 'asc' : 'desc')}
             />
 
             <Dropdown
@@ -294,33 +199,43 @@ export default function OpportunitySection() {
 
         <hr className="border-[#EBEBEB] mt-6" />
 
-        {/* Table */}
-        <OpportunityTable opportunities={paginatedOpportunities} />
+        {searchedOpportunities.length === 0 ? (
+          <p className="mt-8 text-[18px] leading-[22px] italic text-[#B2B2B2]">
+            {opportunities.length === 0
+              ? 'There are no opportunities open at the moment. Check back soon.'
+              : 'No opportunities match your search.'}
+          </p>
+        ) : (
+          <>
+            {/* Table */}
+            <OpportunityTable opportunities={paginatedOpportunities} />
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
-          <div className="flex gap-12">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
-            >
-              Previous
-            </button>
+            {/* Pagination */}
+            <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
+              <div className="flex gap-12">
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
+                >
+                  Previous
+                </button>
 
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
-            >
-              Next
-            </button>
-          </div>
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
+                >
+                  Next
+                </button>
+              </div>
 
-          <span className="font-normal">
-            {currentPage} of {totalPages}
-          </span>
-        </div>
+              <span className="font-normal">
+                {currentPage} of {totalPages}
+              </span>
+            </div>
+          </>
+        )}
       </div>
     </section>
   )

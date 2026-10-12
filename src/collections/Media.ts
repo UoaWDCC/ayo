@@ -6,6 +6,7 @@ export const Media: CollectionConfig = {
     read: () => true,
   },
   admin: {
+    group: 'Assets & Resources',
     useAsTitle: 'filename',
     description: 'The images used across the site.',
     defaultColumns: ['filename', 'alt', 'updatedAt'],

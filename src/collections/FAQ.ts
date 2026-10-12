@@ -9,6 +9,7 @@ export const FAQ: CollectionConfig = {
   },
 
   admin: {
+    group: 'Content',
     useAsTitle: 'question',
     description: 'Frequently asked questions shown on their respective pages of the site.',
     defaultColumns: ['question', 'category', 'sortOrder'],

@@ -6,10 +6,12 @@ import { QuoteBlock } from '@/blocks/QuoteBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { TableBlock } from '@/blocks/TableBlock'
 import { FAQBlock } from '@/blocks/FAQBlock'
+import { MemberSection } from '@/blocks/MemberSection'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
+    group: 'Content',
     useAsTitle: 'title',
     description: 'The page-builder for pages of the site.',
     defaultColumns: ['title', 'slug', 'layout', 'updatedAt'],
@@ -28,7 +30,16 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [Hero, RichText, VideoBlock, QuoteBlock, ImageBlock, TableBlock, FAQBlock],
+      blocks: [
+        Hero,
+        RichText,
+        VideoBlock,
+        QuoteBlock,
+        ImageBlock,
+        TableBlock,
+        FAQBlock,
+        MemberSection,
+      ],
     },
     {
       name: 'pagePreview',

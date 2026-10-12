@@ -4,11 +4,19 @@ import Link from 'next/link'
 import Button from './Button'
 import StaggerReveal from './StaggerReveal'
 import { getInstagramFeed } from '@/lib/instagramFeedHelper'
-
-const INSTAGRAM_URL = 'https://www.instagram.com/aucklandyouthorchestra/'
+import { getSiteSettings, instagramHandle } from '@/lib/getSiteSettings'
 
 export default async function SocialMediaBlock() {
-  const { posts } = await getInstagramFeed({ limit: 8 })
+  const [{ posts }, settings] = await Promise.all([
+    getInstagramFeed({ limit: 8 }),
+    getSiteSettings(),
+  ])
+
+  // Profile link and the @handle beside it both come from the one setting, so
+  // the name on screen can't drift from the account it links to.
+  const instagramUrl = settings?.social?.instagram?.trim() || null
+  const handle = instagramHandle(instagramUrl)
+
   return (
     <section className="bg-white w-full">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
@@ -31,14 +39,14 @@ export default async function SocialMediaBlock() {
                   alt="Auckland Youth Orchestra"
                 />
               </div>
-              <span className="font-semibold text-[18px] leading-[22px]">
-                @aucklandyouthorchestra
-              </span>
+              {handle && <span className="font-semibold text-[18px] leading-[22px]">{handle}</span>}
             </div>
 
-            <Button href={INSTAGRAM_URL} external>
-              Follow
-            </Button>
+            {instagramUrl && (
+              <Button href={instagramUrl} external>
+                Follow
+              </Button>
+            )}
           </div>
 
           <hr className="border-[#EBEBEB] mt-6" />

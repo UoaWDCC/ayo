@@ -5,23 +5,14 @@ import Image from 'next/image'
 import OpportunityModal from './OpportunityModal'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import type { OpportunityListing } from '@/lib/getOpportunities'
 gsap.registerPlugin(ScrollTrigger)
 
-type Opportunity = {
-  id: number
-  type: string
-  title: string
-  deadlineLabel: string
-  deadlineDate: string
-  description: string
-  applyUrl: string
-}
-
 type OpportunityTableProps = {
-  opportunities: Opportunity[]
+  opportunities: OpportunityListing[]
 }
 
-type OpportunityRowProps = Opportunity & {
+type OpportunityRowProps = OpportunityListing & {
   onReadMore: () => void
 }
 
@@ -71,27 +62,32 @@ const OpportunityRow = ({
           Read More
         </button>
 
-        <a
-          href={applyUrl}
-          className="text-sm flex items-center underline font-bold transition-opacity hover:opacity-70"
-        >
-          Apply
-          <Image
-            src="/arrow-up-right.svg"
-            alt=""
-            width={15}
-            height={15}
-            aria-hidden="true"
-            className="w-[15px] h-[15px]"
-          />
-        </a>
+        {/* No link is rendered when the opportunity has no apply URL set. */}
+        {applyUrl && (
+          <a
+            href={applyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm flex items-center underline font-bold transition-opacity hover:opacity-70"
+          >
+            Apply
+            <Image
+              src="/arrow-up-right.svg"
+              alt=""
+              width={15}
+              height={15}
+              aria-hidden="true"
+              className="w-[15px] h-[15px]"
+            />
+          </a>
+        )}
       </div>
     </div>
   )
 }
 
 const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
-  const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null)
+  const [selectedOpp, setSelectedOpp] = useState<OpportunityListing | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
@@ -154,10 +150,11 @@ const OpportunityTable = ({ opportunities }: OpportunityTableProps) => {
           selectedOpp && {
             title: selectedOpp.title,
             awarded: selectedOpp.type,
-            value: 'TBC',
+            value: selectedOpp.value,
             description: selectedOpp.description,
             closingDate: selectedOpp.deadlineLabel,
             applyUrl: selectedOpp.applyUrl,
+            imageUrl: selectedOpp.imageUrl,
           }
         }
         isOpen={isPanelOpen}

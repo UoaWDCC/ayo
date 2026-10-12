@@ -19,7 +19,9 @@ import { Roles } from './collections/Roles'
 import { FAQ } from './collections/FAQ'
 
 import { Links } from './collections/Links'
+import { Opportunities } from './collections/Opportunities'
 import { TeamRoles } from './collections/TeamRoles'
+import { SiteSettings } from './globals/SiteSettings'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -54,24 +56,37 @@ export default buildConfig({
           maxWidth: 'full',
         },
       ],
-      defaultLayout: [{ widgetSlug: 'ayo-agenda', width: 'full' }],
+      /**
+       * `collections` is Payload's own widget: a card per collection and global the
+       * signed-in user can read, grouped by `admin.group`. Naming a defaultLayout at
+       * all opts out of it, so it has to be listed explicitly or the dashboard shows
+       * nothing but the agenda.
+       */
+      defaultLayout: [
+        { widgetSlug: 'ayo-agenda', width: 'full' },
+        { widgetSlug: 'collections', width: 'full' },
+      ],
     },
   },
+  // Within a group, the sidebar and the dashboard cards list collections in this
+  // order, so keep each group's entries together.
   collections: [
-    Users,
-    Media,
-    Partners,
     Pages,
-    Passwords,
-    CalendarLink,
-    Concerts,
     Posts,
+    FAQ,
+    Opportunities,
+    Concerts,
+    CalendarLink,
     People,
     Roles,
-    FAQ,
+    TeamRoles,
+    Partners,
+    Media,
     Links,
-    TeamRoles
+    Users,
+    Passwords,
   ],
+  globals: [SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Links: CollectionConfig = {
   slug: 'link',
   admin: {
+    group: 'Assets & Resources',
     useAsTitle: 'name',
     description: 'Document links shown in the Resources and Links sections in /my-ayo.',
     defaultColumns: ['name', 'category', 'url'],

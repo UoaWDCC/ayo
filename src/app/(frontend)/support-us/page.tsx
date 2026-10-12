@@ -49,8 +49,8 @@ export default async function SupportUsPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title={heroBlock?.slogan || 'Support Us'}
-        subtitle="Help us keep music thriving for the next generation."
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
 

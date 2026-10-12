@@ -10,7 +10,8 @@ const TRANSITION_MS = 300
 export type OpportunityDetails = {
   title: string
   awarded: string
-  value: string
+  /** What the opportunity is worth. Omitted from the panel when unset. */
+  value?: string
   description: string
   closingDate: string
   applyUrl?: string
@@ -130,10 +131,12 @@ const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProp
                   <span className="text-black/50">Awarded: </span>
                   {awarded}
                 </span>
-                <span>
-                  <span className="text-black/50">Value: </span>
-                  {value}
-                </span>
+                {value && (
+                  <span>
+                    <span className="text-black/50">Value: </span>
+                    {value}
+                  </span>
+                )}
               </div>
 
               <p className="text-sm mt-4 text-black/70 leading-relaxed">{description}</p>
@@ -146,20 +149,24 @@ const OpportunityModal = ({ opportunity, isOpen, onClose }: OpportunityModalProp
             <span className="font-semibold">Closing Date: </span>
             {closingDate}
           </span>
-          <a
-            href={applyUrl ?? '#'}
-            className="text-sm font-semibold flex items-center gap-1 transition-opacity hover:opacity-70"
-          >
-            Apply
-            <Image
-              src="/arrow-up-right.svg"
-              alt=""
-              width={15}
-              height={15}
-              aria-hidden="true"
-              className="w-[15px] h-[15px] brightness-0 invert"
-            />
-          </a>
+          {applyUrl && (
+            <a
+              href={applyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold flex items-center gap-1 transition-opacity hover:opacity-70"
+            >
+              Apply
+              <Image
+                src="/arrow-up-right.svg"
+                alt=""
+                width={15}
+                height={15}
+                aria-hidden="true"
+                className="w-[15px] h-[15px] brightness-0 invert"
+              />
+            </a>
+          )}
         </div>
       </div>
     </div>,

@@ -22,11 +22,15 @@ export default async function ConcertsEventsPage() {
 
   const introText = richTextBlocks[0]?.content
 
+  // Highlights reel under the upcoming events: its link and label come from the
+  // page's video block.
+  const highlightsVideo = page?.layout?.find((block) => block.blockType === 'video')
+
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title={heroBlock?.slogan || 'Concerts & Events'}
-        subtitle="Full symphonic programmes performed by our own ranks."
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
       <ConcertsIntro introText={introText} />
@@ -60,7 +64,8 @@ export default async function ConcertsEventsPage() {
         <AboutUsQuoteVid
           posterImage="/about-us-quote-poster.jpg"
           // videoSrc="/about-us-quote-preview.mp4"   //
-          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-" // changeable
+          youtubeUrl={highlightsVideo?.videoUrl}
+          caption={highlightsVideo?.text ?? undefined}
           showSeeMore
           titleSmall="Our Past"
           titleLarge="Highlights"

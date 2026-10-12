@@ -11,10 +11,17 @@ import StaggerReveal from '../components/StaggerReveal'
 import { createIntroConverters } from '../components/richTextConverters'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import { resolveHeroImage } from '@/lib/heroImage'
+import type { Page } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 
 const introConverters = createIntroConverters('my-ayo-intro-fade')
+
+/** The sections a member-section block can be assigned to, straight from the block's schema. */
+type MemberSectionName = Extract<
+  NonNullable<Page['layout']>[number],
+  { blockType: 'member-section' }
+>['section']
 
 const inputClasses =
   'w-full border-0 border-b border-black bg-transparent px-2 pb-3 text-[16px] outline-none'
@@ -53,17 +60,26 @@ export default async function MyAyoPage({
   const heroImage = resolveHeroImage(heroBlock?.backgroundImage)
   const hero = (
     <Hero
-      title={heroBlock?.slogan || 'My AYO'}
-      subtitle="The calendar, resources and links for current AYO members."
+      title={heroBlock?.slogan || page?.title || ''}
+      subtitle={heroBlock?.subtitle ?? undefined}
       backgroundImage={heroImage}
     />
   )
+
+  // Each fixed section of this page takes its heading and sub-line from the
+  // member-section block that names it, so the copy is editable without the
+  // sections themselves depending on block order.
+  const memberSections = page?.layout?.filter((block) => block.blockType === 'member-section') ?? []
+  const sectionCopy = (section: MemberSectionName) =>
+    memberSections.find((block) => block.section === section)
 
   const cookieStore = await cookies()
   const hasAccess = cookieStore.get('my-ayo-access')?.value === 'granted'
 
   if (!hasAccess) {
     const { error } = await searchParams
+
+    const login = sectionCopy('login')
 
     return (
       <main className="min-h-screen bg-white text-black">
@@ -72,14 +88,21 @@ export default async function MyAyoPage({
         <section className="bg-white w-full">
           <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 pt-25 pb-12.5">
             <StaggerReveal fadeClass="my-ayo-login-fade" className="max-w-[1380px]">
-              <h2 className="my-ayo-login-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
-                Member login
-              </h2>
-              <p className="my-ayo-login-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
-                Enter the members&apos; password to continue.
-              </p>
+              {login?.heading && (
+                <h2 className="my-ayo-login-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+                  {login.heading}
+                </h2>
+              )}
+              {login?.subtitle && (
+                <p className="my-ayo-login-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+                  {login.subtitle}
+                </p>
+              )}
 
-              <form action={checkPassword} className="my-ayo-login-fade mt-8 w-full md:w-96 lg:w-[420px]">
+              <form
+                action={checkPassword}
+                className="my-ayo-login-fade mt-8 w-full md:w-96 lg:w-[420px]"
+              >
                 <label className="block">
                   <span className="block px-2 pb-3 text-[15px] font-semibold">Password</span>
                   <input
@@ -131,6 +154,7 @@ export default async function MyAyoPage({
     }),
   ])
 
+  const calendarCopy = sectionCopy('calendar')
   const calendar = linkResult.docs[0]
   const calendarEmbed = calendar?.embedLink ?? ''
   const calendarUrl = calendar?.publicLink ?? ''
@@ -161,12 +185,16 @@ export default async function MyAyoPage({
           className={`mx-8 md:mx-20 lg:mx-24 xl:mx-32 ${introContent ? 'py-12.5' : 'pt-25 pb-12.5'}`}
         >
           <StaggerReveal fadeClass="my-ayo-calendar-fade">
-            <h2 className="my-ayo-calendar-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
-              Calendar
-            </h2>
-            <p className="my-ayo-calendar-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
-              Rehearsals, concerts and key dates for the season.
-            </p>
+            {calendarCopy?.heading && (
+              <h2 className="my-ayo-calendar-fade font-semibold text-[32px] leading-[40px] md:text-[40px] md:leading-[48px]">
+                {calendarCopy.heading}
+              </h2>
+            )}
+            {calendarCopy?.subtitle && (
+              <p className="my-ayo-calendar-fade mt-4 text-[18px] leading-[22px] text-[#B2B2B2] italic">
+                {calendarCopy.subtitle}
+              </p>
+            )}
 
             {calendarEmbed ? (
               <iframe
@@ -200,8 +228,8 @@ export default async function MyAyoPage({
       </section>
 
       <DocumentList
-        title="Resources"
-        subtitle="Handbooks, forms and documents for members."
+        title={sectionCopy('resources')?.heading}
+        subtitle={sectionCopy('resources')?.subtitle ?? undefined}
         documents={resourcesResult.docs}
         fadeClass="my-ayo-resources-fade"
         searchable
@@ -209,8 +237,8 @@ export default async function MyAyoPage({
       />
 
       <DocumentList
-        title="Links"
-        subtitle="Useful sites and services for AYO members."
+        title={sectionCopy('links')?.heading}
+        subtitle={sectionCopy('links')?.subtitle ?? undefined}
         documents={linksResult.docs}
         fadeClass="my-ayo-links-fade"
       />

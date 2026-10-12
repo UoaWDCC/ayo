@@ -2,12 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Footer from './Footer'
+import type { SocialLink } from '@/lib/getSiteSettings'
 
 // Ease-out: the reveal races ahead early then settles in, instead of tracking
 // scroll position 1:1.
 const easeOutCubic = (t: number) => 1 - (1 - t) ** 3
 
-export default function SiteShell({ children }: { children: React.ReactNode }) {
+export default function SiteShell({
+  children,
+  socialLinks,
+}: {
+  children: React.ReactNode
+  /** Footer social profiles, read from Payload in the layout above. */
+  socialLinks?: SocialLink[]
+}) {
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerHeight, setFooterHeight] = useState(0)
   const [revealProgress, setRevealProgress] = useState(0)
@@ -76,7 +84,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
         style={footerHeight ? { marginTop: -footerHeight } : undefined}
       >
         <div ref={footerRef}>
-          <Footer revealProgress={revealProgress} />
+          <Footer revealProgress={revealProgress} socialLinks={socialLinks} />
         </div>
       </div>
     </>

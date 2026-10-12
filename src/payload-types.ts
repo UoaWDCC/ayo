@@ -67,19 +67,20 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
-    partners: Partner;
     pages: Page;
-    passwords: Password;
-    'calendar-links': CalendarLink;
-    concerts: Concert;
     posts: Post;
+    faqs: Faq;
+    opportunities: Opportunity;
+    concerts: Concert;
+    'calendar-links': CalendarLink;
     people: Person;
     roles: Role;
-    faqs: Faq;
-    link: Link;
     'team-roles': TeamRole;
+    partners: Partner;
+    media: Media;
+    link: Link;
+    users: User;
+    passwords: Password;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -87,19 +88,20 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    partners: PartnersSelect<false> | PartnersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
-    passwords: PasswordsSelect<false> | PasswordsSelect<true>;
-    'calendar-links': CalendarLinksSelect<false> | CalendarLinksSelect<true>;
-    concerts: ConcertsSelect<false> | ConcertsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
+    opportunities: OpportunitiesSelect<false> | OpportunitiesSelect<true>;
+    concerts: ConcertsSelect<false> | ConcertsSelect<true>;
+    'calendar-links': CalendarLinksSelect<false> | CalendarLinksSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
-    faqs: FaqsSelect<false> | FaqsSelect<true>;
-    link: LinkSelect<false> | LinkSelect<true>;
     'team-roles': TeamRolesSelect<false> | TeamRolesSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    link: LinkSelect<false> | LinkSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    passwords: PasswordsSelect<false> | PasswordsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -109,8 +111,12 @@ export interface Config {
     defaultIDType: string;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     'ayo-agenda': AyoAgendaWidget;
@@ -141,105 +147,6 @@ export interface UserAuthOperations {
   };
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
-}
-/**
- * The images used across the site.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: string;
-  /**
-   * Describes the image for screen readers and search engines.
-   */
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    tablet?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    desktop?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * The partners and sponsors shown on the site.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "partners".
- */
-export interface Partner {
-  id: string;
-  name: string;
-  partnerType?: ('partner' | 'sponsor' | 'supporter') | null;
-  logo: string | Media;
-  websiteUrl?: string | null;
-  isActive?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * The page-builder for pages of the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -253,9 +160,13 @@ export interface Page {
     | (
         | {
             /**
-             * The large heading shown over the hero image (e.g. "Here Plays The Future"). Leave blank to use the page's default heading.
+             * The large heading shown over the hero image (e.g. "Here Plays The Future"). Leave blank to use the page's title.
              */
             slogan?: string | null;
+            /**
+             * The short line under the heading (e.g. "Aotearoa's first and original youth orchestra, founded 1948."). Leave blank to show no subtitle.
+             */
+            subtitle?: string | null;
             backgroundImage: string | Media;
             id?: string | null;
             blockName?: string | null;
@@ -292,6 +203,10 @@ export interface Page {
             image: string | Media;
             text: string;
             caption?: string | null;
+            /**
+             * YouTube URL opened when the block is clicked. Leave blank to render the block without a link.
+             */
+            videoUrl?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'quote';
@@ -352,32 +267,174 @@ export interface Page {
             blockName?: string | null;
             blockType: 'faq';
           }
+        | {
+            /**
+             * Which section of the My AYO page this heading belongs to. One block per section.
+             */
+            section: 'login' | 'calendar' | 'resources' | 'links';
+            heading: string;
+            subtitle?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'member-section';
+          }
       )[]
     | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * The images used across the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "passwords".
+ * via the `definition` "media".
  */
-export interface Password {
+export interface Media {
   id: string;
-  password?: string | null;
+  /**
+   * Describes the image for screen readers and search engines.
+   */
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    desktop?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * The news and story posts shown on the site's News page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  photos?:
+    | {
+        photo?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
+  author?: string | null;
+  publishedDate?: string | null;
+  /**
+   * Generated from the title.
+   */
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * The calendar embed, public, and iCal links used on the site.
+ * Frequently asked questions shown on their respective pages of the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "calendar-links".
+ * via the `definition` "faqs".
  */
-export interface CalendarLink {
+export interface Faq {
   id: string;
-  embedLink?: string | null;
-  publicLink?: string | null;
-  icalLink?: string | null;
+  question: string;
+  answer: string;
+  /**
+   * Which page this FAQ appears on.
+   */
+  category: 'about-us' | 'concerts-events' | 'join-ayo' | 'news' | 'support-us';
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Scholarships, competitions and programmes shown in the Opportunities table.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opportunities".
+ */
+export interface Opportunity {
+  id: string;
+  /**
+   * How the opportunity appears in the listing, e.g. "AYO Soloist Competition".
+   */
+  title: string;
+  /**
+   * Fills the listing's Type filter and the detail panel's "Awarded" line.
+   */
+  type: 'Scholarship' | 'Competition' | 'Workshop' | 'Residency';
+  /**
+   * When applications close, in New Zealand time. The listing hides the opportunity once this has passed.
+   */
+  closingDate: string;
+  /**
+   * Shown in full in the detail panel, and alongside the row in the listing.
+   */
+  description: string;
+  /**
+   * Where the Apply link goes. Leave blank and no Apply link is rendered.
+   */
+  applyUrl?: string | null;
+  /**
+   * Optional. What the opportunity is worth, e.g. "$3,000" — shown as the detail panel's "Value" line.
+   */
+  value?: string | null;
+  /**
+   * Optional photo shown at the top of the detail panel.
+   */
+  image?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -459,42 +516,16 @@ export interface Concert {
   createdAt: string;
 }
 /**
- * The news and story posts shown on the site's News page.
+ * The calendar embed, public, and iCal links used on the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "calendar-links".
  */
-export interface Post {
+export interface CalendarLink {
   id: string;
-  title: string;
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  photos?:
-    | {
-        photo?: (string | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
-  author?: string | null;
-  publishedDate?: string | null;
-  /**
-   * Generated from the title.
-   */
-  slug?: string | null;
+  embedLink?: string | null;
+  publicLink?: string | null;
+  icalLink?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -543,20 +574,18 @@ export interface TeamRole {
   createdAt: string;
 }
 /**
- * Frequently asked questions shown on their respective pages of the site.
+ * The partners and sponsors shown on the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs".
+ * via the `definition` "partners".
  */
-export interface Faq {
+export interface Partner {
   id: string;
-  question: string;
-  answer: string;
-  /**
-   * Which page this FAQ appears on.
-   */
-  category: 'about-us' | 'concerts-events' | 'join-ayo' | 'news' | 'support-us';
-  sortOrder?: number | null;
+  name: string;
+  partnerType?: ('partner' | 'sponsor' | 'supporter') | null;
+  logo: string | Media;
+  websiteUrl?: string | null;
+  isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -571,6 +600,46 @@ export interface Link {
   name: string;
   url: string;
   category: 'resources' | 'links';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
+}
+/**
+ * Passwords that unlock the members-only My AYO page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "passwords".
+ */
+export interface Password {
+  id: string;
+  /**
+   * Share this with members. Any password listed here unlocks the page.
+   */
+  password?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -599,36 +668,28 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: string | Media;
-      } | null)
-    | ({
-        relationTo: 'partners';
-        value: string | Partner;
-      } | null)
-    | ({
         relationTo: 'pages';
         value: string | Page;
       } | null)
     | ({
-        relationTo: 'passwords';
-        value: string | Password;
+        relationTo: 'posts';
+        value: string | Post;
       } | null)
     | ({
-        relationTo: 'calendar-links';
-        value: string | CalendarLink;
+        relationTo: 'faqs';
+        value: string | Faq;
+      } | null)
+    | ({
+        relationTo: 'opportunities';
+        value: string | Opportunity;
       } | null)
     | ({
         relationTo: 'concerts';
         value: string | Concert;
       } | null)
     | ({
-        relationTo: 'posts';
-        value: string | Post;
+        relationTo: 'calendar-links';
+        value: string | CalendarLink;
       } | null)
     | ({
         relationTo: 'people';
@@ -639,16 +700,28 @@ export interface PayloadLockedDocument {
         value: string | Role;
       } | null)
     | ({
-        relationTo: 'faqs';
-        value: string | Faq;
+        relationTo: 'team-roles';
+        value: string | TeamRole;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: string | Partner;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'link';
         value: string | Link;
       } | null)
     | ({
-        relationTo: 'team-roles';
-        value: string | TeamRole;
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'passwords';
+        value: string | Password;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -694,25 +767,248 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "pages_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
     | T
     | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
+        hero?:
+          | T
+          | {
+              slogan?: T;
+              subtitle?: T;
+              backgroundImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'rich-text'?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        video?:
+          | T
+          | {
+              text?: T;
+              videoUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        quote?:
+          | T
+          | {
+              image?: T;
+              text?: T;
+              caption?: T;
+              videoUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        image?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        table?:
+          | T
+          | {
+              rows?:
+                | T
+                | {
+                    label?: T;
+                    content?: T;
+                    linkLabel?: T;
+                    linkUrl?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'member-section'?:
+          | T
+          | {
+              section?: T;
+              heading?: T;
+              subtitle?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  photos?:
+    | T
+    | {
+        photo?: T;
+        id?: T;
+      };
+  category?: T;
+  author?: T;
+  publishedDate?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opportunities_select".
+ */
+export interface OpportunitiesSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  closingDate?: T;
+  description?: T;
+  applyUrl?: T;
+  value?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "concerts_select".
+ */
+export interface ConcertsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  photo?: T;
+  pdf?: T;
+  repertoire?:
+    | T
+    | {
+        composer?: T;
+        workTitle?: T;
+        soloist?: T;
+        movements?: T;
+        id?: T;
+      };
+  performances?:
+    | T
+    | {
+        dateTime?: T;
+        venue?: T;
+        venueAddress?: T;
+        bookingUrl?: T;
+        price?: T;
+        id?: T;
+      };
+  photo_links?:
+    | T
+    | {
+        link?: T;
+        id?: T;
+      };
+  video_links?:
+    | T
+    | {
+        link?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "calendar-links_select".
+ */
+export interface CalendarLinksSelect<T extends boolean = true> {
+  embedLink?: T;
+  publicLink?: T;
+  icalLink?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people_select".
+ */
+export interface PeopleSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  teamRoles?: T;
+  type?: T;
+  description?: T;
+  years?: T;
+  photo?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  roleName?: T;
+  sortOrder?: T;
+  displayName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-roles_select".
+ */
+export interface TeamRolesSelect<T extends boolean = true> {
+  roleName?: T;
+  sortOrder?: T;
+  roleType?: T;
+  displayName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  partnerType?: T;
+  logo?: T;
+  websiteUrl?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -778,222 +1074,6 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "partners_select".
- */
-export interface PartnersSelect<T extends boolean = true> {
-  name?: T;
-  partnerType?: T;
-  logo?: T;
-  websiteUrl?: T;
-  isActive?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
- */
-export interface PagesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  layout?:
-    | T
-    | {
-        hero?:
-          | T
-          | {
-              slogan?: T;
-              backgroundImage?: T;
-              id?: T;
-              blockName?: T;
-            };
-        'rich-text'?:
-          | T
-          | {
-              content?: T;
-              id?: T;
-              blockName?: T;
-            };
-        video?:
-          | T
-          | {
-              text?: T;
-              videoUrl?: T;
-              id?: T;
-              blockName?: T;
-            };
-        quote?:
-          | T
-          | {
-              image?: T;
-              text?: T;
-              caption?: T;
-              id?: T;
-              blockName?: T;
-            };
-        image?:
-          | T
-          | {
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-        table?:
-          | T
-          | {
-              rows?:
-                | T
-                | {
-                    label?: T;
-                    content?: T;
-                    linkLabel?: T;
-                    linkUrl?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        faq?:
-          | T
-          | {
-              items?:
-                | T
-                | {
-                    question?: T;
-                    answer?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "passwords_select".
- */
-export interface PasswordsSelect<T extends boolean = true> {
-  password?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "calendar-links_select".
- */
-export interface CalendarLinksSelect<T extends boolean = true> {
-  embedLink?: T;
-  publicLink?: T;
-  icalLink?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "concerts_select".
- */
-export interface ConcertsSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  photo?: T;
-  pdf?: T;
-  repertoire?:
-    | T
-    | {
-        composer?: T;
-        workTitle?: T;
-        soloist?: T;
-        movements?: T;
-        id?: T;
-      };
-  performances?:
-    | T
-    | {
-        dateTime?: T;
-        venue?: T;
-        venueAddress?: T;
-        bookingUrl?: T;
-        price?: T;
-        id?: T;
-      };
-  photo_links?:
-    | T
-    | {
-        link?: T;
-        id?: T;
-      };
-  video_links?:
-    | T
-    | {
-        link?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
- */
-export interface PostsSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  photos?:
-    | T
-    | {
-        photo?: T;
-        id?: T;
-      };
-  category?: T;
-  author?: T;
-  publishedDate?: T;
-  slug?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "people_select".
- */
-export interface PeopleSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  teamRoles?: T;
-  type?: T;
-  description?: T;
-  years?: T;
-  photo?: T;
-  isActive?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "roles_select".
- */
-export interface RolesSelect<T extends boolean = true> {
-  roleName?: T;
-  sortOrder?: T;
-  displayName?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs_select".
- */
-export interface FaqsSelect<T extends boolean = true> {
-  question?: T;
-  answer?: T;
-  category?: T;
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "link_select".
  */
 export interface LinkSelect<T extends boolean = true> {
@@ -1005,13 +1085,32 @@ export interface LinkSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team-roles_select".
+ * via the `definition` "users_select".
  */
-export interface TeamRolesSelect<T extends boolean = true> {
-  roleName?: T;
-  sortOrder?: T;
-  roleType?: T;
-  displayName?: T;
+export interface UsersSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "passwords_select".
+ */
+export interface PasswordsSelect<T extends boolean = true> {
+  password?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1054,6 +1153,46 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Social media links used by the footer and the Follow Us section.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: string;
+  /**
+   * Full profile URLs. Leave a field blank to hide that icon.
+   */
+  social?: {
+    /**
+     * e.g. https://www.instagram.com/aucklandyouthorchestra/ — also names the account shown in the Follow Us section.
+     */
+    instagram?: string | null;
+    youtube?: string | null;
+    facebook?: string | null;
+    linkedin?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  social?:
+    | T
+    | {
+        instagram?: T;
+        youtube?: T;
+        facebook?: T;
+        linkedin?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

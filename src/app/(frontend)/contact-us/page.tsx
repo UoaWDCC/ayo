@@ -23,7 +23,7 @@ export default async function ContactUsPage() {
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
-  const heroTitle = heroBlock?.slogan || 'Contact Us'
+  const heroTitle = heroBlock?.slogan || page?.title || ''
 
   const heroImage = resolveHeroImage(heroBlock?.backgroundImage)
 
@@ -31,7 +31,7 @@ export default async function ContactUsPage() {
     <main className="min-h-screen bg-white text-black">
       <Hero
         title={heroTitle}
-        subtitle="We'd love to hear from you."
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
       <SquareLinkGrid

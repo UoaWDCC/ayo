@@ -65,8 +65,8 @@ export default async function AboutUsPage() {
   return (
     <div>
       <Hero
-        title={heroBlock?.slogan || 'About Us'}
-        subtitle="Aotearoa's first and original youth orchestra, founded 1948."
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
       <main className="min-h-screen bg-white text-black">

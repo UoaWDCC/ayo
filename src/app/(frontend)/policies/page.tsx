@@ -19,8 +19,8 @@ export default async function PoliciesPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title={heroBlock?.slogan || 'Policies'}
-        subtitle="Guidelines and procedures that keep AYO running smoothly."
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
       <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-25 pb-12.5">

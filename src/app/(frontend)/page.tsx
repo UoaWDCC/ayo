@@ -22,11 +22,6 @@ import {
 } from '@/lib/posts'
 import type { Media } from '@/payload-types'
 
-// Same quote and poster as the About Us page, used until the Payload quote block is filled in.
-const DEFAULT_QUOTE =
-  'Watching Auckland Youth Orchestra perform, it was hard to believe this was youth talent. The passion, precision, and professionalism on stage were genuinely extraordinary.'
-const DEFAULT_QUOTE_POSTER = '/about-us-quote-poster.jpg'
-
 // How many upcoming events / latest articles the home page previews before linking out.
 const PREVIEW_COUNT = 3
 
@@ -63,8 +58,8 @@ export default async function LandingPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title={heroBlock?.slogan || 'Here Plays The Future'}
-        subtitle="Aotearoa's first and original youth orchestra, founded 1948."
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
 
@@ -80,16 +75,19 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      <ScrollReveal className="w-full my-12.5">
-        <AboutUsQuoteVid
-          quote={quoteBlock?.text ?? DEFAULT_QUOTE}
-          posterImage={quoteImageUrl ?? DEFAULT_QUOTE_POSTER}
-          caption={quoteBlock?.caption ?? undefined}
-          // TODO: same link as About Us. Move to Payload once the quote block has a URL field.
-          youtubeUrl="https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-"
-          aspectClassName="aspect-[4/3] sm:aspect-[2/1] md:aspect-[16/6]"
-        />
-      </ScrollReveal>
+      {/* Quote, poster and video link all come from the page's quote block, so
+          the section is only rendered once that block exists in Payload. */}
+      {quoteBlock && (
+        <ScrollReveal className="w-full my-12.5">
+          <AboutUsQuoteVid
+            quote={quoteBlock.text}
+            posterImage={quoteImageUrl ?? undefined}
+            caption={quoteBlock.caption ?? undefined}
+            youtubeUrl={quoteBlock.videoUrl ?? undefined}
+            aspectClassName="aspect-[4/3] sm:aspect-[2/1] md:aspect-[16/6]"
+          />
+        </ScrollReveal>
+      )}
 
       <section className="bg-white w-full">
         <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">

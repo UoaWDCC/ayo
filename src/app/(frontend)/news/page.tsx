@@ -47,8 +47,8 @@ export default async function NewsPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
-        title={heroBlock?.slogan || 'News'}
-        subtitle="Catch up to the latest updates about us."
+        title={heroBlock?.slogan || page?.title || ''}
+        subtitle={heroBlock?.subtitle ?? undefined}
         backgroundImage={heroImage}
       />
 
