@@ -33,7 +33,7 @@ export default async function JoinAyoPage() {
       />
       <JoinIntroSection introText={introText} introRows={joinUsRows} />
       <JoinAyoBlock />
-      <ScrollAnimation />
+      {/* <ScrollAnimation /> */}
       <OpportunitySection opportunities={opportunities} />
       <FAQSection category="join-ayo" />
     </main>
