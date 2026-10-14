@@ -114,6 +114,7 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
     .flatMap((res, i) =>
       res.docs.map((d) => ({
         collection: RECENT_COLLECTIONS[i].label,
+        href: `${payload.config.routes.admin}/collections/${RECENT_COLLECTIONS[i].slug}/${d.id}`,
         title: (d as { title?: string }).title || 'Untitled',
         updatedAt: (d as { updatedAt: string }).updatedAt,
       })),
@@ -196,12 +197,12 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
 
       <section className="ayo-agenda__section">
         <h3>Recently updated</h3>
-        {recent.map((r, i) => (
-          <div key={i} className="ayo-agenda__row ayo-agenda__row--static">
+        {recent.map((r) => (
+          <Link key={r.href} href={r.href} className="ayo-agenda__row ayo-agenda__row--link">
             <span className="ayo-agenda__row-collection">{r.collection}</span>
             <span className="ayo-agenda__row-title">{r.title}</span>
             <span className="ayo-agenda__row-meta">{fmtDate(r.updatedAt)}</span>
-          </div>
+          </Link>
         ))}
       </section>
     </div>

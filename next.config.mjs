@@ -8,6 +8,7 @@ const r2PublicHost = process.env.R2_PUBLIC_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  devIndicators: false,
   output: 'standalone',
   images: {
     // Our largest uploads are ~2048px wide, so a 3840px entry in the srcset only ever

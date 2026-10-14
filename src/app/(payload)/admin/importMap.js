@@ -31,6 +31,7 @@ import { RolesPreview as RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c } from '@
 import { PartnersPreview as PartnersPreview_efb7d9322bdb49ceba3fe8544f320024 } from '@/admin/components/PartnersPreview'
 import { LinksPreview as LinksPreview_71751564b35375072afb90447714da42 } from '@/admin/components/LinksPreview'
 import { default as default_c19b5b672d3a7bb4ff0bbaab4aa0da99 } from '@/admin/components/Nav'
+import { default as default_a0a16f550cfc850768c30d453a408f32 } from '@/admin/components/Logo'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { default as default_3d0438a552678e9e7a3f2363f114148b } from '@/admin/components/DashboardAgenda'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
@@ -69,6 +70,7 @@ export const importMap = {
   "@/admin/components/PartnersPreview#PartnersPreview": PartnersPreview_efb7d9322bdb49ceba3fe8544f320024,
   "@/admin/components/LinksPreview#LinksPreview": LinksPreview_71751564b35375072afb90447714da42,
   "@/admin/components/Nav#default": default_c19b5b672d3a7bb4ff0bbaab4aa0da99,
+  "@/admin/components/Logo#default": default_a0a16f550cfc850768c30d453a408f32,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/admin/components/DashboardAgenda#default": default_3d0438a552678e9e7a3f2363f114148b,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1

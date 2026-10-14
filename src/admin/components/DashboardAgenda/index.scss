@@ -71,8 +71,17 @@
       border-bottom: 1px solid var(--ayo-rule);
     }
 
-    &--static {
-      cursor: default;
+    &--link {
+      &:hover .ayo-agenda__row-title,
+      &:focus-visible .ayo-agenda__row-title {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
     }
   }
 

@@ -41,10 +41,16 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     theme: 'light',
+    meta: {
+      titleSuffix: ' - AYO',
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
     components: {
+      graphics: {
+        Logo: '@/admin/components/Logo#default',
+      },
       Nav: '@/admin/components/Nav#default',
     },
     dashboard: {
@@ -57,16 +63,7 @@ export default buildConfig({
           maxWidth: 'full',
         },
       ],
-      /**
-       * `collections` is Payload's own widget: a card per collection and global the
-       * signed-in user can read, grouped by `admin.group`. Naming a defaultLayout at
-       * all opts out of it, so it has to be listed explicitly or the dashboard shows
-       * nothing but the agenda.
-       */
-      defaultLayout: [
-        { widgetSlug: 'ayo-agenda', width: 'full' },
-        { widgetSlug: 'collections', width: 'full' },
-      ],
+      defaultLayout: [{ widgetSlug: 'ayo-agenda', width: 'full' }],
     },
   },
   // Within a group, the sidebar and the dashboard cards list collections in this
