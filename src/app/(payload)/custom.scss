@@ -6,6 +6,10 @@
   --ayo-text-meta: #6b7280;
   --ayo-muted: #b2b2b2;
   --ayo-rule: #ebebeb;
+  --ayo-table-row-hover: #f7f7f7;
+  --ayo-table-row-selected: #ededed;
+  --ayo-table-control-bg: #f0f0f0;
+  --ayo-table-control-hover: #e2e2e2;
 
   --font-body:
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -346,4 +350,159 @@ html body .step-nav__last {
   max-width: none !important;
   overflow: visible !important;
   text-overflow: clip !important;
+}
+
+// Shared admin table styling, including collection lists and relationship drawers.
+// Extra columns chosen by an editor can still scroll within the table.
+html body .table {
+  tbody tr:hover {
+    background: var(--ayo-table-row-hover);
+  }
+  table {
+    width: 100%;
+  }
+  td:not(.cell-_select) {
+    min-width: 90px;
+    overflow-wrap: anywhere;
+  }
+  td.cell-name,
+  td.cell-title,
+  td.cell-question,
+  td.cell-roleName {
+    min-width: 160px;
+  }
+  th:not(:first-child),
+  td:not(.cell-_select) {
+    padding: 16px 12px;
+  }
+  tbody td a {
+    text-decoration: none;
+  }
+  tbody td a:hover {
+    text-decoration: underline;
+  }
+  th .sort-column {
+    gap: 6px;
+  }
+}
+
+// Shared table selection controls, with an explicit keyboard focus ring.
+@layer payload-default {
+  html body .table .checkbox-input {
+    .checkbox-input__input {
+      border: 0 !important;
+      box-shadow: none !important;
+      border-radius: 4px;
+      background: var(--ayo-table-control-bg);
+      transition: background-color 120ms ease;
+    }
+    input[type='checkbox'] {
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    &:hover .checkbox-input__input {
+      background: var(--ayo-table-control-hover);
+    }
+    &.checkbox-input--checked .checkbox-input__input,
+    &:has(.checkbox-input__icon.partial) .checkbox-input__input {
+      background: #000;
+      color: #fff;
+    }
+    &:has(input:focus-visible) .checkbox-input__input {
+      outline: 2px solid #000;
+      outline-offset: 3px;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  html body .collection-list {
+    .list-header__title {
+      font-size: 30px;
+    }
+    .table {
+      table {
+        table-layout: fixed;
+      }
+      th,
+      td {
+        min-width: 0 !important;
+      }
+      th:first-child,
+      td.cell-_select {
+        width: 36px;
+        padding-inline: 4px;
+      }
+      th:not(:first-child),
+      td:not(.cell-_select) {
+        padding: 14px 8px;
+      }
+      thead th {
+        font-size: 10px;
+        letter-spacing: 0.02em;
+      }
+      .sort-column {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      .sort-column__buttons {
+        flex-shrink: 0;
+      }
+      tbody td a {
+        font-size: 14px;
+      }
+      [id='heading-updatedAt'],
+      [id='heading-createdAt'],
+      [id='heading-id'],
+      .cell-updatedAt,
+      .cell-createdAt,
+      .cell-id {
+        display: none;
+      }
+    }
+  }
+  html body .collection-list--people .table {
+    [id='heading-name'] {
+      width: 40%;
+    }
+    [id='heading-years'],
+    [id='heading-role'],
+    [id='heading-teamRoles'],
+    [id='heading-photo'],
+    .cell-years,
+    .cell-role,
+    .cell-teamRoles,
+    .cell-photo {
+      display: none;
+    }
+    .ayo-status {
+      padding-inline: 5px;
+      font-size: 11px;
+    }
+  }
+  html body .collection-list--partners .table {
+    [id='heading-name'] {
+      width: 44%;
+    }
+    [id='heading-logo'],
+    .cell-logo {
+      display: none;
+    }
+  }
+  html body .collection-list--posts .table {
+    [id='heading-photos'],
+    .cell-photos {
+      display: none;
+    }
+  }
+  html body .collection-list--concerts .table {
+    [id='heading-photo'],
+    .cell-photo {
+      display: none;
+    }
+  }
+  .ayo-reorder__toolbar-hint {
+    display: none;
+  }
 }

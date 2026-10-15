@@ -1,18 +1,23 @@
 import type { CollectionConfig } from 'payload'
+import { reorderEndpoints } from '@/endpoints/reorder'
 
 export const Roles: CollectionConfig = {
   slug: 'roles',
+  endpoints: reorderEndpoints('roles'),
+  defaultSort: 'sortOrder',
 
   admin: {
     group: 'People & Supporters',
-    useAsTitle: 'displayName',
+    useAsTitle: 'roleName',
+    components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
     description: 'The instrument sections and roles used to group People.',
-    defaultColumns: ['displayName', 'roleName', 'sortOrder'],
+    defaultColumns: ['roleName', 'updatedAt'],
   },
 
   fields: [
     {
       name: 'roleName',
+      label: 'Role',
       type: 'text',
       required: true,
     },
@@ -20,6 +25,8 @@ export const Roles: CollectionConfig = {
       name: 'sortOrder',
       type: 'number',
       required: true,
+      defaultValue: 0,
+      admin: { hidden: true },
     },
     {
       name: 'displayName',
@@ -44,8 +51,8 @@ export const Roles: CollectionConfig = {
 
   hooks: {
     beforeChange: [
-      ({ data }) => {
-        data.displayName = `${data.sortOrder} - ${data.roleName}`
+      ({ data, originalDoc }) => {
+        data.displayName = `${data.sortOrder ?? originalDoc?.sortOrder ?? 0} - ${data.roleName ?? originalDoc?.roleName ?? ''}`
         return data
       },
     ],

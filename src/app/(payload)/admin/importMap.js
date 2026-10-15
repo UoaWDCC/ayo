@@ -26,7 +26,9 @@ import { SectionDivider as SectionDivider_7c42241ce0a116caad4b6cead0455875 } fro
 import { PhotoThumbnailCell as PhotoThumbnailCell_acbc642ed072f784c47ef1c07f45caf1 } from '@/admin/components/PhotoThumbnailCell'
 import { PostsPreview as PostsPreview_0ce014a33cccebb26dbbe32ce169e2b1 } from '@/admin/components/PostsPreview'
 import { FAQPreview as FAQPreview_c94ce367c218914e0b30ea022bfca7c2 } from '@/admin/components/FAQPreview'
+import { CollectionReorder as CollectionReorder_78bc60a85f3329188f11feed8cdb392f } from '@/admin/components/CollectionReorder'
 import { PublicSitePreview as PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc } from '@/admin/components/PublicSitePreview'
+import { StatusCell as StatusCell_c9165b79e0da74db46fdbe6fe1813331 } from '@/admin/components/StatusCell'
 import { RolesPreview as RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c } from '@/admin/components/RolesPreview'
 import { PartnersPreview as PartnersPreview_efb7d9322bdb49ceba3fe8544f320024 } from '@/admin/components/PartnersPreview'
 import { LinksPreview as LinksPreview_71751564b35375072afb90447714da42 } from '@/admin/components/LinksPreview'
@@ -66,7 +68,9 @@ export const importMap = {
   "@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell": PhotoThumbnailCell_acbc642ed072f784c47ef1c07f45caf1,
   "@/admin/components/PostsPreview#PostsPreview": PostsPreview_0ce014a33cccebb26dbbe32ce169e2b1,
   "@/admin/components/FAQPreview#FAQPreview": FAQPreview_c94ce367c218914e0b30ea022bfca7c2,
+  "@/admin/components/CollectionReorder#CollectionReorder": CollectionReorder_78bc60a85f3329188f11feed8cdb392f,
   "@/admin/components/PublicSitePreview#PublicSitePreview": PublicSitePreview_54934b4dd3adc491adf58634ad8cb6fc,
+  "@/admin/components/StatusCell#StatusCell": StatusCell_c9165b79e0da74db46fdbe6fe1813331,
   "@/admin/components/RolesPreview#RolesPreview": RolesPreview_58bbe17dd400e1ca24c1135a75d1fe4c,
   "@/admin/components/PartnersPreview#PartnersPreview": PartnersPreview_efb7d9322bdb49ceba3fe8544f320024,
   "@/admin/components/LinksPreview#LinksPreview": LinksPreview_71751564b35375072afb90447714da42,

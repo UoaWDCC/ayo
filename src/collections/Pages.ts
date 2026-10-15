@@ -19,7 +19,7 @@ export const Pages: CollectionConfig = {
     useAsTitle: 'title',
     description:
       'Edit the content of the existing website pages. Page URLs are fixed; adding or removing a website page requires a developer.',
-    defaultColumns: ['title', 'slug', 'layout', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt'],
   },
   fields: [
     {

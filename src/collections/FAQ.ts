@@ -1,7 +1,10 @@
 import type { CollectionConfig } from 'payload'
+import { reorderEndpoints } from '@/endpoints/reorder'
 
 export const FAQ: CollectionConfig = {
   slug: 'faqs',
+  endpoints: reorderEndpoints('faqs'),
+  defaultSort: ['category', 'sortOrder', 'id'],
 
   labels: {
     singular: 'FAQ',
@@ -11,8 +14,9 @@ export const FAQ: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'question',
+    components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
     description: 'Frequently asked questions shown on their respective pages of the site.',
-    defaultColumns: ['question', 'category', 'sortOrder'],
+    defaultColumns: ['question', 'category', 'updatedAt'],
   },
 
   fields: [
@@ -44,9 +48,7 @@ export const FAQ: CollectionConfig = {
       },
     },
     {
-      // Managed entirely by dragging rows in the "Site preview" panel below, not typed in —
-      // hidden from the edit form but still a normal field: it's saved, queried, and sorted on
-      // like any other (see the public site's FAQ queries and defaultColumns above).
+      // Managed by the collection's Reorder controls, separately from editing an answer.
       name: 'sortOrder',
       type: 'number',
       label: 'Sort Order',

@@ -22,6 +22,7 @@ interface TeamMember {
 interface TeamMemberWithRole extends TeamMember {
   sectionId: TeamRole['roleType']
   sortOrder: number
+  personSortOrder: number
 }
 
 interface OurTeamProps {
@@ -60,6 +61,7 @@ function getTeamSections(team: Person[]) {
       role: teamRole.roleName,
       sectionId: teamRole.roleType,
       sortOrder: teamRole.sortOrder,
+      personSortOrder: person.sortOrder ?? 0,
       panel: {
         name: person.name,
         role: teamRole.roleName,
@@ -79,8 +81,13 @@ function getTeamSections(team: Person[]) {
     id: sectionId,
     members: members
       .filter((member) => member.sectionId === sectionId)
-      .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name))
-      .map(({ sectionId: _, sortOrder: __, ...member }) => member),
+      .sort(
+        (a, b) =>
+          a.sortOrder - b.sortOrder ||
+          a.personSortOrder - b.personSortOrder ||
+          a.name.localeCompare(b.name),
+      )
+      .map(({ sectionId: _, sortOrder: __, personSortOrder: ___, ...member }) => member),
   }))
 }
 

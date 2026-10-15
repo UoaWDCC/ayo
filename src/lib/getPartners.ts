@@ -13,7 +13,7 @@ export async function getPartners(): Promise<Partner[]> {
           equals: true,
         },
       },
-      sort: 'sortOrder',
+      sort: ['partnerType', 'sortOrder', 'name'],
       limit: 100,
     })
     // console.log('Partners found:', docs.length, docs)

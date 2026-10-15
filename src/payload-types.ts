@@ -550,6 +550,7 @@ export interface CalendarLink {
  */
 export interface Person {
   id: string;
+  sortOrder?: number | null;
   name: string;
   role?: (string | null) | Role;
   teamRoles?: (string | TeamRole)[] | null;
@@ -596,6 +597,7 @@ export interface TeamRole {
  */
 export interface Partner {
   id: string;
+  sortOrder?: number | null;
   name: string;
   partnerType?: ('partner' | 'sponsor' | 'supporter') | null;
   logo: string | Media;
@@ -1016,6 +1018,7 @@ export interface CalendarLinksSelect<T extends boolean = true> {
  * via the `definition` "people_select".
  */
 export interface PeopleSelect<T extends boolean = true> {
+  sortOrder?: T;
   name?: T;
   role?: T;
   teamRoles?: T;
@@ -1055,6 +1058,7 @@ export interface TeamRolesSelect<T extends boolean = true> {
  * via the `definition` "partners_select".
  */
 export interface PartnersSelect<T extends boolean = true> {
+  sortOrder?: T;
   name?: T;
   partnerType?: T;
   logo?: T;

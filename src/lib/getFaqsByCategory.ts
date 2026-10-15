@@ -13,7 +13,7 @@ export async function getFaqsByCategory(category: Faq['category']): Promise<Faq[
           equals: category,
         },
       },
-      sort: 'sortOrder',
+      sort: ['sortOrder', 'id'],
       limit: 0,
     })
 
