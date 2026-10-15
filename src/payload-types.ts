@@ -472,7 +472,7 @@ export interface Concert {
    */
   photo: string | Media;
   /**
-   * Optional. The filename of the programme, if one is published.
+   * Optional. Paste the full programme link or an uploaded PDF path such as /api/media/file/programme.pdf. Leave blank to hide the link.
    */
   pdf?: string | null;
   /**
@@ -499,12 +499,15 @@ export interface Concert {
      */
     venue?: string | null;
     venueAddress: string;
-    bookingUrl: string;
+    /**
+     * The booking link for this performance. Leave blank until bookings open.
+     */
+    bookingUrl?: string | null;
     price: string;
     id?: string | null;
   }[];
   /**
-   * Added once the concert has been performed.
+   * Optional. Paste a full gallery link in each row. Every valid link appears on the site.
    */
   photo_links?:
     | {
@@ -512,6 +515,9 @@ export interface Concert {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Optional. Paste a full recording link in each row. Every valid link appears on the site.
+   */
   video_links?:
     | {
         link?: string | null;

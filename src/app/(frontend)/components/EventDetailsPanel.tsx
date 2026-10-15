@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { EventCardData } from './EventCard'
 import FakeScrollbar from './FakeScrollbar'
 import { announceModalOpen } from './modalEvents'
@@ -123,10 +124,35 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
                   <p className="text-sm font-semibold">Times:</p>
                   <ul className="mt-2 space-y-1">
                     {event.performances.map((performance, idx) => (
-                      <li key={idx} className="flex gap-4 text-xs">
+                      <li key={idx} className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
                         <span>{performance.time}</span>
                         <span>{performance.date}</span>
                         <span className="text-muted text-right ml-auto">{performance.venue}</span>
+                        {performance.bookingUrl && (
+                          <Link
+                            href={performance.bookingUrl}
+                            prefetch={false}
+                            target={
+                              performance.bookingUrl.startsWith('http') ? '_blank' : undefined
+                            }
+                            rel={
+                              performance.bookingUrl.startsWith('http')
+                                ? 'noopener noreferrer'
+                                : undefined
+                            }
+                            aria-label={`Book ${event.title} — ${performance.date}, ${performance.time}${performance.venue ? `, ${performance.venue}` : ''}`}
+                            className="inline-flex items-center gap-1 underline transition-opacity hover:opacity-70"
+                          >
+                            Book
+                            <Image
+                              src="/arrow-up-right.svg"
+                              alt=""
+                              width={12}
+                              height={12}
+                              aria-hidden="true"
+                            />
+                          </Link>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -134,11 +160,14 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
               )}
 
               {event.links.length > 0 && (
-                <div className="flex gap-8 mt-6 text-sm">
+                <div className="flex flex-wrap gap-x-8 gap-y-3 mt-6 text-sm">
                   {event.links.map((link) => (
-                    <a
-                      key={link.label}
+                    <Link
+                      key={`${link.label}-${link.href}`}
                       href={link.href}
+                      prefetch={false}
+                      target={link.href.startsWith('http') ? '_blank' : undefined}
+                      rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                       className="flex items-center gap-1 underline hover:opacity-70"
                     >
                       {link.label}
@@ -149,7 +178,7 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
                         height={20}
                         aria-hidden="true"
                       />
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -157,12 +186,15 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
           </div>
         </div>
 
-        {(event.footerNote || event.ctaLabel) && (
+        {(event.footerNote || (event.ctaLabel && event.ctaHref)) && (
           <div className="bg-black text-white flex items-center justify-between px-6 py-4">
             <span className="text-sm">{event.footerNote}</span>
-            {event.ctaLabel && (
-              <a
-                href={event.ctaHref ?? '#'}
+            {event.ctaLabel && event.ctaHref && (
+              <Link
+                href={event.ctaHref}
+                prefetch={false}
+                target={event.ctaHref.startsWith('http') ? '_blank' : undefined}
+                rel={event.ctaHref.startsWith('http') ? 'noopener noreferrer' : undefined}
                 className="flex items-center gap-1 text-sm font-semibold hover:opacity-70"
               >
                 {event.ctaLabel}
@@ -174,7 +206,7 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
                   aria-hidden="true"
                   className="brightness-0 invert"
                 />
-              </a>
+              </Link>
             )}
           </div>
         )}

@@ -39,9 +39,11 @@ export const Concerts: CollectionConfig = {
     },
     {
       name: 'pdf',
+      label: 'Programme URL',
       type: 'text',
       admin: {
-        description: 'Optional. The filename of the programme, if one is published.',
+        description:
+          'Optional. Paste the full programme link or an uploaded PDF path such as /api/media/file/programme.pdf. Leave blank to hide the link.',
       },
     },
     {
@@ -90,7 +92,14 @@ export const Concerts: CollectionConfig = {
           },
         },
         { name: 'venueAddress', type: 'text', required: true },
-        { name: 'bookingUrl', type: 'text', required: true },
+        {
+          name: 'bookingUrl',
+          label: 'Booking URL',
+          type: 'text',
+          admin: {
+            description: 'The booking link for this performance. Leave blank until bookings open.',
+          },
+        },
         { name: 'price', type: 'text', required: true },
       ],
       // minimum of one array item
@@ -101,16 +110,25 @@ export const Concerts: CollectionConfig = {
     },
     {
       name: 'photo_links',
+      label: 'Photo links',
+      labels: { singular: 'Photo link', plural: 'Photo links' },
       type: 'array',
-      fields: [{ name: 'link', type: 'text' }],
+      fields: [{ name: 'link', label: 'Photo gallery URL', type: 'text' }],
       admin: {
-        description: 'Added once the concert has been performed.',
+        description:
+          'Optional. Paste a full gallery link in each row. Every valid link appears on the site.',
       },
     },
     {
       name: 'video_links',
+      label: 'Recording links',
+      labels: { singular: 'Recording link', plural: 'Recording links' },
       type: 'array',
-      fields: [{ name: 'link', type: 'text' }],
+      fields: [{ name: 'link', label: 'Recording URL', type: 'text' }],
+      admin: {
+        description:
+          'Optional. Paste a full recording link in each row. Every valid link appears on the site.',
+      },
     },
     {
       name: 'publicSitePreview',

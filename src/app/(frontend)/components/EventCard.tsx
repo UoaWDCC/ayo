@@ -3,6 +3,7 @@
 import { gsap } from 'gsap'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import EventDetailsPanel from './EventDetailsPanel'
 
@@ -10,6 +11,7 @@ export type EventPerformance = {
   time: string
   date: string
   venue: string
+  bookingUrl?: string
 }
 
 export type EventLink = {
@@ -91,11 +93,14 @@ const EventCard = ({ event }: { event: EventCardData }) => {
       {(event.links.length > 0 || event.footerLabel) && (
         <div className="mt-4 text-sm">
           {event.links.length > 0 && (
-            <div className="flex gap-8">
+            <div className="flex flex-wrap gap-x-8 gap-y-3">
               {event.links.map((link) => (
-                <a
-                  key={link.label}
+                <Link
+                  key={`${link.label}-${link.href}`}
                   href={link.href}
+                  prefetch={false}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="flex items-center gap-1 underline hover:opacity-70"
                 >
                   {link.label}
@@ -106,7 +111,7 @@ const EventCard = ({ event }: { event: EventCardData }) => {
                     height={20}
                     aria-hidden="true"
                   />
-                </a>
+                </Link>
               ))}
             </div>
           )}

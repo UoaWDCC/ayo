@@ -1,5 +1,5 @@
 import { describe, expect, it, afterEach } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import EventCard, { type EventCardData } from './EventCard'
 
 afterEach(() => {
@@ -59,5 +59,39 @@ describe('EventCard', () => {
 
     fireEvent.keyDown(document, { key: 'Escape' })
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+  })
+
+  it('renders the exact per-performance booking and programme destinations', () => {
+    render(
+      <EventCard
+        event={{
+          ...event,
+          performances: [{ ...event.performances[0], bookingUrl: 'https://example.org/tickets' }],
+          links: [
+            { label: 'Programme', href: '/sample.pdf' },
+            { label: 'Photos 1', href: 'https://example.org/photos-1' },
+            { label: 'Photos 2', href: 'https://example.org/photos-2' },
+          ],
+        }}
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(event.title) }))
+    expect(screen.getByRole('link', { name: /^Book Séjourné/ }).getAttribute('href')).toBe(
+      'https://example.org/tickets',
+    )
+    const panel = within(screen.getByRole('dialog'))
+    expect(panel.getByRole('link', { name: 'Programme' }).getAttribute('href')).toBe('/sample.pdf')
+    expect(panel.getByRole('link', { name: 'Photos 2' }).getAttribute('href')).toBe(
+      'https://example.org/photos-2',
+    )
+    for (const link of screen.getAllByRole('link', { name: 'Photos 2' })) {
+      expect(link.getAttribute('rel')).toBe('noopener noreferrer')
+    }
+  })
+
+  it('does not render a footer action without a destination', () => {
+    render(<EventCard event={{ ...event, ctaHref: undefined, footerNote: undefined }} />)
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(event.title) }))
+    expect(screen.queryByRole('link', { name: 'See Now' })).toBeNull()
   })
 })
