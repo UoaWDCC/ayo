@@ -5,6 +5,7 @@ import { useConfig, useFormFields } from '@payloadcms/ui'
 import { PreviewErrorBoundary } from '../shared/PreviewErrorBoundary'
 import { richTextToPlainText } from '../shared/richTextToPlainText'
 import React, { useDeferredValue, useEffect, useMemo, useState } from 'react'
+import { formatNZDateTime } from '@/lib/concertDates'
 
 import './index.scss'
 
@@ -22,17 +23,11 @@ type ConcertPreviewData = {
 type MediaDoc = { alt?: string; filename?: string; url?: string }
 
 function fmtDate(iso?: string) {
-  if (!iso) return ''
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'short' })
+  return formatNZDateTime(iso, { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
 function fmtTime(iso?: string) {
-  if (!iso) return ''
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleTimeString('en-NZ', { hour: 'numeric', minute: '2-digit' }).toLowerCase()
+  return formatNZDateTime(iso, { hour: 'numeric', minute: '2-digit' }).toLowerCase()
 }
 
 // Reproduces the public site's EventsCard (listing) and EventCard (grid card) using live form state.

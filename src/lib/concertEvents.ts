@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Concert, Media } from '@/payload-types'
 import { richTextToPlainText } from '@/admin/components/shared/richTextToPlainText'
+import { formatNZDateTime } from './concertDates'
 
 export type AgendaEvent = {
   id: string
@@ -22,21 +23,15 @@ export type AgendaEvent = {
 }
 
 function fmtTime(iso: string) {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleTimeString('en-NZ', { hour: '2-digit', minute: '2-digit', hour12: false })
+  return formatNZDateTime(iso, { hour: '2-digit', minute: '2-digit', hour12: false })
 }
 
 function fmtDateLong(iso: string) {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleDateString('en-NZ', { weekday: 'long', day: 'numeric', month: 'long' })
+  return formatNZDateTime(iso, { weekday: 'long', day: 'numeric', month: 'long' })
 }
 
 function fmtDateShort(iso: string) {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'long' })
+  return formatNZDateTime(iso, { weekday: 'short', day: 'numeric', month: 'long' })
 }
 
 function concertToEvent(concert: Concert, now: Date): AgendaEvent {
@@ -66,10 +61,8 @@ function concertToEvent(concert: Concert, now: Date): AgendaEvent {
     id: concert.id,
     type: 'Concert',
     deadlineDate: nearest?.dateTime || concert.createdAt,
-    year: nearest
-      ? new Date(nearest.dateTime).getFullYear()
-      : new Date(concert.createdAt).getFullYear(),
-    month: nearest ? new Date(nearest.dateTime).toLocaleDateString('en-NZ', { month: 'long' }) : '',
+    year: Number(formatNZDateTime(nearest?.dateTime || concert.createdAt, { year: 'numeric' })),
+    month: nearest ? formatNZDateTime(nearest.dateTime, { month: 'long' }) : '',
     location: 'Auckland, New Zealand',
     title: concert.title,
     subtitle: nearest

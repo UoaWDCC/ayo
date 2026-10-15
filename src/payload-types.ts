@@ -489,7 +489,11 @@ export interface Concert {
    * Each one appears as a separate date on the site.
    */
   performances: {
+    /**
+     * Enter the start time in New Zealand time. Daylight saving is handled automatically.
+     */
     dateTime: string;
+    dateTime_tz: 'Pacific/Auckland';
     /**
      * Optional in the schema. The site shows this line when it is set.
      */
@@ -965,6 +969,7 @@ export interface ConcertsSelect<T extends boolean = true> {
     | T
     | {
         dateTime?: T;
+        dateTime_tz?: T;
         venue?: T;
         venueAddress?: T;
         bookingUrl?: T;

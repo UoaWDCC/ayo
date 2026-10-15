@@ -1,5 +1,6 @@
 import type { WidgetServerProps } from 'payload'
 import Link from 'next/link'
+import { formatNZDateTime } from '@/lib/concertDates'
 
 import './index.scss'
 
@@ -41,8 +42,7 @@ function awaitingFollowUp(c: Concert, now: Date) {
 }
 
 function fmtDate(iso?: string) {
-  if (!iso) return ''
-  return new Date(iso).toLocaleDateString('en-NZ', {
+  return formatNZDateTime(iso, {
     weekday: 'short',
     day: 'numeric',
     month: 'short',

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { NZ_TIME_ZONE } from '@/lib/concertDates'
 
 export const Concerts: CollectionConfig = {
   slug: 'concerts',
@@ -62,7 +63,25 @@ export const Concerts: CollectionConfig = {
       name: 'performances',
       type: 'array',
       fields: [
-        { name: 'dateTime', type: 'date', required: true },
+        {
+          name: 'dateTime',
+          label: 'Performance date and time',
+          type: 'date',
+          required: true,
+          timezone: {
+            defaultTimezone: NZ_TIME_ZONE,
+            supportedTimezones: [{ label: 'New Zealand (Pacific/Auckland)', value: NZ_TIME_ZONE }],
+          },
+          admin: {
+            description:
+              'Enter the start time in New Zealand time. Daylight saving is handled automatically.',
+            date: {
+              pickerAppearance: 'dayAndTime',
+              displayFormat: 'd MMM yyyy, h:mm aa',
+              timeIntervals: 15,
+            },
+          },
+        },
         {
           name: 'venue',
           type: 'text',
