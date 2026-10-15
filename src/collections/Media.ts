@@ -1,14 +1,17 @@
 import type { CollectionConfig } from 'payload'
+import { protectUsedMedia } from '@/hooks/protectUsedMedia'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  hooks: { beforeDelete: [protectUsedMedia] },
   access: {
     read: () => true,
   },
   admin: {
     group: 'Assets & Resources',
     useAsTitle: 'filename',
-    description: 'The images used across the site.',
+    description:
+      'Images used across the website. Files used by content or saved page and post versions cannot be deleted.',
     defaultColumns: ['filename', 'alt', 'updatedAt'],
   },
   fields: [

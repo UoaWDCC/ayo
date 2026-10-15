@@ -287,7 +287,7 @@ export interface Page {
   createdAt: string;
 }
 /**
- * The images used across the site.
+ * Images used across the website. Files used by content or saved page and post versions cannot be deleted.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".

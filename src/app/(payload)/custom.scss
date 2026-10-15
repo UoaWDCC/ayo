@@ -390,6 +390,19 @@ html body .table {
   }
 }
 
+html body .table {
+  th[id='heading-_select'],
+  td.cell-_select {
+    vertical-align: middle;
+    text-align: center;
+
+    .checkbox-input {
+      width: max-content;
+      margin-inline: auto;
+    }
+  }
+}
+
 // Shared table selection controls, with an explicit keyboard focus ring.
 @layer payload-default {
   html body .table .checkbox-input {
@@ -528,5 +541,178 @@ html body .field-error.tooltip {
   }
   .ayo-reorder__toolbar-hint {
     display: none;
+  }
+}
+
+// Keep bulk selection readable without Payload's decorative dash separator.
+html body .list-selection {
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--ayo-text-secondary);
+
+  > span:not(:first-child) {
+    display: none;
+  }
+
+  &__actions {
+    gap: 12px;
+  }
+}
+
+// Use the same restrained panel and controls for delete and restore confirmations.
+html body .confirmation-modal {
+  padding: 16px;
+  background: transparent;
+
+  &::before {
+    background: #000;
+    opacity: 0.25;
+  }
+
+  &::after {
+    backdrop-filter: blur(3px);
+  }
+
+  &__wrapper {
+    width: 100%;
+    max-width: 480px;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    padding: clamp(24px, 4vw, 32px);
+    gap: 24px;
+    background: var(--theme-bg);
+    color: var(--ayo-text);
+    box-shadow: 0 16px 64px #0000001f;
+  }
+
+  &__content {
+    gap: 12px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    p {
+      color: var(--ayo-text-secondary);
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__controls {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .btn {
+      min-height: 40px;
+      padding: 10px 18px;
+      border: 0;
+      box-shadow: none;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+
+    .btn--style-primary {
+      background: var(--ayo-text);
+      color: #fff;
+
+      &:hover:not(:disabled) {
+        background: #262626;
+      }
+    }
+
+    .btn--style-secondary {
+      background: var(--ayo-table-control-bg);
+      color: var(--ayo-text);
+
+      &:hover:not(:disabled) {
+        background: var(--ayo-table-control-hover);
+      }
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--ayo-text);
+      outline-offset: 3px;
+    }
+  }
+}
+
+// Notifications use a neutral surface, with colour limited to the status icon.
+html body .payload-toast-container .payload-toast-item {
+  background: var(--theme-bg);
+  color: var(--ayo-text);
+  border: 0;
+  border-radius: 0;
+  padding: 16px;
+  box-shadow: 0 8px 32px #0000001f;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  gap: 12px;
+
+  > div:last-child {
+    flex: 1;
+    min-width: 0;
+    padding-right: 24px;
+    overflow-wrap: anywhere;
+  }
+
+  &.toast-error:not(:has(.toast-icon))::before {
+    content: '!';
+    color: #b42318;
+    font-weight: 600;
+    text-align: center;
+    flex: 0 0 16px;
+  }
+
+  .toast-title {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    margin-right: 0;
+  }
+
+  .toast-icon {
+    flex-shrink: 0;
+  }
+
+  &.toast-error .toast-icon {
+    color: #b42318;
+  }
+
+  &.toast-warning .toast-icon {
+    color: #946200;
+  }
+
+  &.toast-success .toast-icon {
+    color: #18794e;
+  }
+
+  .payload-toast-close-button {
+    position: absolute;
+    top: 50%;
+    left: auto;
+    right: 12px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    color: var(--ayo-text-secondary);
+    width: 28px;
+    height: 28px;
+
+    &:hover {
+      color: var(--ayo-text);
+      background: var(--ayo-table-control-bg);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ayo-text);
+      outline-offset: 2px;
+    }
   }
 }
