@@ -147,7 +147,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Edit the content of the existing website pages. Page URLs are fixed; adding or removing a website page requires a developer.
+ * Save updates the live website. Use Versions to restore an earlier edit. Page URLs are fixed. Adding or removing a website page requires a developer.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -345,7 +345,7 @@ export interface Media {
   };
 }
 /**
- * The news and story posts shown on the site's News page.
+ * News and stories shown on the website. Save updates the live site. Use Versions to restore an earlier edit.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".

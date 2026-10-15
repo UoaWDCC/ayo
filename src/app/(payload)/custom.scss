@@ -273,8 +273,12 @@ html body .doc-controls__divider {
   display: none !important;
 }
 
-// The Edit/API tab switcher above the document title, and the account avatar in the app header.
-html body .doc-tabs {
+// Show the native history navigation only on documents with version history.
+html body .doc-tabs:not(:has([aria-label='Versions'])) {
+  display: none !important;
+}
+
+html body .doc-tabs [aria-label='API'] {
   display: none !important;
 }
 

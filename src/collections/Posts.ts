@@ -3,6 +3,9 @@ import { stablePostSlug } from '@/hooks/stablePostSlug'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
+  versions: { maxPerDoc: 20 },
+
+  access: { readVersions: ({ req }) => Boolean(req.user) },
 
   hooks: {
     beforeValidate: [stablePostSlug],
@@ -11,7 +14,8 @@ export const Posts: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'title',
-    description: "The news and story posts shown on the site's News page.",
+    description:
+      'News and stories shown on the website. Save updates the live site. Use Versions to restore an earlier edit.',
     defaultColumns: ['title', 'photos', 'category', 'publishedDate'],
   },
   fields: [

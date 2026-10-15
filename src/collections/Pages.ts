@@ -11,14 +11,19 @@ import { pageSlugs, protectPageSlug } from '@/hooks/protectPageSlug'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
+  versions: { maxPerDoc: 20 },
   // These documents belong to fixed Next.js routes. New routes require code changes.
-  access: { create: () => false, delete: () => false },
+  access: {
+    create: () => false,
+    delete: () => false,
+    readVersions: ({ req }) => Boolean(req.user),
+  },
   hooks: { beforeValidate: [protectPageSlug] },
   admin: {
     group: 'Content',
     useAsTitle: 'title',
     description:
-      'Edit the content of the existing website pages. Page URLs are fixed; adding or removing a website page requires a developer.',
+      'Save updates the live website. Use Versions to restore an earlier edit. Page URLs are fixed. Adding or removing a website page requires a developer.',
     defaultColumns: ['title', 'slug', 'updatedAt'],
   },
   fields: [
