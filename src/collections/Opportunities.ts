@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { validateWebURL } from '@/lib/urls'
 
 /**
  * The scholarships, competitions and programmes listed on /join-ayo.
@@ -56,8 +57,9 @@ export const Opportunities: CollectionConfig = {
     {
       name: 'applyUrl',
       type: 'text',
+      validate: validateWebURL,
       admin: {
-        description: 'Where the Apply link goes. Leave blank and no Apply link is rendered.',
+        description: 'The full http:// or https:// application URL. Leave blank to hide Apply.',
       },
     },
     {

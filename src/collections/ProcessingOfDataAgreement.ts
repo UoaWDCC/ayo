@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { protectCurrentSettingsRecord } from '@/hooks/protectCurrentSettingsRecord'
 
 /**
  * Processing of Data Agreement collection:
@@ -6,11 +7,12 @@ import type { CollectionConfig } from 'payload'
  * - title: internal name for the entry, not shown on the site
  * - content: the agreement text shown in the pop-up on the Contact Us form
  *
- * Only the most recently updated entry is shown on the site.
+ * Site Settings selects the current agreement. Older records can be retained.
  */
 
 export const ProcessingOfDataAgreement: CollectionConfig = {
   slug: 'processing-of-data-agreement',
+  hooks: { beforeDelete: [protectCurrentSettingsRecord('processing-of-data-agreement')] },
 
   labels: {
     singular: 'Processing of Data Agreement',
@@ -18,9 +20,10 @@ export const ProcessingOfDataAgreement: CollectionConfig = {
   },
 
   admin: {
+    group: 'Administration',
     useAsTitle: 'title',
     description:
-      'The text shown when someone clicks "processing of personal data" on the Contact Us form. Only the most recently updated entry is shown.',
+      'Agreement text for the Contact Us form. Choose the current agreement in Site Settings. Editing an older record does not select it.',
     defaultColumns: ['title', 'updatedAt'],
   },
 

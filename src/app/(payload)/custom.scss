@@ -415,6 +415,26 @@ html body .table {
   }
 }
 
+// Validation guidance must remain visible when Payload hides tooltips on narrow screens.
+html body .field-error.tooltip {
+  display: block;
+  position: relative;
+  inset: auto;
+  transform: none;
+  max-width: 100%;
+  padding: 6px 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  visibility: visible;
+  opacity: 1;
+  color: #b42318;
+  background: transparent;
+  font-size: 13px;
+  &::after {
+    display: none;
+  }
+}
+
 @media (max-width: 700px) {
   html body .collection-list {
     .list-header__title {

@@ -11,6 +11,8 @@ import StaggerReveal from '../components/StaggerReveal'
 import { createIntroConverters } from '../components/richTextConverters'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import { resolveHeroImage } from '@/lib/heroImage'
+import { getCurrentSettingsRecord } from '@/lib/getCurrentSettingsRecord'
+import { safeHref } from '@/lib/urls'
 import type { Page } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
@@ -140,8 +142,8 @@ export default async function MyAyoPage({
 
   const payload = await getPayload({ config })
 
-  const [linkResult, resourcesResult, linksResult] = await Promise.all([
-    payload.find({ collection: 'calendar-links', limit: 1 }),
+  const [calendar, resourcesResult, linksResult] = await Promise.all([
+    getCurrentSettingsRecord('calendar-links'),
     payload.find({
       collection: 'link',
       where: { category: { equals: 'resources' } },
@@ -155,10 +157,9 @@ export default async function MyAyoPage({
   ])
 
   const calendarCopy = sectionCopy('calendar')
-  const calendar = linkResult.docs[0]
-  const calendarEmbed = calendar?.embedLink ?? ''
-  const calendarUrl = calendar?.publicLink ?? ''
-  const calendarICal = calendar?.icalLink ?? ''
+  const calendarEmbed = safeHref(calendar?.embedLink)
+  const calendarUrl = safeHref(calendar?.publicLink)
+  const calendarICal = safeHref(calendar?.icalLink, { allowWebcal: true })
 
   // Rich-text block [0] on the `my-ayo` page: optional intro shown once a member has logged in.
   const richTextBlocks = page?.layout?.filter((block) => block.blockType === 'rich-text') ?? []

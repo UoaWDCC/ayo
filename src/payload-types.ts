@@ -429,7 +429,7 @@ export interface Opportunity {
    */
   description: string;
   /**
-   * Where the Apply link goes. Leave blank and no Apply link is rendered.
+   * The full http:// or https:// application URL. Leave blank to hide Apply.
    */
   applyUrl?: string | null;
   /**
@@ -531,15 +531,28 @@ export interface Concert {
   createdAt: string;
 }
 /**
- * The calendar embed, public, and iCal links used on the site.
+ * Calendar links for My AYO. Choose the current calendar in Site Settings.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "calendar-links".
  */
 export interface CalendarLink {
   id: string;
+  /**
+   * An internal name, such as AYO 2027 calendar.
+   */
+  title: string;
+  /**
+   * Paste the full calendar embed URL, not the iframe HTML code. Leave blank to hide the embedded calendar.
+   */
   embedLink?: string | null;
+  /**
+   * The full public calendar URL. Leave blank to hide Add to Google Calendar.
+   */
   publicLink?: string | null;
+  /**
+   * The full https:// or webcal:// subscription URL. Leave blank to hide the subscription and copy actions.
+   */
   icalLink?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -601,6 +614,9 @@ export interface Partner {
   name: string;
   partnerType?: ('partner' | 'sponsor' | 'supporter') | null;
   logo: string | Media;
+  /**
+   * Optional. Use a full http:// or https:// website URL.
+   */
   websiteUrl?: string | null;
   isActive?: boolean | null;
   updatedAt: string;
@@ -615,6 +631,9 @@ export interface Partner {
 export interface Link {
   id: string;
   name: string;
+  /**
+   * A full web URL or a site path such as /api/media/file/handbook.pdf.
+   */
   url: string;
   category: 'resources' | 'links';
   updatedAt: string;
@@ -661,7 +680,7 @@ export interface Password {
   createdAt: string;
 }
 /**
- * The text shown when someone clicks "processing of personal data" on the Contact Us form. Only the most recently updated entry is shown.
+ * Agreement text for the Contact Us form. Choose the current agreement in Site Settings. Editing an older record does not select it.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "processing-of-data-agreement".
@@ -1007,6 +1026,7 @@ export interface ConcertsSelect<T extends boolean = true> {
  * via the `definition` "calendar-links_select".
  */
 export interface CalendarLinksSelect<T extends boolean = true> {
+  title?: T;
   embedLink?: T;
   publicLink?: T;
   icalLink?: T;
@@ -1222,7 +1242,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Social media links used by the footer and the Follow Us section.
+ * Social links and the current calendar and data agreement used by the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
@@ -1234,12 +1254,19 @@ export interface SiteSetting {
    */
   social?: {
     /**
-     * e.g. https://www.instagram.com/aucklandyouthorchestra/ — also names the account shown in the Follow Us section.
+     * For example, https://www.instagram.com/aucklandyouthorchestra/. This also names the account shown in Follow Us.
      */
     instagram?: string | null;
     youtube?: string | null;
     facebook?: string | null;
     linkedin?: string | null;
+  };
+  /**
+   * Choose which saved records the website uses. If a choice is blank, the only saved record is used. With multiple records, select one here.
+   */
+  currentContent?: {
+    calendar?: (string | null) | CalendarLink;
+    dataAgreement?: (string | null) | ProcessingOfDataAgreement;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1256,6 +1283,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         youtube?: T;
         facebook?: T;
         linkedin?: T;
+      };
+  currentContent?:
+    | T
+    | {
+        calendar?: T;
+        dataAgreement?: T;
       };
   updatedAt?: T;
   createdAt?: T;

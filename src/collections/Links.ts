@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { validateRequiredDocumentURL } from '@/lib/urls'
 
 export const Links: CollectionConfig = {
   slug: 'link',
@@ -18,6 +19,8 @@ export const Links: CollectionConfig = {
       name: 'url',
       type: 'text',
       required: true,
+      validate: validateRequiredDocumentURL,
+      admin: { description: 'A full web URL or a site path such as /api/media/file/handbook.pdf.' },
     },
     {
       name: 'category',

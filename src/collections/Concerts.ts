@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { NZ_TIME_ZONE } from '@/lib/concertDates'
+import { validateDocumentURL } from '@/lib/urls'
 
 export const Concerts: CollectionConfig = {
   slug: 'concerts',
@@ -41,6 +42,7 @@ export const Concerts: CollectionConfig = {
       name: 'pdf',
       label: 'Programme URL',
       type: 'text',
+      validate: validateDocumentURL,
       admin: {
         description:
           'Optional. Paste the full programme link or an uploaded PDF path such as /api/media/file/programme.pdf. Leave blank to hide the link.',
@@ -96,6 +98,7 @@ export const Concerts: CollectionConfig = {
           name: 'bookingUrl',
           label: 'Booking URL',
           type: 'text',
+          validate: validateDocumentURL,
           admin: {
             description: 'The booking link for this performance. Leave blank until bookings open.',
           },
@@ -113,7 +116,9 @@ export const Concerts: CollectionConfig = {
       label: 'Photo links',
       labels: { singular: 'Photo link', plural: 'Photo links' },
       type: 'array',
-      fields: [{ name: 'link', label: 'Photo gallery URL', type: 'text' }],
+      fields: [
+        { name: 'link', label: 'Photo gallery URL', type: 'text', validate: validateDocumentURL },
+      ],
       admin: {
         description:
           'Optional. Paste a full gallery link in each row. Every valid link appears on the site.',
@@ -124,7 +129,9 @@ export const Concerts: CollectionConfig = {
       label: 'Recording links',
       labels: { singular: 'Recording link', plural: 'Recording links' },
       type: 'array',
-      fields: [{ name: 'link', label: 'Recording URL', type: 'text' }],
+      fields: [
+        { name: 'link', label: 'Recording URL', type: 'text', validate: validateDocumentURL },
+      ],
       admin: {
         description:
           'Optional. Paste a full recording link in each row. Every valid link appears on the site.',

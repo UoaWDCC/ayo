@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { reorderEndpoints } from '@/endpoints/reorder'
+import { validateWebURL } from '@/lib/urls'
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
@@ -48,6 +49,8 @@ export const Partners: CollectionConfig = {
       name: 'websiteUrl',
       type: 'text',
       label: 'Website URL',
+      validate: validateWebURL,
+      admin: { description: 'Optional. Use a full http:// or https:// website URL.' },
     },
     {
       name: 'isActive',

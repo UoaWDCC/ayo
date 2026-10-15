@@ -1,3 +1,5 @@
+import { safeHref } from './urls'
+
 type ResourceFields = {
   pdf?: string | null
   photo_links?: { link?: string | null }[] | null
@@ -6,16 +8,7 @@ type ResourceFields = {
 
 /** Only render real web destinations or paths on this site, never placeholders. */
 export function concertLink(value?: string | null): string | undefined {
-  const href = value?.trim()
-  if (!href || /[\s\\]/.test(href)) return undefined
-  if (href.startsWith('/') && !href.startsWith('//')) return href
-  if (!/^https?:\/\//i.test(href)) return undefined
-  try {
-    const url = new URL(href)
-    return url.hostname ? url.href : undefined
-  } catch {
-    return undefined
-  }
+  return safeHref(value, { allowSitePath: true })
 }
 
 export function concertResourceLinks(fields: ResourceFields) {

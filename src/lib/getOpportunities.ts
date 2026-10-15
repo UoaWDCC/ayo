@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Media } from '@/payload-types'
+import { safeHref } from './urls'
 
 /**
  * One row of the Opportunities listing, shaped for the client components —
@@ -103,7 +104,7 @@ export async function getOpportunities(): Promise<OpportunityListing[]> {
           deadlineLabel: formatDeadline(doc.closingDate),
           deadlineDate: new Date(doc.closingDate).toISOString(),
           description: doc.description,
-          applyUrl: doc.applyUrl ?? undefined,
+          applyUrl: safeHref(doc.applyUrl),
           value: doc.value ?? undefined,
           imageUrl: mediaUrl(doc.image),
         },
