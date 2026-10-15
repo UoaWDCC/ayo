@@ -9,12 +9,6 @@ import {
 } from '@/lib/posts'
 import NewsArticleContent from './NewsArticleContent'
 
-export async function generateStaticParams() {
-  const { getPosts } = await import('@/lib/posts')
-  const posts = await getPosts()
-  return posts.filter((post) => post.slug).map((post) => ({ slug: post.slug as string }))
-}
-
 export default async function SinglePostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const post = await getPostBySlug(slug)

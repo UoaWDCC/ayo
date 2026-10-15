@@ -19,6 +19,75 @@
   --app-header-height: calc(var(--base) * 2.2);
 }
 
+// Keep the dates at the top of the document; the pinned toolbar only needs its actions.
+html body .app-header {
+  position: sticky;
+  top: 0;
+  background: var(--theme-bg);
+}
+
+html body .doc-controls {
+  top: var(--app-header-height);
+  background: var(--theme-bg);
+
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
+html body .doc-controls.ayo-doc-controls--stuck {
+  top: 0;
+  z-index: 31;
+  width: max-content;
+  max-width: 55%;
+  margin-left: auto;
+  padding-inline: 12px;
+
+  .doc-controls__wrapper {
+    height: var(--app-header-height);
+    flex-direction: row;
+  }
+  .doc-controls__value-wrap {
+    display: none;
+  }
+  .doc-controls__content:not(
+    :has(.doc-controls__meta > :not(.doc-controls__value-wrap), .doc-controls__meta-icons > *)
+  ) {
+    display: none;
+  }
+  .doc-controls__controls-wrapper {
+    height: var(--app-header-height);
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .doc-controls__controls {
+    padding: 0;
+  }
+  .doc-controls__controls::after,
+  .doc-controls__divider {
+    display: none;
+  }
+}
+
+html body:has(.ayo-doc-controls--stuck) .app-header__step-nav-wrapper {
+  padding-right: var(--ayo-doc-actions-width, 120px);
+  min-width: 0;
+
+  .step-nav {
+    width: 100%;
+    min-width: 0;
+  }
+  .step-nav__last {
+    min-width: 0;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap;
+  }
+}
+
 @layer payload {
   .table {
     tbody tr:hover {
@@ -241,6 +310,16 @@ html body .dashboard-breadcrumb-select .rs__control {
 // blend in. Collapsed, the toggle sits on the white page background instead (no black rail behind
 // it), so it stays black-on-transparent there — inverting it too would make the icon disappear
 // against the white page.
+html body .nav-toggler .hamburger {
+  border: 0 !important;
+  box-shadow: none !important;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
 html body .nav-toggler--is-open .hamburger {
   background: transparent !important;
   color: #fff !important;
@@ -248,6 +327,11 @@ html body .nav-toggler--is-open .hamburger {
 
 html body .nav-toggler:not(.nav-toggler--is-open) .hamburger {
   background: transparent !important;
+  color: var(--ayo-text) !important;
+}
+
+// The mobile close toggle remains on the white header, outside the black navigation rail.
+html body .app-header__mobile-nav-toggler.nav-toggler--is-open .hamburger {
   color: var(--ayo-text) !important;
 }
 

@@ -4,6 +4,8 @@ import { useConfig, useDocumentInfo } from '@payloadcms/ui'
 import { PreviewErrorBoundary } from '../shared/PreviewErrorBoundary'
 import React, { useEffect, useState } from 'react'
 
+import { PreviewPanel } from '../shared/PreviewPanel'
+import { SavedPageLink } from '../shared/SavedPageLink'
 import './index.scss'
 
 type PersonDoc = { id: string; name?: string; type?: string; isActive?: boolean }
@@ -14,6 +16,8 @@ const RolesPreviewInner: React.FC = () => {
   const { id } = useDocumentInfo()
   const { config } = useConfig()
   const [people, setPeople] = useState<PersonDoc[] | null>(null)
+  const [error, setError] = useState(false)
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     if (!id) {
@@ -21,26 +25,44 @@ const RolesPreviewInner: React.FC = () => {
       return
     }
     const controller = new AbortController()
+    setPeople(null)
+    setError(false)
     const query = `where[role][equals]=${encodeURIComponent(String(id))}&sort=name&limit=100&depth=0`
     fetch(`${config.serverURL}${config.routes.api}/people?${query}`, {
       credentials: 'include',
       signal: controller.signal,
     })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((body) => setPeople(body?.docs ?? []))
-      .catch(() => {})
+      .then((res) => {
+        if (!res.ok) throw new Error('Unable to load role holders')
+        return res.json()
+      })
+      .then((body) => {
+        if (!controller.signal.aborted) setPeople(body?.docs ?? [])
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setError(true)
+      })
     return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
+  }, [id, config.serverURL, config.routes.api, attempt])
 
   return (
-    <div className="ayo-preview">
-      <div className="ayo-preview__head">
-        <span className="ayo-preview__label">Current holders</span>
-      </div>
-
+    <PreviewPanel
+      savedPage={<SavedPageLink href="/about-us" />}
+      header={
+        <div className="ayo-preview__head">
+          <span className="ayo-preview__label">Current holders</span>
+        </div>
+      }
+    >
       {!id ? (
         <p className="ayo-preview__empty">Save the role to see who currently holds it.</p>
+      ) : error ? (
+        <div role="status">
+          <p>Could not load the current holders.</p>
+          <button type="button" onClick={() => setAttempt((n) => n + 1)}>
+            Retry
+          </button>
+        </div>
       ) : people === null ? (
         <p className="ayo-preview__empty">Loading…</p>
       ) : people.length === 0 ? (
@@ -57,7 +79,7 @@ const RolesPreviewInner: React.FC = () => {
           ))}
         </ul>
       )}
-    </div>
+    </PreviewPanel>
   )
 }
 

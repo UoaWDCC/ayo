@@ -1,10 +1,13 @@
 'use client'
 
 import { reduceFieldsToValues } from 'payload/shared'
-import { useConfig, useFormFields } from '@payloadcms/ui'
+import { useFormFields } from '@payloadcms/ui'
 import { PreviewErrorBoundary } from '../shared/PreviewErrorBoundary'
-import React, { useDeferredValue, useEffect, useMemo, useState } from 'react'
+import React, { useDeferredValue, useMemo } from 'react'
 
+import { PreviewPanel } from '../shared/PreviewPanel'
+import { SavedPageLink } from '../shared/SavedPageLink'
+import { useMediaUrl } from '../shared/useMediaUrl'
 import './index.scss'
 
 type MediaDoc = { alt?: string; filename?: string; url?: string }
@@ -20,43 +23,22 @@ type PartnerPreviewData = {
 const PartnersPreviewInner: React.FC = () => {
   const rawFields = useFormFields(([fieldState]) => fieldState)
   const fields = useDeferredValue(rawFields)
-  const { config } = useConfig()
-  const [media, setMedia] = useState<MediaDoc | null>(null)
 
   const values = useMemo(() => reduceFieldsToValues(fields, true) as PartnerPreviewData, [fields])
-  const logoValue = values.logo
-  const logoId = typeof logoValue === 'string' ? logoValue : null
-
-  useEffect(() => {
-    if (typeof logoValue === 'object' && logoValue) {
-      setMedia(logoValue)
-      return
-    }
-    if (!logoId) {
-      setMedia(null)
-      return
-    }
-    const controller = new AbortController()
-    fetch(`${config.serverURL}${config.routes.api}/media/${logoId}`, {
-      credentials: 'include',
-      signal: controller.signal,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((doc) => setMedia(doc))
-      .catch(() => {})
-    return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logoId])
+  const media = useMediaUrl(values.logo)
 
   return (
-    <div className="ayo-preview">
-      <div className="ayo-preview__head">
-        <span className="ayo-preview__label">Preview</span>
-        {values.isActive === false ? (
-          <span className="ayo-preview__inactive">Hidden (inactive)</span>
-        ) : null}
-      </div>
-
+    <PreviewPanel
+      savedPage={<SavedPageLink href="/support-us" />}
+      header={
+        <div className="ayo-preview__head">
+          <span className="ayo-preview__label">Preview</span>
+          {values.isActive === false ? (
+            <span className="ayo-preview__inactive">Hidden (inactive)</span>
+          ) : null}
+        </div>
+      }
+    >
       <div className="ayo-partner-tile">
         {media?.url ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -69,7 +51,7 @@ const PartnersPreviewInner: React.FC = () => {
           <div className="ayo-partner-tile__logo ayo-partner-tile__logo--empty" />
         )}
       </div>
-    </div>
+    </PreviewPanel>
   )
 }
 

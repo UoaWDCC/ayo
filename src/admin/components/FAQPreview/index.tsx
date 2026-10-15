@@ -5,6 +5,8 @@ import { useConfig, useDocumentInfo, useForm, useFormFields } from '@payloadcms/
 import { PreviewErrorBoundary } from '../shared/PreviewErrorBoundary'
 import React, { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 
+import { PreviewPanel } from '../shared/PreviewPanel'
+import { SavedPageLink } from '../shared/SavedPageLink'
 import './index.scss'
 
 type FAQPreviewData = {
@@ -37,6 +39,8 @@ const FAQPreviewInner: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>(null)
   const [savingOrder, setSavingOrder] = useState(false)
   const [orderError, setOrderError] = useState(false)
+  const [loadError, setLoadError] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const draggedId = useRef<string | null>(null)
 
   const values = useMemo(() => reduceFieldsToValues(fields, true) as FAQPreviewData, [fields])
@@ -48,8 +52,13 @@ const FAQPreviewInner: React.FC = () => {
       credentials: 'include',
       signal,
     })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((body) => setItems(body?.docs ?? []))
+      .then((res) => {
+        if (!res.ok) throw new Error('Unable to load FAQs')
+        return res.json()
+      })
+      .then((body) => {
+        if (!signal?.aborted) setItems(body?.docs ?? [])
+      })
   }
 
   // This document doesn't show up in the fetched list above either before its first save (no id
@@ -69,10 +78,14 @@ const FAQPreviewInner: React.FC = () => {
       return
     }
     const controller = new AbortController()
-    fetchItems(category, controller.signal).catch(() => {})
+    setItems(null)
+    setLoadError(false)
+    fetchItems(category, controller.signal).catch(() => {
+      if (!controller.signal.aborted) setLoadError(true)
+    })
     return () => controller.abort()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category])
+  }, [category, attempt])
 
   const patchSortOrder = (docId: string, sortOrder: number) =>
     fetch(`${config.serverURL}${config.routes.api}/faqs/${docId}`, {
@@ -129,16 +142,28 @@ const FAQPreviewInner: React.FC = () => {
   }
 
   return (
-    <div className="ayo-preview">
-      <div className="ayo-preview__head">
-        <span className="ayo-preview__label">Preview</span>
-        <span className="ayo-preview__page">
-          {category ? CATEGORY_LABELS[category] || category : 'No page set'}
-        </span>
-      </div>
-
+    <PreviewPanel
+      savedPage={
+        <SavedPageLink href={category && CATEGORY_LABELS[category] ? `/${category}` : null} />
+      }
+      header={
+        <div className="ayo-preview__head">
+          <span className="ayo-preview__label">Preview</span>
+          <span className="ayo-preview__page">
+            {category ? CATEGORY_LABELS[category] || category : 'No page set'}
+          </span>
+        </div>
+      }
+    >
       {!category ? (
         <p className="ayo-faq-order__empty">Set a page to preview and order this FAQ.</p>
+      ) : loadError ? (
+        <div role="status">
+          <p>Could not load the FAQ preview.</p>
+          <button type="button" onClick={() => setAttempt((n) => n + 1)}>
+            Retry
+          </button>
+        </div>
       ) : displayItems === null ? (
         <p className="ayo-faq-order__empty">Loading…</p>
       ) : (
@@ -167,6 +192,7 @@ const FAQPreviewInner: React.FC = () => {
                     ) : null}
                     <button
                       type="button"
+                      aria-expanded={isOpen}
                       className="ayo-faq-order__question"
                       onClick={() => !isCurrent && setOpenId(openId === item.id ? null : item.id)}
                     >
@@ -188,7 +214,7 @@ const FAQPreviewInner: React.FC = () => {
           </p>
         </>
       )}
-    </div>
+    </PreviewPanel>
   )
 }
 

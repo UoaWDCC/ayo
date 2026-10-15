@@ -1,0 +1,99 @@
+.ayo-preview-panel {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  &__controls {
+    flex: 0 0 auto;
+  }
+  &__body {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .ayo-facts__row dd {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  &__body:focus-visible {
+    outline: 2px solid var(--theme-text);
+    outline-offset: -2px;
+  }
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--theme-text);
+    outline-offset: 3px;
+  }
+  .ayo-preview__head,
+  .ayo-pages-preview__head {
+    flex-wrap: wrap;
+  }
+  .ayo-preview__toggle {
+    flex-wrap: wrap;
+  }
+  .ayo-preview__toggle button {
+    min-height: 32px;
+  }
+  img,
+  iframe {
+    max-width: 100%;
+  }
+}
+@media (min-width: 1025px) and (min-height: 600px) {
+  .ayo-preview-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: var(--ayo-preview-height, calc(100dvh - 128px));
+    &__body {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      scrollbar-gutter: stable;
+      padding-right: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: #c4c4c4 transparent;
+
+      &:hover,
+      &:focus-within {
+        scrollbar-color: #999 transparent;
+      }
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #c4c4c4;
+        border-radius: 999px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #999;
+      }
+
+      &::-webkit-scrollbar-button {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+
+      // Chromium's standard scrollbar properties take priority over its pseudo-elements.
+      // Use the pseudo-elements here so native Windows arrow buttons can be removed too.
+      @supports selector(::-webkit-scrollbar) {
+        scrollbar-width: auto;
+        scrollbar-color: auto;
+
+        &:hover,
+        &:focus-within {
+          scrollbar-color: auto;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1024px), (max-height: 599px) {
+  html body .document-fields__sidebar-wrap:has(.ayo-preview-panel) {
+    position: static !important;
+  }
+}

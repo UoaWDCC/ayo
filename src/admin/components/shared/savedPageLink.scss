@@ -1,0 +1,15 @@
+.ayo-saved-page {
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  a {
+    color: var(--ayo-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  p {
+    margin: 6px 0 0;
+    color: var(--ayo-text-secondary);
+  }
+}

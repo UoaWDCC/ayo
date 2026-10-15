@@ -7,25 +7,25 @@ type MediaDoc = { alt?: string; url?: string }
 export function useMediaUrl(value: unknown): MediaDoc | null {
   const { config } = useConfig()
   const id = typeof value === 'string' ? value : null
-  const [media, setMedia] = useState<MediaDoc | null>(
-    typeof value === 'object' && value ? (value as MediaDoc) : null,
-  )
+  const [resolved, setResolved] = useState<{ id: string; media: MediaDoc | null } | null>(null)
 
   useEffect(() => {
-    if (!id) {
-      setMedia(null)
-      return
-    }
+    if (!id) return
     const controller = new AbortController()
-    fetch(`${config.serverURL}${config.routes.api}/media/${id}`, {
+    fetch(`${config.serverURL}${config.routes.api}/media/${encodeURIComponent(id)}`, {
       credentials: 'include',
       signal: controller.signal,
     })
       .then((res) => (res.ok ? res.json() : null))
-      .then((doc) => setMedia(doc))
-      .catch(() => {})
+      .then((doc) => {
+        if (!controller.signal.aborted) setResolved({ id, media: doc })
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setResolved({ id, media: null })
+      })
     return () => controller.abort()
   }, [id, config.routes.api, config.serverURL])
 
-  return media
+  if (typeof value === 'object' && value) return value as MediaDoc
+  return id && resolved?.id === id ? resolved.media : null
 }

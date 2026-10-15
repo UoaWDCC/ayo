@@ -1,13 +1,16 @@
 'use client'
 
 import { reduceFieldsToValues } from 'payload/shared'
-import { useConfig, useFormFields } from '@payloadcms/ui'
+import { useFormFields } from '@payloadcms/ui'
 import { PreviewErrorBoundary } from '../shared/PreviewErrorBoundary'
 import { richTextToPlainText } from '../shared/richTextToPlainText'
-import React, { useDeferredValue, useEffect, useMemo, useState } from 'react'
+import React, { useDeferredValue, useMemo, useState } from 'react'
 import { formatNZDateTime } from '@/lib/concertDates'
 import { concertLink, concertResourceLinks } from '@/lib/concertLinks'
+import { SavedPageLink } from '../shared/SavedPageLink'
 
+import { PreviewPanel } from '../shared/PreviewPanel'
+import { useMediaUrl } from '../shared/useMediaUrl'
 import './index.scss'
 
 type Repertoire = { composer?: string; soloist?: string; workTitle?: string }
@@ -24,8 +27,6 @@ type ConcertPreviewData = {
   video_links?: { link?: string | null }[] | null
 }
 
-type MediaDoc = { alt?: string; filename?: string; url?: string }
-
 function fmtDate(iso?: string) {
   return formatNZDateTime(iso, { weekday: 'short', day: 'numeric', month: 'short' })
 }
@@ -40,34 +41,10 @@ const PublicSitePreviewInner: React.FC = () => {
   // Defers the expensive derived recompute below off the hot keystroke path, so a burst of
   // fast input dispatches its state updates without each one forcing a full re-render here.
   const fields = useDeferredValue(rawFields)
-  const { config } = useConfig()
   const [mode, setMode] = useState<'listing' | 'card'>('listing')
-  const [media, setMedia] = useState<MediaDoc | null>(null)
 
   const values = useMemo(() => reduceFieldsToValues(fields, true) as ConcertPreviewData, [fields])
-  const photoValue = values.photo
-  const photoId = typeof photoValue === 'string' ? photoValue : null
-
-  useEffect(() => {
-    if (typeof photoValue === 'object' && photoValue) {
-      setMedia(photoValue)
-      return
-    }
-    if (!photoId) {
-      setMedia(null)
-      return
-    }
-    const controller = new AbortController()
-    fetch(`${config.serverURL}${config.routes.api}/media/${photoId}`, {
-      credentials: 'include',
-      signal: controller.signal,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((doc) => setMedia(doc))
-      .catch(() => {})
-    return () => controller.abort()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [photoId])
+  const media = useMediaUrl(values.photo)
 
   const repertoire = values.repertoire || []
   const performances = useMemo(
@@ -88,23 +65,27 @@ const PublicSitePreviewInner: React.FC = () => {
   const bookingUrl = concertLink(nextBooking?.bookingUrl)
 
   return (
-    <div className="ayo-preview">
-      <div className="ayo-preview__head">
-        <span className="ayo-preview__label">Preview</span>
-        <div className="ayo-preview__toggle">
-          <button
-            type="button"
-            aria-pressed={mode === 'listing'}
-            onClick={() => setMode('listing')}
-          >
-            Listing
-          </button>
-          <button type="button" aria-pressed={mode === 'card'} onClick={() => setMode('card')}>
-            Card
-          </button>
+    <PreviewPanel
+      resetKey={mode}
+      header={
+        <div className="ayo-preview__head">
+          <span className="ayo-preview__label">Content preview</span>
+          <div className="ayo-preview__toggle">
+            <button
+              type="button"
+              aria-pressed={mode === 'listing'}
+              onClick={() => setMode('listing')}
+            >
+              Listing
+            </button>
+            <button type="button" aria-pressed={mode === 'card'} onClick={() => setMode('card')}>
+              Card
+            </button>
+          </div>
         </div>
-      </div>
-
+      }
+      savedPage={<SavedPageLink href="/concerts-events" />}
+    >
       <div className="ayo-preview__frame">
         {media?.url ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -165,7 +146,7 @@ const PublicSitePreviewInner: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </PreviewPanel>
   )
 }
 

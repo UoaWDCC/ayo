@@ -48,6 +48,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
+      providers: ['@/admin/components/DocumentControlsBehavior#DocumentControlsBehavior'],
       graphics: {
         Logo: '@/admin/components/Logo#default',
       },

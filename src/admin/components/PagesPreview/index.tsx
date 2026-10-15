@@ -6,6 +6,8 @@ import React, { useDeferredValue, useMemo } from 'react'
 
 import { BlockPreview } from './BlockPreview'
 import { PreviewErrorBoundary } from '../shared/PreviewErrorBoundary'
+import { SavedPageLink } from '../shared/SavedPageLink'
+import { PreviewPanel } from '../shared/PreviewPanel'
 import './index.scss'
 
 const PagesPreviewInner: React.FC = () => {
@@ -17,14 +19,34 @@ const PagesPreviewInner: React.FC = () => {
   const values = useMemo(() => reduceFieldsToValues(fields, true), [fields]) as {
     layout?: { blockType?: string; id?: string }[]
     title?: string
+    slug?: string
   }
   const layout = values.layout || []
 
   return (
-    <div className="ayo-pages-preview">
-      <div className="ayo-pages-preview__head">
-        <span className="ayo-pages-preview__label">Preview</span>
-      </div>
+    <PreviewPanel
+      className="ayo-pages-preview"
+      header={
+        <div className="ayo-pages-preview__head">
+          <span className="ayo-pages-preview__label">Block guide</span>
+        </div>
+      }
+      savedPage={
+        <SavedPageLink
+          href={
+            values.slug
+              ? values.slug === 'home'
+                ? '/'
+                : `/${encodeURIComponent(values.slug)}`
+              : null
+          }
+        />
+      }
+    >
+      <p className="ayo-pages-preview__empty">
+        This guide shows individual blocks. The website uses a fixed layout and also includes
+        content from other collections; block order here does not set the page layout.
+      </p>
 
       {layout.length === 0 ? (
         <p className="ayo-pages-preview__empty">No blocks yet.</p>
@@ -37,7 +59,7 @@ const PagesPreviewInner: React.FC = () => {
           ))}
         </div>
       )}
-    </div>
+    </PreviewPanel>
   )
 }
 
