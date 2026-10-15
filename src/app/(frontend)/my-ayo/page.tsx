@@ -11,7 +11,7 @@ import StaggerReveal from '../components/StaggerReveal'
 import { createIntroConverters } from '../components/richTextConverters'
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import { resolveHeroImage } from '@/lib/heroImage'
-import { getCurrentSettingsRecord } from '@/lib/getCurrentSettingsRecord'
+import { getCurrentCalendar } from '@/lib/getCurrentCalendar'
 import { safeHref } from '@/lib/urls'
 import type { Page } from '@/payload-types'
 
@@ -143,7 +143,7 @@ export default async function MyAyoPage({
   const payload = await getPayload({ config })
 
   const [calendar, resourcesResult, linksResult] = await Promise.all([
-    getCurrentSettingsRecord('calendar-links'),
+    getCurrentCalendar(),
     payload.find({
       collection: 'link',
       where: { category: { equals: 'resources' } },

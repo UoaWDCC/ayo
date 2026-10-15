@@ -22,7 +22,6 @@ import { Links } from './collections/Links'
 import { Opportunities } from './collections/Opportunities'
 import { TeamRoles } from './collections/TeamRoles'
 import { SiteSettings } from './globals/SiteSettings'
-import { ProcessingOfDataAgreement } from './collections/ProcessingOfDataAgreement'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -84,7 +83,6 @@ export default buildConfig({
     Links,
     Users,
     Passwords,
-    ProcessingOfDataAgreement,
   ],
   globals: [SiteSettings],
   editor: lexicalEditor(),

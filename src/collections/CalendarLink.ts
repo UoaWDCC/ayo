@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { ValidationError } from 'payload'
 import { validateCalendarURL, validateWebURL } from '@/lib/urls'
-import { protectCurrentSettingsRecord } from '@/hooks/protectCurrentSettingsRecord'
+import { protectCurrentCalendar } from '@/hooks/protectCurrentCalendar'
 
 export const CalendarLink: CollectionConfig = {
   slug: 'calendar-links',
@@ -12,7 +12,7 @@ export const CalendarLink: CollectionConfig = {
     defaultColumns: ['title', 'publicLink', 'updatedAt'],
   },
   hooks: {
-    beforeDelete: [protectCurrentSettingsRecord('calendar-links')],
+    beforeDelete: [protectCurrentCalendar],
     beforeValidate: [
       ({ data, originalDoc }) => {
         const values = { ...originalDoc, ...data }

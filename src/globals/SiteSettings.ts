@@ -1,14 +1,14 @@
 import type { GlobalConfig } from 'payload'
 import { validateWebURL } from '@/lib/urls'
 
-/** Shared social links and explicit current-record choices for the website. */
+/** Shared social links and the current My AYO calendar. */
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Site Settings',
   admin: {
     group: 'Administration',
-    description: 'Social links and the current calendar and data agreement used by the website.',
+    description: 'Social media links and the current calendar used by My AYO.',
   },
   // Read-only to the public: these URLs are rendered on every page anyway.
   access: {
@@ -52,12 +52,12 @@ export const SiteSettings: GlobalConfig = {
     {
       name: 'currentContent',
       type: 'group',
-      label: 'Current website records',
+      label: 'My AYO calendar',
       // Keep member-calendar relationships out of the anonymous settings response.
       access: { read: ({ req }) => Boolean(req.user) },
       admin: {
         description:
-          'Choose which saved records the website uses. If a choice is blank, the only saved record is used. With multiple records, select one here.',
+          'Choose the calendar shown in My AYO. If this choice is blank, the only saved calendar is used. With multiple calendars, select one here.',
       },
       fields: [
         {
@@ -65,13 +65,6 @@ export const SiteSettings: GlobalConfig = {
           label: 'Current calendar',
           type: 'relationship',
           relationTo: 'calendar-links',
-          maxDepth: 0,
-        },
-        {
-          name: 'dataAgreement',
-          label: 'Current data agreement',
-          type: 'relationship',
-          relationTo: 'processing-of-data-agreement',
           maxDepth: 0,
         },
       ],

@@ -81,7 +81,6 @@ export interface Config {
     link: Link;
     users: User;
     passwords: Password;
-    'processing-of-data-agreement': ProcessingOfDataAgreement;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -103,7 +102,6 @@ export interface Config {
     link: LinkSelect<false> | LinkSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     passwords: PasswordsSelect<false> | PasswordsSelect<true>;
-    'processing-of-data-agreement': ProcessingOfDataAgreementSelect<false> | ProcessingOfDataAgreementSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -680,39 +678,6 @@ export interface Password {
   createdAt: string;
 }
 /**
- * Agreement text for the Contact Us form. Choose the current agreement in Site Settings. Editing an older record does not select it.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "processing-of-data-agreement".
- */
-export interface ProcessingOfDataAgreement {
-  id: string;
-  /**
-   * For your reference only. This is not shown on the site.
-   */
-  title: string;
-  /**
-   * The agreement text visitors can read before agreeing.
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -791,10 +756,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'passwords';
         value: string | Password;
-      } | null)
-    | ({
-        relationTo: 'processing-of-data-agreement';
-        value: string | ProcessingOfDataAgreement;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1193,16 +1154,6 @@ export interface PasswordsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "processing-of-data-agreement_select".
- */
-export interface ProcessingOfDataAgreementSelect<T extends boolean = true> {
-  title?: T;
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -1242,7 +1193,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Social links and the current calendar and data agreement used by the website.
+ * Social media links and the current calendar used by My AYO.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
@@ -1262,11 +1213,10 @@ export interface SiteSetting {
     linkedin?: string | null;
   };
   /**
-   * Choose which saved records the website uses. If a choice is blank, the only saved record is used. With multiple records, select one here.
+   * Choose the calendar shown in My AYO. If this choice is blank, the only saved calendar is used. With multiple calendars, select one here.
    */
   currentContent?: {
     calendar?: (string | null) | CalendarLink;
-    dataAgreement?: (string | null) | ProcessingOfDataAgreement;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1288,7 +1238,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | T
     | {
         calendar?: T;
-        dataAgreement?: T;
       };
   updatedAt?: T;
   createdAt?: T;
