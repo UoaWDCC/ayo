@@ -1,20 +1,11 @@
 import type { CollectionConfig } from 'payload'
+import { stablePostSlug } from '@/hooks/stablePostSlug'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
 
   hooks: {
-    beforeChange: [
-      ({ data }) => {
-        if (data?.title) {
-          data.slug = data.title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-|-$/g, '')
-        }
-        return data
-      },
-    ],
+    beforeValidate: [stablePostSlug],
   },
 
   admin: {
@@ -117,7 +108,8 @@ export const Posts: CollectionConfig = {
       label: 'Slug',
       admin: {
         readOnly: true,
-        description: 'Generated from the title.',
+        description:
+          'Generated when the story is created. Stays the same when you edit the title so shared links keep working.',
       },
     },
 

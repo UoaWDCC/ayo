@@ -149,7 +149,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * The page-builder for pages of the site.
+ * Edit the content of the existing website pages. Page URLs are fixed; adding or removing a website page requires a developer.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -157,6 +157,9 @@ export interface UserAuthOperations {
 export interface Page {
   id: string;
   title: string;
+  /**
+   * Fixed website route. Changing the title does not change this URL.
+   */
   slug: string;
   layout?:
     | (
@@ -377,7 +380,7 @@ export interface Post {
   author?: string | null;
   publishedDate?: string | null;
   /**
-   * Generated from the title.
+   * Generated when the story is created. Stays the same when you edit the title so shared links keep working.
    */
   slug?: string | null;
   updatedAt: string;
