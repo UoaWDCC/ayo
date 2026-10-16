@@ -14,9 +14,8 @@ export async function getPartners(): Promise<Partner[]> {
         },
       },
       sort: ['partnerType', 'sortOrder', 'name'],
-      limit: 100,
+      pagination: false,
     })
-    // console.log('Partners found:', docs.length, docs)
     return docs
   } catch (error) {
     console.error('Error fetching partners:', error)

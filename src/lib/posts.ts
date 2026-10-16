@@ -4,12 +4,12 @@ import type { Post, Media } from '@/payload-types'
 
 export { categoryLabel, formatPublishedDate, richTextToPlainText } from './postPresentation'
 
-export async function getPosts(): Promise<Post[]> {
+export async function getPosts(limit?: number): Promise<Post[]> {
   try {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'posts',
-      limit: 100,
+      ...(limit === undefined ? { pagination: false } : { limit }),
       sort: '-publishedDate',
     })
     return docs

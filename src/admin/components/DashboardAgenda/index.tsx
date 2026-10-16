@@ -1,23 +1,10 @@
 import type { WidgetServerProps } from 'payload'
 import Link from 'next/link'
+import type { Concert } from '@/payload-types'
+import { getRecentContent } from '@/lib/adminRecentContent'
 import { formatNZDateTime } from '@/lib/concertDates'
 
 import './index.scss'
-
-type Concert = {
-  id: string
-  title: string
-  performances?: { dateTime?: string; venue?: string }[]
-  repertoire?: unknown[]
-  photo_links?: unknown[]
-  video_links?: unknown[]
-}
-
-const RECENT_COLLECTIONS = [
-  { slug: 'concerts', label: 'Concerts' },
-  { slug: 'pages', label: 'Pages' },
-  { slug: 'posts', label: 'Posts' },
-] as const
 
 function sortedPerformances(c: Concert) {
   return [...(c.performances || [])].sort(
@@ -84,10 +71,11 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
   const concertsRes = await payload.find({
     collection: 'concerts',
     depth: 0,
-    limit: 100,
-    overrideAccess: true,
+    pagination: false,
+    req,
+    overrideAccess: false,
   })
-  const concerts = concertsRes.docs as unknown as Concert[]
+  const concerts = concertsRes.docs
 
   const upcoming = concerts
     .filter((c) => isUpcoming(c, now))
@@ -99,28 +87,7 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
 
   const followUp = concerts.filter((c) => awaitingFollowUp(c, now))
 
-  const recentLists = await Promise.all(
-    RECENT_COLLECTIONS.map(({ slug }) =>
-      payload.find({
-        collection: slug,
-        depth: 0,
-        limit: 3,
-        sort: '-updatedAt',
-        overrideAccess: true,
-      }),
-    ),
-  )
-  const recent = recentLists
-    .flatMap((res, i) =>
-      res.docs.map((d) => ({
-        collection: RECENT_COLLECTIONS[i].label,
-        href: `${payload.config.routes.admin}/collections/${RECENT_COLLECTIONS[i].slug}/${d.id}`,
-        title: (d as { title?: string }).title || 'Untitled',
-        updatedAt: (d as { updatedAt: string }).updatedAt,
-      })),
-    )
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-    .slice(0, 6)
+  const recent = await getRecentContent(req)
 
   const emailHandle = (user?.email || '').split('@')[0] || ''
   const greetingName = emailHandle
@@ -135,8 +102,8 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
       <h2 className="ayo-agenda__greeting">Kia ora, {greetingName}.</h2>
       <p className="ayo-agenda__lead">
         {upcoming.length === 0
-          ? 'No concert series are on sale.'
-          : `${upcoming.length} concert ${upcoming.length === 1 ? 'series is' : 'series are'} on sale.`}
+          ? 'No upcoming concert series.'
+          : `${upcoming.length} upcoming concert series.`}
         {next && nextPerf ? (
           <>
             {' The next is '}
@@ -162,7 +129,7 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
       <section className="ayo-agenda__section">
         <h3>Upcoming concerts</h3>
         {upcoming.length === 0 ? (
-          <p className="ayo-agenda__empty">Nothing on sale right now.</p>
+          <p className="ayo-agenda__empty">No upcoming concerts right now.</p>
         ) : (
           upcoming.map((c) => {
             const p = nearestPerformance(c, now)
@@ -197,6 +164,7 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
 
       <section className="ayo-agenda__section">
         <h3>Recently updated</h3>
+        {recent.length === 0 && <p className="ayo-agenda__empty">No changes yet.</p>}
         {recent.map((r) => (
           <Link key={r.href} href={r.href} className="ayo-agenda__row ayo-agenda__row--link">
             <span className="ayo-agenda__row-collection">{r.collection}</span>

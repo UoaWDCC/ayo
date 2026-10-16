@@ -30,7 +30,7 @@ const introConverters = createIntroConverters('home-intro-fade')
 export default async function LandingPage() {
   const page = await getPageBySlug('home')
   const { upcoming } = await getConcertEvents()
-  const posts = await getPosts()
+  const posts = await getPosts(PREVIEW_COUNT)
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 

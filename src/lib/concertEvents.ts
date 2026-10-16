@@ -108,7 +108,7 @@ export async function getConcertEvents(): Promise<{
     const { docs } = await payload.find({
       collection: 'concerts',
       depth: 1,
-      limit: 100,
+      pagination: false,
       sort: '-createdAt',
     })
 
