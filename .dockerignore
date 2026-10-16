@@ -50,3 +50,9 @@ playwright-report
 blob-report
 playwright/.cache
 fly.toml
+
+# Local development and audit artifacts
+.git
+.codex
+.agents
+.codex-handoff

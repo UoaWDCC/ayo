@@ -1,41 +1,38 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
-import { seedTestUser, cleanupTestUser, testUser } from '../helpers/seedUser'
 
-test.describe('Admin Panel', () => {
-  let page: Page
+const email = process.env.AYO_TEST_ADMIN_EMAIL
+const password = process.env.AYO_TEST_ADMIN_PASSWORD
 
-  test.beforeAll(async ({ browser }, testInfo) => {
-    await seedTestUser()
+test('admin login uses AYO branding', async ({ page }) => {
+  await page.goto('/admin/login')
+  await expect(
+    page.getByRole('img', { name: 'Auckland Youth Orchestra', exact: true }),
+  ).toBeVisible()
+  await expect(page.getByRole('textbox', { name: 'Email *', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Login', exact: true })).toBeVisible()
+})
 
-    const context = await browser.newContext()
-    page = await context.newPage()
+test.describe('Signed-in admin', () => {
+  test.skip(
+    !email || !password,
+    'Set AYO_TEST_ADMIN_EMAIL and AYO_TEST_ADMIN_PASSWORD for an existing test account.',
+  )
 
-    await login({ page, user: testUser })
+  test.beforeEach(async ({ page }) => {
+    await login({ page, user: { email: email!, password: password! } })
   })
 
-  test.afterAll(async () => {
-    await cleanupTestUser()
+  test('can open the dashboard', async ({ page }) => {
+    await expect(page.getByRole('heading', { name: /^Kia ora,/ })).toBeVisible()
   })
 
-  test('can navigate to dashboard', async () => {
-    await page.goto('http://localhost:3000/admin')
-    await expect(page).toHaveURL('http://localhost:3000/admin')
-    const dashboardArtifact = page.locator('span[title="Dashboard"]').first()
-    await expect(dashboardArtifact).toBeVisible()
-  })
-
-  test('can navigate to list view', async () => {
-    await page.goto('http://localhost:3000/admin/collections/users')
-    await expect(page).toHaveURL('http://localhost:3000/admin/collections/users')
-    const listViewArtifact = page.locator('h1', { hasText: 'Users' }).first()
-    await expect(listViewArtifact).toBeVisible()
-  })
-
-  test('can navigate to edit view', async () => {
-    await page.goto('http://localhost:3000/admin/collections/users/create')
-    await expect(page).toHaveURL(/\/admin\/collections\/users\/[a-zA-Z0-9-_]+/)
-    const editViewArtifact = page.locator('input[name="email"]')
-    await expect(editViewArtifact).toBeVisible()
-  })
+  for (const collection of ['pages', 'posts', 'people', 'media']) {
+    test(`can open ${collection}`, async ({ page }) => {
+      await page.goto(`/admin/collections/${collection}`)
+      await expect(
+        page.getByRole('heading', { level: 1, name: new RegExp(`^${collection}$`, 'i') }),
+      ).toBeVisible()
+    })
+  }
 })
