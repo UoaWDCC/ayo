@@ -47,6 +47,7 @@ function concertData(overrides: {
     repertoire: overrides.repertoire ?? [{ composer: 'Test Composer', workTitle: 'Test Work' }],
     performances: overrides.performances.map((p) => ({
       dateTime: p.dateTime,
+      dateTime_tz: 'Pacific/Auckland' as const,
       venueAddress: '1 Test Street, Auckland',
       bookingUrl: 'https://example.com/tickets',
       price: '$1',

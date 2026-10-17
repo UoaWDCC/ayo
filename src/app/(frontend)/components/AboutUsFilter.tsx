@@ -8,6 +8,7 @@ import Grid from './Grid'
 
 import type { Person } from '@/payload-types'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import { compareOrdered } from '@/lib/ordering'
 
 export type FilterOption = 'All' | 'Players' | 'Alumni' | 'Team'
 
@@ -31,11 +32,11 @@ function getPeopleByTypeAndSort(people: Person[], type: Person['type']) {
       const roleA = typeof a.role === 'object' && a.role !== null ? a.role.sortOrder : null
       const roleB = typeof b.role === 'object' && b.role !== null ? b.role.sortOrder : null
 
-      if (roleA === null && roleB === null) return a.name.localeCompare(b.name)
+      if (roleA === null && roleB === null) return compareOrdered(a, b)
       if (roleA === null) return 1
       if (roleB === null) return -1
 
-      return roleA - roleB || a.name.localeCompare(b.name)
+      return roleA - roleB || compareOrdered(a, b)
     })
 }
 

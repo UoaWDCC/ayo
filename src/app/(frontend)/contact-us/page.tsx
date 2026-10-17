@@ -6,27 +6,20 @@ import {
   PiScrollLight,
   PiUserPlusLight,
 } from 'react-icons/pi'
-import ContactFormSection from '../components/ContactFormSection'
+import ContactDetails from '../components/ContactDetails'
 import Hero from '../components/Hero'
-import { RichText } from '../components/RichText'
 import SquareLinkGrid from '../components/SquareLinkGrid'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
 import { resolveHeroImage } from '@/lib/heroImage'
-import { getProcessingOfDataAgreement } from '@/lib/getProcessingOfDataAgreement'
-import type { Media } from '@/payload-types'
 
 export const metadata = {
   title: 'Contact Us | Auckland Youth Orchestra',
   description: 'Contact Auckland Youth Orchestra.',
 }
 
-// Rendered per request so agreement text edited in Payload shows up without a redeploy.
-export const dynamic = 'force-dynamic'
-
 export default async function ContactUsPage() {
   const page = await getPageBySlug('contact-us')
-  const agreement = await getProcessingOfDataAgreement()
 
   const heroBlock = page?.layout?.find((block) => block.blockType === 'hero')
 
@@ -77,9 +70,7 @@ export default async function ContactUsPage() {
           },
         ]}
       />
-      <ContactFormSection
-        agreementContent={agreement?.content ? <RichText data={agreement.content} /> : undefined}
-      />
+      <ContactDetails />
     </main>
   )
 }

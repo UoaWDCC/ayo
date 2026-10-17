@@ -1,22 +1,14 @@
 import type { GlobalConfig } from 'payload'
+import { validateWebURL } from '@/lib/urls'
 
-/**
- * Site settings:
- *
- * Site-wide values that aren't tied to a single page. Every field is
- * optional — anything left blank simply isn't rendered, so an empty
- * setting hides its link rather than pointing visitors at a dead URL.
- *
- * The navigation menu deliberately lives in code (NavBar/Footer) because it
- * mirrors the app's routes; only the outbound social links are editable here.
- */
+/** Shared social links and the current My AYO calendar. */
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Site Settings',
   admin: {
     group: 'Administration',
-    description: 'Social media links used by the footer and the Follow Us section.',
+    description: 'Social media links and the current calendar used by My AYO.',
   },
   // Read-only to the public: these URLs are rendered on every page anyway.
   access: {
@@ -34,22 +26,48 @@ export const SiteSettings: GlobalConfig = {
         {
           name: 'instagram',
           type: 'text',
+          validate: validateWebURL,
           admin: {
             description:
-              'e.g. https://www.instagram.com/aucklandyouthorchestra/ — also names the account shown in the Follow Us section.',
+              'For example, https://www.instagram.com/aucklandyouthorchestra/. The website also uses this profile to name the account in Follow Us.',
           },
         },
         {
           name: 'youtube',
+          label: 'YouTube',
           type: 'text',
+          validate: validateWebURL,
         },
         {
           name: 'facebook',
           type: 'text',
+          validate: validateWebURL,
         },
         {
           name: 'linkedin',
+          label: 'LinkedIn',
           type: 'text',
+          validate: validateWebURL,
+        },
+      ],
+    },
+    {
+      name: 'currentContent',
+      type: 'group',
+      label: 'My AYO calendar',
+      // Keep member-calendar relationships out of the anonymous settings response.
+      access: { read: ({ req }) => Boolean(req.user) },
+      admin: {
+        description:
+          'Choose the calendar shown in My AYO. If this choice is blank, the only saved calendar is used. With multiple calendars, select one here.',
+      },
+      fields: [
+        {
+          name: 'calendar',
+          label: 'Current calendar',
+          type: 'relationship',
+          relationTo: 'calendar-links',
+          maxDepth: 0,
         },
       ],
     },

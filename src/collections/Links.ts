@@ -1,11 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { validateRequiredDocumentURL } from '@/lib/urls'
 
 export const Links: CollectionConfig = {
   slug: 'link',
   admin: {
     group: 'Assets & Resources',
     useAsTitle: 'name',
-    description: 'Document links shown in the Resources and Links sections in /my-ayo.',
+    description: 'Documents and website links shown in the Resources and Links sections of My AYO.',
     defaultColumns: ['name', 'category', 'url'],
   },
   fields: [
@@ -18,6 +19,8 @@ export const Links: CollectionConfig = {
       name: 'url',
       type: 'text',
       required: true,
+      validate: validateRequiredDocumentURL,
+      admin: { description: 'A full web URL or a site path such as /api/media/file/handbook.pdf.' },
     },
     {
       name: 'category',

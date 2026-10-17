@@ -3,7 +3,8 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import React from 'react'
 
-import { useMediaUrl } from './useMediaUrl'
+import { useMediaUrl } from '../shared/useMediaUrl'
+import { concertLink } from '@/lib/concertLinks'
 
 // Live form-state richText values aren't typed further than `unknown` at this layer.
 type RichTextData = Parameters<typeof RichText>[0]['data']
@@ -62,7 +63,9 @@ function VideoPreview({ block }: { block: AnyBlock }) {
           <iframe src={embed} title={(block.text as string) || 'Video'} allowFullScreen />
         </div>
       ) : (
-        <div className="ayo-block-preview__video-empty">No video URL set</div>
+        <div className="ayo-block-preview__video-empty">
+          Add a valid YouTube link to preview the video.
+        </div>
       )}
       {block.text ? <p>{block.text as string}</p> : null}
     </div>
@@ -114,8 +117,8 @@ function TablePreview({ block }: { block: AnyBlock }) {
           <div className="ayo-block-preview__table-content">
             <RichText data={row.content as RichTextData} />
           </div>
-          {row.linkLabel ? (
-            <a href={row.linkUrl || '#'} onClick={(e) => e.preventDefault()}>
+          {row.linkLabel && concertLink(row.linkUrl) ? (
+            <a href={concertLink(row.linkUrl)} target="_blank" rel="noopener noreferrer">
               {row.linkLabel}
             </a>
           ) : null}

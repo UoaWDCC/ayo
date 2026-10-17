@@ -6,6 +6,11 @@
   --ayo-text-meta: #6b7280;
   --ayo-muted: #b2b2b2;
   --ayo-rule: #ebebeb;
+  --ayo-table-row-hover: #f7f7f7;
+  --ayo-table-row-selected: #ededed;
+  --ayo-table-control-bg: #f0f0f0;
+  --ayo-table-control-hover: #e2e2e2;
+  --ayo-input-bg: #f7f7f7;
 
   --font-body:
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -17,6 +22,135 @@
   --style-radius-l: 0;
   --nav-width: 232px;
   --app-header-height: calc(var(--base) * 2.2);
+}
+
+// Quiet field surfaces keep forms consistent with the collection controls.
+// Native error styling remains in charge of invalid fields.
+html body .field-type:is(.text, .email, .password, .number, .textarea, .date):not(.error) {
+  input:not([type='checkbox']):not([type='hidden']),
+  textarea {
+    background: var(--ayo-input-bg);
+    border: 0;
+    box-shadow: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--ayo-text);
+      outline-offset: 2px;
+    }
+  }
+}
+
+html body .field-type .react-select:not(.react-select--error) .rs__control {
+  background: var(--ayo-input-bg);
+  border: 0;
+  box-shadow: none;
+
+  &--is-focused {
+    outline: 2px solid var(--ayo-text);
+    outline-offset: 2px;
+  }
+}
+
+html body .dropzoneStyle--default {
+  border: 0;
+  background: var(--ayo-input-bg);
+}
+
+html body .group-field,
+html body .doc-controls__controls-wrapper {
+  border: 0;
+}
+
+html body .field-type:not(.error) .relationship-add-new__add-button,
+html body .doc-controls .popup-button {
+  border: 0;
+  box-shadow: none;
+  background: var(--ayo-table-control-bg);
+
+  &:hover {
+    background: var(--ayo-table-control-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ayo-text);
+    outline-offset: 2px;
+  }
+}
+
+// Responsive titles share the dashboard's scale without forcing mobile line breaks.
+html body .list-header__title,
+html body .doc-header__title {
+  font-size: clamp(28px, 3vw, 40px);
+  overflow-wrap: anywhere;
+}
+
+// Keep the dates at the top of the document; the pinned toolbar only needs its actions.
+html body .app-header {
+  position: sticky;
+  top: 0;
+  background: var(--theme-bg);
+}
+
+html body .doc-controls {
+  top: var(--app-header-height);
+  background: var(--theme-bg);
+
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
+html body .doc-controls.ayo-doc-controls--stuck {
+  top: 0;
+  z-index: 31;
+  width: max-content;
+  max-width: 55%;
+  margin-left: auto;
+  padding-inline: 12px;
+
+  .doc-controls__wrapper {
+    height: var(--app-header-height);
+    flex-direction: row;
+  }
+  .doc-controls__value-wrap {
+    display: none;
+  }
+  .doc-controls__content:not(
+    :has(.doc-controls__meta > :not(.doc-controls__value-wrap), .doc-controls__meta-icons > *)
+  ) {
+    display: none;
+  }
+  .doc-controls__controls-wrapper {
+    height: var(--app-header-height);
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .doc-controls__controls {
+    padding: 0;
+  }
+  .doc-controls__controls::after,
+  .doc-controls__divider {
+    display: none;
+  }
+}
+
+html body:has(.ayo-doc-controls--stuck) .app-header__step-nav-wrapper {
+  padding-right: var(--ayo-doc-actions-width, 120px);
+  min-width: 0;
+
+  .step-nav {
+    width: 100%;
+    min-width: 0;
+  }
+  .step-nav__last {
+    min-width: 0;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap;
+  }
 }
 
 @layer payload {
@@ -200,8 +334,12 @@ html body .doc-controls__divider {
   display: none !important;
 }
 
-// The Edit/API tab switcher above the document title, and the account avatar in the app header.
-html body .doc-tabs {
+// Show the native history navigation only on documents with version history.
+html body .doc-tabs:not(:has([aria-label='Versions'])) {
+  display: none !important;
+}
+
+html body .doc-tabs [aria-label='API'] {
   display: none !important;
 }
 
@@ -241,6 +379,16 @@ html body .dashboard-breadcrumb-select .rs__control {
 // blend in. Collapsed, the toggle sits on the white page background instead (no black rail behind
 // it), so it stays black-on-transparent there — inverting it too would make the icon disappear
 // against the white page.
+html body .nav-toggler .hamburger {
+  border: 0 !important;
+  box-shadow: none !important;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
 html body .nav-toggler--is-open .hamburger {
   background: transparent !important;
   color: #fff !important;
@@ -248,6 +396,11 @@ html body .nav-toggler--is-open .hamburger {
 
 html body .nav-toggler:not(.nav-toggler--is-open) .hamburger {
   background: transparent !important;
+  color: var(--ayo-text) !important;
+}
+
+// The mobile close toggle remains on the white header, outside the black navigation rail.
+html body .app-header__mobile-nav-toggler.nav-toggler--is-open .hamburger {
   color: var(--ayo-text) !important;
 }
 
@@ -262,4 +415,396 @@ html body .step-nav__last {
   max-width: none !important;
   overflow: visible !important;
   text-overflow: clip !important;
+}
+
+// Shared admin table styling, including collection lists and relationship drawers.
+// Extra columns chosen by an editor can still scroll within the table.
+html body .table {
+  th,
+  td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .ayo-thumb {
+    justify-content: center;
+  }
+
+  tbody tr:hover {
+    background: var(--ayo-table-row-hover);
+  }
+  table {
+    width: 100%;
+  }
+  td:not(.cell-_select) {
+    min-width: 90px;
+    overflow-wrap: anywhere;
+  }
+  td.cell-name,
+  td.cell-title,
+  td.cell-question,
+  td.cell-roleName {
+    min-width: 160px;
+  }
+  th:not(:first-child),
+  td:not(.cell-_select) {
+    padding: 16px 12px;
+  }
+  tbody td a {
+    text-decoration: none;
+  }
+  tbody td a:hover {
+    text-decoration: underline;
+  }
+  th .sort-column {
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+html body .table {
+  th[id='heading-_select'],
+  td.cell-_select {
+    vertical-align: middle;
+    text-align: center;
+
+    .checkbox-input {
+      width: max-content;
+      margin-inline: auto;
+    }
+  }
+}
+
+// Shared selection controls, with an explicit keyboard focus ring.
+@layer payload-default {
+  html body .checkbox-input {
+    .checkbox-input__input {
+      border: 0 !important;
+      box-shadow: none !important;
+      border-radius: 4px;
+      background: var(--ayo-table-control-bg);
+      transition: background-color 120ms ease;
+    }
+    input[type='checkbox'] {
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    &:hover .checkbox-input__input {
+      background: var(--ayo-table-control-hover);
+    }
+    &.checkbox-input--checked .checkbox-input__input,
+    &:has(.checkbox-input__icon.partial) .checkbox-input__input {
+      background: #000;
+      color: #fff;
+    }
+    &:has(input:focus-visible) .checkbox-input__input {
+      outline: 2px solid #000;
+      outline-offset: 3px;
+    }
+  }
+}
+
+// Validation guidance must remain visible when Payload hides tooltips on narrow screens.
+html body .field-error.tooltip {
+  display: block;
+  position: relative;
+  inset: auto;
+  transform: none;
+  max-width: 100%;
+  padding: 6px 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  visibility: visible;
+  opacity: 1;
+  color: #b42318;
+  background: transparent;
+  font-size: 13px;
+  &::after {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  html body .doc-controls:not(.ayo-doc-controls--stuck) {
+    .doc-controls__content,
+    .doc-controls__meta,
+    .doc-controls__value-wrap {
+      min-width: 0;
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+    .doc-controls__meta {
+      gap: 8px 16px;
+    }
+  }
+
+  html body .collection-list,
+  html body .list-drawer {
+    .list-header__title {
+      font-size: 30px;
+    }
+    .table {
+      table {
+        table-layout: fixed;
+      }
+      th,
+      td {
+        min-width: 0 !important;
+      }
+      th[id='heading-_select'],
+      td.cell-_select {
+        width: 36px;
+        padding-inline: 4px;
+      }
+      th:not([id='heading-_select']),
+      td:not(.cell-_select) {
+        padding: 14px 8px;
+      }
+      thead th {
+        font-size: 10px;
+        letter-spacing: 0.02em;
+      }
+      .sort-column {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .sort-column__buttons {
+        flex-shrink: 0;
+      }
+      tbody td a {
+        font-size: 14px;
+      }
+      td button {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        white-space: normal;
+      }
+      [id='heading-updatedAt'],
+      [id='heading-createdAt'],
+      [id='heading-id'],
+      .cell-updatedAt,
+      .cell-createdAt,
+      .cell-id {
+        display: none;
+      }
+    }
+  }
+  html body .collection-list--people .table {
+    [id='heading-name'] {
+      width: 40%;
+    }
+    [id='heading-years'],
+    [id='heading-role'],
+    [id='heading-teamRoles'],
+    [id='heading-photo'],
+    .cell-years,
+    .cell-role,
+    .cell-teamRoles,
+    .cell-photo {
+      display: none;
+    }
+    .ayo-status {
+      padding-inline: 5px;
+      font-size: 11px;
+    }
+  }
+  html body .collection-list--partners .table {
+    [id='heading-name'] {
+      width: 44%;
+    }
+    [id='heading-logo'],
+    .cell-logo {
+      display: none;
+    }
+  }
+  html body .collection-list--posts .table {
+    [id='heading-photos'],
+    .cell-photos {
+      display: none;
+    }
+  }
+  html body .collection-list--concerts .table {
+    [id='heading-photo'],
+    .cell-photo {
+      display: none;
+    }
+  }
+  .ayo-reorder__toolbar-hint {
+    display: none;
+  }
+}
+
+// Keep bulk selection readable without Payload's decorative dash separator.
+html body .list-selection {
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--ayo-text-secondary);
+
+  > span:not(:first-child) {
+    display: none;
+  }
+
+  &__actions {
+    gap: 12px;
+  }
+}
+
+// Use the same restrained panel and controls for delete and restore confirmations.
+html body .confirmation-modal {
+  padding: 16px;
+  background: transparent;
+
+  &::before {
+    background: #000;
+    opacity: 0.25;
+  }
+
+  &::after {
+    backdrop-filter: blur(3px);
+  }
+
+  &__wrapper {
+    width: 100%;
+    max-width: 480px;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    padding: clamp(24px, 4vw, 32px);
+    gap: 24px;
+    background: var(--theme-bg);
+    color: var(--ayo-text);
+    box-shadow: 0 16px 64px #0000001f;
+  }
+
+  &__content {
+    gap: 12px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    p {
+      color: var(--ayo-text-secondary);
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__controls {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .btn {
+      min-height: 40px;
+      padding: 10px 18px;
+      border: 0;
+      box-shadow: none;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+
+    .btn--style-primary {
+      background: var(--ayo-text);
+      color: #fff;
+
+      &:hover:not(:disabled) {
+        background: #262626;
+      }
+    }
+
+    .btn--style-secondary {
+      background: var(--ayo-table-control-bg);
+      color: var(--ayo-text);
+
+      &:hover:not(:disabled) {
+        background: var(--ayo-table-control-hover);
+      }
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--ayo-text);
+      outline-offset: 3px;
+    }
+  }
+}
+
+// Notifications use a neutral surface, with colour limited to the status icon.
+html body .payload-toast-container .payload-toast-item {
+  background: var(--theme-bg);
+  color: var(--ayo-text);
+  border: 0;
+  border-radius: 0;
+  padding: 16px;
+  box-shadow: 0 8px 32px #0000001f;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  gap: 12px;
+
+  > div:last-child {
+    flex: 1;
+    min-width: 0;
+    padding-right: 24px;
+    overflow-wrap: anywhere;
+  }
+
+  &.toast-error:not(:has(.toast-icon))::before {
+    content: '!';
+    color: #b42318;
+    font-weight: 600;
+    text-align: center;
+    flex: 0 0 16px;
+  }
+
+  .toast-title {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    margin-right: 0;
+  }
+
+  .toast-icon {
+    flex-shrink: 0;
+  }
+
+  &.toast-error .toast-icon {
+    color: #b42318;
+  }
+
+  &.toast-warning .toast-icon {
+    color: #946200;
+  }
+
+  &.toast-success .toast-icon {
+    color: #18794e;
+  }
+
+  .payload-toast-close-button {
+    position: absolute;
+    top: 50%;
+    left: auto;
+    right: 12px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    color: var(--ayo-text-secondary);
+    width: 28px;
+    height: 28px;
+
+    &:hover {
+      color: var(--ayo-text);
+      background: var(--ayo-table-control-bg);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ayo-text);
+      outline-offset: 2px;
+    }
+  }
 }

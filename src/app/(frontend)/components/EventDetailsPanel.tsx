@@ -123,10 +123,28 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
                   <p className="text-sm font-semibold">Times:</p>
                   <ul className="mt-2 space-y-1">
                     {event.performances.map((performance, idx) => (
-                      <li key={idx} className="flex gap-4 text-xs">
+                      <li key={idx} className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
                         <span>{performance.time}</span>
                         <span>{performance.date}</span>
                         <span className="text-muted text-right ml-auto">{performance.venue}</span>
+                        {performance.bookingUrl && (
+                          <a
+                            href={performance.bookingUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Book ${event.title} — ${performance.date}, ${performance.time}${performance.venue ? `, ${performance.venue}` : ''}`}
+                            className="inline-flex items-center gap-1 underline transition-opacity hover:opacity-70"
+                          >
+                            Book
+                            <Image
+                              src="/arrow-up-right.svg"
+                              alt=""
+                              width={12}
+                              height={12}
+                              aria-hidden="true"
+                            />
+                          </a>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -134,11 +152,13 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
               )}
 
               {event.links.length > 0 && (
-                <div className="flex gap-8 mt-6 text-sm">
+                <div className="flex flex-wrap gap-x-8 gap-y-3 mt-6 text-sm">
                   {event.links.map((link) => (
                     <a
-                      key={link.label}
+                      key={`${link.label}-${link.href}`}
                       href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-1 underline hover:opacity-70"
                     >
                       {link.label}
@@ -157,12 +177,14 @@ const EventDetailsPanel = ({ event, isOpen, onClose }: EventDetailsPanelProps) =
           </div>
         </div>
 
-        {(event.footerNote || event.ctaLabel) && (
+        {(event.footerNote || (event.ctaLabel && event.ctaHref)) && (
           <div className="bg-black text-white flex items-center justify-between px-6 py-4">
             <span className="text-sm">{event.footerNote}</span>
-            {event.ctaLabel && (
+            {event.ctaLabel && event.ctaHref && (
               <a
-                href={event.ctaHref ?? '#'}
+                href={event.ctaHref}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-1 text-sm font-semibold hover:opacity-70"
               >
                 {event.ctaLabel}

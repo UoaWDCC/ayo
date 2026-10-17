@@ -59,7 +59,7 @@ export default async function AboutUsPage() {
   const { docs: people } = await payload.find({
     collection: 'people',
     depth: 1,
-    limit: 1000,
+    pagination: false,
   })
 
   return (

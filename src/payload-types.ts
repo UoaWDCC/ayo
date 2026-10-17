@@ -81,7 +81,6 @@ export interface Config {
     link: Link;
     users: User;
     passwords: Password;
-    'processing-of-data-agreement': ProcessingOfDataAgreement;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -103,7 +102,6 @@ export interface Config {
     link: LinkSelect<false> | LinkSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     passwords: PasswordsSelect<false> | PasswordsSelect<true>;
-    'processing-of-data-agreement': ProcessingOfDataAgreementSelect<false> | ProcessingOfDataAgreementSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -149,7 +147,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * The page-builder for pages of the site.
+ * Headings, images and content for the website pages.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -157,16 +155,19 @@ export interface UserAuthOperations {
 export interface Page {
   id: string;
   title: string;
+  /**
+   * Fixed website route. Changing the title does not change this URL.
+   */
   slug: string;
   layout?:
     | (
         | {
             /**
-             * The large heading shown over the hero image (e.g. "Here Plays The Future"). Leave blank to use the page's title.
+             * The heading shown over the page banner. Leave blank to use the page title.
              */
             slogan?: string | null;
             /**
-             * The short line under the heading (e.g. "Aotearoa's first and original youth orchestra, founded 1948."). Leave blank to show no subtitle.
+             * A short line below the banner heading. Leave blank to hide it.
              */
             subtitle?: string | null;
             backgroundImage: string | Media;
@@ -196,6 +197,9 @@ export interface Page {
           }
         | {
             text?: string | null;
+            /**
+             * Paste the full YouTube link for the video.
+             */
             videoUrl: string;
             id?: string | null;
             blockName?: string | null;
@@ -206,7 +210,7 @@ export interface Page {
             text: string;
             caption?: string | null;
             /**
-             * YouTube URL opened when the block is clicked. Leave blank to render the block without a link.
+             * The YouTube link opened when a visitor selects the quote. Leave blank if there is no video.
              */
             videoUrl?: string | null;
             id?: string | null;
@@ -286,7 +290,7 @@ export interface Page {
   createdAt: string;
 }
 /**
- * The images used across the site.
+ * Images and documents uploaded to the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -294,7 +298,7 @@ export interface Page {
 export interface Media {
   id: string;
   /**
-   * Describes the image for screen readers and search engines.
+   * Describe the image for someone who cannot see it. For a document, give a short description of its contents.
    */
   alt: string;
   updatedAt: string;
@@ -344,7 +348,7 @@ export interface Media {
   };
 }
 /**
- * The news and story posts shown on the site's News page.
+ * News and stories shown on the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
@@ -375,16 +379,19 @@ export interface Post {
     | null;
   category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
   author?: string | null;
+  /**
+   * The date shown on the story. Save publishes immediately, even if this date is in the future.
+   */
   publishedDate?: string | null;
   /**
-   * Generated from the title.
+   * Generated when the story is created. Stays the same when you edit the title so shared links keep working.
    */
   slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Frequently asked questions shown on their respective pages of the site.
+ * Questions and answers shown on the selected website page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
@@ -394,7 +401,7 @@ export interface Faq {
   question: string;
   answer: string;
   /**
-   * Which page this FAQ appears on.
+   * Choose the website page where this question and answer appear.
    */
   category: 'about-us' | 'concerts-events' | 'join-ayo' | 'news' | 'support-us';
   sortOrder?: number | null;
@@ -402,7 +409,7 @@ export interface Faq {
   createdAt: string;
 }
 /**
- * Scholarships, competitions and programmes shown in the Opportunities table.
+ * Scholarships, competitions and programmes listed on Join AYO.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "opportunities".
@@ -410,27 +417,27 @@ export interface Faq {
 export interface Opportunity {
   id: string;
   /**
-   * How the opportunity appears in the listing, e.g. "AYO Soloist Competition".
+   * The title shown on the website, for example AYO Soloist Competition.
    */
   title: string;
   /**
-   * Fills the listing's Type filter and the detail panel's "Awarded" line.
+   * The opportunity category used in the website listing and its filters.
    */
   type: 'Scholarship' | 'Competition' | 'Workshop' | 'Residency';
   /**
-   * When applications close, in New Zealand time. The listing hides the opportunity once this has passed.
+   * The application deadline in New Zealand time. The website hides this opportunity after the deadline.
    */
   closingDate: string;
   /**
-   * Shown in full in the detail panel, and alongside the row in the listing.
+   * The description shown in the listing and when a visitor opens the opportunity.
    */
   description: string;
   /**
-   * Where the Apply link goes. Leave blank and no Apply link is rendered.
+   * The full http:// or https:// application URL. Leave blank to hide Apply.
    */
   applyUrl?: string | null;
   /**
-   * Optional. What the opportunity is worth, e.g. "$3,000" — shown as the detail panel's "Value" line.
+   * Optional. The amount or benefit offered, for example $3,000.
    */
   value?: string | null;
   /**
@@ -441,7 +448,7 @@ export interface Opportunity {
   createdAt: string;
 }
 /**
- * Every concert series, with its repertoire and performance dates.
+ * Concert series, programmes, performance dates and booking links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "concerts".
@@ -449,7 +456,7 @@ export interface Opportunity {
 export interface Concert {
   id: string;
   /**
-   * How the concert appears on the site.
+   * The concert title shown on the website.
    */
   title: string;
   description: {
@@ -468,11 +475,11 @@ export interface Concert {
     [k: string]: unknown;
   };
   /**
-   * The feature photo shown on the public listing and card.
+   * The main photo shown on the concert listing and card.
    */
   photo: string | Media;
   /**
-   * Optional. The filename of the programme, if one is published.
+   * Optional. Paste the full programme link or an uploaded PDF path such as /api/media/file/programme.pdf. Leave blank to hide the link.
    */
   pdf?: string | null;
   /**
@@ -486,21 +493,28 @@ export interface Concert {
     id?: string | null;
   }[];
   /**
-   * Each one appears as a separate date on the site.
+   * Add a row for each performance, with its date, venue and booking link.
    */
   performances: {
-    dateTime: string;
     /**
-     * Optional in the schema. The site shows this line when it is set.
+     * Enter the start time in New Zealand time. Daylight saving is handled automatically.
+     */
+    dateTime: string;
+    dateTime_tz: 'Pacific/Auckland';
+    /**
+     * The venue name shown with this performance. Leave blank to hide it.
      */
     venue?: string | null;
     venueAddress: string;
-    bookingUrl: string;
+    /**
+     * The booking link for this performance. Leave blank until bookings open.
+     */
+    bookingUrl?: string | null;
     price: string;
     id?: string | null;
   }[];
   /**
-   * Added once the concert has been performed.
+   * Add a full photo gallery URL in each row. Leave empty if there are no galleries.
    */
   photo_links?:
     | {
@@ -508,6 +522,9 @@ export interface Concert {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Add a full recording URL in each row. Leave empty if there are no recordings.
+   */
   video_links?:
     | {
         link?: string | null;
@@ -518,25 +535,41 @@ export interface Concert {
   createdAt: string;
 }
 /**
- * The calendar embed, public, and iCal links used on the site.
+ * Calendar links for the My AYO page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "calendar-links".
  */
 export interface CalendarLink {
   id: string;
+  /**
+   * An internal name, such as AYO 2027 calendar.
+   */
+  title: string;
+  /**
+   * Paste the full calendar embed URL, not the iframe HTML code. Leave blank to hide the embedded calendar.
+   */
   embedLink?: string | null;
+  /**
+   * The full public calendar URL. Leave blank to hide Add to Google Calendar.
+   */
   publicLink?: string | null;
+  /**
+   * The full https:// or webcal:// subscription URL. Leave blank to hide the subscription and copy actions.
+   */
   icalLink?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Players, team members and alumni shown on the website.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
 export interface Person {
   id: string;
+  sortOrder?: number | null;
   name: string;
   role?: (string | null) | Role;
   teamRoles?: (string | TeamRole)[] | null;
@@ -549,7 +582,7 @@ export interface Person {
   createdAt: string;
 }
 /**
- * The instrument sections and roles used to group People.
+ * Instrument sections used to group players and alumni.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
@@ -563,6 +596,8 @@ export interface Role {
   createdAt: string;
 }
 /**
+ * Committee and administration roles assigned to team members.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-roles".
  */
@@ -576,23 +611,27 @@ export interface TeamRole {
   createdAt: string;
 }
 /**
- * The partners and sponsors shown on the site.
+ * Partners, sponsors and supporters shown on the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
 export interface Partner {
   id: string;
+  sortOrder?: number | null;
   name: string;
   partnerType?: ('partner' | 'sponsor' | 'supporter') | null;
   logo: string | Media;
+  /**
+   * Optional. Use a full http:// or https:// website URL.
+   */
   websiteUrl?: string | null;
   isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Document links shown in the Resources and Links sections in /my-ayo.
+ * Documents and website links shown in the Resources and Links sections of My AYO.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "link".
@@ -600,12 +639,17 @@ export interface Partner {
 export interface Link {
   id: string;
   name: string;
+  /**
+   * A full web URL or a site path such as /api/media/file/handbook.pdf.
+   */
   url: string;
   category: 'resources' | 'links';
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Accounts used to sign in to the website admin.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -631,7 +675,7 @@ export interface User {
   collection: 'users';
 }
 /**
- * Passwords that unlock the members-only My AYO page.
+ * Shared passwords for the My AYO page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "passwords".
@@ -642,39 +686,6 @@ export interface Password {
    * Share this with members. Any password listed here unlocks the page.
    */
   password?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * The text shown when someone clicks "processing of personal data" on the Contact Us form. Only the most recently updated entry is shown.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "processing-of-data-agreement".
- */
-export interface ProcessingOfDataAgreement {
-  id: string;
-  /**
-   * For your reference only. This is not shown on the site.
-   */
-  title: string;
-  /**
-   * The agreement text visitors can read before agreeing.
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -757,10 +768,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'passwords';
         value: string | Password;
-      } | null)
-    | ({
-        relationTo: 'processing-of-data-agreement';
-        value: string | ProcessingOfDataAgreement;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -965,6 +972,7 @@ export interface ConcertsSelect<T extends boolean = true> {
     | T
     | {
         dateTime?: T;
+        dateTime_tz?: T;
         venue?: T;
         venueAddress?: T;
         bookingUrl?: T;
@@ -991,6 +999,7 @@ export interface ConcertsSelect<T extends boolean = true> {
  * via the `definition` "calendar-links_select".
  */
 export interface CalendarLinksSelect<T extends boolean = true> {
+  title?: T;
   embedLink?: T;
   publicLink?: T;
   icalLink?: T;
@@ -1002,6 +1011,7 @@ export interface CalendarLinksSelect<T extends boolean = true> {
  * via the `definition` "people_select".
  */
 export interface PeopleSelect<T extends boolean = true> {
+  sortOrder?: T;
   name?: T;
   role?: T;
   teamRoles?: T;
@@ -1041,6 +1051,7 @@ export interface TeamRolesSelect<T extends boolean = true> {
  * via the `definition` "partners_select".
  */
 export interface PartnersSelect<T extends boolean = true> {
+  sortOrder?: T;
   name?: T;
   partnerType?: T;
   logo?: T;
@@ -1155,16 +1166,6 @@ export interface PasswordsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "processing-of-data-agreement_select".
- */
-export interface ProcessingOfDataAgreementSelect<T extends boolean = true> {
-  title?: T;
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -1204,7 +1205,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Social media links used by the footer and the Follow Us section.
+ * Social media links and the current calendar used by My AYO.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
@@ -1216,12 +1217,18 @@ export interface SiteSetting {
    */
   social?: {
     /**
-     * e.g. https://www.instagram.com/aucklandyouthorchestra/ — also names the account shown in the Follow Us section.
+     * For example, https://www.instagram.com/aucklandyouthorchestra/. The website also uses this profile to name the account in Follow Us.
      */
     instagram?: string | null;
     youtube?: string | null;
     facebook?: string | null;
     linkedin?: string | null;
+  };
+  /**
+   * Choose the calendar shown in My AYO. If this choice is blank, the only saved calendar is used. With multiple calendars, select one here.
+   */
+  currentContent?: {
+    calendar?: (string | null) | CalendarLink;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1238,6 +1245,11 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         youtube?: T;
         facebook?: T;
         linkedin?: T;
+      };
+  currentContent?:
+    | T
+    | {
+        calendar?: T;
       };
   updatedAt?: T;
   createdAt?: T;

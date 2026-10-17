@@ -19,11 +19,11 @@ export const Hero: Block = {
   fields: [
     {
       name: 'slogan',
+      label: 'Banner heading',
       type: 'text',
       required: false,
       admin: {
-        description:
-          'The large heading shown over the hero image (e.g. "Here Plays The Future"). Leave blank to use the page\'s title.',
+        description: 'The heading shown over the page banner. Leave blank to use the page title.',
       },
     },
     {
@@ -31,12 +31,12 @@ export const Hero: Block = {
       type: 'text',
       required: false,
       admin: {
-        description:
-          'The short line under the heading (e.g. "Aotearoa\'s first and original youth orchestra, founded 1948."). Leave blank to show no subtitle.',
+        description: 'A short line below the banner heading. Leave blank to hide it.',
       },
     },
     {
       name: 'backgroundImage',
+      label: 'Banner image',
       type: 'upload',
       relationTo: 'media',
       required: true,

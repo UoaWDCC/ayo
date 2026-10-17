@@ -55,18 +55,6 @@
     padding-right: 10px;
   }
 
-  &__handle {
-    flex: 0 0 auto;
-    cursor: grab;
-    color: var(--ayo-muted);
-    font-size: 14px;
-    line-height: 1;
-
-    &:active {
-      cursor: grabbing;
-    }
-  }
-
   &__question {
     flex: 1;
     background: none;
@@ -112,8 +100,4 @@
   font-size: 12px;
   color: var(--ayo-text-meta);
   font-style: italic;
-
-  &--error {
-    color: #b91c1c;
-  }
 }

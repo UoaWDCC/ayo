@@ -3,9 +3,11 @@
 import { useConfig } from '@payloadcms/ui'
 import React, { useEffect, useState } from 'react'
 
+import type { Media } from '@/payload-types'
+
 import './index.scss'
 
-type MediaDoc = { alt?: string; filename?: string; url?: string }
+type MediaDoc = Pick<Media, 'id' | 'alt' | 'filename' | 'url' | 'sizes'>
 type UploadValue = MediaDoc | string
 type CellProps = {
   cellData?: UploadValue | Array<{ photo?: UploadValue }>
@@ -28,11 +30,14 @@ export const PhotoThumbnailCell: React.FC<CellProps> = ({ cellData, rowData }) =
   const [media, setMedia] = useState<MediaDoc | null>(typeof raw === 'object' && raw ? raw : null)
 
   const photoId = typeof raw === 'string' ? raw : null
+  const resolvedMedia = typeof raw === 'object' && raw ? raw : photoId === media?.id ? media : null
+  const url =
+    resolvedMedia?.sizes?.thumbnail?.url || resolvedMedia?.sizes?.card?.url || resolvedMedia?.url
 
   useEffect(() => {
     if (!photoId) return
     const controller = new AbortController()
-    fetch(`${config.serverURL}${config.routes.api}/media/${photoId}`, {
+    fetch(`${config.serverURL}${config.routes.api}/media/${encodeURIComponent(photoId)}?depth=0`, {
       credentials: 'include',
       signal: controller.signal,
     })
@@ -44,9 +49,9 @@ export const PhotoThumbnailCell: React.FC<CellProps> = ({ cellData, rowData }) =
 
   return (
     <div className="ayo-thumb">
-      {media?.url ? (
+      {url ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img className="ayo-thumb__image" src={media.url} alt={media.alt || ''} />
+        <img className="ayo-thumb__image" src={url} alt={resolvedMedia?.alt || ''} loading="lazy" />
       ) : (
         <div className="ayo-thumb__image ayo-thumb__image--empty" />
       )}

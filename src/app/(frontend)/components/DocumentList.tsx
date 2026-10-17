@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type { Link } from '@/payload-types'
 import StaggerReveal from './StaggerReveal'
+import { safeHref } from '@/lib/urls'
 
 const PAGE_SIZE = 5
 
@@ -46,7 +47,11 @@ export default function DocumentList({
     setCurrentPage(1)
   }, [query])
 
-  const filtered = documents.filter((doc) => doc.name.toLowerCase().includes(query.toLowerCase()))
+  const filtered = documents.filter(
+    (doc) =>
+      safeHref(doc.url, { allowSitePath: true }) &&
+      doc.name.toLowerCase().includes(query.toLowerCase()),
+  )
   const totalPages = searchable ? Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)) : 1
   const pageItems = searchable
     ? filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
@@ -111,7 +116,7 @@ export default function DocumentList({
             {pageItems.map((doc) => (
               <li key={doc.id} className="border-b border-[#EBEBEB]">
                 <a
-                  href={doc.url}
+                  href={safeHref(doc.url, { allowSitePath: true })}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-between gap-6 px-4 py-5 md:px-6 transition-colors hover:bg-gray-50"

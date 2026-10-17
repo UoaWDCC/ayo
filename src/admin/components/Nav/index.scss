@@ -1,32 +1,43 @@
 .ayo-nav {
   background: #000;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  height: 100dvh;
+  overflow: hidden;
+  &__mobile-close {
+    display: none;
+  }
 
   &__wrap {
     display: flex;
     flex-direction: column;
     height: 100%;
-    // A2 specifies 24px, but Payload's native nav-collapse toggle is an absolutely
-    // positioned overlay (not part of this flow) sitting at ~10-34px from the top, so 24px
-    // makes the logo collide with it. 60px gives a bit more clearance below it than the
-    // minimum 48px.
-    padding: 60px 0 48px;
-    overflow-y: auto;
+    box-sizing: border-box;
+    // Leave room above the logo for Payload's absolutely positioned collapse toggle.
+    padding: 60px 0 16px;
+    overflow: hidden;
+    --ayo-nav-row-height: clamp(32px, 4dvh, 44px);
+
+    > * {
+      flex-shrink: 0;
+    }
   }
 
   &__logo img {
     display: block;
     height: 22px;
-    margin: 0 0 20px 24px;
+    margin: 0 0 12px 24px;
+  }
+
+  &__logo {
+    display: block;
   }
 
   &__dashboard {
     display: block;
-    margin: 0 0 18px;
+    margin: 0 0 10px;
     padding: 0 24px;
-    min-height: 36px;
-    line-height: 36px;
-    font-size: 15px;
+    min-height: var(--ayo-nav-row-height);
+    line-height: var(--ayo-nav-row-height);
+    font-size: 14px;
     font-weight: 600;
     color: #fff;
     text-decoration: none;
@@ -38,16 +49,22 @@
 
   &__groups {
     flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 12px;
   }
 
   &__group {
-    margin-bottom: 18px;
+    margin: 0;
   }
 
   &__group-label {
     display: block;
-    padding: 0 24px 8px;
-    font-size: 12px;
+    padding: 0 24px 4px;
+    font-size: 11px;
+    line-height: 14px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -59,11 +76,12 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    min-height: 36px;
+    min-height: var(--ayo-nav-row-height);
     padding: 0 24px;
     color: #fff;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.25;
 
     &--active {
       font-weight: 600;
@@ -78,7 +96,126 @@
   }
 
   &__controls {
-    padding: 16px 24px 0;
+    padding: 8px 24px 0;
     color: rgba(255, 255, 255, 0.7);
+  }
+
+  a:hover,
+  a:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  a:focus-visible,
+  button:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -3px;
+  }
+  &__section-picker {
+    display: grid;
+    gap: 6px;
+    margin: 8px 20px 16px;
+    color: #bbb;
+    font-size: 12px;
+    select {
+      width: 100%;
+      min-width: 0;
+      min-height: 40px;
+      padding: 6px 8px;
+      background: #161616;
+      color: #fff;
+      border: 0;
+      border-radius: 3px;
+      font: inherit;
+      font-size: 14px;
+    }
+  }
+  &__compact-links {
+    --ayo-compact-row-height: 44px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .ayo-nav__link {
+      min-height: var(--ayo-compact-row-height);
+    }
+  }
+  &__paging {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: #bbb;
+    font-size: 12px;
+    button {
+      border: 0;
+      background: #242424;
+      border-radius: 3px;
+      color: #fff;
+      width: 36px;
+      height: 32px;
+      cursor: pointer;
+      &:disabled {
+        opacity: 0.35;
+        cursor: default;
+      }
+    }
+  }
+  @media (max-height: 500px) {
+    &__wrap {
+      padding: 44px 0 4px;
+    }
+    &__logo {
+      display: none;
+    }
+    &__dashboard {
+      margin-bottom: 0;
+    }
+    &__section-picker {
+      margin-block: 4px;
+      gap: 2px;
+      select {
+        min-height: 30px;
+        padding-block: 2px;
+      }
+    }
+    &__compact-links {
+      --ayo-compact-row-height: 32px;
+    }
+    &__controls {
+      padding-top: 0;
+    }
+  }
+}
+
+// Mobile navigation covers the page instead of squeezing its tables beside it.
+@media (max-width: 767px) {
+  html body .template-default__nav-toggler {
+    display: none;
+  }
+  html:has(.ayo-nav.nav--nav-open) {
+    overflow: hidden;
+  }
+  .ayo-nav__mobile-close {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    color: white;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+  }
+  html body .ayo-nav.nav--nav-open {
+    width: min(320px, 100vw);
+    max-width: 100vw;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 40;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.3);
   }
 }

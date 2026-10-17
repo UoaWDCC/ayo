@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { SiteSetting } from '@/payload-types'
+import { safeHref } from './urls'
 
 /** The social platforms the `site-settings` global can hold a URL for. */
 export const SOCIAL_PLATFORMS = ['instagram', 'youtube', 'facebook', 'linkedin'] as const
@@ -32,7 +33,7 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
   const settings = await getSiteSettings()
 
   return SOCIAL_PLATFORMS.flatMap((platform) => {
-    const href = settings?.social?.[platform]?.trim()
+    const href = safeHref(settings?.social?.[platform])
     if (!href) return []
 
     return [{ platform, name: platform.charAt(0).toUpperCase() + platform.slice(1), href }]

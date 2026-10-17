@@ -32,11 +32,12 @@ export const QuoteBlock: Block = {
     },
     {
       name: 'videoUrl',
+      label: 'Video URL',
       type: 'text',
       required: false,
       admin: {
         description:
-          'YouTube URL opened when the block is clicked. Leave blank to render the block without a link.',
+          'The YouTube link opened when a visitor selects the quote. Leave blank if there is no video.',
       },
     },
   ],

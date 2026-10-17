@@ -19,13 +19,16 @@ export const VideoBlock: Block = {
   fields: [
     {
       name: 'text',
+      label: 'Video caption',
       type: 'text',
       required: false,
     },
     {
       name: 'videoUrl',
+      label: 'Video URL',
       type: 'text',
       required: true,
+      admin: { description: 'Paste the full YouTube link for the video.' },
     },
   ],
 }

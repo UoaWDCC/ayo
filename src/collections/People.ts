@@ -1,14 +1,21 @@
 import type { CollectionConfig } from 'payload'
+import { reorderEndpoints } from '@/endpoints/reorder'
 
 export const People: CollectionConfig = {
   slug: 'people',
+  endpoints: reorderEndpoints('people'),
+  defaultSort: ['type', 'sortOrder', 'name'],
 
   admin: {
     group: 'People & Supporters',
     useAsTitle: 'name',
+    description: 'Players, team members and alumni shown on the website.',
+    defaultColumns: ['name', 'type', 'isActive', 'years'],
+    components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
   },
 
   fields: [
+    { name: 'sortOrder', type: 'number', defaultValue: 0, index: true, admin: { hidden: true } },
     {
       name: 'name',
       type: 'text',
@@ -67,11 +74,14 @@ export const People: CollectionConfig = {
       name: 'photo',
       type: 'upload',
       relationTo: 'media',
+      admin: { components: { Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell' } },
     },
     {
       name: 'isActive',
+      label: 'Status',
       type: 'checkbox',
       required: true,
+      admin: { components: { Cell: '@/admin/components/StatusCell#StatusCell' } },
     },
   ],
 }

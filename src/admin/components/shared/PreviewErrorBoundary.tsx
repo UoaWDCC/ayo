@@ -18,9 +18,12 @@ export class PreviewErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <p style={{ fontSize: 13, color: 'var(--ayo-text-meta)', fontStyle: 'italic' }}>
-          Preview unavailable.
-        </p>
+        <div role="status" style={{ fontSize: 13, color: 'var(--ayo-text-meta)' }}>
+          <p>The preview could not load. You can still edit and save this record.</p>
+          <button type="button" onClick={() => this.setState({ hasError: false })}>
+            Retry preview
+          </button>
+        </div>
       )
     }
     return this.props.children

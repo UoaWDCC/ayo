@@ -7,14 +7,23 @@ import { ImageBlock } from '@/blocks/ImageBlock'
 import { TableBlock } from '@/blocks/TableBlock'
 import { FAQBlock } from '@/blocks/FAQBlock'
 import { MemberSection } from '@/blocks/MemberSection'
+import { pageSlugs, protectPageSlug } from '@/hooks/protectPageSlug'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
+  versions: { maxPerDoc: 20 },
+  // These documents belong to fixed Next.js routes. New routes require code changes.
+  access: {
+    create: () => false,
+    delete: () => false,
+    readVersions: ({ req }) => Boolean(req.user),
+  },
+  hooks: { beforeValidate: [protectPageSlug] },
   admin: {
     group: 'Content',
     useAsTitle: 'title',
-    description: 'The page-builder for pages of the site.',
-    defaultColumns: ['title', 'slug', 'layout', 'updatedAt'],
+    description: 'Headings, images and content for the website pages.',
+    defaultColumns: ['title', 'slug', 'updatedAt'],
   },
   fields: [
     {
@@ -26,6 +35,13 @@ export const Pages: CollectionConfig = {
       name: 'slug',
       type: 'text',
       required: true,
+      unique: true,
+      validate: (value: string | null | undefined) =>
+        pageSlugs.some((slug) => slug === value) || 'Choose an existing website page URL.',
+      admin: {
+        readOnly: true,
+        description: 'Fixed website route. Changing the title does not change this URL.',
+      },
     },
     {
       name: 'layout',
@@ -44,7 +60,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'pagePreview',
       type: 'ui',
-      label: 'Preview',
+      label: 'Block guide',
       admin: {
         position: 'sidebar',
         components: {

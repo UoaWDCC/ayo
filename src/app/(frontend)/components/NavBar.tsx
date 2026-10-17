@@ -21,37 +21,48 @@ const navLinks = [
   { href: '/contact-us', label: 'CONTACT US' },
 ]
 
+const MENU_TRANSITION_MS = 300
+
 export default function Header({ variant = 'light', overlay = false }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [menuPresent, setMenuPresent] = useState(false)
   const [atTop, setAtTop] = useState(true)
   const [isRevealed, setIsRevealed] = useState(false)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
   const transitionPhase = usePageTransitionPhase()
   const isTransitioning = transitionPhase !== 'idle'
-  const [suppressSlide, setSuppressSlide] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   // A modal/panel elsewhere on the page (e.g. an event or spotlight popup) just opened —
   // the mobile nav sits above them (z-[110]), so close it to avoid overlapping the modal.
   useEffect(() => onModalOpen(() => setIsMenuOpen(false)), [])
 
-  // Suppress the background's slide transition for the duration of a page transition *and*
-  // for one more frame after it ends, so the forced-solid bg (and its snap back to hidden,
-  // if the page wasn't actually scrolled) never triggers the slide-down/up animation.
+  // Keep one shared background behind the bar and links until the menu has collapsed.
   useEffect(() => {
-    if (isTransitioning) {
-      setSuppressSlide(true)
+    if (isMenuOpen) {
+      setMenuPresent(true)
       return
     }
-    const raf = requestAnimationFrame(() => setSuppressSlide(false))
-    return () => cancelAnimationFrame(raf)
-  }, [isTransitioning])
+    if (!menuPresent) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce), (min-width: 1024px)').matches) {
+      setMenuPresent(false)
+      return
+    }
+    const timeout = window.setTimeout(() => setMenuPresent(false), MENU_TRANSITION_MS)
+    return () => window.clearTimeout(timeout)
+  }, [isMenuOpen, menuPresent])
 
-  // Three states as you scroll an overlay page: at the top (transparent, white content); away
-  // from the top while scrolling down (bar fully hidden — content faded to nothing, background
-  // never shows); and revealed by scrolling up (solid white background, black content). The bar
-  // only ever turns solid in response to an upward scroll — never just from leaving the top.
-  // A standalone header reads none of these states, so it doesn't track scrolling at all.
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMenuOpen(false)
+    }
+    desktop.addEventListener('change', closeOnDesktop)
+    return () => desktop.removeEventListener('change', closeOnDesktop)
+  }, [])
+
+  // Reveal the solid header when scrolling up and hide it when scrolling down.
   useEffect(() => {
     if (!overlay) return
     lastScrollY.current = window.scrollY
@@ -75,8 +86,6 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
       ticking.current = false
     }
 
-    // Coalesce to one state update per animation frame, so fast/trackpad scrolling doesn't
-    // pile up React renders faster than the browser can paint them.
     const onScroll = () => {
       if (!ticking.current) {
         ticking.current = true
@@ -89,27 +98,13 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
     return () => window.removeEventListener('scroll', onScroll)
   }, [isMenuOpen, overlay])
 
-  // All three scroll-reveal states below only exist for an overlay header, which has to work
-  // against whatever hero sits under it. A standalone header paints its own background, so its
-  // `variant` is authoritative: it stays that colour through scrolling, an open mobile menu and
-  // page transitions alike, instead of flipping to white and back.
-  //
-  // Forced solid + black-on-white for the duration of a page transition, so the bar stays
-  // legible over the white cover regardless of scroll position.
-  const isSolid = overlay && (isRevealed || isMenuOpen || isTransitioning)
+  const menuSurfaceVisible = isMenuOpen || menuPresent
+  const isSolid = overlay && (isRevealed || menuSurfaceVisible || isTransitioning)
   const isDark = overlay ? !isSolid : variant === 'dark'
 
-  // The background only ever shows once revealed by an upward scroll (or always, for the
-  // standalone/non-overlay header). It slides down + fades in to reveal, and slides back up +
-  // fades out to hide — the same motion in both directions.
   const bgVisible = isSolid || !overlay
-  // An overlay's background is always white — it only ever shows in the solid state, and keeping
-  // it white means the slide-up hide animation fades out without flashing another colour.
   const bgColor = !overlay && isDark ? 'bg-black' : 'bg-white'
   const text = isDark ? 'text-white' : 'text-black'
-
-  // The content is visible at the top (white) and once revealed (black); scrolling down away
-  // from the top with nothing revealed yet just fades it out to nothing, background included.
   const contentVisible = atTop || isSolid || !overlay
 
   return (
@@ -127,24 +122,35 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
           isTransitioning ? 'opacity-100' : 'opacity-0'
         }`}
       />
-      <header className="fixed top-0 left-0 right-0 z-[110]">
+      <header
+        className="fixed top-0 left-0 right-0 z-[110]"
+        onKeyDown={(event) => {
+          if (isMenuOpen && event.key === 'Escape') {
+            event.preventDefault()
+            setIsMenuOpen(false)
+            menuButtonRef.current?.focus()
+          }
+        }}
+      >
         <div
-          className={`absolute inset-0 -z-10 ${bgColor} duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            suppressSlide ? 'transition-opacity' : 'transition-[opacity,translate]'
-          } ${bgVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
+          className={`absolute inset-0 -z-10 ${bgColor} duration-500 motion-reduce:transition-none ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            atTop || menuSurfaceVisible || isTransitioning
+              ? 'transition-none'
+              : 'transition-opacity'
+          } ${bgVisible ? 'opacity-100' : 'opacity-0'}`}
         />
 
         <div
-          className={`relative transition-[opacity,color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${text} ${
+          className={`relative transition-[opacity,color] duration-500 motion-reduce:transition-none ease-[cubic-bezier(0.22,1,0.36,1)] ${text} ${
             contentVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
           <div className="flex items-center justify-between pl-4 pr-4 sm:px-6 md:px-10 h-15 lg:h-19">
             <Link href="/" className="shrink-0" onClick={() => setIsMenuOpen(false)}>
               <img
-                src={isDark ? '/ayo-logo-white.png' : '/ayo-logo-black-bgwhite.png'}
+                src="/ayo-logo-white.png"
                 alt="AYO Logo"
-                className="w-28 sm:w-36 h-auto lg:h-5 lg:w-auto xl:h-6"
+                className={`w-28 sm:w-36 h-auto lg:h-5 lg:w-auto xl:h-6 ${isDark ? '' : 'brightness-0'}`}
               />
             </Link>
 
@@ -163,6 +169,7 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
 
             {/* Hamburger button, shown below the lg breakpoint */}
             <button
+              ref={menuButtonRef}
               type="button"
               className="lg:hidden relative z-10 flex flex-col justify-center items-center gap-1.5 w-10 h-10 shrink-0"
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
@@ -171,17 +178,17 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
               onClick={() => setIsMenuOpen((open) => !open)}
             >
               <span
-                className={`block w-7 h-0.5 transition-transform duration-200 ${
+                className={`block w-7 h-0.5 transition-transform duration-200 motion-reduce:transition-none ${
                   isDark ? 'bg-white' : 'bg-black'
                 } ${isMenuOpen ? 'translate-y-2 rotate-45' : ''}`}
               />
               <span
-                className={`block w-7 h-0.5 transition-opacity duration-200 ${
+                className={`block w-7 h-0.5 transition-opacity duration-200 motion-reduce:transition-none ${
                   isDark ? 'bg-white' : 'bg-black'
                 } ${isMenuOpen ? 'opacity-0' : ''}`}
               />
               <span
-                className={`block w-7 h-0.5 transition-transform duration-200 ${
+                className={`block w-7 h-0.5 transition-transform duration-200 motion-reduce:transition-none ${
                   isDark ? 'bg-white' : 'bg-black'
                 } ${isMenuOpen ? '-translate-y-2 -rotate-45' : ''}`}
               />
@@ -191,22 +198,28 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
           {/* Mobile nav */}
           <nav
             id="mobile-nav"
-            className={`lg:hidden flex flex-col items-center gap-6 px-8 text-lg font-semibold transition-[max-height,translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isMenuOpen
-                ? 'max-h-[calc(100svh-3.75rem)] overflow-y-auto translate-y-0 pb-8'
-                : 'max-h-0 overflow-hidden -translate-y-4'
+            aria-label="Mobile navigation"
+            aria-hidden={!isMenuOpen}
+            inert={!isMenuOpen}
+            style={{ transitionDuration: `${MENU_TRANSITION_MS}ms` }}
+            className={`lg:hidden grid transition-[grid-template-rows] motion-reduce:transition-none ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              isMenuOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
             }`}
           >
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="shrink-0 transition-opacity duration-200 hover:opacity-70"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <div className="min-h-0 overflow-hidden">
+              <div className="flex max-h-[calc(100dvh-3.75rem)] flex-col items-center gap-6 overflow-y-auto px-8 pt-2 pb-8 text-lg font-semibold">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="shrink-0 transition-opacity duration-200 motion-reduce:transition-none hover:opacity-70"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
         </div>
       </header>

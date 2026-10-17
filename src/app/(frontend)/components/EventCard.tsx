@@ -10,6 +10,7 @@ export type EventPerformance = {
   time: string
   date: string
   venue: string
+  bookingUrl?: string
 }
 
 export type EventLink = {
@@ -91,11 +92,13 @@ const EventCard = ({ event }: { event: EventCardData }) => {
       {(event.links.length > 0 || event.footerLabel) && (
         <div className="mt-4 text-sm">
           {event.links.length > 0 && (
-            <div className="flex gap-8">
+            <div className="flex flex-wrap gap-x-8 gap-y-3">
               {event.links.map((link) => (
                 <a
-                  key={link.label}
+                  key={`${link.label}-${link.href}`}
                   href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-1 underline hover:opacity-70"
                 >
                   {link.label}

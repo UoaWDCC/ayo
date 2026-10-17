@@ -1,0 +1,244 @@
+.ayo-reorder {
+  margin-bottom: 24px;
+  color: var(--theme-text);
+  font-size: 14px;
+  overflow-anchor: none;
+  &:not(.ayo-reorder--open) {
+    margin-bottom: 8px;
+  }
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 0 16px;
+  }
+  &__toolbar-hint {
+    color: var(--theme-elevation-650);
+    font-size: 13px;
+  }
+  &__reset {
+    margin-left: auto;
+  }
+  &__header,
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  &__header {
+    justify-content: space-between;
+    gap: 16px;
+    position: sticky;
+    top: var(--app-header-height, 48px);
+    z-index: 2;
+    padding: 12px 0;
+    background: var(--theme-bg);
+  }
+  h2 {
+    margin: 0;
+    font-size: 22px;
+  }
+  p {
+    margin: 12px 0;
+    line-height: 1.5;
+  }
+  &__hint {
+    color: var(--theme-elevation-650);
+    font-size: 13px;
+    max-width: 70ch;
+  }
+  &__status {
+    flex-basis: 100%;
+    min-height: 21px;
+    margin: 0 !important;
+    font-size: 13px;
+  }
+  &__button,
+  &__actions button {
+    border: 0;
+    border-radius: 4px;
+    background: var(--ayo-table-control-bg);
+    color: inherit;
+    padding: 8px 14px;
+    min-height: 40px;
+    font: inherit;
+    cursor: pointer;
+  }
+  &__button.ayo-reorder__button--primary {
+    background: var(--theme-text);
+    color: var(--theme-bg);
+  }
+  button:not(:disabled):hover {
+    background: var(--ayo-table-control-hover);
+  }
+  &__button.ayo-reorder__button--primary:hover:not(:disabled) {
+    background: #262626;
+  }
+  button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  button:focus-visible,
+  select:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+  &__group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 24px 0 8px;
+    font-weight: 600;
+  }
+  select {
+    max-width: 100%;
+    padding: 8px;
+    font: inherit;
+    background: var(--ayo-table-control-bg);
+    color: inherit;
+    border: 0;
+    border-radius: 4px;
+    min-height: 40px;
+    font-weight: 400;
+  }
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+    border-bottom: 1px solid var(--ayo-rule, #ebebeb);
+  }
+  &__columns {
+    display: grid;
+    grid-template-columns: 12px 24px minmax(0, 1fr) 88px;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 14px 12px;
+    color: var(--ayo-text-secondary, #4b5563);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid var(--ayo-rule, #ebebeb);
+    padding: 12px;
+    min-height: 64px;
+    scroll-margin-top: calc(var(--app-header-height, 48px) + 140px);
+    &:hover,
+    &:focus-within {
+      background: var(--ayo-table-row-hover, #f7f7f7);
+    }
+    .ayo-reorder__actions button {
+      width: 40px;
+      padding: 6px;
+      font-size: 18px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--ayo-table-control-bg, #f0f0f0);
+      &:hover:not(:disabled) {
+        background: var(--ayo-table-control-hover, #e2e2e2);
+      }
+    }
+    &.ayo-reorder__row--moved {
+      background: var(--ayo-table-row-selected, #ededed);
+      box-shadow: inset 3px 0 var(--theme-text);
+      .ayo-reorder__position {
+        color: var(--theme-text);
+        font-weight: 700;
+      }
+    }
+  }
+  &__label {
+    min-width: 0;
+    flex: 1;
+    overflow-wrap: anywhere;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    .ayo-status {
+      font-weight: 400;
+    }
+  }
+  &__handle {
+    flex: 0 0 12px;
+    cursor: grab;
+    color: var(--theme-elevation-500);
+  }
+  &__position {
+    width: 24px;
+    flex-shrink: 0;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    color: var(--theme-elevation-500);
+  }
+  &__error {
+    border-left: 3px solid var(--theme-error-500);
+    padding-left: 12px;
+  }
+  @media (max-width: 600px) {
+    li {
+      gap: 8px;
+    }
+    &__actions {
+      flex-wrap: nowrap;
+    }
+    &__header {
+      gap: 8px;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    &__group {
+      display: grid;
+      gap: 6px;
+    }
+    select {
+      width: 100%;
+    }
+    li {
+      padding-inline: 0;
+      .ayo-reorder__actions button {
+        width: 44px;
+        min-height: 44px;
+      }
+    }
+    &__label {
+      font-size: 14px;
+    }
+    &__columns {
+      grid-template-columns: 12px 24px minmax(0, 1fr) 96px;
+      gap: 8px;
+      padding-inline: 0;
+      font-size: 10px;
+    }
+  }
+}
+
+// Reordering occupies the collection's table area. Keep the native table mounted so
+// returning to browsing preserves its columns, filters, selection and pagination.
+.collection-list__wrap:has(> .ayo-reorder--open) {
+  > .list-controls,
+  > .collection-list__tables,
+  > .no-results,
+  > .page-controls {
+    display: none;
+  }
+}
+
+// Grouped lists render their pagination outside the collection wrapper.
+.collection-list:has(> .collection-list__wrap > .ayo-reorder--open) + .sticky-toolbar {
+  display: none;
+}

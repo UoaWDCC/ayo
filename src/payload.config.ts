@@ -22,7 +22,6 @@ import { Links } from './collections/Links'
 import { Opportunities } from './collections/Opportunities'
 import { TeamRoles } from './collections/TeamRoles'
 import { SiteSettings } from './globals/SiteSettings'
-import { ProcessingOfDataAgreement } from './collections/ProcessingOfDataAgreement'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -41,10 +40,18 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     theme: 'light',
+    meta: {
+      titleSuffix: ' - AYO',
+      icons: { icon: { url: '/favicon.svg', type: 'image/svg+xml' } },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
     components: {
+      providers: ['@/admin/components/DocumentControlsBehavior#DocumentControlsBehavior'],
+      graphics: {
+        Logo: '@/admin/components/Logo#default',
+      },
       Nav: '@/admin/components/Nav#default',
     },
     dashboard: {
@@ -57,16 +64,7 @@ export default buildConfig({
           maxWidth: 'full',
         },
       ],
-      /**
-       * `collections` is Payload's own widget: a card per collection and global the
-       * signed-in user can read, grouped by `admin.group`. Naming a defaultLayout at
-       * all opts out of it, so it has to be listed explicitly or the dashboard shows
-       * nothing but the agenda.
-       */
-      defaultLayout: [
-        { widgetSlug: 'ayo-agenda', width: 'full' },
-        { widgetSlug: 'collections', width: 'full' },
-      ],
+      defaultLayout: [{ widgetSlug: 'ayo-agenda', width: 'full' }],
     },
   },
   // Within a group, the sidebar and the dashboard cards list collections in this
@@ -86,7 +84,6 @@ export default buildConfig({
     Links,
     Users,
     Passwords,
-    ProcessingOfDataAgreement,
   ],
   globals: [SiteSettings],
   editor: lexicalEditor(),

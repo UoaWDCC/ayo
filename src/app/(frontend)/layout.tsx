@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import './styles.css'
 import FakeScrollbar from './components/FakeScrollbar'
 import SiteShell from './components/SiteShell'
@@ -6,9 +7,14 @@ import PageTransitionProvider from './components/PageTransitionProvider'
 import SmoothScroll from './components/SmoothScroll'
 import { getSocialLinks } from '@/lib/getSiteSettings'
 
-export const metadata = {
+// Payload's Local API reads must run on each request, including date-driven listings.
+// Explicit fetch caches (for example the Instagram feed) keep their own lifetimes.
+export const revalidate = 0
+
+export const metadata: Metadata = {
   title: 'Auckland Youth Orchestra',
   description: 'Auckland Youth Orchestra website',
+  icons: { icon: { url: '/favicon.svg', type: 'image/svg+xml' } },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

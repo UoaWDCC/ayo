@@ -120,12 +120,13 @@
 
   &__card-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     margin-top: 14px;
     font-size: 13px;
     font-weight: 600;
 
-    span {
+    a {
       text-decoration: underline;
       text-underline-offset: 2px;
     }
