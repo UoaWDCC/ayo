@@ -42,7 +42,7 @@ export default buildConfig({
     theme: 'light',
     meta: {
       titleSuffix: ' - AYO',
-      icons: { icon: '/ayo-logo-black-bgwhite.png' },
+      icons: { icon: { url: '/favicon.svg', type: 'image/svg+xml' } },
     },
     importMap: {
       baseDir: path.resolve(dirname),

@@ -14,7 +14,7 @@ export const revalidate = 0
 export const metadata: Metadata = {
   title: 'Auckland Youth Orchestra',
   description: 'Auckland Youth Orchestra website',
-  icons: { icon: '/ayo-logo-black-bgwhite.png' },
+  icons: { icon: { url: '/favicon.svg', type: 'image/svg+xml' } },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
