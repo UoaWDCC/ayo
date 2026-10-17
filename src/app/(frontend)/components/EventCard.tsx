@@ -3,7 +3,6 @@
 import { gsap } from 'gsap'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import EventDetailsPanel from './EventDetailsPanel'
 
@@ -95,12 +94,11 @@ const EventCard = ({ event }: { event: EventCardData }) => {
           {event.links.length > 0 && (
             <div className="flex flex-wrap gap-x-8 gap-y-3">
               {event.links.map((link) => (
-                <Link
+                <a
                   key={`${link.label}-${link.href}`}
                   href={link.href}
-                  prefetch={false}
-                  target={link.href.startsWith('http') ? '_blank' : undefined}
-                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-1 underline hover:opacity-70"
                 >
                   {link.label}
@@ -111,7 +109,7 @@ const EventCard = ({ event }: { event: EventCardData }) => {
                     height={20}
                     aria-hidden="true"
                   />
-                </Link>
+                </a>
               ))}
             </div>
           )}

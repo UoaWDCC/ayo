@@ -1,6 +1,17 @@
-import { describe, expect, it, afterEach } from 'vitest'
+import { describe, expect, it, afterEach, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import EventCard, { type EventCardData } from './EventCard'
+import PageTransitionProvider, { usePageTransitionPhase } from './PageTransitionProvider'
+
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/concerts-events',
+  useRouter: () => ({ push: vi.fn() }),
+}))
+
+function TransitionStatus() {
+  const phase = usePageTransitionPhase()
+  return <output aria-label="Page transition">{phase}</output>
+}
 
 afterEach(() => {
   cleanup()
@@ -93,5 +104,37 @@ describe('EventCard', () => {
     render(<EventCard event={{ ...event, ctaHref: undefined, footerNote: undefined }} />)
     fireEvent.click(screen.getByRole('button', { name: new RegExp(event.title) }))
     expect(screen.queryByRole('link', { name: 'See Now' })).toBeNull()
+  })
+
+  it('opens uploaded resources without starting the page transition', () => {
+    const programme = '/api/media/file/programme.pdf'
+    render(
+      <PageTransitionProvider>
+        <div onClick={(event) => event.preventDefault()}>
+          <TransitionStatus />
+          <EventCard
+            event={{
+              ...event,
+              links: [{ label: 'Programme', href: programme }],
+              ctaLabel: 'View programme',
+              ctaHref: programme,
+              performances: [{ ...event.performances[0], bookingUrl: '/tickets' }],
+            }}
+          />
+        </div>
+      </PageTransitionProvider>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(event.title) }))
+    const links = [
+      ...screen.getAllByRole('link', { name: /^Programme$/ }),
+      screen.getByRole('link', { name: 'View programme' }),
+      screen.getByRole('link', { name: /^Book Séjourné/ }),
+    ]
+    for (const link of links) {
+      expect(link.getAttribute('target')).toBe('_blank')
+      expect(link.getAttribute('rel')).toBe('noopener noreferrer')
+      fireEvent.click(link)
+      expect(screen.getByLabelText('Page transition').textContent).toBe('idle')
+    }
   })
 })
