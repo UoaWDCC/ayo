@@ -35,7 +35,6 @@
     z-index: 2;
     padding: 12px 0;
     background: var(--theme-bg);
-    border-bottom: 1px solid var(--theme-elevation-150);
   }
   h2 {
     margin: 0;
@@ -58,9 +57,9 @@
   }
   &__button,
   &__actions button {
-    border: 1px solid var(--theme-elevation-200);
-    border-radius: 3px;
-    background: var(--theme-bg);
+    border: 0;
+    border-radius: 4px;
+    background: var(--ayo-table-control-bg);
     color: inherit;
     padding: 8px 14px;
     min-height: 40px;
@@ -72,7 +71,10 @@
     color: var(--theme-bg);
   }
   button:not(:disabled):hover {
-    border-color: var(--theme-elevation-600);
+    background: var(--ayo-table-control-hover);
+  }
+  &__button.ayo-reorder__button--primary:hover:not(:disabled) {
+    background: #262626;
   }
   button:disabled {
     opacity: 0.4;
@@ -95,10 +97,10 @@
     max-width: 100%;
     padding: 8px;
     font: inherit;
-    background: var(--theme-bg);
+    background: var(--ayo-table-control-bg);
     color: inherit;
-    border: 1px solid var(--theme-elevation-200);
-    border-radius: 3px;
+    border: 0;
+    border-radius: 4px;
     min-height: 40px;
     font-weight: 400;
   }
@@ -120,9 +122,7 @@
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    > :last-child {
-      text-align: center;
-    }
+    text-align: center;
   }
   li {
     display: flex;
@@ -162,6 +162,8 @@
     overflow-wrap: anywhere;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     flex-wrap: wrap;
     gap: 8px;
     font-size: 15px;
@@ -187,9 +189,6 @@
     padding-left: 12px;
   }
   @media (max-width: 600px) {
-    &__status {
-      min-height: 42px;
-    }
     li {
       gap: 8px;
     }

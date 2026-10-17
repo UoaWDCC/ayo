@@ -9,6 +9,7 @@ export const People: CollectionConfig = {
   admin: {
     group: 'People & Supporters',
     useAsTitle: 'name',
+    description: 'Players, team members and alumni shown on the website.',
     defaultColumns: ['name', 'type', 'isActive', 'years'],
     components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
   },

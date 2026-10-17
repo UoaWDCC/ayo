@@ -7,14 +7,14 @@
 
   &__greeting {
     margin: 0;
-    font-size: var(--text-heading, 40px);
+    font-size: clamp(28px, 4.5cqi, 40px);
     font-weight: 600;
     line-height: 1.1;
   }
 
   &__lead {
     margin: 14px 0 0;
-    font-size: 20px;
+    font-size: clamp(16px, 2.4cqi, 20px);
     line-height: 1.4;
     max-width: 52ch;
   }
@@ -23,7 +23,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 36px;
+    gap: 16px 32px;
     margin-top: 28px;
     padding-bottom: 24px;
   }
@@ -47,11 +47,11 @@
   }
 
   &__section {
-    margin-top: 56px;
+    margin-top: clamp(32px, 5cqi, 56px);
 
     h3 {
       margin: 0 0 16px;
-      font-size: 40px;
+      font-size: clamp(26px, 4.5cqi, 40px);
       font-weight: 600;
       line-height: 1.2;
     }
@@ -146,6 +146,19 @@
   }
 
   @container (max-width: 700px) {
+    &__row {
+      gap: 8px;
+    }
+
+    &__row-end {
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+
+    &__row-meta {
+      white-space: normal;
+    }
+
     &__row--link {
       grid-template-columns: 140px minmax(0, 1fr);
       gap: 6px 16px;

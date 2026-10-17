@@ -43,11 +43,6 @@ const PagesPreviewInner: React.FC = () => {
         />
       }
     >
-      <p className="ayo-pages-preview__empty">
-        This guide shows individual blocks. The website uses a fixed layout and also includes
-        content from other collections; block order here does not set the page layout.
-      </p>
-
       {layout.length === 0 ? (
         <p className="ayo-pages-preview__empty">No blocks yet.</p>
       ) : (

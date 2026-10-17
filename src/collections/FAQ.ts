@@ -15,7 +15,7 @@ export const FAQ: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'question',
     components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
-    description: 'Frequently asked questions shown on their respective pages of the site.',
+    description: 'Questions and answers shown on the selected website page.',
     defaultColumns: ['question', 'category', 'updatedAt'],
   },
 
@@ -44,7 +44,7 @@ export const FAQ: CollectionConfig = {
         { label: 'Support Us', value: 'support-us' },
       ],
       admin: {
-        description: 'Which page this FAQ appears on.',
+        description: 'Choose the website page where this question and answer appear.',
       },
     },
     {

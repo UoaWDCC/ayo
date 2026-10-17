@@ -10,6 +10,7 @@
   --ayo-table-row-selected: #ededed;
   --ayo-table-control-bg: #f0f0f0;
   --ayo-table-control-hover: #e2e2e2;
+  --ayo-input-bg: #f7f7f7;
 
   --font-body:
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -21,6 +22,66 @@
   --style-radius-l: 0;
   --nav-width: 232px;
   --app-header-height: calc(var(--base) * 2.2);
+}
+
+// Quiet field surfaces keep forms consistent with the collection controls.
+// Native error styling remains in charge of invalid fields.
+html body .field-type:is(.text, .email, .password, .number, .textarea, .date):not(.error) {
+  input:not([type='checkbox']):not([type='hidden']),
+  textarea {
+    background: var(--ayo-input-bg);
+    border: 0;
+    box-shadow: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--ayo-text);
+      outline-offset: 2px;
+    }
+  }
+}
+
+html body .field-type .react-select:not(.react-select--error) .rs__control {
+  background: var(--ayo-input-bg);
+  border: 0;
+  box-shadow: none;
+
+  &--is-focused {
+    outline: 2px solid var(--ayo-text);
+    outline-offset: 2px;
+  }
+}
+
+html body .dropzoneStyle--default {
+  border: 0;
+  background: var(--ayo-input-bg);
+}
+
+html body .group-field,
+html body .doc-controls__controls-wrapper {
+  border: 0;
+}
+
+html body .field-type:not(.error) .relationship-add-new__add-button,
+html body .doc-controls .popup-button {
+  border: 0;
+  box-shadow: none;
+  background: var(--ayo-table-control-bg);
+
+  &:hover {
+    background: var(--ayo-table-control-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ayo-text);
+    outline-offset: 2px;
+  }
+}
+
+// Responsive titles share the dashboard's scale without forcing mobile line breaks.
+html body .list-header__title,
+html body .doc-header__title {
+  font-size: clamp(28px, 3vw, 40px);
+  overflow-wrap: anywhere;
 }
 
 // Keep the dates at the top of the document; the pinned toolbar only needs its actions.
@@ -359,6 +420,16 @@ html body .step-nav__last {
 // Shared admin table styling, including collection lists and relationship drawers.
 // Extra columns chosen by an editor can still scroll within the table.
 html body .table {
+  th,
+  td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .ayo-thumb {
+    justify-content: center;
+  }
+
   tbody tr:hover {
     background: var(--ayo-table-row-hover);
   }
@@ -387,6 +458,8 @@ html body .table {
   }
   th .sort-column {
     gap: 6px;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -403,9 +476,9 @@ html body .table {
   }
 }
 
-// Shared table selection controls, with an explicit keyboard focus ring.
+// Shared selection controls, with an explicit keyboard focus ring.
 @layer payload-default {
-  html body .table .checkbox-input {
+  html body .checkbox-input {
     .checkbox-input__input {
       border: 0 !important;
       box-shadow: none !important;
@@ -453,7 +526,21 @@ html body .field-error.tooltip {
 }
 
 @media (max-width: 700px) {
-  html body .collection-list {
+  html body .doc-controls:not(.ayo-doc-controls--stuck) {
+    .doc-controls__content,
+    .doc-controls__meta,
+    .doc-controls__value-wrap {
+      min-width: 0;
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+    .doc-controls__meta {
+      gap: 8px 16px;
+    }
+  }
+
+  html body .collection-list,
+  html body .list-drawer {
     .list-header__title {
       font-size: 30px;
     }
@@ -465,12 +552,12 @@ html body .field-error.tooltip {
       td {
         min-width: 0 !important;
       }
-      th:first-child,
+      th[id='heading-_select'],
       td.cell-_select {
         width: 36px;
         padding-inline: 4px;
       }
-      th:not(:first-child),
+      th:not([id='heading-_select']),
       td:not(.cell-_select) {
         padding: 14px 8px;
       }
@@ -480,7 +567,7 @@ html body .field-error.tooltip {
       }
       .sort-column {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 4px;
       }
       .sort-column__buttons {
@@ -488,6 +575,11 @@ html body .field-error.tooltip {
       }
       tbody td a {
         font-size: 14px;
+      }
+      td button {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        white-space: normal;
       }
       [id='heading-updatedAt'],
       [id='heading-createdAt'],

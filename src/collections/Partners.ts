@@ -11,7 +11,7 @@ export const Partners: CollectionConfig = {
     group: 'People & Supporters',
     useAsTitle: 'name',
     components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
-    description: 'The partners and sponsors shown on the site.',
+    description: 'Partners, sponsors and supporters shown on the website.',
     defaultColumns: ['name', 'logo', 'partnerType', 'isActive'],
   },
 

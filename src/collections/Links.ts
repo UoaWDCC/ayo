@@ -6,7 +6,7 @@ export const Links: CollectionConfig = {
   admin: {
     group: 'Assets & Resources',
     useAsTitle: 'name',
-    description: 'Document links shown in the Resources and Links sections in /my-ayo.',
+    description: 'Documents and website links shown in the Resources and Links sections of My AYO.',
     defaultColumns: ['name', 'category', 'url'],
   },
   fields: [

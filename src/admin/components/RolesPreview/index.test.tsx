@@ -29,9 +29,9 @@ describe('role preview recovery', () => {
         }),
     )
     render(<RolesPreview />)
-    expect(await screen.findByText('Could not load the current holders.')).toBeTruthy()
+    expect(await screen.findByText('Could not load the people assigned to this role.')).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }))
     expect(await screen.findByText('QA player')).toBeTruthy()
-    expect(screen.queryByText('No one currently holds this role.')).toBeNull()
+    expect(screen.queryByText('No people are assigned to this role.')).toBeNull()
   })
 })

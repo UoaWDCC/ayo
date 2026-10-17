@@ -150,11 +150,12 @@ export default async function DashboardAgenda({ req }: WidgetServerProps) {
           {followUp.map((c) => {
             const p = nearestPerformance(c, now)
             const works = (c.repertoire || []).length
+            const performances = (c.performances || []).length
             return (
               <ConcertRow
                 key={c.id}
                 concert={c}
-                meta={`${(c.performances || []).length} performances · ${works} works · performed ${fmtDate(p?.dateTime)}`}
+                meta={`${performances} performance${performances === 1 ? '' : 's'} · ${works} work${works === 1 ? '' : 's'} · ${p?.dateTime ? `Last performed ${fmtDate(p.dateTime)}` : 'No performance date'}`}
                 action="Add links"
               />
             )

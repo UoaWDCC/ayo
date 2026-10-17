@@ -1,6 +1,5 @@
 .ayo-nav {
   background: #000;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
   height: 100dvh;
   overflow: hidden;
   &__mobile-close {
@@ -15,7 +14,7 @@
     // Leave room above the logo for Payload's absolutely positioned collapse toggle.
     padding: 60px 0 16px;
     overflow: hidden;
-    --ayo-nav-row-height: clamp(28px, 3.4dvh, 38px);
+    --ayo-nav-row-height: clamp(32px, 4dvh, 44px);
 
     > * {
       flex-shrink: 0;
@@ -26,6 +25,10 @@
     display: block;
     height: 22px;
     margin: 0 0 12px 24px;
+  }
+
+  &__logo {
+    display: block;
   }
 
   &__dashboard {
@@ -120,7 +123,7 @@
       padding: 6px 8px;
       background: #161616;
       color: #fff;
-      border: 1px solid #555;
+      border: 0;
       border-radius: 3px;
       font: inherit;
       font-size: 14px;
@@ -146,8 +149,8 @@
     color: #bbb;
     font-size: 12px;
     button {
-      background: transparent;
-      border: 1px solid #555;
+      border: 0;
+      background: #242424;
       border-radius: 3px;
       color: #fff;
       width: 36px;

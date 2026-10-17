@@ -31,21 +31,21 @@ const LinksPreviewInner: React.FC = () => {
       savedPage={<SavedPageLink href="/my-ayo" />}
       header={
         <div className="ayo-preview__head">
-          <span className="ayo-preview__label">Preview</span>
+          <span className="ayo-preview__label">Content preview</span>
           <span className="ayo-preview__section">
-            {values.category ? (isResources ? 'Resources' : 'Links') : 'No section set'}
+            {values.category ? (isResources ? 'Resources' : 'Links') : 'No section selected'}
           </span>
         </div>
       }
     >
       <div className="ayo-link-row">
         <span className="ayo-link-row__name">{values.name || 'Untitled link'}</span>
-        {isResources ? <span className="ayo-link-row__date">Updated date shown here</span> : null}
+        {isResources ? <span className="ayo-link-row__date">Last updated date</span> : null}
       </div>
       {concertLink(values.url) ? (
         <p className="ayo-preview__url">
           <a href={concertLink(values.url)} target="_blank" rel="noopener noreferrer">
-            Open destination ↗
+            Open link ↗
           </a>
         </p>
       ) : values.url ? (

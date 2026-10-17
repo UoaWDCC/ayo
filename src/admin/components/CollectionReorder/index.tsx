@@ -230,8 +230,8 @@ function Reorder({ collection }: { collection: ReorderCollection }) {
             </p>
           </div>
           <p className="ayo-reorder__intro">
-            Drag rows or use the arrows, then save your order. Cancel returns to the collection
-            table.
+            Drag rows or use the arrows, then select Save order. Cancel discards unsaved moves and
+            returns to the list.
           </p>
           {snapshot && snapshot.groups.length > 0 && (
             <label className="ayo-reorder__group">
@@ -258,7 +258,9 @@ function Reorder({ collection }: { collection: ReorderCollection }) {
           )}
           {group && (
             <p className="ayo-reorder__hint">
-              All {items.length} records in this group are shown, including inactive records.
+              Showing {items.length} record{items.length === 1 ? '' : 's'} in this group.
+              {(collection === 'people' || collection === 'partners') &&
+                ' This includes inactive records.'}
               {collection === 'people' &&
                 (groupID === 'team'
                   ? ' Team roles set the main order. This order applies to people sharing a role.'

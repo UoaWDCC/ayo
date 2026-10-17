@@ -105,7 +105,7 @@ const PublicSitePreviewInner: React.FC = () => {
               {performances.map((p, i) => (
                 <li key={i}>
                   {fmtDate(p.dateTime)}, {fmtTime(p.dateTime)}
-                  {p.venue ? ` – ${p.venue}` : ''}
+                  {p.venue ? ` · ${p.venue}` : ''}
                 </li>
               ))}
             </ul>
@@ -113,7 +113,7 @@ const PublicSitePreviewInner: React.FC = () => {
               <li className="ayo-preview__programme-label">Programme</li>
               {repertoire.map((r, i) => (
                 <li key={i}>
-                  {r.composer || 'Composer'} – {r.workTitle || 'Work title'}
+                  {r.composer || 'Composer'} · {r.workTitle || 'Work title'}
                   {r.soloist ? ` (soloist: ${r.soloist})` : ''}
                 </li>
               ))}

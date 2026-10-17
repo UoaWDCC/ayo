@@ -32,9 +32,9 @@ const PartnersPreviewInner: React.FC = () => {
       savedPage={<SavedPageLink href="/support-us" />}
       header={
         <div className="ayo-preview__head">
-          <span className="ayo-preview__label">Preview</span>
+          <span className="ayo-preview__label">Content preview</span>
           {values.isActive === false ? (
-            <span className="ayo-preview__inactive">Hidden (inactive)</span>
+            <span className="ayo-preview__inactive">Hidden on website</span>
           ) : null}
         </div>
       }

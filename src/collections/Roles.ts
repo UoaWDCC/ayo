@@ -10,7 +10,7 @@ export const Roles: CollectionConfig = {
     group: 'People & Supporters',
     useAsTitle: 'roleName',
     components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
-    description: 'The instrument sections and roles used to group People.',
+    description: 'Instrument sections used to group players and alumni.',
     defaultColumns: ['roleName', 'updatedAt'],
   },
 
@@ -39,7 +39,7 @@ export const Roles: CollectionConfig = {
     {
       name: 'rolePreview',
       type: 'ui',
-      label: 'Current holders',
+      label: 'Assigned people',
       admin: {
         position: 'sidebar',
         components: {

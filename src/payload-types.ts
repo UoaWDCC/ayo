@@ -147,7 +147,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Save updates the live website. Use Versions to restore an earlier edit. Page URLs are fixed. Adding or removing a website page requires a developer.
+ * Headings, images and content for the website pages.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -163,11 +163,11 @@ export interface Page {
     | (
         | {
             /**
-             * The large heading shown over the hero image (e.g. "Here Plays The Future"). Leave blank to use the page's title.
+             * The heading shown over the page banner. Leave blank to use the page title.
              */
             slogan?: string | null;
             /**
-             * The short line under the heading (e.g. "Aotearoa's first and original youth orchestra, founded 1948."). Leave blank to show no subtitle.
+             * A short line below the banner heading. Leave blank to hide it.
              */
             subtitle?: string | null;
             backgroundImage: string | Media;
@@ -197,6 +197,9 @@ export interface Page {
           }
         | {
             text?: string | null;
+            /**
+             * Paste the full YouTube link for the video.
+             */
             videoUrl: string;
             id?: string | null;
             blockName?: string | null;
@@ -207,7 +210,7 @@ export interface Page {
             text: string;
             caption?: string | null;
             /**
-             * YouTube URL opened when the block is clicked. Leave blank to render the block without a link.
+             * The YouTube link opened when a visitor selects the quote. Leave blank if there is no video.
              */
             videoUrl?: string | null;
             id?: string | null;
@@ -287,7 +290,7 @@ export interface Page {
   createdAt: string;
 }
 /**
- * Images used across the website. Files used by content or saved page and post versions cannot be deleted.
+ * Images and documents uploaded to the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -295,7 +298,7 @@ export interface Page {
 export interface Media {
   id: string;
   /**
-   * Describes the image for screen readers and search engines.
+   * Describe the image for someone who cannot see it. For a document, give a short description of its contents.
    */
   alt: string;
   updatedAt: string;
@@ -345,7 +348,7 @@ export interface Media {
   };
 }
 /**
- * News and stories shown on the website. Save updates the live site. Use Versions to restore an earlier edit.
+ * News and stories shown on the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
@@ -376,6 +379,9 @@ export interface Post {
     | null;
   category?: ('blog' | 'alumni_story' | 'interview' | 'scholarships' | 'newsletters' | 'education' | 'audience') | null;
   author?: string | null;
+  /**
+   * The date shown on the story. Save publishes immediately, even if this date is in the future.
+   */
   publishedDate?: string | null;
   /**
    * Generated when the story is created. Stays the same when you edit the title so shared links keep working.
@@ -385,7 +391,7 @@ export interface Post {
   createdAt: string;
 }
 /**
- * Frequently asked questions shown on their respective pages of the site.
+ * Questions and answers shown on the selected website page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
@@ -395,7 +401,7 @@ export interface Faq {
   question: string;
   answer: string;
   /**
-   * Which page this FAQ appears on.
+   * Choose the website page where this question and answer appear.
    */
   category: 'about-us' | 'concerts-events' | 'join-ayo' | 'news' | 'support-us';
   sortOrder?: number | null;
@@ -403,7 +409,7 @@ export interface Faq {
   createdAt: string;
 }
 /**
- * Scholarships, competitions and programmes shown in the Opportunities table.
+ * Scholarships, competitions and programmes listed on Join AYO.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "opportunities".
@@ -411,19 +417,19 @@ export interface Faq {
 export interface Opportunity {
   id: string;
   /**
-   * How the opportunity appears in the listing, e.g. "AYO Soloist Competition".
+   * The title shown on the website, for example AYO Soloist Competition.
    */
   title: string;
   /**
-   * Fills the listing's Type filter and the detail panel's "Awarded" line.
+   * The opportunity category used in the website listing and its filters.
    */
   type: 'Scholarship' | 'Competition' | 'Workshop' | 'Residency';
   /**
-   * When applications close, in New Zealand time. The listing hides the opportunity once this has passed.
+   * The application deadline in New Zealand time. The website hides this opportunity after the deadline.
    */
   closingDate: string;
   /**
-   * Shown in full in the detail panel, and alongside the row in the listing.
+   * The description shown in the listing and when a visitor opens the opportunity.
    */
   description: string;
   /**
@@ -431,7 +437,7 @@ export interface Opportunity {
    */
   applyUrl?: string | null;
   /**
-   * Optional. What the opportunity is worth, e.g. "$3,000" — shown as the detail panel's "Value" line.
+   * Optional. The amount or benefit offered, for example $3,000.
    */
   value?: string | null;
   /**
@@ -442,7 +448,7 @@ export interface Opportunity {
   createdAt: string;
 }
 /**
- * Every concert series, with its repertoire and performance dates.
+ * Concert series, programmes, performance dates and booking links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "concerts".
@@ -450,7 +456,7 @@ export interface Opportunity {
 export interface Concert {
   id: string;
   /**
-   * How the concert appears on the site.
+   * The concert title shown on the website.
    */
   title: string;
   description: {
@@ -469,7 +475,7 @@ export interface Concert {
     [k: string]: unknown;
   };
   /**
-   * The feature photo shown on the public listing and card.
+   * The main photo shown on the concert listing and card.
    */
   photo: string | Media;
   /**
@@ -487,7 +493,7 @@ export interface Concert {
     id?: string | null;
   }[];
   /**
-   * Each one appears as a separate date on the site.
+   * Add a row for each performance, with its date, venue and booking link.
    */
   performances: {
     /**
@@ -496,7 +502,7 @@ export interface Concert {
     dateTime: string;
     dateTime_tz: 'Pacific/Auckland';
     /**
-     * Optional in the schema. The site shows this line when it is set.
+     * The venue name shown with this performance. Leave blank to hide it.
      */
     venue?: string | null;
     venueAddress: string;
@@ -508,7 +514,7 @@ export interface Concert {
     id?: string | null;
   }[];
   /**
-   * Optional. Paste a full gallery link in each row. Every valid link appears on the site.
+   * Add a full photo gallery URL in each row. Leave empty if there are no galleries.
    */
   photo_links?:
     | {
@@ -517,7 +523,7 @@ export interface Concert {
       }[]
     | null;
   /**
-   * Optional. Paste a full recording link in each row. Every valid link appears on the site.
+   * Add a full recording URL in each row. Leave empty if there are no recordings.
    */
   video_links?:
     | {
@@ -529,7 +535,7 @@ export interface Concert {
   createdAt: string;
 }
 /**
- * Calendar links for My AYO. Choose the current calendar in Site Settings.
+ * Calendar links for the My AYO page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "calendar-links".
@@ -556,6 +562,8 @@ export interface CalendarLink {
   createdAt: string;
 }
 /**
+ * Players, team members and alumni shown on the website.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
@@ -574,7 +582,7 @@ export interface Person {
   createdAt: string;
 }
 /**
- * The instrument sections and roles used to group People.
+ * Instrument sections used to group players and alumni.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles".
@@ -588,6 +596,8 @@ export interface Role {
   createdAt: string;
 }
 /**
+ * Committee and administration roles assigned to team members.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-roles".
  */
@@ -601,7 +611,7 @@ export interface TeamRole {
   createdAt: string;
 }
 /**
- * The partners and sponsors shown on the site.
+ * Partners, sponsors and supporters shown on the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
@@ -621,7 +631,7 @@ export interface Partner {
   createdAt: string;
 }
 /**
- * Document links shown in the Resources and Links sections in /my-ayo.
+ * Documents and website links shown in the Resources and Links sections of My AYO.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "link".
@@ -638,6 +648,8 @@ export interface Link {
   createdAt: string;
 }
 /**
+ * Accounts used to sign in to the website admin.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -663,7 +675,7 @@ export interface User {
   collection: 'users';
 }
 /**
- * Passwords that unlock the members-only My AYO page.
+ * Shared passwords for the My AYO page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "passwords".
@@ -1205,7 +1217,7 @@ export interface SiteSetting {
    */
   social?: {
     /**
-     * For example, https://www.instagram.com/aucklandyouthorchestra/. This also names the account shown in Follow Us.
+     * For example, https://www.instagram.com/aucklandyouthorchestra/. The website also uses this profile to name the account in Follow Us.
      */
     instagram?: string | null;
     youtube?: string | null;

@@ -13,7 +13,7 @@ export const Passwords: CollectionConfig = {
   slug: 'passwords',
   admin: {
     group: 'Administration',
-    description: 'Passwords that unlock the members-only My AYO page.',
+    description: 'Shared passwords for the My AYO page.',
     defaultColumns: ['password', 'updatedAt'],
   },
   fields: [

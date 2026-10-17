@@ -8,7 +8,7 @@ export const CalendarLink: CollectionConfig = {
   admin: {
     group: 'Concerts',
     useAsTitle: 'title',
-    description: 'Calendar links for My AYO. Choose the current calendar in Site Settings.',
+    description: 'Calendar links for the My AYO page.',
     defaultColumns: ['title', 'publicLink', 'updatedAt'],
   },
   hooks: {

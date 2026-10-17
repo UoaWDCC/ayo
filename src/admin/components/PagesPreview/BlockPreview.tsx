@@ -63,7 +63,9 @@ function VideoPreview({ block }: { block: AnyBlock }) {
           <iframe src={embed} title={(block.text as string) || 'Video'} allowFullScreen />
         </div>
       ) : (
-        <div className="ayo-block-preview__video-empty">No video URL set</div>
+        <div className="ayo-block-preview__video-empty">
+          Add a valid YouTube link to preview the video.
+        </div>
       )}
       {block.text ? <p>{block.text as string}</p> : null}
     </div>

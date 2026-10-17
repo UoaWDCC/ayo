@@ -49,9 +49,10 @@ export function reorderEndpoints(collection: ReorderCollection): Endpoint[] {
         try {
           body = await req.json?.()
         } catch {
-          throw new APIError('Invalid reorder request.', 400)
+          throw new APIError('Could not read the order. Reload it and try again.', 400)
         }
-        if (!body || typeof body !== 'object') throw new APIError('Invalid reorder request.', 400)
+        if (!body || typeof body !== 'object')
+          throw new APIError('Could not read the order. Reload it and try again.', 400)
         const { group, ids, revision } = body as Record<string, unknown>
         if (
           typeof group !== 'string' ||
@@ -64,7 +65,7 @@ export function reorderEndpoints(collection: ReorderCollection): Endpoint[] {
         const ownsTransaction = await initTransaction(req)
         if (!req.transactionID || !(await req.transactionID))
           throw new APIError(
-            'Reordering requires database transactions. No changes were saved.',
+            'Reordering is unavailable. No changes were saved. Contact website support.',
             503,
           )
         try {

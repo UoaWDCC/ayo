@@ -22,6 +22,7 @@ export const TableBlock: Block = {
       fields: [
         {
           name: 'label',
+          label: 'Row heading',
           type: 'text',
           required: true,
         },
@@ -32,11 +33,13 @@ export const TableBlock: Block = {
         },
         {
           name: 'linkLabel',
+          label: 'Link text',
           type: 'text',
           required: false,
         },
         {
           name: 'linkUrl',
+          label: 'Link URL',
           type: 'text',
           required: false,
         },

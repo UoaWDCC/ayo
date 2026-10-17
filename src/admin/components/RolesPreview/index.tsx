@@ -50,15 +50,15 @@ const RolesPreviewInner: React.FC = () => {
       savedPage={<SavedPageLink href="/about-us" />}
       header={
         <div className="ayo-preview__head">
-          <span className="ayo-preview__label">Current holders</span>
+          <span className="ayo-preview__label">Assigned people</span>
         </div>
       }
     >
       {!id ? (
-        <p className="ayo-preview__empty">Save the role to see who currently holds it.</p>
+        <p className="ayo-preview__empty">Save this role to see the people assigned to it.</p>
       ) : error ? (
         <div role="status">
-          <p>Could not load the current holders.</p>
+          <p>Could not load the people assigned to this role.</p>
           <button type="button" onClick={() => setAttempt((n) => n + 1)}>
             Retry
           </button>
@@ -66,7 +66,7 @@ const RolesPreviewInner: React.FC = () => {
       ) : people === null ? (
         <p className="ayo-preview__empty">Loading…</p>
       ) : people.length === 0 ? (
-        <p className="ayo-preview__empty">No one currently holds this role.</p>
+        <p className="ayo-preview__empty">No people are assigned to this role.</p>
       ) : (
         <ul className="ayo-holders">
           {people.map((person) => (

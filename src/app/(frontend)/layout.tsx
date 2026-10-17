@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import './styles.css'
 import FakeScrollbar from './components/FakeScrollbar'
 import SiteShell from './components/SiteShell'
@@ -10,9 +11,10 @@ import { getSocialLinks } from '@/lib/getSiteSettings'
 // Explicit fetch caches (for example the Instagram feed) keep their own lifetimes.
 export const revalidate = 0
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Auckland Youth Orchestra',
   description: 'Auckland Youth Orchestra website',
+  icons: { icon: '/ayo-logo-black-bgwhite.png' },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

@@ -9,6 +9,7 @@ export const TeamRoles: CollectionConfig = {
   admin: {
     group: 'People & Supporters',
     useAsTitle: 'roleName',
+    description: 'Committee and administration roles assigned to team members.',
     defaultColumns: ['roleName', 'roleType', 'updatedAt'],
     components: { beforeListTable: ['@/admin/components/CollectionReorder#CollectionReorder'] },
   },

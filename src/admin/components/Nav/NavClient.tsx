@@ -41,11 +41,29 @@ export const NavClient: React.FC<{ groups: NavGroup[] }> = ({ groups }) => {
     const element = wrapRef.current
     if (!element) return
     const measure = () => {
-      const fullHeight = groups.reduce(
-        // Reserve space for each heading and the fixed gap between groups.
-        (height, group) => height + 34 + group.items.length * 30,
-        140,
-      )
+      const pixels = (value: string) => Number.parseFloat(value) || 0
+      const styles = getComputedStyle(element)
+      const dashboard = element.querySelector<HTMLElement>('.ayo-nav__dashboard')
+      const rowHeight = (dashboard && pixels(getComputedStyle(dashboard).minHeight)) || 32
+      const outerHeight = (selector: string) => {
+        const child = element.querySelector<HTMLElement>(selector)
+        if (!child) return 0
+        const style = getComputedStyle(child)
+        return (
+          child.getBoundingClientRect().height +
+          pixels(style.marginTop) +
+          pixels(style.marginBottom)
+        )
+      }
+      const fullHeight =
+        pixels(styles.paddingTop) +
+        pixels(styles.paddingBottom) +
+        outerHeight('.ayo-nav__logo') +
+        outerHeight('.ayo-nav__dashboard') +
+        outerHeight('.ayo-nav__controls') +
+        groups.length * 18 +
+        Math.max(0, groups.length - 1) * 12 +
+        groups.reduce((count, group) => count + group.items.length, 0) * rowHeight
       setCompact(element.clientHeight < fullHeight || window.innerWidth < 768)
     }
     const observer = new ResizeObserver(measure)

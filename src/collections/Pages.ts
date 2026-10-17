@@ -22,8 +22,7 @@ export const Pages: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'title',
-    description:
-      'Save updates the live website. Use Versions to restore an earlier edit. Page URLs are fixed. Adding or removing a website page requires a developer.',
+    description: 'Headings, images and content for the website pages.',
     defaultColumns: ['title', 'slug', 'updatedAt'],
   },
   fields: [
@@ -61,7 +60,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'pagePreview',
       type: 'ui',
-      label: 'Preview',
+      label: 'Block guide',
       admin: {
         position: 'sidebar',
         components: {

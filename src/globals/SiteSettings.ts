@@ -29,11 +29,12 @@ export const SiteSettings: GlobalConfig = {
           validate: validateWebURL,
           admin: {
             description:
-              'For example, https://www.instagram.com/aucklandyouthorchestra/. This also names the account shown in Follow Us.',
+              'For example, https://www.instagram.com/aucklandyouthorchestra/. The website also uses this profile to name the account in Follow Us.',
           },
         },
         {
           name: 'youtube',
+          label: 'YouTube',
           type: 'text',
           validate: validateWebURL,
         },
@@ -44,6 +45,7 @@ export const SiteSettings: GlobalConfig = {
         },
         {
           name: 'linkedin',
+          label: 'LinkedIn',
           type: 'text',
           validate: validateWebURL,
         },

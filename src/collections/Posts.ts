@@ -14,8 +14,7 @@ export const Posts: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'title',
-    description:
-      'News and stories shown on the website. Save updates the live site. Use Versions to restore an earlier edit.',
+    description: 'News and stories shown on the website.',
     defaultColumns: ['title', 'photos', 'category', 'publishedDate'],
   },
   fields: [
@@ -28,6 +27,7 @@ export const Posts: CollectionConfig = {
     },
     {
       name: 'description',
+      label: 'Story',
       type: 'richText',
       required: true,
     },
@@ -66,9 +66,9 @@ export const Posts: CollectionConfig = {
     {
       name: 'metadataSection',
       type: 'ui',
-      label: 'Metadata',
+      label: 'Story details',
       admin: {
-        custom: { note: 'Category, author, date and the generated slug.' },
+        custom: { note: 'Category, author, displayed date and website address.' },
         components: {
           Field: '@/admin/components/SectionDivider#SectionDivider',
         },
@@ -98,6 +98,8 @@ export const Posts: CollectionConfig = {
       type: 'date',
       label: 'Published Date',
       admin: {
+        description:
+          'The date shown on the story. Save publishes immediately, even if this date is in the future.',
         // dayOnly avoids a timezone-offset bug where picking a date could save as the day before.
         date: {
           pickerAppearance: 'dayOnly',
@@ -109,7 +111,7 @@ export const Posts: CollectionConfig = {
       name: 'slug',
       type: 'text',
       unique: true,
-      label: 'Slug',
+      label: 'URL ending',
       admin: {
         readOnly: true,
         description:

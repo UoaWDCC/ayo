@@ -98,7 +98,7 @@ const PostsPreviewInner: React.FC = () => {
               <dd>{photos.length}</dd>
             </div>
             <div className="ayo-facts__row">
-              <dt>Published</dt>
+              <dt>Published date</dt>
               <dd>
                 {values.publishedDate ? formatPublishedDate(values.publishedDate) : 'Not set'}
               </dd>

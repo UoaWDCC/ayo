@@ -7,7 +7,7 @@ export const Concerts: CollectionConfig = {
   admin: {
     group: 'Concerts',
     useAsTitle: 'title',
-    description: 'Every concert series, with its repertoire and performance dates.',
+    description: 'Concert series, programmes, performance dates and booking links.',
     // 'title' must lead: Payload only wraps the first defaultColumns entry in a row link,
     // and an upload/thumbnail column (photo) can't carry that link.
     defaultColumns: ['title', 'photo', 'updatedAt'],
@@ -18,7 +18,7 @@ export const Concerts: CollectionConfig = {
       type: 'text',
       required: true,
       admin: {
-        description: 'How the concert appears on the site.',
+        description: 'The concert title shown on the website.',
       },
     },
     {
@@ -32,7 +32,7 @@ export const Concerts: CollectionConfig = {
       relationTo: 'media',
       required: true,
       admin: {
-        description: 'The feature photo shown on the public listing and card.',
+        description: 'The main photo shown on the concert listing and card.',
         components: {
           Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell',
         },
@@ -90,7 +90,7 @@ export const Concerts: CollectionConfig = {
           name: 'venue',
           type: 'text',
           admin: {
-            description: 'Optional in the schema. The site shows this line when it is set.',
+            description: 'The venue name shown with this performance. Leave blank to hide it.',
           },
         },
         { name: 'venueAddress', type: 'text', required: true },
@@ -108,7 +108,7 @@ export const Concerts: CollectionConfig = {
       // minimum of one array item
       required: true,
       admin: {
-        description: 'Each one appears as a separate date on the site.',
+        description: 'Add a row for each performance, with its date, venue and booking link.',
       },
     },
     {
@@ -121,7 +121,7 @@ export const Concerts: CollectionConfig = {
       ],
       admin: {
         description:
-          'Optional. Paste a full gallery link in each row. Every valid link appears on the site.',
+          'Add a full photo gallery URL in each row. Leave empty if there are no galleries.',
       },
     },
     {
@@ -134,7 +134,7 @@ export const Concerts: CollectionConfig = {
       ],
       admin: {
         description:
-          'Optional. Paste a full recording link in each row. Every valid link appears on the site.',
+          'Add a full recording URL in each row. Leave empty if there are no recordings.',
       },
     },
     {

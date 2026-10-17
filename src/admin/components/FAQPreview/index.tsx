@@ -68,13 +68,13 @@ function FAQPreviewInner() {
         <div className="ayo-preview__head">
           <span className="ayo-preview__label">Content preview</span>
           <span className="ayo-preview__page">
-            {category ? CATEGORY_LABELS[category] : 'No page set'}
+            {category ? CATEGORY_LABELS[category] : 'No page selected'}
           </span>
         </div>
       }
     >
       {!category ? (
-        <p className="ayo-faq-order__empty">Set a page to preview this FAQ.</p>
+        <p className="ayo-faq-order__empty">Choose a page to preview this question and answer.</p>
       ) : loadError ? (
         <div role="status">
           <p>Could not load the FAQ preview.</p>
@@ -116,8 +116,8 @@ function FAQPreviewInner() {
             })}
           </div>
           <p className="ayo-faq-order__hint">
-            Change the order with Reorder on the{' '}
-            <a href={`${config.routes.admin}/collections/faqs`}>FAQs collection</a>.
+            To change the order, select Reorder in the{' '}
+            <a href={`${config.routes.admin}/collections/faqs`}>FAQs list</a>.
           </p>
         </>
       )}

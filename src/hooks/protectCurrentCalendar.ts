@@ -24,7 +24,7 @@ export const protectCurrentCalendar: CollectionBeforeDeleteHook = async ({ req, 
   }
   if (current)
     throw new APIError(
-      'This record is currently used by the website. Choose another record in Site Settings before deleting it.',
+      'My AYO is using this calendar. Choose another calendar in Site Settings before deleting it.',
       400,
     )
 }

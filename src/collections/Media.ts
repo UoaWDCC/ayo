@@ -10,17 +10,18 @@ export const Media: CollectionConfig = {
   admin: {
     group: 'Assets & Resources',
     useAsTitle: 'filename',
-    description:
-      'Images used across the website. Files used by content or saved page and post versions cannot be deleted.',
+    description: 'Images and documents uploaded to the website.',
     defaultColumns: ['filename', 'alt', 'updatedAt'],
   },
   fields: [
     {
       name: 'alt',
+      label: 'Alt text',
       type: 'text',
       required: true,
       admin: {
-        description: 'Describes the image for screen readers and search engines.',
+        description:
+          'Describe the image for someone who cannot see it. For a document, give a short description of its contents.',
       },
     },
   ],

@@ -14,7 +14,7 @@ export const Opportunities: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'title',
-    description: 'Scholarships, competitions and programmes shown in the Opportunities table.',
+    description: 'Scholarships, competitions and programmes listed on Join AYO.',
     defaultColumns: ['title', 'type', 'closingDate', 'updatedAt'],
   },
   fields: [
@@ -23,7 +23,7 @@ export const Opportunities: CollectionConfig = {
       type: 'text',
       required: true,
       admin: {
-        description: 'How the opportunity appears in the listing, e.g. "AYO Soloist Competition".',
+        description: 'The title shown on the website, for example AYO Soloist Competition.',
       },
     },
     {
@@ -32,7 +32,7 @@ export const Opportunities: CollectionConfig = {
       required: true,
       options: ['Scholarship', 'Competition', 'Workshop', 'Residency'],
       admin: {
-        description: 'Fills the listing\'s Type filter and the detail panel\'s "Awarded" line.',
+        description: 'The opportunity category used in the website listing and its filters.',
       },
     },
     {
@@ -43,7 +43,7 @@ export const Opportunities: CollectionConfig = {
       admin: {
         date: { pickerAppearance: 'dayAndTime' },
         description:
-          'When applications close, in New Zealand time. The listing hides the opportunity once this has passed.',
+          'The application deadline in New Zealand time. The website hides this opportunity after the deadline.',
       },
     },
     {
@@ -51,7 +51,8 @@ export const Opportunities: CollectionConfig = {
       type: 'textarea',
       required: true,
       admin: {
-        description: 'Shown in full in the detail panel, and alongside the row in the listing.',
+        description:
+          'The description shown in the listing and when a visitor opens the opportunity.',
       },
     },
     {
@@ -66,8 +67,7 @@ export const Opportunities: CollectionConfig = {
       name: 'value',
       type: 'text',
       admin: {
-        description:
-          'Optional. What the opportunity is worth, e.g. "$3,000" — shown as the detail panel\'s "Value" line.',
+        description: 'Optional. The amount or benefit offered, for example $3,000.',
       },
     },
     {
