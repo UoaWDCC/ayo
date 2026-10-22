@@ -29,8 +29,8 @@ export default async function SocialMediaBlock() {
           </p>
 
           <div className="social-fade flex flex-wrap items-center justify-between gap-4 mt-8">
-            <div className="flex items-center gap-x-4">
-              <div className="w-[52px] h-[52px] shrink-0 rounded-full bg-[#EBEBEB] overflow-hidden">
+            <div className="flex min-w-0 max-w-full items-center gap-x-3 sm:gap-x-4">
+              <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] shrink-0 rounded-full bg-[#EBEBEB] overflow-hidden">
                 <Image
                   className="w-full h-full object-cover"
                   src="/hero-placeholder.jpg"
@@ -39,7 +39,11 @@ export default async function SocialMediaBlock() {
                   alt="Auckland Youth Orchestra"
                 />
               </div>
-              {handle && <span className="font-semibold text-[18px] leading-[22px]">{handle}</span>}
+              {handle && (
+                <span className="min-w-0 font-semibold text-[16px] sm:text-[18px] leading-[22px] [overflow-wrap:anywhere]">
+                  {handle}
+                </span>
+              )}
             </div>
 
             {instagramUrl && (

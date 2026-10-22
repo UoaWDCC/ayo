@@ -9,10 +9,10 @@
   --color-accent: /* PLACEHOLDER */;
   --color-text: #000000;
   --color-background: #ffffff;
-  --color-muted: #B2B2B2;
+  --color-muted: #b2b2b2;
 
   /* FONT TYPE */
-  --font-sans: "Inter", sans-serif;
+  --font-sans: 'Inter', sans-serif;
 
   /* LINE SPACING */
   --leading-body: 1.3;
@@ -290,4 +290,17 @@ html::-webkit-scrollbar {
   opacity: 1;
   visibility: visible;
   transform: none;
+}
+/* Keep the mobile menu comfortable to tap on short landscape screens. */
+@media (max-height: 500px) {
+  #mobile-nav .mobile-nav-links {
+    gap: 0;
+    padding-block: 8px;
+  }
+
+  #mobile-nav .mobile-nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

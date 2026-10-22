@@ -207,7 +207,7 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
             }`}
           >
             <div className="min-h-0 overflow-hidden">
-              <div className="flex max-h-[calc(100dvh-3.75rem)] flex-col items-center gap-6 overflow-y-auto px-8 pt-2 pb-8 text-lg font-semibold">
+              <div className="mobile-nav-links flex max-h-[calc(100dvh-3.75rem)] flex-col items-center gap-6 overflow-y-auto px-8 pt-2 pb-8 text-lg font-semibold">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
