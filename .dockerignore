@@ -56,3 +56,4 @@ fly.toml
 .codex
 .agents
 .codex-handoff
+.private

@@ -40,15 +40,20 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 Headings, sub-lines and outbound links are edited in the admin UI rather than
 in the components. Use the client content population script to create missing
-records from the reviewed text manifest:
+records from a private JSON input file. Keep that file outside Git at
+`.private/cms-content/content.json`, or set `CMS_CONTENT_FILE` to its location.
+The command stops before connecting to the database if the file is missing.
+Do not commit client rosters, biographies or image mappings.
 
 ```
 pnpm cms:populate        # preview without writing
 pnpm cms:populate:apply  # create missing records after confirming the target
 ```
 
-Existing records are skipped, including their text and images. Edit those records
-in the admin UI. Images are not imported by this command.
+Existing records are skipped by default. Edit those records in the admin UI.
+Set `POPULATE_CMS_IMAGES=1` to fill missing images from the input's reviewed sources,
+or `POPULATE_CMS_BIOS=1` to fill blank player biographies. Both options preserve
+existing content and use the same dry-run and target-confirmation steps.
 
 For an intentional clean start, `pnpm cms:reset` previews the deletion scope.
 `pnpm cms:reset:apply` deletes website content, saved versions and CMS media after
