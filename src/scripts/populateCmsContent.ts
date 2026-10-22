@@ -23,6 +23,7 @@ export async function populateCmsContent({
   target,
   apply = false,
   includeImages = false,
+  fillMissingBios = false,
   confirm,
   log = console.log,
 }: {
@@ -31,6 +32,7 @@ export async function populateCmsContent({
   target: string
   apply?: boolean
   includeImages?: boolean
+  fillMissingBios?: boolean
   confirm: (phrase: string) => Promise<string>
   log?: (message: string) => void
 }): Promise<void> {
@@ -70,6 +72,7 @@ export async function populateCmsContent({
   log('\nStill needs manual work:')
   input.pending.forEach((message) => log(`- ${message}`))
   if (includeImages) await populateCmsImages({ payload, images: input.images, log })
+  if (fillMissingBios) await fillPlayerBiographies(payload, input.players, false, log)
   if (!apply) {
     log('\nDry run complete. No records or files changed.')
     return
@@ -109,5 +112,40 @@ export async function populateCmsContent({
     }
   }
   if (includeImages) await populateCmsImages({ payload, images: input.images, apply: true, log })
+  if (fillMissingBios) await fillPlayerBiographies(payload, input.players, true, log)
   log('\nPopulation complete. Review the site before production.')
+}
+
+/** Explicitly requested enrichment only. Never replaces an editor's existing biography. */
+async function fillPlayerBiographies(
+  payload: Payload,
+  players: ClientContentInput['players'],
+  apply: boolean,
+  log: (message: string) => void,
+): Promise<void> {
+  for (const player of players.filter(({ description }) => description.trim())) {
+    const { docs } = await payload.find({
+      collection: 'people',
+      where: { and: [{ name: { equals: player.name } }, { type: { equals: 'player' } }] },
+      limit: 2,
+      depth: 0,
+      overrideAccess: true,
+    })
+    if (docs.length > 1) throw new Error(`Multiple biography matches for ${player.name}.`)
+    const doc = docs[0]
+    if (!doc || doc.description?.trim()) continue
+    log(`${apply ? 'Fill' : 'Would fill'} missing biography: ${player.name}`)
+    if (apply) {
+      const result = await payload.update({
+        collection: 'people',
+        // The condition also protects edits made since the preview or read above.
+        where: {
+          and: [{ id: { equals: doc.id } }, { description: { equals: doc.description ?? null } }],
+        },
+        data: { description: player.description },
+        overrideAccess: true,
+      })
+      if (result.errors.length) throw new Error(`Could not fill biography for ${player.name}.`)
+    }
+  }
 }

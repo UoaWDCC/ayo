@@ -34,14 +34,22 @@ function setup() {
     updateGlobal: vi.fn(async ({ data }: { data: { social: typeof social } }) => {
       social = data.social
     }),
+    update: vi.fn(
+      async ({ collection, where, data }: { collection: string; where: Where; data: object }) => {
+        const docs = (records.get(collection) ?? []).filter((doc) => matches(doc, where))
+        docs.forEach((doc) => Object.assign(doc, data))
+        return { docs, errors: [] }
+      },
+    ),
   }
   const confirm = vi.fn(async () => target)
-  const run = (apply = false) =>
+  const run = (apply = false, fillMissingBios = false) =>
     populateCmsContent({
       payload: api as unknown as Payload,
       input: cmsContentFixture,
       target,
       apply,
+      fillMissingBios,
       confirm,
       log: vi.fn(),
     })
@@ -49,6 +57,34 @@ function setup() {
 }
 
 describe('Text-only client population', () => {
+  it('only fills blank biographies when explicitly enabled and preserves other fields', async () => {
+    const { api, records, run } = setup()
+    await run(true)
+    const player = records.get('people')!.find((doc) => doc.type === 'player')!
+    player.description = ''
+    player.photo = 'client-photo'
+    await run(true)
+    expect(player.description).toBe('')
+    await run(true, true)
+    expect(player.description).toBe(cmsContentFixture.players[0].description)
+    expect(player.photo).toBe('client-photo')
+    expect(api.update).toHaveBeenCalledTimes(1)
+    player.description = 'Client edited biography'
+    await run(true, true)
+    expect(player.description).toBe('Client edited biography')
+    expect(api.update).toHaveBeenCalledTimes(1)
+  })
+
+  it('previews missing biographies without changing them', async () => {
+    const { api, records, run } = setup()
+    await run(true)
+    const player = records.get('people')!.find((doc) => doc.type === 'player')!
+    player.description = ''
+    await run(false, true)
+    expect(player.description).toBe('')
+    expect(api.update).not.toHaveBeenCalled()
+  })
+
   it('includes all four My AYO sections with their headings and subtitles', () => {
     const seed = clientContent.find(({ key }) => key === 'pages:my-ayo')!
     const page = seed.data(new Map()) as Page
