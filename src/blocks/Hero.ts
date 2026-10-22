@@ -39,7 +39,8 @@ export const Hero: Block = {
       label: 'Banner image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      required: false,
+      admin: { description: 'Optional. The website uses a fallback image until one is added.' },
     },
   ],
 }

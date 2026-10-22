@@ -52,3 +52,6 @@ node_modules/
 
 # Local design-reference handoff (not for commit)
 /.codex-handoff/
+
+# Private CMS import inputs. Keep client rosters, biographies and image mappings out of Git.
+/.private/

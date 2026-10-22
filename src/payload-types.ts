@@ -170,7 +170,10 @@ export interface Page {
              * A short line below the banner heading. Leave blank to hide it.
              */
             subtitle?: string | null;
-            backgroundImage: string | Media;
+            /**
+             * Optional. The website uses a fallback image until one is added.
+             */
+            backgroundImage?: (string | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
@@ -621,7 +624,10 @@ export interface Partner {
   sortOrder?: number | null;
   name: string;
   partnerType?: ('partner' | 'sponsor' | 'supporter') | null;
-  logo: string | Media;
+  /**
+   * Add the logo before making this partner active.
+   */
+  logo?: (string | null) | Media;
   /**
    * Optional. Use a full http:// or https:// website URL.
    */

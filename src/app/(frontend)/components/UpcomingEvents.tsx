@@ -167,42 +167,6 @@ export default function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
             A season of performances showcasing bold works and the energy of young musicians growing
             through music.
           </p>
-
-          <p className="upcoming-lead-fade mt-4 text-[18px] leading-[22px] text-black">
-            Alongside our concert seasons we run a growing programme of tours, workshops,
-            masterclasses, and educational events, built to develop young musicians, open doors for
-            new members, and give our supporters even more ways to get involved. Whether you&apos;re
-            a player looking to grow, a family exploring what we offer, or a sponsor following our
-            impact, this is where you&apos;ll find the full picture of what we do beyond the stage.
-          </p>
-
-          <p className="upcoming-lead-fade mt-4 text-[18px] leading-[22px] text-black font-semibold">
-            What&apos;s on:
-          </p>
-
-          <ul className="upcoming-lead-fade mt-4 ml-6 text-[18px] leading-[22px] text-black list-disc">
-            <li>
-              <span className="font-semibold">International Tours</span> — performing and learning
-              across borders [occasional event]
-            </li>
-            <li>
-              <span className="font-semibold">Education & Outreach</span> — masterclasses,
-              workshops, and pathways for new and aspiring members [wishlist project]
-            </li>
-            <li>
-              <span className="font-semibold">Soloist Competition Finals</span> — showcasing our
-              most exceptional young talent, open to the public [annual event]
-            </li>
-            <li>
-              <span className="font-semibold">Community & Sponsor Events</span> — celebrating the
-              people behind the music [wishlist project]
-            </li>
-          </ul>
-
-          <p className="upcoming-lead-fade mt-4 text-[18px] leading-[22px] text-black">
-            New events are added throughout the season — check back often, or get in touch to find
-            out what&apos;s next.
-          </p>
         </div>
 
         <div ref={introRef}>
@@ -272,6 +236,13 @@ export default function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
           ref={gridRef}
           className="relative z-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8"
         >
+          {searchedevents.length === 0 && (
+            <p className="col-span-full text-[18px] leading-6.5 text-[#2E2E2E]" role="status">
+              {events.length === 0
+                ? 'Upcoming events will appear here once announced.'
+                : 'No events match your search and filters.'}
+            </p>
+          )}
           {paginatedevents.map((event) => (
             <div key={event.id} className="upcoming-card-item">
               <EventCard
@@ -285,29 +256,31 @@ export default function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
-          <div className="flex gap-12">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
-            >
-              Previous
-            </button>
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
+            <div className="flex gap-12">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
+              >
+                Previous
+              </button>
 
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
-            >
-              Next
-            </button>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
+              >
+                Next
+              </button>
+            </div>
+
+            <span className="font-normal">
+              {currentPage} of {totalPages}
+            </span>
           </div>
-
-          <span className="font-normal">
-            {currentPage} of {totalPages}
-          </span>
-        </div>
+        )}
       </div>
     </section>
   )

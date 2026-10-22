@@ -15,6 +15,8 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "cms:reset": "cross-env NODE_OPTIONS=--no-deprecation RESET_CMS_CONTENT=0 payload run src/scripts/resetCms.ts",
     "cms:reset:apply": "cross-env NODE_OPTIONS=--no-deprecation RESET_CMS_CONTENT=1 payload run src/scripts/resetCms.ts",
+    "cms:populate": "cross-env NODE_OPTIONS=--no-deprecation POPULATE_CMS_CONTENT=0 payload run src/scripts/populateCms.ts",
+    "cms:populate:apply": "cross-env NODE_OPTIONS=--no-deprecation POPULATE_CMS_CONTENT=1 payload run src/scripts/populateCms.ts",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",

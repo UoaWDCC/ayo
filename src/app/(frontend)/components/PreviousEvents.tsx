@@ -231,6 +231,13 @@ export default function PreviousEvents({ events }: { events: AgendaEvent[] }) {
           ref={gridRef}
           className="relative z-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8"
         >
+          {searchedevents.length === 0 && (
+            <p className="col-span-full text-[18px] leading-6.5 text-[#2E2E2E]" role="status">
+              {events.length === 0
+                ? 'Past performances will appear here once added.'
+                : 'No events match your search and filters.'}
+            </p>
+          )}
           {paginatedevents.map((event) => (
             <div key={event.id} className="previous-card-item">
               <EventCard
@@ -244,29 +251,31 @@ export default function PreviousEvents({ events }: { events: AgendaEvent[] }) {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
-          <div className="flex gap-12">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
-            >
-              Previous
-            </button>
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-12 text-[15px] leading-[18px]">
+            <div className="flex gap-12">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
+              >
+                Previous
+              </button>
 
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
-            >
-              Next
-            </button>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="underline disabled:no-underline disabled:opacity-40 disabled:cursor-default cursor-pointer"
+              >
+                Next
+              </button>
+            </div>
+
+            <span className="font-normal">
+              {currentPage} of {totalPages}
+            </span>
           </div>
-
-          <span className="font-normal">
-            {currentPage} of {totalPages}
-          </span>
-        </div>
+        )}
       </div>
     </section>
   )

@@ -1,6 +1,13 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, UploadFieldValidation } from 'payload'
+import { upload } from 'payload/shared'
 import { reorderEndpoints } from '@/endpoints/reorder'
 import { validateWebURL } from '@/lib/urls'
+
+export const validatePartnerLogo: UploadFieldValidation = (value, options) => {
+  const inactive = (options.siblingData as { isActive?: boolean })?.isActive === false
+  if (!inactive && !value) return 'Add a logo before making this partner active.'
+  return upload(value, options)
+}
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
@@ -38,8 +45,9 @@ export const Partners: CollectionConfig = {
       name: 'logo',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      validate: validatePartnerLogo,
       admin: {
+        description: 'Add the logo before making this partner active.',
         components: {
           Cell: '@/admin/components/PhotoThumbnailCell#PhotoThumbnailCell',
         },

@@ -12,27 +12,9 @@ export const resetCollections = [
   'link',
   'team-roles',
   'roles',
-  'passwords',
   'calendar-links',
   'media',
 ] as const satisfies readonly CollectionSlug[]
-
-export function resetTarget(env: Partial<NodeJS.ProcessEnv>): string {
-  // Require an explicit database name. Never print credentials or URI query parameters.
-  const match = env.DATABASE_URL?.match(
-    /^mongodb(?:\+srv)?:\/\/(?:[^/]*@)?([^/?#]+)\/([^/?#]+)(?:\?[^#]*)?$/,
-  )
-  if (!match) throw new Error('DATABASE_URL must specify a MongoDB host and database name.')
-  const database = `${match[1]}/${match[2]}`
-  const endpoint = env.S3_ENDPOINT ? new URL(env.S3_ENDPOINT) : undefined
-  if (
-    endpoint &&
-    (!['https:', 'http:'].includes(endpoint.protocol) || endpoint.username || endpoint.password)
-  )
-    throw new Error('S3_ENDPOINT must be an HTTP(S) endpoint without credentials.')
-  const storage = endpoint && env.S3_BUCKET ? `${endpoint.host}/${env.S3_BUCKET}` : 'not configured'
-  return `RESET ${database} | media ${storage}`
-}
 
 export async function resetCmsContent({
   payload,
@@ -53,6 +35,7 @@ export async function resetCmsContent({
     ({ slug }) =>
       !slug.startsWith('payload-') &&
       slug !== 'users' &&
+      slug !== 'passwords' &&
       !resetCollections.some((name) => name === slug),
   )
   if (unexpected.length || payload.config.globals.some(({ slug }) => slug !== 'site-settings'))
@@ -60,7 +43,7 @@ export async function resetCmsContent({
 
   log(`\n${apply ? 'APPLY REQUESTED' : 'DRY RUN'}\n${target}`)
   log(
-    'Preserve all admin accounts. Clear Site Settings and all website content, including member passwords.',
+    'Preserve all admin accounts and My AYO member passwords. Clear Site Settings and website content.',
   )
   log('Media includes CMS uploads and generated sizes, not unrelated files in the bucket.')
   log(
@@ -144,5 +127,5 @@ export async function resetCmsContent({
     if (totalDocs)
       throw new Error(`${collection} still contains records. Stop other writers before retrying.`)
   }
-  log('\nReset complete. Admin accounts preserved.')
+  log('\nReset complete. Admin accounts and My AYO member passwords preserved.')
 }

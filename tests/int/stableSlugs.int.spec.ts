@@ -66,6 +66,12 @@ describe('stable story URLs', () => {
 })
 
 describe('fixed page URLs', () => {
+  it('allows creation when Payload supplies an empty original document', () => {
+    const input = args<Page>({ title: 'Home', slug: 'home' }, {} as Page)
+    input.operation = 'create'
+    expect(protectPageSlug(input)).toMatchObject({ slug: 'home' })
+  })
+
   it('allows content updates and unchanged URLs', () => {
     const original = { id: 'home', slug: 'home' } as Page
     expect(

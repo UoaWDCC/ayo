@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { Payload } from 'payload'
-import { resetCmsContent, resetCollections, resetTarget } from '@/scripts/resetCmsContent'
+import { resetCmsContent, resetCollections } from '@/scripts/resetCmsContent'
+import { getCmsTarget } from '@/scripts/cmsScript'
+const resetTarget = (env: Partial<NodeJS.ProcessEnv>) => getCmsTarget(env, 'RESET')
 
 const target = 'RESET localhost:27017/ayo_test | media storage.example.org/ayo-test'
 
@@ -15,6 +17,7 @@ function setup() {
           versions: slug === 'pages' || slug === 'posts',
         })),
         { slug: 'users' },
+        { slug: 'passwords' },
         { slug: 'payload-preferences' },
       ],
       globals: [{ slug: 'site-settings' }],
@@ -78,7 +81,7 @@ describe('CMS reset safety', () => {
     expect(api.delete).not.toHaveBeenCalled()
   })
 
-  it('clears references and history before media and preserves user accounts', async () => {
+  it('clears references and history before media and preserves accounts and member passwords', async () => {
     const { api, run } = setup()
     await run({ apply: true })
     expect(api.db.deleteMany).toHaveBeenCalledExactlyOnceWith({
@@ -89,7 +92,15 @@ describe('CMS reset safety', () => {
     const mediaOrder = api.delete.mock.invocationCallOrder[mediaCall]
     expect(Math.max(...api.db.deleteVersions.mock.invocationCallOrder)).toBeLessThan(mediaOrder)
     expect(api.updateGlobal.mock.invocationCallOrder[0]).toBeLessThan(mediaOrder)
-    expect(api.delete.mock.calls.some(([args]) => args.collection === 'users')).toBe(false)
+    for (const collection of ['users', 'passwords']) {
+      expect(api.delete.mock.calls.some(([args]) => args.collection === collection)).toBe(false)
+      expect(api.db.deleteMany.mock.calls).not.toContainEqual([
+        expect.objectContaining({ collection }),
+      ])
+      expect(api.db.deleteVersions.mock.calls).not.toContainEqual([
+        expect.objectContaining({ collection }),
+      ])
+    }
     expect(api.delete).toHaveBeenCalledWith(
       expect.objectContaining({ collection: 'media', id: 'media-1' }),
     )

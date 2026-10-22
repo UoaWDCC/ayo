@@ -13,9 +13,19 @@ export const pageSlugs = [
   'policies',
 ] as const
 
-export const protectPageSlug: CollectionBeforeValidateHook<Page> = ({ data, originalDoc, req }) => {
+export const protectPageSlug: CollectionBeforeValidateHook<Page> = ({
+  data,
+  operation,
+  originalDoc,
+  req,
+}) => {
   if (!data) return data
-  if (originalDoc && data.slug !== undefined && data.slug !== originalDoc.slug) {
+  if (
+    operation === 'update' &&
+    originalDoc &&
+    data.slug !== undefined &&
+    data.slug !== originalDoc.slug
+  ) {
     throw new ValidationError({
       collection: 'pages',
       req,
