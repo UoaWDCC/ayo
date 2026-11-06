@@ -1,12 +1,8 @@
-'use client'
-
-import { useState } from 'react'
+import { NEWSLETTER_SIGNUP_URL } from '@/lib/newsletter'
 import Button from './Button'
 import StaggerReveal from './StaggerReveal'
 
 export default function NewsletterSignup() {
-  const [email, setEmail] = useState('')
-
   return (
     <section className="bg-white text-black w-full">
       <div className="mx-8 md:mx-20 lg:mx-24 xl:mx-32 py-12.5">
@@ -24,26 +20,13 @@ export default function NewsletterSignup() {
                 </p>
               </div>
 
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  // TODO: replace with actual newsletter API call
-                  console.log('subscribing:', email)
-                }}
-                className="newsletter-fade flex w-full max-w-md flex-wrap items-stretch gap-6"
+              <Button
+                href={NEWSLETTER_SIGNUP_URL}
+                external
+                className="newsletter-fade self-start md:self-end shrink-0"
               >
-                <input
-                  type="email"
-                  required
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  aria-label="Email address"
-                  className="min-w-0 flex-1 border border-[#EBEBEB] bg-transparent px-4 py-3 text-[15px] leading-[18px] text-black outline-none placeholder:text-[#B2B2B2]"
-                />
-
-                <Button type="submit">Subscribe</Button>
-              </form>
+                Subscribe to AYO updates
+              </Button>
             </div>
           </StaggerReveal>
         </div>

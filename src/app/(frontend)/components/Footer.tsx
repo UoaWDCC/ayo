@@ -1,9 +1,9 @@
-'use client'
 import Link from 'next/link'
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
-import { useState } from 'react'
 import type { IconType } from 'react-icons'
 import type { SocialLink, SocialPlatform } from '@/lib/getSiteSettings'
+import { NEWSLETTER_SIGNUP_URL } from '@/lib/newsletter'
+import Button from './Button'
 
 // The icons stay in code; the profile URLs behind them come from the
 // `site-settings` global, so a platform with no URL set renders no icon.
@@ -37,7 +37,6 @@ type FooterProps = {
 }
 
 export default function Footer({ revealProgress = 1, socialLinks = [] }: FooterProps) {
-  const [email, setEmail] = useState('')
   return (
     <footer className="bg-black text-white pt-10 pb-0 w-full">
       {/* Container to separate content — fades and slides in step with how much
@@ -112,30 +111,9 @@ export default function Footer({ revealProgress = 1, socialLinks = [] }: FooterP
             <div>
               <p className="text-md font-semibold mt-1">Sign up to our newsletter</p>
             </div>
-            <form
-              className="flex w-full gap-3"
-              onSubmit={(e) => {
-                e.preventDefault()
-                // TODO: replace with actual newsletter API call
-                console.log('subscribing:', email)
-              }}
-            >
-              <input
-                className="bg-white text-black focus:outline-none px-4 py-3 flex-1 min-w-0 placeholder:text-[#B2B2B2]"
-                type="email"
-                required
-                placeholder="Email address"
-                aria-label="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="bg-white text-black font-semibold px-6 py-3 cursor-pointer border border-white transition-colors hover:bg-white/80"
-              >
-                Subscribe
-              </button>
-            </form>
+            <Button href={NEWSLETTER_SIGNUP_URL} external variant="white" className="self-start">
+              Subscribe to AYO updates
+            </Button>
 
             <span className="text-md font-semibold mt-6">
               AYO - AUCKLAND YOUTH ORCHESTRA © {new Date().getFullYear()}
