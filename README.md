@@ -82,6 +82,27 @@ GitHub Actions runs `pnpm check` and a Linux production build. For a Vercel
 production deployment, set the MongoDB, Payload and Backblaze values from
 `.env.example` in the project's Production environment before deploying.
 
+## Checks before release
+
+Run `pnpm check` for lint, TypeScript and the regression tests. These tests do not
+connect to a database or upload files. Run `pnpm build` separately with the dev
+server stopped because both commands use `.next`.
+
+`pnpm test:e2e` checks public navigation, contact links, the mobile menu and admin
+login branding. It uses the local dev server by default. Set `PLAYWRIGHT_BASE_URL`
+to check another test instance. Signed-in checks are enabled only when
+`AYO_TEST_ADMIN_EMAIL` and `AYO_TEST_ADMIN_PASSWORD` identify an existing test
+account. They navigate without creating accounts or changing content.
+
+The older database suites are separate: `pnpm test:database` requires
+`AYO_TEST_DATABASE_URL` and `AYO_TEST_S3_BUCKET` for dedicated test resources.
+They create and remove fixtures, so use an empty disposable database and bucket.
+Storage endpoint and credentials still come from the normal S3 environment settings.
+Never point these test resources at production.
+
+GitHub Actions runs `pnpm check` and a Linux production build before deploying
+`main`. Pull requests and other branches run the checks without deploying.
+
 ## Contributors
 
 - Sam Sajch
