@@ -97,7 +97,7 @@ describe('getInstagramFeed', () => {
     fetchMock.mockRejectedValue(new Error('ECONNRESET'))
     const result = await getInstagramFeed({ token: 'super-secret' })
     expect(result).toEqual({ ok: false, reason: 'fetch_failed', posts: [] })
-    const logged = JSON.stringify((console.warn as any).mock.calls)
+    const logged = JSON.stringify(vi.mocked(console.warn).mock.calls)
     expect(logged).not.toContain('super-secret')
   })
 })

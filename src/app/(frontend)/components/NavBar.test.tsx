@@ -65,7 +65,8 @@ describe('mobile navigation', () => {
     expect(logo.classList.contains('brightness-0')).toBe(true)
     act(() => vi.advanceTimersByTime(1))
     expect(logo.classList.contains('brightness-0')).toBe(false)
-    expect(logo.getAttribute('src')).toBe('/ayo-logo-white.png')
+    const logoSource = new URL(logo.getAttribute('src') ?? '', 'http://localhost')
+    expect(logoSource.searchParams.get('url')).toBe('/ayo-logo-white.png')
   })
   it('keeps closed links inert and restores focus to the toggle on Escape', () => {
     const { container } = render(<Header />)

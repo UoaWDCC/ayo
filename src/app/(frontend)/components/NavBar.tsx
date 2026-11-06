@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { onModalOpen } from './modalEvents'
 import { usePageTransitionPhase, FADE_DURATION } from './PageTransitionProvider'
@@ -147,9 +148,12 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
         >
           <div className="flex items-center justify-between pl-4 pr-4 sm:px-6 md:px-10 h-15 lg:h-19">
             <Link href="/" className="shrink-0" onClick={() => setIsMenuOpen(false)}>
-              <img
+              <Image
                 src="/ayo-logo-white.png"
                 alt="AYO Logo"
+                width={512}
+                height={157}
+                sizes="(min-width: 1280px) 79px, (min-width: 1024px) 66px, (min-width: 640px) 144px, 112px"
                 className={`w-28 sm:w-36 h-auto lg:h-5 lg:w-auto xl:h-6 ${isDark ? '' : 'brightness-0'}`}
               />
             </Link>

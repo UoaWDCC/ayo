@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import type { IconType } from 'react-icons'
 import type { SocialLink, SocialPlatform } from '@/lib/getSiteSettings'
@@ -52,10 +53,12 @@ export default function Footer({ revealProgress = 1, socialLinks = [] }: FooterP
         {/* Left container */}
         <div className="w-full h-full md:w-1/2">
           <div className="flex flex-row items-center justify-between gap-4 mt-5 md:flex-col md:items-start md:justify-start">
-            {/* AYO logo png as placeholder, replace with new logo svg when available */}
-            <img
+            <Image
               src="/ayo-logo-white.png"
               alt="AYO Logo"
+              width={512}
+              height={157}
+              sizes="(min-width: 768px) 384px, (min-width: 640px) 160px, 200px"
               className="order-1 w-50 sm:w-40 md:order-2 md:mx-auto md:mt-6 md:w-96 h-auto shrink-0"
             />
             <div className="order-2 flex flex-col items-end md:order-1 md:items-start">

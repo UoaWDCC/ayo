@@ -87,7 +87,6 @@ export default function FakeScrollbar({
       window.removeEventListener('resize', update)
       ro?.disconnect()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target])
 
   const handleThumbPointerDown = (e: React.PointerEvent) => {
@@ -131,7 +130,10 @@ export default function FakeScrollbar({
     const metrics = getMetrics(target)
     if (!trackRect || !metrics) return
     const clickOffset = e.clientY - trackRect.top
-    const size = Math.max((metrics.clientSize / metrics.scrollSize) * trackRect.height, MIN_THUMB_SIZE)
+    const size = Math.max(
+      (metrics.clientSize / metrics.scrollSize) * trackRect.height,
+      MIN_THUMB_SIZE,
+    )
     const maxOffset = trackRect.height - size
     const ratio = maxOffset > 0 ? Math.min(Math.max((clickOffset - size / 2) / maxOffset, 0), 1) : 0
     const scrollable = metrics.scrollSize - metrics.clientSize
