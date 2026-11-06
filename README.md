@@ -78,8 +78,9 @@ They create and remove fixtures, so use an empty disposable database and bucket.
 Storage endpoint and credentials still come from the normal S3 environment settings.
 Never point these test resources at production.
 
-GitHub Actions runs `pnpm check` and a Linux production build before deploying
-`main`. Pull requests and other branches run the checks without deploying.
+GitHub Actions runs `pnpm check` and a Linux production build. For a Vercel
+production deployment, set the MongoDB, Payload and Backblaze values from
+`.env.example` in the project's Production environment before deploying.
 
 ## Contributors
 
