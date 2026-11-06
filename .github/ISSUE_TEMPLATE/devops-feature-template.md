@@ -26,5 +26,5 @@ assignees: ''
 
 - [ ] Acceptance criteria met
 - [ ] PR Reviewed (For non-trivial changes)
-- [ ] Changes tested after rebasing on master or merging in master (*hint*: `git fetch origin master:master`, then `git rebase master` or `git merge master`)
+- [ ] Changes tested against the latest main branch (run `git fetch origin`, then `git merge origin/main`)
 - [ ] All required PR checks passing

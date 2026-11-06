@@ -133,14 +133,19 @@ try {
 
 Available storage adapters:
 
-- **@payloadcms/storage-s3** - AWS S3
+- **@payloadcms/storage-s3** - AWS S3 and S3-compatible providers, including Backblaze B2 and Cloudflare R2
 - **@payloadcms/storage-azure** - Azure Blob Storage
 - **@payloadcms/storage-gcs** - Google Cloud Storage
-- **@payloadcms/storage-r2** - Cloudflare R2
 - **@payloadcms/storage-vercel-blob** - Vercel Blob
 - **@payloadcms/storage-uploadthing** - Uploadthing
 
-### AWS S3
+### S3-Compatible Storage
+
+AYO configures `@payloadcms/storage-s3` in `src/payload.config.ts`. The endpoint,
+region, bucket and credentials come from the `S3_*` variables in `.env.example`.
+For Backblaze B2, the region matches the regional endpoint. Cloudflare R2 uses `auto`.
+Private buckets use Payload's `/api/media/file/` route. `R2_PUBLIC_URL` enables direct
+public media URLs when a public bucket domain is configured.
 
 ```typescript
 import { s3Storage } from '@payloadcms/storage-s3'

@@ -1035,7 +1035,7 @@ export const myPlugin =
 
 ## Additional Context Files
 
-For deeper exploration of specific topics, refer to the context files located in `.cursor/rules/`:
+For deeper exploration of specific topics, refer to the context files located in `rules/`.
 
 ### Available Context Files
 
@@ -1045,7 +1045,7 @@ For deeper exploration of specific topics, refer to the context files located in
    - Configuration fundamentals
    - Database adapters overview
 
-2. **`security-critical.md`** - Critical security patterns (⚠️ IMPORTANT)
+2. **Security guidance in this file, `access-control.md` and `hooks.md`** - Critical security patterns (⚠️ IMPORTANT)
 
    - Local API access control
    - Transaction safety in hooks

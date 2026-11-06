@@ -7,8 +7,8 @@ restyling any frontend UI, so new sections match the ones already shipped.
 renders. When this file and the code disagree, the concerts page wins — check it first.
 
 Pages normalised to this system: **concerts-events**, **join-ayo**, **support-us**, **home**, **my-ayo**.
-Not yet normalised: about-us, contact-us, news, policies. Don't copy patterns
-out of those; copy from the three above.
+Use the concerts page as the reference when updating about-us, contact-us, news or policies.
+Check their current components before reusing a layout.
 
 ---
 
@@ -50,15 +50,20 @@ Dark bands (the Join AYO stage, side-panel footers) use `text-white` on `bg-blac
 
 ```tsx
 <main className="min-h-screen bg-white text-black">
-  <Hero title="..." subtitle="..." backgroundImage={heroImageUrl ?? '/hero-placeholder.jpg'} />
+  <Hero
+    title={heroBlock?.slogan || page?.title || ''}
+    subtitle={heroBlock?.subtitle ?? undefined}
+    backgroundImage={resolveHeroImage(heroBlock?.backgroundImage)}
+  />
   {/* sections */}
   <FAQSection category="<page-slug>" />
 </main>
 ```
 
 - `Hero` renders the page's **only** `<h1>`. Every other heading is `h2` or lower.
-- `Hero` title/subtitle are currently hardcoded per page — the `hero` Payload block only
-  carries `backgroundImage`. See §10.
+- The `hero` Payload block provides `slogan`, `subtitle` and `backgroundImage`.
+  The heading falls back to the page title. `resolveHeroImage` supplies the image URL,
+  dimensions and fallback image. See §9.
 - `FAQSection` closes most pages.
 
 ---
@@ -244,7 +249,8 @@ transition-transform duration-300 ease-out`, with a `bg-black text-white px-6 py
 
 ## 8. Links, icons, images
 
-**Links are underlined text with a trailing arrow — never filled or outlined buttons.**
+**Inline links use underlined text with a trailing arrow.** Use the shared `Button`
+component for calls to action such as newsletter signup and following a social profile.
 
 ```tsx
 <Link href={…} className="inline-flex items-center gap-1 font-semibold text-[18px] md:text-[20px] transition-opacity hover:opacity-70">
@@ -295,10 +301,18 @@ must not change the visual size, and the page's only `h1` is the Hero's.
 Guard optional content (`{introText && …}`) so deleting a block in the CMS degrades instead of
 crashing.
 
-**Still hardcoded, for reference:** Hero title/subtitle on every page (the `hero` block has no
-text fields); `PhotoSpotlight` props; `AboutUsQuoteVid` poster and YouTube URL;
-`UpcomingEvents`/`PreviousEvents` lead copy; `OpportunitySection`'s data array (marked TODO);
-all `JoinAyoBlock` imagery (`/grey_rectangle.png` placeholders).
+### Current content sources
+
+- Page banner headings, subtitles and images come from the `hero` block.
+- Concert listings come from the `concerts` collection through `getConcertEvents`.
+  The concerts highlights section uses the page's `video` block and banner image.
+  It renders when a video URL is present.
+- The Join AYO opportunities list comes from `getOpportunities`. Its section heading
+  and introduction remain in `OpportunitySection`.
+- `UpcomingEvents` and `PreviousEvents` keep their section headings and lead copy in code.
+- Newsletter signup links use `NEWSLETTER_SIGNUP_URL` from `src/lib/newsletter.ts`.
+- `JoinAyoBlock` still contains placeholder images. Review that component with its owner
+  before changing the unfinished animation or imagery.
 
 ---
 
@@ -326,4 +340,5 @@ all `JoinAyoBlock` imagery (`/grey_rectangle.png` placeholders).
 6. Reuse `InfoRowList` / `Dropdown` / `EventCard` instead of rebuilding.
 7. Links underlined with the arrow icon; images through `next/image`.
 8. Check 390px: no overflow, gutter 32px, heading ≥ 32px.
-9. `npx tsc --noEmit` and `npx next lint` clean.
+9. Run `pnpm check` for lint, TypeScript and regression tests. For a focused check,
+   use `pnpm lint` or `pnpm typecheck`.
