@@ -3,7 +3,6 @@ import FAQSection from '../components/FAQSection'
 import JoinAyoBlock from '../components/join-ayo/JoinAyoBlock'
 import JoinIntroSection from '../components/JoinIntroSection'
 import OpportunitySection from '../components/OpportunitySection'
-import ScrollAnimation from '../components/join-ayo/ScrollAnimation'
 import Hero from '../components/Hero'
 
 import { getPageBySlug } from '@/lib/getPageBySlug'
@@ -24,6 +23,9 @@ export default async function JoinAyoPage() {
   const tableBlock = page?.layout?.find((block) => block.blockType === 'table')
   const joinUsRows = tableBlock?.rows ?? []
 
+  // The scroll story; the page simply skips it until the block is added in the CMS.
+  const stageBlock = page?.layout?.find((block) => block.blockType === 'join-stage')
+
   return (
     <main className="min-h-screen bg-white text-black">
       <Hero
@@ -32,8 +34,7 @@ export default async function JoinAyoPage() {
         backgroundImage={heroImage}
       />
       <JoinIntroSection introText={introText} introRows={joinUsRows} />
-      <JoinAyoBlock />
-      {/* <ScrollAnimation /> */}
+      {stageBlock && <JoinAyoBlock block={stageBlock} />}
       <OpportunitySection opportunities={opportunities} />
       <FAQSection category="join-ayo" />
     </main>
