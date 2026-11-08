@@ -46,6 +46,43 @@ function MemberSectionPreview({ block }: { block: AnyBlock }) {
   )
 }
 
+function JoinStagePreview({ block }: { block: AnyBlock }) {
+  const group = (key: string): Record<string, unknown> =>
+    block[key] && typeof block[key] === 'object' ? (block[key] as Record<string, unknown>) : {}
+  const text = (value: unknown) => (typeof value === 'string' ? value : '')
+  const scenes = [
+    ['Opening', group('opening').heading],
+    ['Photo collage', (group('collage').firstLine as { heading?: string } | undefined)?.heading],
+    ['History', group('history').heading],
+    ['Crescendo', group('crescendo').heading],
+    ['Finale', group('finale').heading],
+    ['Call to action', group('register').heading],
+  ]
+  const photos = group('collage').photos
+  const milestones = group('history').milestones
+  const sections = group('sections').items
+  return (
+    <div className="ayo-block-preview__member-section">
+      <span className="ayo-block-preview__member-section-label">Join AYO Scroll Story</span>
+      <h2>{text(group('opening').heading) || 'Untitled story'}</h2>
+      <p>
+        {Array.isArray(photos) ? photos.length : 0} photos,{' '}
+        {Array.isArray(milestones) ? milestones.length : 0} milestones,{' '}
+        {Array.isArray(sections) ? sections.length : 0} orchestra sections.
+      </p>
+      <dl className="ayo-block-preview__story-scenes">
+        {scenes.map(([label, heading]) => (
+          <div key={text(label)}>
+            <dt>{text(label)}</dt>
+            <dd>{text(heading) || 'No heading yet'}</dd>
+          </div>
+        ))}
+      </dl>
+      <p>Use View saved page to check the full scroll animation after saving.</p>
+    </div>
+  )
+}
+
 function RichTextPreview({ block }: { block: AnyBlock }) {
   return (
     <div className="ayo-block-preview__richtext">
@@ -182,6 +219,8 @@ export function BlockPreview({ block, pageTitle }: { block: AnyBlock; pageTitle:
       return <FaqPreview block={block} />
     case 'member-section':
       return <MemberSectionPreview block={block} />
+    case 'join-stage':
+      return <JoinStagePreview block={block} />
     default:
       return null
   }

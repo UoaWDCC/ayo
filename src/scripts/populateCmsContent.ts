@@ -71,6 +71,15 @@ export async function populateCmsContent({
   log(`\n${missing.length} records to create, ${ids.size} existing records to keep.`)
   log('\nStill needs manual work:')
   input.pending.forEach((message) => log(`- ${message}`))
+  const joinPage = await payload.find({
+    collection: 'pages',
+    where: { slug: { equals: 'join-ayo' } },
+    limit: 1,
+    depth: 0,
+    overrideAccess: true,
+  })
+  if (!joinPage.docs[0]?.layout?.some((block) => block.blockType === 'join-stage'))
+    log('- Add the Join AYO Scroll Story in Pages > Join AYO with approved copy and photos.')
   if (includeImages) await populateCmsImages({ payload, images: input.images, log })
   if (fillMissingBios) await fillPlayerBiographies(payload, input.players, false, log)
   if (!apply) {

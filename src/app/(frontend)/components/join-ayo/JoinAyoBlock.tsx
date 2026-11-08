@@ -1,116 +1,83 @@
+import type React from 'react'
 import Image from 'next/image'
 import Button from '../Button'
+import ScrollAnimation from './ScrollAnimation'
+import { safeHref } from '@/lib/urls'
+import type { Media, Page } from '@/payload-types'
 
-const photoMoments = [
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO musicians gathered in performance',
-    label: 'Listen',
-  },
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO players rehearsing together',
-    label: 'Rehearse',
-  },
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO orchestra performing on stage',
-    label: 'Perform',
-  },
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO musicians preparing for a concert',
-    label: 'Belong',
-  },
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO conductor leading the orchestra',
-    label: 'Follow',
-  },
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO string players in rehearsal',
-    label: 'Shape',
-  },
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO wind players performing together',
-    label: 'Blend',
-  },
-  {
-    src: '/grey_rectangle.png',
-    alt: 'AYO musicians taking a bow after a concert',
-    label: 'Applaud',
-  },
-]
+export type JoinStageBlock = Extract<
+  NonNullable<Page['layout']>[number],
+  { blockType: 'join-stage' }
+>
 
-const orchestraSections = ['Strings', 'Woodwind', 'Brass', 'Percussion']
+const PLACEHOLDER = '/grey_rectangle.png'
 
-const sectionPhotos = [
-  { src: '/grey_rectangle.png', alt: 'String section musicians playing violins' },
-  { src: '/grey_rectangle.png', alt: 'Woodwind section with flutes and clarinets' },
-  { src: '/grey_rectangle.png', alt: 'Brass section with trumpets and horns' },
-  { src: '/grey_rectangle.png', alt: 'Percussion section with timpani and drums' },
-]
+/** A populated Media doc's URL and alt text, or the grey placeholder while a photo is unset. */
+function photo(image: Media | string | null | undefined, fallbackAlt: string) {
+  if (typeof image === 'object' && image?.url) {
+    return { src: image.url, alt: image.alt || fallbackAlt }
+  }
+  return { src: PLACEHOLDER, alt: fallbackAlt }
+}
 
-const timelineMoments = [
-  {
-    year: '1959',
-    title: 'AYO Founded',
-    description: 'First rehearsal at Auckland Town Hall',
-    src: '/grey_rectangle.png',
-    alt: 'AYO founding concert photograph',
-  },
-  {
-    year: '1965',
-    title: 'First International Tour',
-    description: 'Tour of Australia',
-    src: '/grey_rectangle.png',
-    alt: 'AYO musicians on tour',
-  },
-  {
-    year: '1978',
-    title: 'European Debut',
-    description: 'Performed at Royal Albert Hall',
-    src: '/grey_rectangle.png',
-    alt: 'AYO performing in London',
-  },
-  {
-    year: '1992',
-    title: 'New Music Director',
-    description: 'Appointment of new music director',
-    src: '/grey_rectangle.png',
-    alt: 'AYO conductor leading the orchestra',
-  },
-  {
-    year: '2003',
-    title: 'Asia Tour',
-    description: 'Performances across Japan and Korea',
-    src: '/grey_rectangle.png',
-    alt: 'AYO on stage in Asia',
-  },
-  {
-    year: '2011',
-    title: 'Town Hall Season',
-    description: 'Regular concerts at Auckland Town Hall',
-    src: '/grey_rectangle.png',
-    alt: 'Auckland Town Hall audience',
-  },
-  {
-    year: '2019',
-    title: '60th Anniversary',
-    description: 'Gala concert celebrating six decades',
-    src: '/grey_rectangle.png',
-    alt: 'AYO anniversary performance',
-  },
-  {
-    year: '2024',
-    title: 'Record Year',
-    description: 'Highest number of applicants in history',
-    src: '/grey_rectangle.png',
-    alt: 'AYO musicians in rehearsal',
-  },
-]
+function Eyebrow({ children, className = '' }: { children?: string | null; className?: string }) {
+  if (!children) return null
+  return (
+    <p
+      className={`mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-white/65 ${className}`}
+    >
+      {children}
+    </p>
+  )
+}
+
+/**
+ * A full-screen photo behind a single heading, darkened from the edge the heading
+ * sits against so the text reads on any photo. Renders nothing when unset.
+ */
+function SceneBackdrop({
+  image,
+  className,
+  fadeFrom,
+}: {
+  image: Media | string | null | undefined
+  className: string
+  fadeFrom: 'top' | 'bottom'
+}) {
+  if (typeof image !== 'object' || !image?.url) return null
+  return (
+    <div className={`join-scene-backdrop ${className} absolute inset-0 z-10 opacity-0`}>
+      <Image
+        src={image.url}
+        alt={image.alt || ''}
+        fill
+        sizes="100vw"
+        className="object-cover grayscale"
+      />
+      <div
+        className={`join-scene-backdrop-fade absolute inset-0 ${
+          fadeFrom === 'bottom'
+            ? 'bg-linear-to-t from-black via-black/70 via-35% to-transparent to-75%'
+            : 'bg-linear-to-b from-black via-black/70 via-35% to-transparent to-75%'
+        }`}
+      />
+    </div>
+  )
+}
+
+// Staff-width maths: milestone i sits at 200 + i * 500px and the staff runs
+// 200px past the last one. ScrollAnimation reads the rendered width back.
+const MILESTONE_SPACING = 500
+const STAFF_PADDING = 200
+// The five staff lines span 69px centred on the stage (top at 50% - 34px).
+const STAFF_HALF_HEIGHT = 35
+// Clear space between a milestone card and the nearest staff line, past note stems.
+const CARD_GAP = 40
+
+// Behind copy that sits over photos (the collage, passing milestones), so it stays legible.
+const copyScrim =
+  "before:pointer-events-none before:absolute before:-inset-x-12 before:-inset-y-10 before:-z-10 before:bg-[radial-gradient(closest-side,rgba(0,0,0,0.78),transparent)] before:content-['']"
+
 const timelineNotes = [
   { type: 'quarter', x: 140, line: 0 },
   { type: 'eighth', x: 380, line: 2 },
@@ -205,112 +172,161 @@ function TimelineNote({ type }: { type: string }) {
   }
 }
 
-const photoLayout = [
-  { left: 2, top: 10, width: 30, height: 58 },
-  { left: 26, top: 0, width: 24, height: 48 },
-  { left: 52, top: 14, width: 28, height: 58 },
-  { left: 76, top: 4, width: 20, height: 40 },
-  { left: 8, top: 58, width: 22, height: 34 },
-  { left: 34, top: 52, width: 23, height: 38 },
-  { left: 61, top: 62, width: 20, height: 32 },
-  { left: 82, top: 48, width: 16, height: 36 },
-]
+// The collage is a board of loosely pinned photos covering the whole screen. The
+// photos are spread over rows to suit the screen's shape (`aspect` is its width over
+// its height), each sized a little over its cell so it overlaps its neighbours, then
+// nudged and angled by a fixed per-photo amount so the board looks pinned, not gridded.
+// Later photos land on top, covering their neighbours' right and bottom edges,
+// which is why labels sit top left. Values are percentages of the screen.
+const MAX_PHOTOS = 24
+// Phones show only the first photos, laid out for a portrait screen.
+const PHONE_PHOTOS = 12
+const WIDE_ASPECT = 1.6
+const PHONE_ASPECT = 0.46
+const CARD_OVERSIZE = 1.3
 
-export default function JoinAyoSection() {
-  const openingPhoto = photoMoments[0]
+function boardLayout(count: number, aspect: number) {
+  const rows = Math.max(1, Math.round(Math.sqrt(count / aspect)))
+  const perRow = Array.from(
+    { length: rows },
+    (_, row) => Math.floor(count / rows) + (row < count % rows ? 1 : 0),
+  )
+  return perRow.flatMap((columns, row) =>
+    Array.from({ length: columns }, (_, column) => {
+      const index = perRow.slice(0, row).reduce((sum, n) => sum + n, 0) + column
+      const cellWidth = 100 / columns
+      const cellHeight = 100 / rows
+      const width = cellWidth * CARD_OVERSIZE
+      const height = cellHeight * CARD_OVERSIZE
+      // Fixed pseudo-random offsets in [-1, 1], so the board is the same on every load.
+      const jitterX = (((index * 37) % 11) - 5) / 5
+      const jitterY = (((index * 23) % 9) - 4) / 4
+      const angle = (((index * 53) % 13) - 6) / 6
+      return {
+        left: column * cellWidth - (width - cellWidth) / 2 + jitterX * cellWidth * 0.08,
+        top: row * cellHeight - (height - cellHeight) / 2 + jitterY * cellHeight * 0.08,
+        width,
+        height,
+        rotate: angle === 0 ? 2 : angle * 6,
+      }
+    }),
+  )
+}
+
+export default function JoinAyoBlock({ block }: { block: JoinStageBlock }) {
+  const { opening, collage, history, sections, crescendo, finale, register } = block
+  const photos = (collage?.photos ?? []).slice(0, MAX_PHOTOS)
+  const board = boardLayout(photos.length, WIDE_ASPECT)
+  const phoneBoard = boardLayout(Math.min(photos.length, PHONE_PHOTOS), PHONE_ASPECT)
+  const milestones = history?.milestones ?? []
+  const sectionItems = sections?.items ?? []
+  const curtain = photo(opening?.curtainImage, '')
+  const staffWidth = STAFF_PADDING * 2 + milestones.length * MILESTONE_SPACING
+  const buttonHref = safeHref(register?.buttonUrl, { allowSitePath: true })
+  const buttonExternal = Boolean(buttonHref && !buttonHref.startsWith('/'))
 
   return (
-    <section className="join-ayo-stage relative h-[1500vh] w-full bg-black text-white">
-      <div className="join-stage-inner sticky top-0 min-h-screen overflow-hidden">
+    <ScrollAnimation className="relative h-[1500vh] w-full bg-black text-white">
+      <div className="join-stage-inner sticky top-0 min-h-svh overflow-hidden">
         <div className="join-stage-backdrop absolute inset-0 bg-black" />
 
         <div className="join-curtain join-curtain-left absolute inset-y-0 left-0 z-30 w-1/2 overflow-hidden bg-black">
           <Image
-            src={openingPhoto.src}
+            src={curtain.src}
             alt=""
             width={1600}
             height={900}
             priority
             className="h-full w-[200%] max-w-none object-cover opacity-90 grayscale"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)]" />
           <div className="absolute inset-0 bg-black/20" />
         </div>
         <div className="join-curtain join-curtain-right absolute inset-y-0 right-0 z-30 w-1/2 overflow-hidden bg-black">
           <Image
-            src={openingPhoto.src}
+            src={curtain.src}
             alt=""
             width={1600}
             height={900}
             priority
             className="ml-[-100%] h-full w-[200%] max-w-none object-cover opacity-90 grayscale"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)]" />
           <div className="absolute inset-0 bg-black/20" />
         </div>
         <div className="join-opening-title pointer-events-none absolute inset-x-6 top-1/2 z-40 mx-auto max-w-4xl -translate-y-1/2 text-center">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-white/80">
-            Auckland Youth Orchestra
-          </p>
           <h2 className="text-5xl font-semibold leading-none sm:text-7xl lg:text-8xl">
-            Join the sound.
+            {opening?.heading}
           </h2>
         </div>
 
-        <div className="join-scenes relative z-10 flex min-h-screen w-full items-center justify-center px-5 py-12 sm:px-8 lg:px-16">
-          <div className="join-photo-wrap absolute inset-0 flex items-center justify-center opacity-0">
-            <div className="join-photo-grid relative h-[74vh] w-full max-w-6xl">
-              {photoMoments.map((moment, index) => (
-                <figure
-                  key={moment.label}
-                  className="join-photo-card absolute overflow-hidden bg-black shadow-2xl"
-                  style={{
-                    left: `${photoLayout[index].left}%`,
-                    top: `${photoLayout[index].top}%`,
-                    width: `${photoLayout[index].width}%`,
-                    height: `${photoLayout[index].height}%`,
-                  }}
-                >
-                  <Image
-                    src={moment.src}
-                    alt={moment.alt}
-                    width={800}
-                    height={1000}
-                    className="h-full w-full object-cover grayscale"
-                  />
-                  <div className="absolute inset-0 border border-white/18" />
-                  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),transparent_38%,rgba(255,255,255,0.06))]" />
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/65 to-transparent" />
-                  <figcaption className="absolute bottom-4 left-4 right-4 text-xs font-semibold uppercase tracking-[0.26em] text-white">
-                    {moment.label}
-                  </figcaption>
-                </figure>
-              ))}
+        <div className="join-scenes relative z-10 flex min-h-svh w-full items-center justify-center px-5 py-12 sm:px-8 lg:px-16">
+          <div className="join-photo-wrap absolute inset-0 opacity-0">
+            <div className="join-photo-grid relative h-full w-full">
+              {photos.map((moment, index) => {
+                const image = photo(moment.image, moment.label ?? 'AYO musicians')
+                return (
+                  <figure
+                    key={moment.id ?? index}
+                    className={`join-photo-card absolute left-(--phone-left) top-(--phone-top) h-(--phone-height) w-(--phone-width) overflow-hidden bg-black shadow-[0_12px_32px_rgba(0,0,0,0.6)] md:left-(--wide-left) md:top-(--wide-top) md:h-(--wide-height) md:w-(--wide-width) ${
+                      index >= PHONE_PHOTOS ? 'max-md:hidden' : ''
+                    }`}
+                    style={
+                      {
+                        '--wide-left': `${board[index].left}%`,
+                        '--wide-top': `${board[index].top}%`,
+                        '--wide-width': `${board[index].width}%`,
+                        '--wide-height': `${board[index].height}%`,
+                        ...(phoneBoard[index] && {
+                          '--phone-left': `${phoneBoard[index].left}%`,
+                          '--phone-top': `${phoneBoard[index].top}%`,
+                          '--phone-width': `${phoneBoard[index].width}%`,
+                          '--phone-height': `${phoneBoard[index].height}%`,
+                        }),
+                        // The CSS rotate property, so it survives GSAP's opacity tweens.
+                        rotate: `${board[index].rotate}deg`,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={480}
+                      height={360}
+                      className="h-full w-full object-cover grayscale"
+                    />
+                    {moment.label && (
+                      <>
+                        <div className="absolute inset-x-0 top-0 h-1/3 bg-linear-to-b from-black/65 to-transparent" />
+                        <figcaption className="absolute left-3 right-3 top-3 text-[10px] font-semibold uppercase tracking-[0.26em] text-white">
+                          {moment.label}
+                        </figcaption>
+                      </>
+                    )}
+                  </figure>
+                )
+              })}
             </div>
           </div>
 
-          <div className="join-copy join-copy-one absolute left-6 top-[18vh] z-20 max-w-xl opacity-0 sm:left-12 lg:left-[10vw]">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-white/65">
-              The first rehearsal
-            </p>
+          <div
+            className={`join-copy join-copy-one absolute left-6 top-[18vh] z-20 max-w-xl opacity-0 sm:left-12 lg:left-[10vw] ${copyScrim}`}
+          >
             <h2 className="text-4xl font-semibold leading-tight sm:text-6xl">
-              Sit inside something larger than yourself.
+              {collage?.firstLine?.heading}
             </h2>
           </div>
 
-          <div className="join-copy join-copy-two absolute bottom-[16vh] right-6 z-20 max-w-xl text-right opacity-0 sm:right-12 lg:right-[10vw]">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-white/65">
-              The work
-            </p>
+          <div
+            className={`join-copy join-copy-two absolute bottom-[16vh] right-6 z-20 max-w-xl text-right opacity-0 sm:right-12 lg:right-[10vw] ${copyScrim}`}
+          >
             <p className="text-2xl leading-body text-white sm:text-4xl">
-              Section by section, phrase by phrase, the orchestra becomes one instrument.
+              {collage?.secondLine?.text}
             </p>
           </div>
 
           <div className="join-score absolute inset-0 z-20 opacity-0 overflow-hidden">
             <div
               className="join-score-timeline absolute inset-y-0 left-0"
-              style={{ width: '4400px' }}
+              style={{ width: `${staffWidth}px` }}
             >
               {/* Staff lines — continuous across the full timeline */}
               <div
@@ -318,7 +334,7 @@ export default function JoinAyoSection() {
                 style={{ top: 'calc(50% - 34px)' }}
               >
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="h-px bg-white/35" style={{ width: '4400px' }} />
+                  <div key={i} className="h-px w-full bg-white/35" />
                 ))}
               </div>
 
@@ -333,42 +349,51 @@ export default function JoinAyoSection() {
                   height="115"
                   fill="currentColor"
                   className="text-white/70"
+                  aria-hidden="true"
                 >
                   <path d={trebleClefPath} />
                 </svg>
               </div>
 
               {/* Musical notes scattered along the staff lines */}
-              {timelineNotes.map((note, i) => (
-                <div
-                  key={i}
-                  className="join-timeline-note absolute"
-                  style={{
-                    left: `${note.x}px`,
-                    top: `calc(50% - 34px + ${note.line * 17}px)`,
-                    transform: 'translateY(-55%)',
-                  }}
-                >
-                  <TimelineNote type={note.type} />
-                </div>
-              ))}
-
-              {/* Timeline items — float above the staff lines */}
-              {timelineMoments.map((moment, i) => {
-                const isAbove = i % 2 === 0
-                return (
+              {timelineNotes
+                .filter((note) => note.x < staffWidth - STAFF_PADDING / 2)
+                .map((note, i) => (
                   <div
                     key={i}
-                    className="join-timeline-item absolute w-70"
+                    className="join-timeline-note absolute"
+                    aria-hidden="true"
                     style={{
-                      left: `${200 + i * 500}px`,
-                      top: isAbove ? '12%' : '64%',
+                      left: `${note.x}px`,
+                      top: `calc(50% - 34px + ${note.line * 17}px)`,
+                      transform: 'translateY(-55%)',
+                    }}
+                  >
+                    <TimelineNote type={note.type} />
+                  </div>
+                ))}
+
+              {/* Timeline items — float above the staff lines */}
+              {milestones.map((moment, i) => {
+                const isAbove = i % 2 === 0
+                const image = photo(moment.image, `${moment.year} ${moment.title}`)
+                return (
+                  <div
+                    key={moment.id ?? i}
+                    className="join-timeline-item absolute w-48 sm:w-60 [@media(max-height:720px)]:w-44"
+                    style={{
+                      left: `${STAFF_PADDING + i * MILESTONE_SPACING}px`,
+                      // Anchored to the staff's edges so a card never reaches the lines,
+                      // however tall its text runs: upper cards grow up, lower ones down.
+                      ...(isAbove
+                        ? { bottom: `calc(50% + ${STAFF_HALF_HEIGHT + CARD_GAP}px)` }
+                        : { top: `calc(50% + ${STAFF_HALF_HEIGHT + CARD_GAP}px)` }),
                     }}
                   >
                     <div className="aspect-4/3 overflow-hidden bg-black/60 mb-4 border border-white/15">
                       <Image
-                        src={moment.src}
-                        alt={moment.alt}
+                        src={image.src}
+                        alt={image.alt}
                         width={400}
                         height={300}
                         className="h-full w-full object-cover grayscale"
@@ -380,97 +405,113 @@ export default function JoinAyoSection() {
                     <h3 className="text-xl font-semibold text-white mt-1 leading-tight">
                       {moment.title}
                     </h3>
-                    <p className="text-sm text-white/65 mt-1 leading-body">{moment.description}</p>
+                    {moment.description && (
+                      <p className="text-sm text-white/65 mt-1 leading-body [@media(max-height:720px)]:hidden">
+                        {moment.description}
+                      </p>
+                    )}
                   </div>
                 )
               })}
             </div>
 
-            {/* Fixed label — bottom-right corner, stays in viewport */}
-            <div className="join-timeline-label absolute bottom-8 right-8 z-30 pointer-events-none text-right">
-              <span className="text-xs font-semibold uppercase tracking-[0.32em] text-white/55">
-                AYO History
-              </span>
+            {/* Fixed label, stays in viewport: bottom right on desktop; top left on phones,
+                where the lower milestone cards reach the bottom corner. */}
+            <div
+              className={`join-timeline-label absolute left-6 top-4 md:left-auto md:top-auto md:bottom-5 md:right-8 z-30 pointer-events-none text-left md:text-right ${copyScrim}`}
+            >
+              {history?.eyebrow && (
+                <span className="[@media(max-height:720px)]:hidden text-xs font-semibold uppercase tracking-[0.32em] text-white/55">
+                  {history.eyebrow}
+                </span>
+              )}
               <h3 className="text-2xl font-semibold text-white mt-1 leading-tight">
-                1959 – Present
+                {history?.heading}
               </h3>
             </div>
           </div>
 
-          <div className="join-sections absolute inset-x-6 top-[16vh] z-20 mx-auto grid max-w-5xl gap-4 opacity-0 sm:grid-cols-4">
-            {orchestraSections.map((section, idx) => (
-              <div key={section} className="join-section-family text-left">
-                <div className="mb-4 aspect-4/3 overflow-hidden bg-black/40 join-section-photo-wrap">
-                  <Image
-                    src={sectionPhotos[idx].src}
-                    alt={sectionPhotos[idx].alt}
-                    width={400}
-                    height={300}
-                    className="join-section-photo h-full w-full object-cover"
-                  />
+          <div className="join-sections absolute inset-x-6 inset-y-0 z-20 mx-auto my-auto grid h-fit max-w-5xl grid-cols-2 gap-x-4 gap-y-6 opacity-0 sm:grid-cols-4 sm:gap-4">
+            {sectionItems.map((section, idx) => {
+              const image = photo(section.image, `${section.name} section`)
+              return (
+                <div key={section.id ?? idx} className="join-section-family text-left">
+                  <div className="mb-4 aspect-4/3 overflow-hidden bg-black/40 join-section-photo-wrap">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={400}
+                      height={300}
+                      className="join-section-photo h-full w-full object-cover"
+                    />
+                  </div>
+                  <div className="border-t border-white/35 pt-4">
+                    <h3 className="text-xl font-semibold text-white sm:text-3xl">{section.name}</h3>
+                    {section.description && (
+                      <p className="mt-2 text-xs leading-body text-white/65 sm:text-sm">
+                        {section.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className="border-t border-white/35 pt-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/55">
-                    Section
-                  </p>
-                  <p className="mt-3 text-2xl font-semibold text-white sm:text-3xl">{section}</p>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
+          <SceneBackdrop
+            className="join-crescendo-backdrop"
+            image={crescendo?.image}
+            fadeFrom="bottom"
+          />
           <div className="join-crescendo absolute inset-x-6 bottom-[18vh] z-20 mx-auto max-w-4xl text-center opacity-0">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-white/65">
-              Crescendo
-            </p>
             <h2 className="text-4xl font-semibold leading-tight sm:text-6xl">
-              Everyone arrives at the same breath.
+              {crescendo?.heading}
             </h2>
           </div>
 
-          <div className="join-applause absolute inset-0 z-10 opacity-0">
-            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-white/12 to-transparent" />
-            <div className="absolute bottom-[18vh] left-1/2 flex w-[120vw] -translate-x-1/2 items-end justify-center gap-2 opacity-70 sm:gap-3">
-              {Array.from({ length: 24 }).map((_, index) => (
-                <span
-                  key={index}
-                  className="join-applause-mark block w-px bg-white/70"
-                  style={{
-                    height: `${18 + (index % 7) * 9}px`,
-                    opacity: 0.2 + (index % 5) * 0.12,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          <SceneBackdrop className="join-finale-backdrop" image={finale?.image} fadeFrom="top" />
 
           <div className="join-finale absolute inset-x-6 top-[15vh] z-20 mx-auto max-w-4xl text-center opacity-0">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-white/65">
-              After the final note
-            </p>
-            <h2 className="text-4xl font-semibold leading-tight sm:text-6xl">The room answers.</h2>
+            <h2 className="text-4xl font-semibold leading-tight sm:text-6xl">{finale?.heading}</h2>
           </div>
 
+          <SceneBackdrop
+            className="join-register-backdrop"
+            image={register?.image}
+            fadeFrom="bottom"
+          />
+
           <div className="join-register absolute inset-x-6 bottom-[12vh] z-20 mx-auto max-w-3xl border-t border-white/35 pt-7 text-center opacity-0 sm:pt-9">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.32em] text-white/65">
-              Auditions
-            </p>
-            <h2 className="text-5xl font-semibold leading-none sm:text-7xl">Register AYO</h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-body text-white/82">
-              Registrations are currently open until <strong>May 20th, 2026.</strong>
-            </p>
-            <Button href="#" variant="white" className="mt-8">
-              Register for An Audition
-            </Button>
-            <div className="mt-8 text-sm leading-body text-white/70">
-              <p className="font-semibold text-white">Enquires: Mary Lin, Orchestra Manager</p>
-              <a href="mailto:manager@ayo.org.nz" className="underline">
-                manager@ayo.org.nz
-              </a>
-            </div>
+            <Eyebrow className="mb-5">{register?.eyebrow}</Eyebrow>
+            <h2 className="text-5xl font-semibold leading-none sm:text-7xl">{register?.heading}</h2>
+            {register?.body && (
+              <p className="mx-auto mt-6 max-w-xl whitespace-pre-line text-lg leading-body text-white/82">
+                {register.body}
+              </p>
+            )}
+            {buttonHref && register?.buttonLabel && (
+              <Button href={buttonHref} external={buttonExternal} variant="white" className="mt-8">
+                {register.buttonLabel}
+              </Button>
+            )}
+            {(register?.contactName || register?.contactEmail) && (
+              <div className="mt-8 text-sm leading-body text-white/70">
+                {register.contactName && (
+                  <p className="font-semibold text-white">Enquiries: {register.contactName}</p>
+                )}
+                {register.contactEmail && (
+                  <a
+                    href={`mailto:${register.contactEmail}`}
+                    className="underline transition-opacity hover:opacity-70"
+                  >
+                    {register.contactEmail}
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </section>
+    </ScrollAnimation>
   )
 }

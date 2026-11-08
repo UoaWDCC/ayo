@@ -43,6 +43,7 @@ function setup() {
     ),
   }
   const confirm = vi.fn(async () => target)
+  const log = vi.fn()
   const run = (apply = false, fillMissingBios = false) =>
     populateCmsContent({
       payload: api as unknown as Payload,
@@ -51,9 +52,9 @@ function setup() {
       apply,
       fillMissingBios,
       confirm,
-      log: vi.fn(),
+      log,
     })
-  return { api, records, confirm, run, getSocial: () => social }
+  return { api, records, confirm, run, log, getSocial: () => social }
 }
 
 describe('Text-only client population', () => {
@@ -122,10 +123,33 @@ describe('Text-only client population', () => {
   it('defaults to a read-only dry run without confirmation', async () => {
     const { api, confirm, run } = setup()
     await run()
-    expect(api.find).toHaveBeenCalledTimes(clientContent.length)
+    expect(api.find).toHaveBeenCalledWith(
+      expect.objectContaining({ collection: 'pages', overrideAccess: true, depth: 0 }),
+    )
     expect(confirm).not.toHaveBeenCalled()
     expect(api.create).not.toHaveBeenCalled()
     expect(api.updateGlobal).not.toHaveBeenCalled()
+  })
+
+  it('flags a missing scroll story without adding unapproved content', async () => {
+    const { run, log, api } = setup()
+    await run()
+    expect(log).toHaveBeenCalledWith(
+      '- Add the Join AYO Scroll Story in Pages > Join AYO with approved copy and photos.',
+    )
+    expect(api.create).not.toHaveBeenCalled()
+  })
+
+  it('preserves an existing scroll story when importing again', async () => {
+    const { records, run, log } = setup()
+    const story = { blockType: 'join-stage', opening: { heading: 'An edited story' } }
+    const page = { id: 'existing-join', slug: 'join-ayo', layout: [story] }
+    records.set('pages', [page])
+    await run(true)
+    expect(page.layout).toEqual([story])
+    expect(log).not.toHaveBeenCalledWith(
+      '- Add the Join AYO Scroll Story in Pages > Join AYO with approved copy and photos.',
+    )
   })
 
   it('requires the exact target before writing', async () => {

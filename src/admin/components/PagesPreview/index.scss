@@ -46,6 +46,24 @@
 }
 
 .ayo-block-preview {
+  &__story-scenes {
+    margin: 16px 0;
+    font-size: 13px;
+
+    > div + div {
+      margin-top: 12px;
+    }
+
+    dt {
+      color: var(--ayo-text-meta);
+    }
+
+    dd {
+      margin: 2px 0 0;
+      overflow-wrap: anywhere;
+    }
+  }
+
   &__hero,
   &__quote {
     position: relative;
