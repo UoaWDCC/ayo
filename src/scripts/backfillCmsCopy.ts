@@ -83,6 +83,84 @@ const MY_AYO_SECTIONS = [
   },
 ]
 
+const SECTION_DESCRIPTIONS = [
+  {
+    name: 'Strings',
+    description:
+      'Violins, violas, cellos and double basses. The largest section, carrying most of the melody and harmony.',
+  },
+  {
+    name: 'Woodwind',
+    description: 'Flutes, oboes, clarinets and bassoons, often the solo voices above the strings.',
+  },
+  {
+    name: 'Brass',
+    description: 'Horns, trumpets and trombones, from soft held chords to the loudest moments.',
+  },
+  {
+    name: 'Percussion',
+    description: 'Timpani and percussion, keeping the pulse and marking the big moments.',
+  },
+]
+
+/** The Join AYO scroll story, as it was hardcoded in JoinAyoBlock. Photos stay blank (placeholders). */
+const JOIN_STAGE: Extract<LayoutBlock, { blockType: 'join-stage' }> = {
+  blockType: 'join-stage',
+  opening: { heading: 'Join the sound.' },
+  collage: {
+    photos: ['Listen', 'Rehearse', 'Perform', 'Belong', 'Follow', 'Shape', 'Blend', 'Applaud'].map(
+      (label) => ({ label }),
+    ),
+    firstLine: { heading: 'Sit inside something larger than yourself.' },
+    secondLine: {
+      text: 'Section by section, phrase by phrase, the orchestra becomes one instrument.',
+    },
+  },
+  history: {
+    eyebrow: 'AYO History',
+    heading: '1959 – Present',
+    milestones: [
+      { year: '1959', title: 'AYO Founded', description: 'First rehearsal at Auckland Town Hall' },
+      { year: '1965', title: 'First International Tour', description: 'Tour of Australia' },
+      { year: '1978', title: 'European Debut', description: 'Performed at Royal Albert Hall' },
+      {
+        year: '1992',
+        title: 'New Music Director',
+        description: 'Appointment of new music director',
+      },
+      { year: '2003', title: 'Asia Tour', description: 'Performances across Japan and Korea' },
+      {
+        year: '2011',
+        title: 'Town Hall Season',
+        description: 'Regular concerts at Auckland Town Hall',
+      },
+      {
+        year: '2019',
+        title: '60th Anniversary',
+        description: 'Gala concert celebrating six decades',
+      },
+      {
+        year: '2024',
+        title: 'Record Year',
+        description: 'Highest number of applicants in history',
+      },
+    ],
+  },
+  sections: {
+    items: SECTION_DESCRIPTIONS,
+  },
+  crescendo: { heading: 'Everyone arrives at the same breath.' },
+  finale: { heading: 'The room answers.' },
+  register: {
+    eyebrow: 'Auditions',
+    heading: 'Register AYO',
+    body: 'Registrations are currently open until May 20th, 2026.',
+    buttonLabel: 'Register for An Audition',
+    contactName: 'Mary Lin, Orchestra Manager',
+    contactEmail: 'manager@ayo.org.nz',
+  },
+}
+
 const HIGHLIGHTS_VIDEO_URL = 'https://youtu.be/8HixIOtXEN4?si=N13_yW1Zjo5zVaH-'
 const HIGHLIGHTS_VIDEO_CAPTION = '75th Anniversary Concert - Friday, 23rd of October, 2023'
 const INSTAGRAM_URL = 'https://www.instagram.com/aucklandyouthorchestra/'
@@ -176,6 +254,15 @@ async function run() {
         changed = true
         written.push('home: quote block video URL')
       }
+    }
+
+    if (slug === 'join-ayo' && !layout.some((block) => block.blockType === 'join-stage')) {
+      layout.push(JOIN_STAGE)
+      changed = true
+      written.push('join-ayo: scroll story block')
+      todo.push(
+        'Join AYO → Join AYO Scroll Story: add the photos, update the registration dates, and set the call-to-action button link (it previously pointed at "#", so it stays hidden until set).',
+      )
     }
 
     if (slug === 'concerts-events') {
