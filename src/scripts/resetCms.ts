@@ -1,11 +1,3 @@
-/**
- * pnpm cms:reset       Preview counts and the database/storage target.
- * pnpm cms:reset:apply Delete content after typing the exact target shown.
- *
- * Uses the current environment, just like `payload run`. Back up first and stop
- * the app before applying. Files cannot be rolled back with database history.
- * Admin accounts and My AYO member passwords are preserved.
- */
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { resetCmsContent } from './resetCmsContent'

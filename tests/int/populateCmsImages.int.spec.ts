@@ -2,6 +2,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import sharp from 'sharp'
 import type { Payload } from 'payload'
 import { populateCmsImages } from '@/scripts/populateCmsImages'
+import { importReviewedImage } from '@/scripts/populateCmsImages'
+import { writeFile, unlink } from 'node:fs/promises'
+import { randomUUID } from 'node:crypto'
 import { cmsContentFixture } from '../fixtures/cmsContent'
 
 function setup() {
@@ -40,9 +43,45 @@ function setup() {
   return { api, person, run }
 }
 
-afterEach(() => vi.unstubAllGlobals())
+let localImage: string | undefined
+afterEach(async () => {
+  vi.unstubAllGlobals()
+  if (localImage) await unlink(localImage)
+  localImage = undefined
+})
 
 describe('Reviewed image population', () => {
+  it('uploads a bundled image without a network request', async () => {
+    localImage = `src/scripts/clientContent/assets/qa-${randomUUID()}.png`
+    const data = await sharp({ create: { width: 12, height: 8, channels: 3, background: 'white' } })
+      .png()
+      .toBuffer()
+    await writeFile(localImage, data)
+    const fetch = vi.fn()
+    vi.stubGlobal('fetch', fetch)
+    const { api } = setup()
+    await importReviewedImage(
+      api as unknown as Payload,
+      { name: 'Example scene', file: localImage, alt: 'Fictional test image' },
+      'example-scene.png',
+    )
+    expect(fetch).not.toHaveBeenCalled()
+    expect(api.create).toHaveBeenCalledWith(
+      expect.objectContaining({ file: expect.objectContaining({ data, mimetype: 'image/png' }) }),
+    )
+  })
+
+  it('rejects local image paths outside the bundled asset folder', async () => {
+    const { api } = setup()
+    await expect(
+      importReviewedImage(
+        api as unknown as Payload,
+        { name: 'Invalid image', file: 'README.md', alt: 'Example' },
+        'invalid.jpg',
+      ),
+    ).rejects.toThrow('inside src/scripts/clientContent/assets')
+    expect(api.create).not.toHaveBeenCalled()
+  })
   it('does not download or write in a dry run', async () => {
     const fetch = vi.fn()
     vi.stubGlobal('fetch', fetch)

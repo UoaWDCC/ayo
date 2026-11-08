@@ -1,6 +1,35 @@
 import { readFile } from 'node:fs/promises'
 import type { Faq, Person } from '@/payload-types'
 
+export type ReviewedStoryImage = { source: string; alt: string } & (
+  { url: string; file?: never } | { file: string; url?: never }
+)
+export type JoinStoryInput = {
+  opening: { heading: string; curtainImage?: ReviewedStoryImage }
+  collage: {
+    photos: { label?: string; image?: ReviewedStoryImage }[]
+    firstLine: { heading: string }
+    secondLine: { text: string }
+  }
+  history: {
+    eyebrow?: string
+    heading: string
+    milestones: { year: string; title: string; description?: string }[]
+  }
+  sections: { items: { name: string; description?: string }[] }
+  crescendo: { heading: string; image?: ReviewedStoryImage }
+  finale: { heading: string; image?: ReviewedStoryImage }
+  register: {
+    eyebrow?: string
+    heading: string
+    body?: string
+    buttonLabel?: string
+    buttonUrl?: string
+    contactName?: string
+    contactEmail?: string
+  }
+}
+
 export type ImageSource = {
   name: string
   type?: Person['type']
@@ -24,9 +53,9 @@ export type ClientContentInput = {
   images: ImageSource[]
   pending: string[]
   instagramUrl?: string
+  joinStory?: JoinStoryInput
 }
 
-/** Local-only import input. Never import client JSON into the application bundle. */
 export async function loadClientContent(
   file = process.env.CMS_CONTENT_FILE || '.private/cms-content/content.json',
 ): Promise<ClientContentInput> {
@@ -42,7 +71,6 @@ export async function loadClientContent(
   try {
     input = JSON.parse(text)
   } catch {
-    // Do not echo JSON parse errors, which can include private input text.
     throw new Error('Private CMS input must be valid JSON.')
   }
   if (!input || typeof input !== 'object') throw new Error('Invalid private CMS input.')
@@ -50,6 +78,6 @@ export async function loadClientContent(
     if (!Array.isArray((input as Record<string, unknown>)[key]))
       throw new Error(`Private CMS input must include a ${key} array.`)
   }
-  // Payload validates record fields when importing. The builder resolves required relationships.
+
   return input as ClientContentInput
 }

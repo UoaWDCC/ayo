@@ -1,0 +1,18 @@
+{
+  "reviewedAt": "2026-11-08",
+  "history": ["https://www.ayo.org.nz/about-us/"],
+  "anniversary": [
+    "https://www.ayo.org.nz/wp-content/uploads/2024/01/Souvenir-Programme-Cover-New.jpg"
+  ],
+  "auditions": ["https://www.ayo.org.nz/join-ayo/", "https://forms.gle/vrsoHcnETQD1ZiWNA"],
+  "copy": "Retains the scroll story's existing introductory and closing headings. History and registration details replace the demo content with reviewed AYO information.",
+  "images": "Image files and their original Drive source links are recorded in joinStory.json. The curtain and finale share one group photo. Crescendo uses the second group photo. The collage includes both group photos and eight client-supplied section group photos.",
+  "unassigned": [
+    "History milestone images",
+    "Orchestra section images",
+    "Call-to-action background"
+  ],
+  "reviewBeforeLaunch": [
+    "Check audition dates and registration link for the intended launch season."
+  ]
+}

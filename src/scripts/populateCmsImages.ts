@@ -1,8 +1,9 @@
 import type { Payload } from 'payload'
 import sharp from 'sharp'
+import { readFile, realpath } from 'node:fs/promises'
+import path from 'node:path'
 import type { ImageSource } from './clientContent/input'
 
-/** Optional part of the population command. Fills blank image fields only. */
 export async function populateCmsImages({
   payload,
   images,
@@ -14,7 +15,6 @@ export async function populateCmsImages({
   apply?: boolean
   log?: (message: string) => void
 }): Promise<void> {
-  // Resolve all names before uploading, so ambiguous matches never cause partial assignments.
   const matches = await Promise.all(
     images.map(async (image) => {
       const result = image.type
@@ -49,37 +49,15 @@ export async function populateCmsImages({
     if (!apply) continue
 
     const filename = `ayo-source-${image.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}${new URL(image.url).pathname.match(/\.[a-z]+$/i)?.[0] ?? '.jpg'}`
-    const existing = await payload.find({
-      collection: 'media',
-      where: { filename: { equals: filename } },
-      limit: 2,
-      depth: 0,
-      overrideAccess: true,
-    })
-    if (existing.docs.length > 1) throw new Error(`Duplicate media filename: ${filename}`)
-    let media = existing.docs[0]
-    if (!media) {
-      const response = await fetch(image.url, { signal: AbortSignal.timeout(30_000) })
-      if (!response.ok)
-        throw new Error(`Image download failed for ${image.name}: ${response.status}`)
-      const data = Buffer.from(await response.arrayBuffer())
-      if (data.length > 15 * 1024 * 1024) throw new Error(`Image too large: ${image.name}`)
-      const metadata = await sharp(data).metadata()
-      if (!['jpeg', 'png'].includes(metadata.format ?? '') || !metadata.width || !metadata.height)
-        throw new Error(`Invalid portrait or logo: ${image.name}`)
-      media = await payload.create({
-        collection: 'media',
-        data: { alt: image.type ? `Portrait of ${image.name}` : `${image.name} logo` },
-        file: {
-          data,
-          name: filename,
-          mimetype: metadata.format === 'png' ? 'image/png' : 'image/jpeg',
-          size: data.length,
-        },
-        overrideAccess: true,
-      })
-    }
-    // Re-read immediately before assigning so a concurrent editor's image is preserved.
+    const mediaID = await importReviewedImage(
+      payload,
+      {
+        ...image,
+        alt: image.type ? `Portrait of ${image.name}` : `${image.name} logo`,
+      },
+      filename,
+    )
+
     if (image.type) {
       const latest = await payload.findByID({
         collection: 'people',
@@ -91,7 +69,7 @@ export async function populateCmsImages({
         await payload.update({
           collection: 'people',
           id: doc.id,
-          data: { photo: media.id },
+          data: { photo: mediaID },
           overrideAccess: true,
         })
     } else {
@@ -105,9 +83,58 @@ export async function populateCmsImages({
         await payload.update({
           collection: 'partners',
           id: doc.id,
-          data: { logo: media.id, isActive: true },
+          data: { logo: mediaID, isActive: true },
           overrideAccess: true,
         })
     }
   }
+}
+
+export async function importReviewedImage(
+  payload: Payload,
+  image: { name: string; url?: string; file?: string; alt: string },
+  filename: string,
+): Promise<string> {
+  const existing = await payload.find({
+    collection: 'media',
+    where: { filename: { equals: filename } },
+    limit: 2,
+    depth: 0,
+    overrideAccess: true,
+  })
+  if (existing.docs.length > 1) throw new Error(`Duplicate media filename: ${filename}`)
+  let media = existing.docs[0]
+  if (!media) {
+    let data: Buffer
+    if (image.file) {
+      const root = await realpath(path.resolve('src/scripts/clientContent/assets'))
+      const file = await realpath(path.resolve(image.file))
+      const relative = path.relative(root, file)
+      if (relative.startsWith('..') || path.isAbsolute(relative))
+        throw new Error('Import image must be inside src/scripts/clientContent/assets.')
+      data = await readFile(file)
+    } else {
+      if (!image.url) throw new Error(`Missing image source: ${image.name}`)
+      const response = await fetch(image.url, { signal: AbortSignal.timeout(30_000) })
+      if (!response.ok)
+        throw new Error(`Image download failed for ${image.name}: ${response.status}`)
+      data = Buffer.from(await response.arrayBuffer())
+    }
+    if (data.length > 15 * 1024 * 1024) throw new Error(`Image too large: ${image.name}`)
+    const metadata = await sharp(data).metadata()
+    if (!['jpeg', 'png'].includes(metadata.format ?? '') || !metadata.width || !metadata.height)
+      throw new Error(`Invalid image: ${image.name}`)
+    media = await payload.create({
+      collection: 'media',
+      data: { alt: image.alt },
+      file: {
+        data,
+        name: filename,
+        mimetype: metadata.format === 'png' ? 'image/png' : 'image/jpeg',
+        size: data.length,
+      },
+      overrideAccess: true,
+    })
+  }
+  return media.id
 }

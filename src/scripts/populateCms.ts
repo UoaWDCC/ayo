@@ -1,19 +1,16 @@
-/**
- * pnpm cms:populate       Preview the reviewed text import.
- * pnpm cms:populate:apply Create missing records after confirming the target.
- * Existing text is skipped, never overwritten. No reset runs.
- * Set POPULATE_CMS_IMAGES=1 to also fill missing images from the reviewed sources.
- * Set POPULATE_CMS_BIOS=1 to fill empty player biographies from the private input.
- * Private input: .private/cms-content/content.json, or set CMS_CONTENT_FILE.
- */
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getCmsTarget, confirmCmsTarget } from './cmsScript'
 import { populateCmsContent } from './populateCmsContent'
 import { loadClientContent } from './clientContent/input'
+import type { JoinStoryInput } from './clientContent/input'
+import { readFile } from 'node:fs/promises'
 
 const target = getCmsTarget(process.env, 'POPULATE')
 const input = await loadClientContent()
+input.joinStory ??= JSON.parse(
+  await readFile(new URL('./clientContent/joinStory.json', import.meta.url), 'utf8'),
+) as JoinStoryInput
 const payload = await getPayload({ config })
 try {
   await populateCmsContent({

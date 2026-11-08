@@ -1,0 +1,176 @@
+{
+  "opening": {
+    "heading": "Join the sound.",
+    "curtainImage": {
+      "file": "src/scripts/clientContent/assets/join-story/ayo-2026-1.jpg",
+      "source": "https://drive.google.com/file/d/15n1918jd3G5sZDdTOBSPJ_yuJ1xAGKg8/view",
+      "alt": "Auckland Youth Orchestra players with their instruments at camp in 2026"
+    }
+  },
+  "collage": {
+    "photos": [
+      {
+        "label": "Together",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/ayo-2026-2.jpg",
+          "source": "https://drive.google.com/file/d/1Ums1TZLpzxOJipJygnUqIXe1VsmxkEvS/view",
+          "alt": "Auckland Youth Orchestra group photograph at camp in 2026"
+        }
+      },
+      {
+        "label": "Perform",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/ayo-2026-1.jpg",
+          "source": "https://drive.google.com/file/d/15n1918jd3G5sZDdTOBSPJ_yuJ1xAGKg8/view",
+          "alt": "Auckland Youth Orchestra players with their instruments at camp in 2026"
+        }
+      },
+      {
+        "label": "Brass section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/brass-section.jpg",
+          "source": "https://drive.google.com/file/d/13hGmgBNEZQqzgMfCg0WGk43Byinqj9uB/view",
+          "alt": "Auckland Youth Orchestra brass section group photograph"
+        }
+      },
+      {
+        "label": "Wind section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/wind-section.jpg",
+          "source": "https://drive.google.com/file/d/1W5clevNNvD3HQHz7TEcGxCjwieEXlXUB/view",
+          "alt": "Auckland Youth Orchestra wind section group photograph"
+        }
+      },
+      {
+        "label": "Cello section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/cello-section.jpg",
+          "source": "https://drive.google.com/file/d/1b4JcyYy0-N1WHxPQXHt826zb0N8S84z0/view",
+          "alt": "Auckland Youth Orchestra cello section group photograph"
+        }
+      },
+      {
+        "label": "Viola section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/viola-section.jpg",
+          "source": "https://drive.google.com/file/d/1wKr7JuJCt7n3RHa_ToZWp93UF3TZ7g6H/view",
+          "alt": "Auckland Youth Orchestra viola section group photograph"
+        }
+      },
+      {
+        "label": "Double bass section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/double-bass-section.jpg",
+          "source": "https://drive.google.com/file/d/1MNwMmYop58U0S39QXo4howOByOWpyZ8v/view",
+          "alt": "Auckland Youth Orchestra double bass section group photograph"
+        }
+      },
+      {
+        "label": "Flute section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/flute-section.jpg",
+          "source": "https://drive.google.com/file/d/1EHUgsr2LFQn7IDoJOre-i5zyHRFwWfke/view",
+          "alt": "Auckland Youth Orchestra flute section group photograph"
+        }
+      },
+      {
+        "label": "Bassoon section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/bassoon-section.jpg",
+          "source": "https://drive.google.com/file/d/10iz424nqtSDbHue-fIAoNkBOE5MHft_g/view",
+          "alt": "Auckland Youth Orchestra bassoon section group photograph"
+        }
+      },
+      {
+        "label": "Percussion section",
+        "image": {
+          "file": "src/scripts/clientContent/assets/join-story/percussion-section.jpg",
+          "source": "https://drive.google.com/file/d/1hWIXhj4gQoE7tN4ULgUfUQgYXQF3RAF6/view",
+          "alt": "Auckland Youth Orchestra percussion section group photograph"
+        }
+      }
+    ],
+    "firstLine": {
+      "heading": "Sit inside something larger than yourself."
+    },
+    "secondLine": {
+      "text": "Section by section, phrase by phrase, the orchestra becomes one instrument."
+    }
+  },
+  "history": {
+    "eyebrow": "AYO History",
+    "heading": "Making music since 1948",
+    "milestones": [
+      {
+        "year": "1948",
+        "title": "The orchestra begins",
+        "description": "Founded as the Auckland Junior Symphony Orchestra, AYO was the first youth orchestra in the Southern Hemisphere."
+      },
+      {
+        "year": "2011",
+        "title": "Young Euro Classic",
+        "description": "AYO became the first ensemble from New Zealand invited to the Young Euro Classic Festival in Berlin."
+      },
+      {
+        "year": "2013",
+        "title": "South Island tour",
+        "description": "The orchestra toured the South Island, performing in Dunedin, Gore, Te Anau, Wanaka, Westport and Nelson."
+      },
+      {
+        "year": "2018",
+        "title": "A return to Europe",
+        "description": "AYO returned to the Young Euro Classic Festival and performed again at Berlin's Konzerthaus."
+      },
+      {
+        "year": "2023",
+        "title": "75 years of AYO",
+        "description": "The orchestra celebrated 75 years of making music and developing young musicians."
+      }
+    ]
+  },
+  "sections": {
+    "items": [
+      {
+        "name": "Strings",
+        "description": "Violins, violas, cellos and double basses."
+      },
+      {
+        "name": "Woodwind",
+        "description": "Flutes, oboes, clarinets and bassoons."
+      },
+      {
+        "name": "Brass",
+        "description": "Horns, trumpets, trombones and tuba."
+      },
+      {
+        "name": "Percussion",
+        "description": "Timpani and percussion."
+      }
+    ]
+  },
+  "crescendo": {
+    "heading": "Everyone arrives at the same breath.",
+    "image": {
+      "file": "src/scripts/clientContent/assets/join-story/ayo-2026-2.jpg",
+      "source": "https://drive.google.com/file/d/1Ums1TZLpzxOJipJygnUqIXe1VsmxkEvS/view",
+      "alt": "Auckland Youth Orchestra group photograph at camp in 2026"
+    }
+  },
+  "finale": {
+    "heading": "The room answers.",
+    "image": {
+      "file": "src/scripts/clientContent/assets/join-story/ayo-2026-1.jpg",
+      "source": "https://drive.google.com/file/d/15n1918jd3G5sZDdTOBSPJ_yuJ1xAGKg8/view",
+      "alt": "Auckland Youth Orchestra players with their instruments at camp in 2026"
+    }
+  },
+  "register": {
+    "eyebrow": "Auditions",
+    "heading": "Join AYO in 2027",
+    "body": "Auditions for AYO 2027 will be held on 5 and 6 December 2026. Register by 21 November 2026 for an in-person audition, or by 5 December 2026 for a video audition. All players re-audition each year.",
+    "buttonLabel": "Register for 2027",
+    "buttonUrl": "https://forms.gle/vrsoHcnETQD1ZiWNA",
+    "contactName": "Mary Lin, Orchestra Manager",
+    "contactEmail": "manager@ayo.org.nz"
+  }
+}

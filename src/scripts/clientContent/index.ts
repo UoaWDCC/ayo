@@ -100,7 +100,7 @@ export function buildClientContent(input: ClientContentInput): Seed[] {
       data: () => {
         const layout: Block[] = [
           { blockType: 'hero', slogan: page.slogan, subtitle: page.subtitle },
-          // These positions match the fixed frontend sections, especially About Us's nine slots.
+
           ...page.sections.map(({ heading, paragraphs }): Block => ({
             blockType: 'rich-text',
             content: richText(heading, paragraphs),

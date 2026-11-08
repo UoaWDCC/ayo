@@ -97,6 +97,7 @@ export default buildConfig({
   sharp,
   plugins: [
     s3Storage({
+      enabled: !(process.env.NODE_ENV === 'development' && process.env.CMS_LOCAL_MEDIA === '1'),
       collections: {
         [Media.slug]: r2PublicUrl
           ? {

@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 import { buildClientContent, type Seed } from './clientContent'
 import type { ClientContentInput } from './clientContent/input'
 import { populateCmsImages } from './populateCmsImages'
+import { populateJoinStory } from './populateJoinStory'
 
 async function existingID(payload: Payload, seed: Seed): Promise<string | undefined> {
   const { docs } = await payload.find({
@@ -16,7 +17,6 @@ async function existingID(payload: Payload, seed: Seed): Promise<string | undefi
   return docs[0]?.id
 }
 
-/** Create missing records only. Existing records, including their media and text, stay intact. */
 export async function populateCmsContent({
   payload,
   input,
@@ -49,7 +49,6 @@ export async function populateCmsContent({
   log('Matching uses page URLs, names and FAQ questions. Renamed records may need manual matching.')
   log('Stop the app and other writers before applying. New content is visible immediately.')
 
-  // Check every key and existing record before writing, so ambiguity cannot cause a partial import.
   const keys = new Set(clientContent.map(({ key }) => key))
   if (keys.size !== clientContent.length)
     throw new Error('Duplicate keys in the client content manifest.')
@@ -78,8 +77,13 @@ export async function populateCmsContent({
     depth: 0,
     overrideAccess: true,
   })
-  if (!joinPage.docs[0]?.layout?.some((block) => block.blockType === 'join-stage'))
+  if (
+    !input.joinStory &&
+    !joinPage.docs[0]?.layout?.some((block) => block.blockType === 'join-stage')
+  )
     log('- Add the Join AYO Scroll Story in Pages > Join AYO with approved copy and photos.')
+  if (input.joinStory)
+    await populateJoinStory({ payload, story: input.joinStory, includeImages, log })
   if (includeImages) await populateCmsImages({ payload, images: input.images, log })
   if (fillMissingBios) await fillPlayerBiographies(payload, input.players, false, log)
   if (!apply) {
@@ -90,7 +94,6 @@ export async function populateCmsContent({
     throw new Error('Confirmation did not match. Nothing written.')
 
   for (const seed of missing) {
-    // Recheck in case a previous partial run or another writer created the record.
     const existing = await existingID(payload, seed)
     if (existing) {
       ids.set(seed.key, existing)
@@ -120,12 +123,13 @@ export async function populateCmsContent({
       })
     }
   }
+  if (input.joinStory)
+    await populateJoinStory({ payload, story: input.joinStory, includeImages, apply: true, log })
   if (includeImages) await populateCmsImages({ payload, images: input.images, apply: true, log })
   if (fillMissingBios) await fillPlayerBiographies(payload, input.players, true, log)
   log('\nPopulation complete. Review the site before production.')
 }
 
-/** Explicitly requested enrichment only. Never replaces an editor's existing biography. */
 async function fillPlayerBiographies(
   payload: Payload,
   players: ClientContentInput['players'],
@@ -147,7 +151,7 @@ async function fillPlayerBiographies(
     if (apply) {
       const result = await payload.update({
         collection: 'people',
-        // The condition also protects edits made since the preview or read above.
+
         where: {
           and: [{ id: { equals: doc.id } }, { description: { equals: doc.description ?? null } }],
         },

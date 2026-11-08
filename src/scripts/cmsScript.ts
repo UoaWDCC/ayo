@@ -5,7 +5,6 @@ export function getCmsTarget(
   env: Partial<NodeJS.ProcessEnv>,
   action: 'RESET' | 'POPULATE',
 ): string {
-  // Require an explicit database name. Never print credentials or URI query parameters.
   const match = env.DATABASE_URL?.match(
     /^mongodb(?:\+srv)?:\/\/(?:[^/]*@)?([^/?#]+)\/([^/?#]+)(?:\?[^#]*)?$/,
   )

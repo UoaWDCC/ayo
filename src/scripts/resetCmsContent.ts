@@ -1,6 +1,5 @@
 import type { CollectionSlug, Payload } from 'payload'
 
-// Explicit scope prevents a future collection from being erased accidentally.
 export const resetCollections = [
   'pages',
   'posts',
@@ -85,8 +84,6 @@ export async function resetCmsContent({
   for (const collection of resetCollections) {
     if (collection === 'media') continue
     if (collection === 'calendar-links') {
-      // The normal delete hook protects the last calendar even after settings are cleared.
-      // This confirmed, offline reset deliberately bypasses it for calendar records only.
       await payload.db.deleteMany({ collection, where: {} })
     } else {
       const result = await payload.delete({
@@ -101,11 +98,9 @@ export async function resetCmsContent({
     }
     log(`Cleared ${collection}`)
   }
-  // Also remove orphaned history before the media-reference guard runs.
+
   for (const { slug } of versioned) await payload.db.deleteVersions({ collection: slug, where: {} })
 
-  // Use Payload so local originals, image sizes and cloud-storage hooks all run.
-  // Delete sequentially to bound storage requests and stop on the first error.
   while (true) {
     const { docs } = await payload.find({
       collection: 'media',

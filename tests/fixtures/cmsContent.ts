@@ -1,6 +1,5 @@
 import type { ClientContentInput } from '@/scripts/clientContent/input'
 
-// Entirely fictional import data. Tests must never read private client files.
 export const cmsContentFixture: ClientContentInput = {
   pages: [
     'home',

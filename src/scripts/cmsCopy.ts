@@ -1,4 +1,3 @@
-// Generic member-section labels used by the population script.
 export const MY_AYO_SECTIONS = [
   {
     section: 'login',

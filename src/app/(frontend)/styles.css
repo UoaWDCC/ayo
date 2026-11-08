@@ -306,7 +306,7 @@ html::-webkit-scrollbar {
   visibility: visible;
   transform: none;
 }
-/* Keep the mobile menu comfortable to tap on short landscape screens. */
+
 @media (max-height: 500px) {
   #mobile-nav .mobile-nav-links {
     gap: 0;

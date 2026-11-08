@@ -94,6 +94,10 @@ The first command previews the import. Applying requires confirmation of the dat
 
 For a clean start, `pnpm cms:reset` previews the deletion scope and `pnpm cms:reset:apply` applies it after target confirmation. A reset clears website content, Site Settings, saved versions and CMS media, while preserving admin accounts and My AYO passwords. Back up the data and stop the app and other writers before applying a reset.
 
+The bundled `src/scripts/clientContent/joinStory.json` supplies the Join AYO story, with photos in its `assets` folder. Private `joinStory` input can override it. Set `POPULATE_CMS_IMAGES=1` on its first import to include the reviewed photos. Existing stories stay unchanged.
+
+For local upload testing without cloud storage, set `CMS_LOCAL_MEDIA=1` when running in development. Files stay in the ignored `media` folder. Production always uses cloud storage.
+
 ## Deployment
 
 Vercel is the intended production host. The project owner should configure the values in `.env.example` for the Production environment before deploying `main`. Production uses AYO's MongoDB database and Backblaze B2 bucket.

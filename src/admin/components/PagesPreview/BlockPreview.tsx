@@ -78,7 +78,6 @@ function JoinStagePreview({ block }: { block: AnyBlock }) {
           </div>
         ))}
       </dl>
-      <p>Use View saved page to check the full scroll animation after saving.</p>
     </div>
   )
 }
