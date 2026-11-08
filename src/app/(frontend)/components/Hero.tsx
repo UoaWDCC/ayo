@@ -26,23 +26,21 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
   }, [])
 
   return (
-    <section className="relative w-full flex flex-col bg-neutral-900 pt-15 md:h-screen md:min-h-[600px] md:pt-0">
+    <section className="relative w-full flex flex-col bg-neutral-900 h-svh min-h-[560px] md:h-screen md:min-h-[600px]">
       {/* NavBar is `position: fixed`, so it must live outside any `overflow-hidden` ancestor —
           overflow clipping still applies to fixed-position descendants, and since this section
           scrolls with the page, the clip box would move off-screen and cut the navbar off once
           the user scrolls past the hero. */}
       <NavBar overlay />
 
-      {/* One <Image> serves both layouts: in normal flow on mobile (natural proportions, no
-          cropping) and an absolutely-positioned cover on desktop. Rendering a second <img>
-          for mobile doubles the bytes every visitor downloads — browsers fetch
-          `display: none` images too, and React preloads both of them during SSR. */}
+      {/* The photo covers the full-height hero at every size, with the title over it.
+          On mobile `svh` keeps it to the screen that's visible with the browser bars shown. */}
       {backgroundImage ? (
-        <div className="relative w-full md:absolute md:inset-0 md:overflow-hidden md:bg-neutral-900">
+        <div className="absolute inset-0 overflow-hidden bg-neutral-900">
           {/* `.hero-background` and `.animate-hero-zoom` are both scoped to >= 48rem in
               styles.css, so the shared element stays still and unzoomed on mobile. */}
           <div
-            className="hero-background md:absolute md:inset-x-0 md:top-[-5%] md:bottom-[-5%]"
+            className="hero-background absolute inset-0 md:top-[-5%] md:bottom-[-5%]"
             style={{ ['--hero-parallax' as string]: `${scrollY * PARALLAX_FACTOR}px` }}
           >
             <Image
@@ -52,21 +50,21 @@ const Hero = ({ title, subtitle, backgroundImage }: HeroProps) => {
               height={backgroundImage.height}
               sizes="100vw"
               priority
-              className="block h-auto w-full animate-hero-zoom md:absolute md:inset-0 md:h-full md:object-cover md:object-center"
+              className="absolute inset-0 h-full w-full object-cover object-center animate-hero-zoom"
             />
           </div>
 
-          {/* Dark scrim — desktop only, where the title sits over the image. */}
-          <div className="absolute inset-0 hidden bg-black/50 md:block" />
+          {/* Dark scrim so the title reads over the photo. */}
+          <div className="absolute inset-0 bg-black/50" />
         </div>
       ) : (
-        <div className="absolute inset-0 hidden overflow-hidden bg-neutral-700 md:block">
+        <div className="absolute inset-0 overflow-hidden bg-neutral-700">
           <div className="absolute inset-0 bg-black/50" />
         </div>
       )}
 
       {/* Layered content */}
-      <div className="relative z-10 flex flex-1 flex-col pt-6 md:h-full md:pt-0">
+      <div className="relative z-10 flex flex-1 flex-col">
         {/* Title pinned to bottom-left */}
         <div className="mt-auto px-4 pb-6 sm:px-6 md:px-10 md:pb-5">
           <h1

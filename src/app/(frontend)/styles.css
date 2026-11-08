@@ -69,7 +69,7 @@
   animation: none;
 }
 
-/* Show the full image on mobile; reserve zoom and parallax for desktop. */
+/* Zoom and parallax are desktop-only; on mobile the hero photo holds still. */
 @media (min-width: 48rem) {
   .animate-hero-zoom {
     animation: hero-zoom 6s ease-out forwards;
