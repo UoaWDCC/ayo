@@ -7,7 +7,20 @@ import { ImageBlock } from '@/blocks/ImageBlock'
 import { TableBlock } from '@/blocks/TableBlock'
 import { FAQBlock } from '@/blocks/FAQBlock'
 import { MemberSection } from '@/blocks/MemberSection'
+import { JoinStage } from '@/blocks/JoinStage'
 import { pageSlugs, protectPageSlug } from '@/hooks/protectPageSlug'
+
+const layoutBlocks = [
+  Hero,
+  RichText,
+  VideoBlock,
+  QuoteBlock,
+  ImageBlock,
+  TableBlock,
+  FAQBlock,
+  MemberSection,
+  JoinStage,
+]
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -46,16 +59,12 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [
-        Hero,
-        RichText,
-        VideoBlock,
-        QuoteBlock,
-        ImageBlock,
-        TableBlock,
-        FAQBlock,
-        MemberSection,
-      ],
+      blocks: layoutBlocks,
+      // The scroll story is built for one page; keep it out of every other page's block menu.
+      filterOptions: ({ data }) =>
+        data?.slug === 'join-ayo'
+          ? true
+          : layoutBlocks.filter((block) => block !== JoinStage).map((block) => block.slug),
     },
     {
       name: 'pagePreview',
