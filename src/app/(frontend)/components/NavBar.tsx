@@ -28,6 +28,7 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
   const [menuPresent, setMenuPresent] = useState(false)
   const [atTop, setAtTop] = useState(true)
   const [isRevealed, setIsRevealed] = useState(false)
+  const [suppressSlide, setSuppressSlide] = useState(false)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
   const transitionPhase = usePageTransitionPhase()
@@ -37,6 +38,17 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
   // A modal/panel elsewhere on the page (e.g. an event or spotlight popup) just opened —
   // the mobile nav sits above them (z-[110]), so close it to avoid overlapping the modal.
   useEffect(() => onModalOpen(() => setIsMenuOpen(false)), [])
+
+  // Suppress the background's slide for the duration of a page transition and one frame after,
+  // so the forced-solid bg (and its snap back to hidden at the top) never animates.
+  useEffect(() => {
+    if (isTransitioning) {
+      setSuppressSlide(true)
+      return
+    }
+    const raf = requestAnimationFrame(() => setSuppressSlide(false))
+    return () => cancelAnimationFrame(raf)
+  }, [isTransitioning])
 
   // Keep one shared background behind the bar and links until the menu has collapsed.
   useEffect(() => {
@@ -132,12 +144,14 @@ export default function Header({ variant = 'light', overlay = false }: HeaderPro
           }
         }}
       >
+        {/* Slides down + fades in to reveal, and slides back up + fades out to hide (including
+            on reaching the top). Snaps while the mobile menu or a page transition owns it. */}
         <div
           className={`absolute inset-0 -z-10 ${bgColor} duration-500 motion-reduce:transition-none ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            atTop || menuSurfaceVisible || isTransitioning
+            menuSurfaceVisible || isTransitioning || suppressSlide
               ? 'transition-none'
-              : 'transition-opacity'
-          } ${bgVisible ? 'opacity-100' : 'opacity-0'}`}
+              : 'transition-[opacity,translate]'
+          } ${bgVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
         />
 
         <div

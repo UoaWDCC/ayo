@@ -284,6 +284,119 @@ export interface Page {
             blockName?: string | null;
             blockType: 'member-section';
           }
+        | {
+            /**
+             * Shown over the closed curtains before they open.
+             */
+            opening: {
+              heading: string;
+              /**
+               * Leave blank to show a grey placeholder.
+               */
+              curtainImage?: (string | null) | Media;
+            };
+            collage: {
+              /**
+               * Up to 24 photos, spread across the whole screen in order from the top left. Around 20 fills it well; a label is optional.
+               */
+              photos?:
+                | {
+                    /**
+                     * Leave blank to show a grey placeholder.
+                     */
+                    image?: (string | null) | Media;
+                    /**
+                     * One word shown on the photo.
+                     */
+                    label?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              firstLine: {
+                heading: string;
+              };
+              secondLine: {
+                text: string;
+              };
+            };
+            history: {
+              /**
+               * The short uppercase line above the heading. Leave blank to hide it.
+               */
+              eyebrow?: string | null;
+              heading: string;
+              /**
+               * Shown left to right along the staff, in this order.
+               */
+              milestones?:
+                | {
+                    year: string;
+                    title: string;
+                    description?: string | null;
+                    /**
+                     * Leave blank to show a grey placeholder.
+                     */
+                    image?: (string | null) | Media;
+                    id?: string | null;
+                  }[]
+                | null;
+            };
+            sections?: {
+              items?:
+                | {
+                    name: string;
+                    /**
+                     * One or two sentences shown under the section name.
+                     */
+                    description?: string | null;
+                    /**
+                     * Leave blank to show a grey placeholder.
+                     */
+                    image?: (string | null) | Media;
+                    id?: string | null;
+                  }[]
+                | null;
+            };
+            crescendo: {
+              heading: string;
+              /**
+               * Fills the screen behind the heading, darkened towards the text. Leave blank for plain black.
+               */
+              image?: (string | null) | Media;
+            };
+            finale: {
+              heading: string;
+              /**
+               * Fills the screen behind the heading, darkened towards the text. Leave blank for plain black.
+               */
+              image?: (string | null) | Media;
+            };
+            register: {
+              /**
+               * The short uppercase line above the heading. Leave blank to hide it.
+               */
+              eyebrow?: string | null;
+              heading: string;
+              /**
+               * For example, when registrations close.
+               */
+              body?: string | null;
+              buttonLabel?: string | null;
+              /**
+               * A full https:// URL, or a site path such as /contact-us. The button is hidden until both button fields are filled in.
+               */
+              buttonUrl?: string | null;
+              contactName?: string | null;
+              contactEmail?: string | null;
+              /**
+               * Fills the screen behind the heading, darkened towards the text. Leave blank for plain black.
+               */
+              image?: (string | null) | Media;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'join-stage';
+          }
       )[]
     | null;
   updatedAt: string;
@@ -896,6 +1009,90 @@ export interface PagesSelect<T extends boolean = true> {
               section?: T;
               heading?: T;
               subtitle?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'join-stage'?:
+          | T
+          | {
+              opening?:
+                | T
+                | {
+                    heading?: T;
+                    curtainImage?: T;
+                  };
+              collage?:
+                | T
+                | {
+                    photos?:
+                      | T
+                      | {
+                          image?: T;
+                          label?: T;
+                          id?: T;
+                        };
+                    firstLine?:
+                      | T
+                      | {
+                          heading?: T;
+                        };
+                    secondLine?:
+                      | T
+                      | {
+                          text?: T;
+                        };
+                  };
+              history?:
+                | T
+                | {
+                    eyebrow?: T;
+                    heading?: T;
+                    milestones?:
+                      | T
+                      | {
+                          year?: T;
+                          title?: T;
+                          description?: T;
+                          image?: T;
+                          id?: T;
+                        };
+                  };
+              sections?:
+                | T
+                | {
+                    items?:
+                      | T
+                      | {
+                          name?: T;
+                          description?: T;
+                          image?: T;
+                          id?: T;
+                        };
+                  };
+              crescendo?:
+                | T
+                | {
+                    heading?: T;
+                    image?: T;
+                  };
+              finale?:
+                | T
+                | {
+                    heading?: T;
+                    image?: T;
+                  };
+              register?:
+                | T
+                | {
+                    eyebrow?: T;
+                    heading?: T;
+                    body?: T;
+                    buttonLabel?: T;
+                    buttonUrl?: T;
+                    contactName?: T;
+                    contactEmail?: T;
+                    image?: T;
+                  };
               id?: T;
               blockName?: T;
             };
